@@ -1,0 +1,57 @@
+{
+  "name": "intrahealth-webserver",
+  "version": "1.0.0",
+  "description": "Intrahealth - Uganda",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "build-app": "node_modules/.bin/webpack",
+    "dev-app": "node_modules/.bin/webpack -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nikhila-B/D3M_Group_1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nikhila-B/D3M_Group_1/issues"
+  },
+  "homepage": "https://github.com/Nikhila-B/D3M_Group_1#readme",
+  "dependencies": {
+    "base64-url": "^2.0.1",
+    "body-parser": "^1.18.2",
+    "csv": "^0.3.7",
+    "csv-parse": "^2.5.0",
+    "csv-stringify": "^3.1.1",
+    "csv-write-stream": "^2.0.0",
+    "d2": "^30.0.0",
+    "express": "^4.16.2",
+    "express-fileupload": "^0.4.0",
+    "i18n-nodejs": "^3.0.0",
+    "js-file-download": "^0.4.1",
+    "mssql": "^4.1.0",
+    "mysql": "^2.15.0",
+    "nodemon": "^1.17.5",
+    "react-collapsible": "^2.2.0",
+    "request": "^2.87.0",
+    "request-progress": "^3.0.0",
+    "sylvester": "0.0.21",
+    "tryparse": "0.0.2",
+    "underscore": "1.7.0"
+  },
+  "devDependencies": {
+    "axios": "^0.17.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "react": "^16.0.0",
+    "react-bootstrap": "^0.31.5",
+    "react-dom": "^16.0.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "recharts": "^1.0.0-beta.1",
+    "webpack": "^3.8.1"
+  }
+}
