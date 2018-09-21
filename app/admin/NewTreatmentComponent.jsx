@@ -12,6 +12,7 @@ export default class NewTreatmentComponent extends React.Component {
             cadreId: Object.keys(props.cadres)[0],
             duration:0
         }
+        //console.log(Object.keys(this.props.cadres));
     }
     render() {
         return (
@@ -23,8 +24,8 @@ export default class NewTreatmentComponent extends React.Component {
                             value={this.state.treatmentId}>
                             {Object.keys(this.props.treatments).map(treatmentId =>
                                 <option
-                                    key={treatmentId}
-                                    value={treatmentId}>
+                                    key={treatmentId.Id}
+                                    value={treatmentId.Id}>
                                     {this.props.treatments[treatmentId]}
                                 </option>
                             )}
@@ -35,11 +36,11 @@ export default class NewTreatmentComponent extends React.Component {
                         componentClass="select"
                         onChange={e => this.setState({ cadreId: e.target.value })}
                         value={this.state.cadreId}>
-                        {Object.keys(this.props.cadres).map(cadreId =>
+                        {Object.keys(this.props.cadres).map(cadre =>
                             <option
-                                key={cadreId}
-                                value={cadreId}>
-                                {this.props.cadres[cadreId]}
+                                key={cadre.id}
+                                value={cadre.id}>
+                                {this.props.cadres[cadre].name}
                             </option>
                         )}
                     </FormControl>
