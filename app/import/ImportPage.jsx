@@ -34,9 +34,9 @@ export default class ImportPage extends React.Component {
             <Collapsible  trigger="Import cadres from iHRIS">
                     <CadreUploadPanel />
             </Collapsible>
-            <Collapsible  trigger="Sync data to match IDs">
+            {/*<Collapsible  trigger="Sync data to match IDs">
                     <SynchDataPanel />
-            </Collapsible>
+                </Collapsible>*/}
         </div>
      
         );
