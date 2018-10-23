@@ -180,7 +180,9 @@ export default class TreatmentPanel extends React.Component {
             </div>,
             <hr/>,
             <div >
-                <span><h5 >Import treatments values from DHIS2</h5></span>      
+                {/*<span><h5>Import treatments values from DHIS2</h5></span> */}
+                <Panel bsStyle="primary" header="Import treatments values from DHIS2">
+                </Panel>    
             </div>,
             <FormGroup>
                     <Col componentClass={ControlLabel} sm={2}>
