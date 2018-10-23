@@ -34,7 +34,8 @@
 li.link-wrapper{
     /*color:#DAf7a6 ; background-color: white;*/
     height: 40px;
-    color:#ffffff;
+    /*color:#ffffff;*/
+    color:white;
     font-size:20;
     padding:10px;
     font-weight: bold;
@@ -48,12 +49,33 @@ li.link-wrapper{
     background-repeat: repeat-x;
 }
 
+a {
+  color:white;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+.nav-tabs {
+  border-top: 1px solid #dee2e6;
+  border-bottom: none;
+  float: right;
+}
+
 .navbar-nav span[role=button] {
   padding: 15px;
   display: inline-block;
   line-height: 20px;
 }
-
+.app-name{
+  float:left;
+}
+.app-name span{
+  color: #5cb85c;
+  font-size: 24px;
+  font-family: 'Courier New', Courier, monospace;
+  font-style: italic;
+  font-weight: bold;
+}
 
 .Collapsible {
   background-color: white; }
@@ -78,7 +100,9 @@ li.link-wrapper{
   border: 1px solid white;
   padding: 10px;
   background: #b5e7a0;
-  color: white; }
+  color: white; 
+}
+
   .Collapsible__trigger:after {
     font-family: 'FontAwesome';
     content: '\f107';
@@ -109,7 +133,7 @@ li.link-wrapper{
   .table td, .table th {
     padding: .75rem;
     vertical-align: top;
-    border-top: 1px solid #7be683;
+    border: 1px solid #7be683;
 }
 
 .panel-primary >.panel-heading {
@@ -125,4 +149,10 @@ li.link-wrapper{
     background-image: linear-gradient(to bottom,#b5e7a0 0,#b5e7a0 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff2e6da4', GradientType=0);
     background-repeat: repeat-x;
+}
+
+.intro-screen{
+  border:1px solid #5cb85c;
+  border-radius: 0px 0px 10px 10px;
+  height: 200px;
 }
