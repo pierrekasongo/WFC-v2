@@ -9,7 +9,7 @@ let router = require('express').Router();
 
 // get list of facilities
 router.get('/facilities',(req,res) => {
-    db.query('SELECT * FROM facilities',function(error,results,fields){
+    db.query('SELECT * FROM facilities WHERE selected=1',function(error,results,fields){
         if(error) throw error;                        
         res.json(results);
     });
