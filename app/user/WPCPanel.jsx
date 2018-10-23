@@ -399,7 +399,7 @@ export default class WPCPanel extends React.Component {
                 </Table>
                 <br />
                 <div style={{ textAlign: "right" }}>
-                    <Button onClick={() => this.setState({ state: 'form', results: null })}>Back</Button>
+                    <Button bsStyle="primary" bsSize="small" onClick={() => this.setState({ state: 'form', results: null })}>Back</Button>
                 </div>
             </div>
         )
