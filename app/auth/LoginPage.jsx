@@ -27,9 +27,6 @@ export default class LoginPage extends React.Component {
         userId: cookie.load('userId'),
         username:cookie.load('username'),
         countryId:cookie.load('countryId'),
-        login: "",
-        password: "",
-        userId:0,
       }
     }
 
@@ -42,7 +39,8 @@ export default class LoginPage extends React.Component {
     }
    
     onLogout() {
-      cookie.remove('userId', { path: '/' })
+      console.log("Log out clicked!!")
+      cookie.remove('userId','countryId','username', { path: '/' });
     }
 
     validateForm() {
