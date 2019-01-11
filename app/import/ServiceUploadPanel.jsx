@@ -10,12 +10,18 @@ export default class ServiceUploadPanel extends React.Component {
         this.state = {
             progress:'',
             state:'button',
+            activities:[]
           };
       
           this.handleUpload= this.handleUpload.bind(this);
           this.uploadFromAPI=this.uploadFromAPI.bind(this);
-    }
 
+          axios.get('/user/activities')
+          .then(res => this.setState({ activities: res.data }))
+          .catch(err => console.log(err));
+
+    }
+    
     handleUpload(ev) {
 
         ev.preventDefault();
@@ -90,6 +96,10 @@ export default class ServiceUploadPanel extends React.Component {
           <div style={{ textAlign: "left", paddingTop: 10 }}>
               <span><h4 >Load treatments from DHIS2</h4></span>
               <Button bsStyle="warning" bsSize="small" onClick={() => this.uploadFromAPI()}>Upload from DHIS2</Button>
+          </div>,
+          <hr />,
+          <div class="alert alert-warning" role="alert">
+              {this.state.activities.length} treatments imported.
           </div>
         ]);
     }
