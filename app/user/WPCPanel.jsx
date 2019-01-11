@@ -1,6 +1,8 @@
 import * as React from 'react';
+import Collapsible from 'react-collapsible';
 import { Panel, Form, FormGroup, ControlLabel, Row, FormControl, Col, Checkbox, Button, Table } from 'react-bootstrap';
 import axios from 'axios';
+//import 'react-dropdown-tree-select/dist/styles.css';
 
 export default class WPCPanel extends React.Component {
 
@@ -11,21 +13,33 @@ export default class WPCPanel extends React.Component {
             cadres: [],
             cadreDict: {},
             cadreInputs: {},
+            facilityInputs: {},
+            facilityDict: {},
             facilities: [],
-            years:["2014","2015","2016","2017","2018"],
-            selectedPeriod:"",
+            years: ["2014", "2015", "2016", "2017", "2018", "2019", "2020"],
+            selectedPeriod: "",
             selectedFacility: "",
             //selectedFacility: 0,
             treatments: [],
             treatmentsSelected: {},
             cadresSelected: {},
             treatmentFilter: "",
-            cadreFilter:"",
+            cadreFilter: "",
+            facilityFilter: "",
             treatmentToggle: true,
-            cadreToggle:true,
+            cadreToggle: true,
+            facilityToggle: true,
             state: 'form',
-            results: null
+            results: {},
+
+
+            data: []
         };
+
+        this.editedData = params => {
+            console.log(params);
+        };
+
 
         axios.get('/user/cadres').then(res => {
             let cadres = res.data;
@@ -33,8 +47,8 @@ export default class WPCPanel extends React.Component {
             let cadreInputs = {};
             let cadreDict = {};
             cadres.forEach(cadre => {
-                let hours=(cadre.Hours > 0)?cadre.Hours:40;
-                let admin=(cadre.AdminTask > 0)?cadre.AdminTask:15;
+                let hours = (cadre.Hours > 0) ? cadre.Hours : 40;
+                let admin = (cadre.AdminTask > 0) ? cadre.AdminTask : 15;
                 cadreInputs[cadre.id] = {
                     selected: false,
                     hours: hours,
@@ -43,7 +57,6 @@ export default class WPCPanel extends React.Component {
                 cadreDict[cadre.id] = cadre.name;
                 //cadresSelected[cadre.id]=true;
             });
-
             this.setState({
                 cadres: cadres,
                 cadreDict: cadreDict,
@@ -53,10 +66,29 @@ export default class WPCPanel extends React.Component {
         }).catch(err => console.log(err));
 
         axios.get('/user/selected_facilities')
-            .then(res => this.setState({ facilities: res.data }))
+            .then(res => {
+                let facilities = res.data;
+
+                let facilityInputs = {};
+                let facilityDict = {};
+
+                facilities.forEach(facility => {
+                    facilityInputs[facility.id] = {
+                        selected: false,
+                        name: facility.facilityName,
+                        code: facility.facilityCode
+                    }
+                    facilityDict[facility.id] = facility.facilityName;
+                });
+                this.setState({
+                    facilities: facilities,
+                    facilityDict: facilityDict,
+                    facilityInputs: facilityInputs,
+                });
+            })
             .catch(err => console.log(err));
 
-        axios.get('/user/treatments')
+        axios.get('/user/activities')
             .then(res => {
                 let treatmentsSelected = {};
                 res.data.forEach(treatment => {
@@ -70,7 +102,6 @@ export default class WPCPanel extends React.Component {
             .catch(err => console.log(err));
 
     }
-
     cadreHoursChanged(e, id) {
 
         let cadreInputs = this.state.cadreInputs;
@@ -81,11 +112,11 @@ export default class WPCPanel extends React.Component {
             hours: e.target.value,
         };
 
-        axios.patch('/user/cadre/hours/'+id, data).then(res => {
+        axios.patch('/user/cadre/hours/' + id, data).then(res => {
             this.setState({
                 results: res.data
             });
-            
+
         }).catch(err => console.log(err));
     }
 
@@ -98,17 +129,17 @@ export default class WPCPanel extends React.Component {
             admin_task: e.target.value,
         };
 
-        axios.patch('/user/cadre/admin_work/'+id, data).then(res => {
+        axios.patch('/user/cadre/admin_work/' + id, data).then(res => {
             this.setState({
                 results: res.data
             });
-            
+
         }).catch(err => console.log(err));
     }
 
     filterTreatments() {
         return this.state.treatments.filter(treatment => {
-            let name = treatment['treatment'].toUpperCase();
+            let name = treatment['activityName'].toUpperCase();
             let filter = this.state.treatmentFilter.toUpperCase();
             return name.indexOf(filter) > -1;
         });
@@ -121,6 +152,13 @@ export default class WPCPanel extends React.Component {
             return name.indexOf(filter) > -1;
         });
     }
+    filterFacilities() {
+        return this.state.facilities.filter(facility => {
+            let name = facility['facilityName'].toUpperCase();
+            let filter = this.state.facilityFilter.toUpperCase();
+            return name.indexOf(filter) > -1;
+        });
+    }
     treatmentCheckboxChanged(id) {
         let treatmentsSelected = this.state.treatmentsSelected;
         treatmentsSelected[id] = !treatmentsSelected[id];
@@ -128,12 +166,20 @@ export default class WPCPanel extends React.Component {
     }
 
     cadreCheckboxChanged(id) {
-        
+
         let cadreInputs = this.state.cadreInputs;
 
         cadreInputs[id] = !cadreInputs[id];
 
         this.setState({ cadreInputs: cadreInputs });
+    }
+    facilityCheckboxChanged(id) {
+
+        let facilityInputs = this.state.facilityInputs;
+
+        facilityInputs[id] = !facilityInputs[id];
+
+        this.setState({ facilityInputs: facilityInputs });
     }
     toggleTreatments() {
         let treatmentToggle = !this.state.treatmentToggle;
@@ -160,6 +206,18 @@ export default class WPCPanel extends React.Component {
             cadreInputs: cadreInputs
         });
     }
+    toggleFacilities() {
+        let facilityToggle = !this.state.facilityToggle;
+        let facilityInputs = this.state.facilityInputs;
+        this.state.facilities.forEach(facility => {
+            facilityInputs[facility.id] = facilityToggle;
+        })
+
+        this.setState({
+            facilityToggle: facilityToggle,
+            facilityInputs: facilityInputs
+        });
+    }
 
     calculateClicked() {
         // set state to loading
@@ -170,11 +228,13 @@ export default class WPCPanel extends React.Component {
         // add timeout so loading animation looks better
         setTimeout(() => {
             // get input from forms and put it in a data object
+            //let fa_id = this.state.selectedFacility.split("|")[0];
+            let selectedFacilities={};
+            
             let data = {
-                facilityId: this.state.selectedFacility,
                 cadres: {},
-                treatments: this.state.treatmentsSelected,
-                selectedPeriod:this.state.selectedPeriod
+                //treatments: this.state.treatmentsSelected,
+                selectedPeriod: this.state.selectedPeriod
             };
             this.state.cadres.forEach(cadre => {
                 if (this.state.cadreInputs[cadre.id]) {
@@ -185,16 +245,35 @@ export default class WPCPanel extends React.Component {
                 }
             });
 
-            // send the calculate workforce request
-            axios.post('/user/workforce', data).then(res => {
-                this.setState({
-                    results: res.data,
-                    state: 'results'
-                });
-                //this.state.results=res.data;
+            this.state.facilities.forEach(fa => {
+                if (this.state.facilityInputs[fa.id]) {
+                    selectedFacilities[fa.id] = {
+                        id: fa.id,
+                        code: fa.facilityCode,
+                        name: fa.facilityName
+                    }
+                }
+            });
+            Object.keys(selectedFacilities).forEach(id => {
+
+                let facilityId=selectedFacilities[id].code;
                 
-            }).catch(err => console.log(err));
-        }, 400);
+                // send the calculate workforce request
+                axios.post(`/user/workforce/${facilityId}`, data).then(res => {
+                   
+                    this.state.results[id]={
+                        facility:selectedFacilities[id].name,
+                        currentWorkers:res.data.currentWorkers,
+                        workersNeeded:res.data.workersNeeded,
+                        pressure:res.data.pressure
+                    }
+                    this.setState({
+                        state: 'results'
+                    });
+                }).catch(err => console.log(err));
+            })
+
+        }, 1000);
     }
 
     renderForm() {
@@ -215,38 +294,75 @@ export default class WPCPanel extends React.Component {
                     </Col>
                 </FormGroup>
                 <br />
+
                 <FormGroup>
-                    <Col componentClass={ControlLabel} sm={2}>
-                        Facility
-                    </Col>
+                    <Col componentClass={ControlLabel} sm={2}>Enter facility</Col>
                     <Col sm={10}>
-                        <FormControl componentClass="select"
-                            onChange={e => this.setState({ selectedFacility: e.target.value })}>
-                            {(this.state.facilities.map((facility, i) =>
-                                <option key={i} value={facility.FacilityCode}>{facility.Name}</option>
-                            ))}
-                        </FormControl>
+                        <Row>
+                            <Col xs={3}>
+                                <FormControl
+                                    type="text"
+                                    placeholder="filter facility"
+                                    value={this.state.facilityFilter}
+                                    onChange={e => this.setState({ facilityFilter: e.target.value })} />
+                                <div style={{ textAlign: "right", paddingTop: 5 }}>
+                                    <Button bsStyle="primary" bsSize="small" onClick={() => this.toggleFacilities()}>
+                                        {this.state.facilityToggle ? "Unselect" : "Select"} All
+                                        </Button>
+                                </div>
+                            </Col><br />
+                            <Col xs={9}>
+                                <div style={{ overflowY: "scroll", minHeight: 300, maxHeight: 300 }}>
+                                    <Table striped hover>
+                                        <thead>
+                                            <tr>
+                                                <th style={{ width: "7%" }}>Include</th>
+                                                <th style={{ width: "43%" }}>Facility name</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {this.filterFacilities().map(facility =>
+                                                <tr key={facility.id}>
+                                                    <td>
+                                                        <Checkbox
+                                                            //checked={this.state.cadreInputs[cadre.id].selected}
+                                                            checked={this.state.facilityInputs[facility.id]}
+                                                            onChange={() => this.facilityCheckboxChanged(facility.id)}
+                                                        />
+                                                    </td>
+                                                    <td>
+                                                        <h5>{facility.facilityName}</h5>
+                                                    </td>
+
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </Table>
+                                </div>
+                            </Col>
+                        </Row>
                     </Col>
                 </FormGroup>
                 <hr />
                 <FormGroup>
-                <Col componentClass={ControlLabel} sm={2}>Enter cadre</Col>
-                <Col sm={10}>
-                    <Row>
-                        <Col xs={3}>
-                            <FormControl
-                                        type="text"
-                                        placeholder="filter cadres"
-                                        value={this.state.cadreFilter}
-                                        onChange={e => this.setState({ cadreFilter: e.target.value })} />
-                                    <div style={{ textAlign: "right", paddingTop: 5 }}>
-                                        <Button bsStyle="primary" bsSize="small" onClick={() => this.toggleCadres()}>
-                                            {this.state.cadreToggle ? "Unselect" : "Select"} All
+                    <Col componentClass={ControlLabel} sm={2}>Enter cadre</Col>
+                    <Col sm={10}>
+                        <Row>
+                            <Col xs={3}>
+                                <FormControl
+                                    type="text"
+                                    placeholder="filter cadres"
+                                    value={this.state.cadreFilter}
+                                    onChange={e => this.setState({ cadreFilter: e.target.value })} />
+                                <div style={{ textAlign: "right", paddingTop: 5 }}>
+                                    <Button bsStyle="primary" bsSize="small" onClick={() => this.toggleCadres()}>
+                                        {this.state.cadreToggle ? "Unselect" : "Select"} All
                                         </Button>
-                                    </div>
-                        </Col>
-                        <Col xs={9}>
-                                <div style={{ overflowY: "scroll", minHeight: 250, maxHeight: 250 }}>
+                                </div>
+                            </Col>
+                            <Col xs={9}>
+                                <div style={{ overflowY: "scroll", minHeight: 300, maxHeight: 300 }}>
                                     <Table striped hover>
                                         <thead>
                                             <tr>
@@ -272,7 +388,7 @@ export default class WPCPanel extends React.Component {
                                                     <td>
                                                         <FormControl
                                                             type="number"
-                                                            style={{ width: 75}}
+                                                            style={{ width: 75 }}
                                                             disabled={!this.state.cadreInputs[cadre.id]}
                                                             value={cadre.Hours}
                                                             onChange={e => this.cadreHoursChanged(e, cadre.id)} />
@@ -295,57 +411,12 @@ export default class WPCPanel extends React.Component {
                     </Col>
                 </FormGroup>
                 <hr />
-                <FormGroup>
-                    <Col componentClass={ControlLabel} sm={2}>Enter treatment</Col>
-                    <Col sm={10}>
-                        <Row>
-                            <Col xs={3} >
-                                <FormControl
-                                    type="text"
-                                    placeholder="filter treatments"
-                                    value={this.state.treatmentFilter}
-                                    onChange={e => this.setState({ treatmentFilter: e.target.value })} />
-                                <div style={{ textAlign: "right", paddingTop: 5 }}>
-                                    <Button bsStyle="primary" bsSize="small" onClick={() => this.toggleTreatments()}>
-                                        {this.state.treatmentToggle ? "Unselect" : "Select"} All
-                                    </Button>
-                                </div>
-                            </Col>
-                            <Col xs={9}>
-                                <div style={{ overflowY: "scroll", minHeight: 250, maxHeight: 250 }}>
-                                    <Table striped hover>
-                                        <thead>
-                                            <tr>
-                                                <th style={{ width: "15%" }}>Include</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {this.filterTreatments().map(treatment =>
-                                                <tr key={treatment['id']}>
-                                                    <td>
-                                                        <Checkbox
-                                                            checked={this.state.treatmentsSelected[treatment['id']]}
-                                                            onChange={() => this.treatmentCheckboxChanged(treatment['id'])} />
-                                                    </td>
-                                                    <td>
-                                                        <h5>{treatment['treatment']}</h5>
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Col>
-                </FormGroup>
-                <hr />
                 <div style={{ textAlign: "right", paddingTop: 10 }}>
-                    <Button bsStyle="warning" bsSize="large" onClick={() => this.calculateClicked()}>Calculate</Button>
+                    <Button bsStyle="warning" bsSize="medium" onClick={() => this.calculateClicked()}>Calculate</Button>
                 </div>
             </Form >
         );
+        
     }
 
     renderLoading() {
@@ -357,57 +428,64 @@ export default class WPCPanel extends React.Component {
     }
 
     renderResults() {
-        return (
-            <div>
-                <h3>Results</h3>
-                <Table hover striped>
-                    <thead>
-                        <tr>
-                            <th>Cadre</th>
-                            <th>Current Workers</th>
-                            <th>Workers Needed</th>
-                            <th>Workforce Pressure</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {Object.keys(this.state.results.workersNeeded).map(cadreId =>
+        return ([
+            <br/>,
+            <div style={{ textAlign: "right" }}>
+                <Button bsStyle="primary" bsSize="medium" onClick={() => this.setState({ state: 'form', results: null })}>Back</Button>
+            </div>,
+            <br/>,
+            Object.keys(this.state.results).map(id => 
+            <Collapsible trigger={this.state.results[id].facility}>
+                <div >
+                    <h3>Results for {this.state.results[id].facility}</h3>
+                    <Table hover striped>
+                        <thead>
                             <tr>
-                                <td>
-                                    <h4 key={cadreId + 'cadre'}>{this.state.cadreDict[cadreId]}</h4>
-                                </td>
-                                <td>
-                                    <h4 key={cadreId + 'current'}>{this.state.results.currentWorkers[cadreId]}</h4>
-                                </td>
-                                <td>
-                                    <h4 key={cadreId + 'needed'}>{Math.round(this.state.results.workersNeeded[cadreId] )}</h4>
-                                </td>
-                                <td>
-                                    {this.state.results.pressure[cadreId] &&
-                                        <h4
-                                            key={cadreId}
-                                            style={{ color: this.state.results.pressure[cadreId] < 1 ? "red" : "green" }}>
-                                            {Number(this.state.results.pressure[cadreId]).toFixed(2)}x
-                                        </h4>
-                                    }
-                                    {!this.state.results.pressure[cadreId] &&
-                                        <h4 key={cadreId} style={{ color: "gray" }}>N/A</h4>
-                                    }
-                                </td>
+                                <th>Cadre</th>
+                                <th>Current Workers</th>
+                                <th>Workers Needed</th>
+                                <th>Workforce Pressure</th>
                             </tr>
-                        )}
-                    </tbody>
-                </Table>
-                <br />
-                <div style={{ textAlign: "right" }}>
-                    <Button bsStyle="primary" bsSize="small" onClick={() => this.setState({ state: 'form', results: null })}>Back</Button>
+                        </thead>
+                        <tbody>
+                            {Object.keys(this.state.results[id].workersNeeded).map(cadreId =>
+                                <tr>
+                                    <td>
+                                        <h4 key={cadreId + 'cadre'}>{this.state.cadreDict[cadreId]}</h4>
+                                    </td>
+                                    <td>
+                                        <h4 key={cadreId + 'current'}>{this.state.results[id].currentWorkers[cadreId]}</h4>
+                                    </td>
+                                    <td>
+                                        <h4 key={cadreId + 'needed'}>{Math.round(this.state.results[id].workersNeeded[cadreId])}</h4>
+                                    </td>
+                                    <td>
+                                        {this.state.results[id].pressure[cadreId] &&
+                                            <h4
+                                                key={cadreId}
+                                                style={{ color: this.state.results[id].pressure[cadreId] < 1 ? "red" : "green" }}>
+                                                {Number(this.state.results[id].pressure[cadreId]).toFixed(2)}x
+                                        </h4>
+                                        }
+                                        {!this.state.results[id].pressure[cadreId] &&
+                                            <h4 key={cadreId} style={{ color: "gray" }}>N/A</h4>
+                                        }
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </Table>
+                    <br />
+                    
                 </div>
-            </div>
+            </Collapsible>
+            )]
         )
     }
 
     render() {
         return (
-            <div style={{ width: "85%", margin: "0 auto 0" }}>
+            <div style={{ width: "100%", margin: "0 auto 0" }}>
                 {this.state.state == 'form' && this.renderForm()}
                 {this.state.state == 'loading' && this.renderLoading()}
                 {this.state.state == 'results' && this.renderResults()}
