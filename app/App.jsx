@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Redirect, Switch, Link } from 'react-router-dom'
-import { Grid, NavItem, Nav } from 'react-bootstrap';
+import { BrowserRouter, Route, Redirect, Switch, Link,NavLink } from 'react-router-dom'
+import { Grid, NavItem, Nav,SplitButton,MenuItem } from 'react-bootstrap';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:3000/api';
@@ -11,32 +11,48 @@ import UserPage from './user/UserPage';
 import ImportPage from './import/ImportPage';
 import ConfigPage from './config/ConfigPage';
 import HomePage from './user/HomePage';
+import LoginPage from './auth/LoginPage';
+import cookie from 'react-cookies';
 
 class App extends React.Component {
 
+    componentWillMount() {
+        this.state =  { cookies: cookie.loadAll() }
+    }
     render() {
+        //let url=window.location.pathname;
         return (
+            
             <BrowserRouter>
                 <Grid>
                     <div className="app-name">
                         <span>Workforce Pressure Calculator</span>
                     </div>
+
                     <Nav bsStyle="tabs" activekey="1">
-                        <NavItem className="link-wrapper" componentClass='span'><Link to="/home">Home</Link></NavItem>
-                        <NavItem className="link-wrapper" componentClass='span'><Link to="/import">Data import</Link></NavItem>
-                        <NavItem className="link-wrapper" componentClass='span'><Link to="/admin">Time on task</Link></NavItem>
-                        <NavItem className="link-wrapper" componentClass='span'><Link to="/user">Calculation</Link></NavItem>                        
-                        <NavItem className="link-wrapper" componentClass='span'><Link to="/config">Config</Link></NavItem>
+
+                        <NavLink className="sign-out" to="/sign-out">Sign out{/*his.state.cookies.usernam*/}</NavLink>
+                        <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/home">Home</NavLink></NavItem>
+                        <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/import">Data import</NavLink></NavItem>
+                        <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/admin">Time on task</NavLink></NavItem>
+                        <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/user">Calculation</NavLink></NavItem>                        
+                        <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/config">Config</NavLink></NavItem>
+                    </Nav>
+                    <Nav bsStyle="tabs" activekey="1">
                     </Nav>
                     <br /><br />
-                    <Switch>
-                        <Route path='/user' component={UserPage} />
-                        <Route path='/admin' component={AdminPage} />
-                        <Route path='/import' component={ImportPage} />
-                        <Route path='/config' component={ConfigPage} />
-                        <Route path='/home' component={HomePage} />
-                        <Redirect to='/home' />
-                    </Switch>
+                        <Switch>                     
+                            <Route path='/user' component={UserPage} />
+                            <Route path='/admin' component={AdminPage} />
+                            <Route path='/import' component={ImportPage} />
+                            <Route path='/config' component={ConfigPage} />
+                            <Route path='/home' component={HomePage} />
+                            <Route path='/login' component={LoginPage}/>
+                            <Route path='/sign-out' component={LoginPage}/>
+                            <Redirect to='/home' />
+
+                        </Switch>
+                    
                 </Grid>
             </BrowserRouter>
         );
