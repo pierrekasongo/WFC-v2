@@ -11,6 +11,8 @@ const api_caller=require('./config');
 let router = require('express').Router();
 let tryparse=require('tryparse');
 
+global.sum=0;
+
 router.use(fileUpload(/*limits: { fileSize: 50 * 1024 * 1024 },*/));
 
 //var request=require('request');
@@ -28,7 +30,7 @@ router.use(function (req, res, next) {
 router.post('/upload',function(req,res){
 
     if(!req.files)
-        return res.status(400).send('No files were uploaded');
+        return res.status(400).send('No file was uploaded');
     //The name of the input field
     let file=req.files.file;
 
@@ -36,7 +38,7 @@ router.post('/upload',function(req,res){
 
     let type=req.body.type;
 
-    let filename=(type=='fac')?'facilities.csv':'services.csv';
+    let filename=(type=='FAC')?'facilities.csv':'services.csv';
 
     //Use the mv() method to place the file somewhere on the server
     file.mv(`${__dirname}`+path.sep+'uploads'+path.sep+'dhis2'+path.sep+`${filename}`,function(err){
@@ -48,7 +50,7 @@ router.post('/upload',function(req,res){
 
     let sql="";
 
-    if(type=='fac'){
+    if(type=='FAC'){
 
         var obj=csv();
 
@@ -70,8 +72,10 @@ router.post('/upload',function(req,res){
 
                 let facility_name=data[index][4];
 
-                sql+=`INSERT INTO facilities (Id,regionName,districtName,FacilityCode,Name) VALUES(`
-                +id+`,"`+region+`","`+district+`","`+facility_code+`","`+facility_name+`");`
+                let countryId=52;
+
+                sql+=`INSERT INTO facilities (id,countryId,regionName,districtName,facilityCode,facilityName) VALUES(`
+                +`,`+id+countryId+`,"`+region+`","`+district+`","`+facility_code+`","`+facility_name+`");`
             }
 
             db.query(sql,function(error,results){
@@ -86,7 +90,7 @@ router.post('/upload',function(req,res){
        
         obj.from.path(`${__dirname}`+path.sep+'uploads'+path.sep+'dhis2'+path.sep+`${filename}`).to.array(function (data) {
 
-            sql=`TRUNCATE dhis2;`;
+            sql=`TRUNCATE activity_stats;`;
 
             for (var index = 1; index < data.length; index++) {
 
@@ -94,15 +98,14 @@ router.post('/upload',function(req,res){
 
                 let year=data[index][1];
 
-                let treatmentId=data[index][2];
+                let activityId=data[index][2];
 
-                let Patients=data[index][3];
+                let caseCount=data[index][3];
 
-                sql+=`INSERT INTO dhis2 (FacilityId,Quarter,Year,TreatmentId,Patients) VALUES("`
-                +facilityId+`","1","`+year+`",`+treatmentId+`,`+Patients+`);`
+                sql+=`INSERT INTO activity_stats (facilityId,quarter,year,activityId,caseCount) VALUES("`
+                +facilityId+`","1","`+year+`",`+activityId+`,`+caseCount+`);`
 
             }
-            //console.log(sql);
             db.query(sql,function(error,results){
                 if(error)throw error;
                 res.status(200);
@@ -135,9 +138,11 @@ router.get('/import_facilities_from_dhis2', function (req, res) {
 
                 let id=0;
 
+                let countryId=0;
+
                 data['rows'].forEach(row =>
 
-                    sql+=`INSERT INTO facilities (regionName,districtName,FacilityCode,Name) VALUES("`+row[0]+`","`+row[2]+`","`+row[7]+`","`+row[6]+`");`
+                    sql+=`INSERT INTO facilities (countryId,regionName,districtName,facilityCode,facilityName) VALUES("`+countryId+`,`+row[0]+`","`+row[2]+`","`+row[7]+`","`+row[6]+`");`
                 );
                 db.query(sql,function(error,results){
                     if(error)throw error;
@@ -172,15 +177,17 @@ router.get('/import_treatments_from_dhis2', function (req, res) {
             } else {
                 var data=JSON.parse(body);
 
-                var sql="DELETE FROM treatments WHERE imported=1;";
+                var sql="DELETE FROM activities WHERE imported=1;";
 
                 let treatments=[]
 
                 let id=0;
 
+                let countryId=0;
+
                 data.dataElements.forEach(row =>
 
-                    sql+=`INSERT INTO treatments (Treatment,imported,code,Ratio) VALUES("`+row.displayName+`",1,"`+row.id+`",1);`
+                    sql+=`INSERT INTO activities (countryId,activityName,imported,code,ratio) VALUES(`+countryId+`,"`+row.displayName+`",1,"`+row.id+`",1);`
                 );
                 db.query(sql,function(error,results){
                     if(error)throw error;
@@ -196,6 +203,12 @@ router.get('/import_treatments_from_dhis2', function (req, res) {
     }
 });
 
+function makeSum(value){
+
+    global.sum+=value;
+    return global.sum;
+}
+
 router.post('/import_values', function (req, res) {
     //de:dataelement
     //pe:period
@@ -204,18 +217,32 @@ router.post('/import_values', function (req, res) {
     //curl "https://play.dhis2.org/demo/api/dataValues?de=s46m5MS0hxu&pe=201301&ou=DiszpKrYNg8&co=Prlt0C1RF0s&value=12"
     //-X POST -u admin:district -v
     let year=req.body.selectedPeriod;
-    let facilityId=req.body.facilityId;
+
+    let facilityCode=req.body.facilityId.split("|")[0];
+
+    let facilityId=req.body.facilityId.split("|")[1];
+
+    let sql="";
+
     let cadreId=req.body.cadreId;
+
     let months=["01","02","03","04","05","06","07","08","09","10","11","12"];
 
-    db.query(`SELECT t.code as code FROM treatmentsteps ts,treatments t
-                     WHERE ts.CadreId =`+cadreId+` AND t.Id=ts.TreatmentId`,function(error,results,fields){
+    db.query(`SELECT t.id as id,t.code as code FROM activity_time ts,activities t
+                     WHERE ts.cadreId =`+cadreId+` AND t.id=ts.activityId`,function(error,results,fields){
                             if(error) throw error;
+
                             let treatments={};
+
+                            let activityId=0;
+
                             results.forEach(row => {
 
                                 //let de="tTK7nV64EvX";
                                 let de=row['code'];
+
+                                activityId=row['id'];
+                                
                                 //Seek dataelementgroup and dataset for the dataelement [code]
 
                                 let url = "dataElements/"+de+".json";
@@ -227,8 +254,11 @@ router.post('/import_values', function (req, res) {
                                     requestTest(api_caller.dhis2.api_url+url, api_caller.dhis2.api_user, api_caller.dhis2.api_pwd, function (body) {
 
                                             if (body.indexOf("HTTP Status 401 - Bad credentials") > -1) {
+                                                console.log("ERROR");
                                                 res.send("FAILED");
+                                            
                                             } else {
+                                                
                                                 var data=JSON.parse(body);
 
                                                 var dataSetElement=data['dataSetElements'];
@@ -239,13 +269,13 @@ router.post('/import_values', function (req, res) {
 
                                                 let i=0;
 
-                                                global.sum=0;
+                                                sum=0;
 
                                                 for(i=0;i<months.length;i++){
 
                                                     let period=year+months[i];
 
-                                                    let url = "dataValues?dataSet="+dataSet+"&dataElementGroup="+dataElementGroup+"&de="+de+"&pe="+period+"&ou="+facilityId;
+                                                    let url = "dataValues?dataSet="+dataSet+"&dataElementGroup="+dataElementGroup+"&de="+de+"&pe="+period+"&ou="+facilityCode;
 
                                                     requestTest(api_caller.dhis2.api_url+url, api_caller.dhis2.api_user, api_caller.dhis2.api_pwd, function (body) {
 
@@ -253,60 +283,36 @@ router.post('/import_values', function (req, res) {
                                                             res.send("FAILED");
                                                         } else {
                                                             var data=JSON.parse(body);
-                                                            
-                                                            sum+=tryparse.int(data);
 
-                                                            //console.log(sum);
+                                                            sum+= tryparse.int(data);
+
+                                                            //console.log(de+" "+makeSum(tryparse.int(data)));
+
+                                                            sql=`INSERT INTO activity_stats (facilityId,quarter,year,activityId,caseCount) VALUES("`+facilityCode+`","1","`+year+`",`+activityId+`,`+sum+`);`;
+                                                            
+                                                            /*db.query(sql,function(error,res){
+                                                                if(error)throw error;
+                                                                res.status(200);
+                                                            })*/
                                                         }
                                                         
                                                     }, function (err) {
                                                         res.send("ERROR");
                                                     });
+                                                    console.log("SOMME "+sum);
                                                 }
-                                                console.log(sum);
-                                                
-                                                
                                             }
                                         }, function (err) {
                                             res.send("ERROR");
                                     });
-
-
-                                /*let url = "dataValues?dataSet=pMbC0FJPkcm&dataElementGroup=QSElAHIYbOU&de=tTK7nV64EvX&pe="+year+"&ou=hBZBKFxwpx7";
-
-                                if (typeof(api_caller.dhis2.api_url+url) !== "undefined" && api_caller.dhis2.api_url+url
-                                    && typeof(api_caller.dhis2.api_user) !== "undefined" && api_caller.dhis2.api_user
-                                    && typeof(api_caller.dhis2.api_pwd) !== "undefined" && api_caller.dhis2.api_pwd) {
-
-                                    for(var i=0;i<months.length;i++){
-                                        let period=year+months[i];
-                                        let url = "dataValues?dataSet=pMbC0FJPkcm&dataElementGroup=QSElAHIYbOU&de=tTK7nV64EvX&pe="+period+"&ou=hBZBKFxwpx7";
-                                        //console.log(period+months[i]);
-                                        requestTest(api_caller.dhis2.api_url+url, api_caller.dhis2.api_user, api_caller.dhis2.api_pwd, function (body) {
-
-                                            if (body.indexOf("HTTP Status 401 - Bad credentials") > -1) {
-                                                res.send("FAILED");
-                                            } else {
-                                                var data=JSON.parse(body);
-                                
-                                                console.log(period+": "+data);
-                                            }
-                                        }, function (err) {
-                                            res.send("ERROR");
-                                        });
-                                    }*/
-                                    
                                     
                                 } else {
                                     res.send("FIELD_REQUIRED");
                                 }
                             });
-                            //res.json(treatments);
-                            console.log(treatments);
     });
 
 });
-
 
 router.post('/import/:sql', (req, res) => {
 
@@ -333,6 +339,7 @@ function importdata(query,results,next){
 }
 
 function requestTest(api_url, user_name, password, success, error) {
+    
     var request = require('request');
     var username = user_name;
     var password = password;
@@ -350,7 +357,6 @@ function requestTest(api_url, user_name, password, success, error) {
             return;
         }
         success(body);
-        
         return;
     });
 }
