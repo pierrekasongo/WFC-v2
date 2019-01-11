@@ -8,14 +8,20 @@ const fs=require('fs');
 const mime=require('mime')
 let router = express.Router();
 
-router.post('/treatments/:Treatment', (req, res) => {
+router.post('/activities/:activity', (req, res) => {
 
     //console.log(req.body.ratio)
 
-    var treatment=req.params.Treatment.toString();
+    let activity=req.params.activity.toString();
 
-    db.query(`INSERT INTO treatments (Treatment, Ratio) VALUES ("`+treatment+`", 1); 
-                    SELECT * FROM treatments WHERE Id = LAST_INSERT_ID()`,function(error,results){
+    let countryId=0;
+
+    let activityName="";
+
+    let code="";
+
+    db.query(`INSERT INTO activities (countryId, activityName,code,ratio) VALUES (`+countryId+`,"`+activityName+`","`+code+`" 1); 
+                    SELECT * FROM activities WHERE id = LAST_INSERT_ID()`,function(error,results){
             if(error)throw error;
 
             res.json(results[1]);
@@ -24,15 +30,15 @@ router.post('/treatments/:Treatment', (req, res) => {
 });
 
 // update treatmnent info
-router.patch('/treatments/:id', (req, res) => {
+router.patch('/activities/:id', (req, res) => {
         /*new sql.Request()
         .input('Treatment', sql.NVarChar, req.body.treatment)
         .input('Ratio', sql.Float, req.body.ratio)
         .input('Id', sql.Int, req.params.id)*/
-        db.query(`UPDATE treatments SET Treatment = @Treatment, Ratio = @Ratio
-                    WHERE Id = @Id;
-                SELECT * FROM treatments
-                    WHERE Id = @Id`,function(error,results){
+        db.query(`UPDATE activities SET activityName = @Treatment, ratio = @Ratio
+                    WHERE id = @Id;
+                SELECT * FROM activities
+                    WHERE id = @Id`,function(error,results){
                         if(error)throw error;
                         res.json(results);
 
@@ -49,18 +55,21 @@ router.patch('/treatments/:id', (req, res) => {
         .catch(err => res.sendStatus(500))*/
 });
 
-router.get('/treatments_cadres', function(req, res){
+router.get('/activities_cadres', function(req, res){
     
-        db.query(`SELECT ts.Id, Treatment, MinutesPerPatient AS duration, c.Job_Cadre AS cadre FROM TreatmentSteps ts, Treatments t,
-                    cadre c WHERE ts.TreatmentId = t.Id AND c.Id=ts.CadreId;`,function(error,results,fields){
+        db.query(`SELECT t.id AS treatmentId, at.id, activityName, minutesPerPatient AS duration,
+                     c.cadreName AS cadre,c.id AS cadreId FROM activity_time at, activities t,
+                    cadre c WHERE at.activityId = t.id AND c.id=at.cadreId;`,function(error,results,fields){
                             if(error) throw error;
                             let treatments={};
                             results.forEach(row => {
 
-                                treatments[row['Id']] = {
-                                    id:row['Id'],
-                                    treatment: row['Treatment'],
+                                treatments[row['id']] = {
+                                    id:row['id'],
+                                    treatment: row['activityName'],
+                                    treatmentId:row['treatmentId'],
                                     cadre:row['cadre'],
+                                    cadreId:row['cadreId'],
                                     duration:row['duration']
                                 };
                                
@@ -71,22 +80,55 @@ router.get('/treatments_cadres', function(req, res){
         });
 });
 
-router.post('/treatments_cadres/:duration', (req, res) => {
+router.get('/activities_stats', function(req, res){
 
-    //console.log(req.body.ratio)
+    let facilityCode=req.query.facilityCode.split("|")[0];
+
+    let facilityId=req.query.facilityCode.split("|")[1];
+
+    let cadreId=req.query.cadreId.toString();
+
+    let period=req.query.period.toString();
+
+    console.log(period+" "+facilityId+" "+facilityCode+" "+cadreId);//return;
+    
+    db.query(`SELECT st.id AS id,st.facilityId, st.year AS year,SUM(st.caseCount) AS caseCount,act.activityName AS activity  
+                 FROM activity_stats st, activities act WHERE st.activityId = act.id AND  facilityId="`+facilityCode+`" AND year="`+period+`" AND cadreId=`+cadreId,function(error,results,fields){
+                    if(error) throw error;
+                        let treatments={};
+                        results.forEach(row => {
+
+                            treatments[row['id']] = {
+                                id:row['id'],
+                                treatment: row['activity'],
+                                year: row['year'],
+                                caseCount:row['caseCount']
+                            };
+                           
+                        });
+                        res.json(treatments);
+                        //res.send(JSON.stringify({treatments}));
+                        //res.json(treatments);
+    });
+});
+
+router.post('/activities_cadres/:duration', (req, res) => {
+
     var cadreId=parseInt(req.body.cadreId.toString());
-    var treatmentId=parseInt(req.body.treatmentId.toString())
+    var activityId=parseInt(req.body.treatmentId.toString())
     var duration=parseInt(req.params.duration.toString());
 
-    db.query(`INSERT INTO treatmentsteps (TreatmentId, CadreId,MinutesPerPatient) VALUES (`+treatmentId+`,`+cadreId+`,`+duration+`); 
-    SELECT t.Id, Treatment, MinutesPerPatient AS duration, c.Job_Cadre AS cadre FROM TreatmentSteps ts, Treatments t,
-    cadre c WHERE ts.TreatmentId = t.Id AND c.Id=ts.CadreId AND ts.Id = LAST_INSERT_ID()`,function(error,results){
+    var countryId=52;
+    
+    db.query(`INSERT INTO activity_time (countryId, activityId,cadreId,minutesPerPatient) VALUES (`+countryId+`,`+activityId+`,`+cadreId+`,`+duration+`); 
+    SELECT t.id, t.activityName, minutesPerPatient AS duration, c.cadreName AS cadre FROM activity_time ts, activities t,
+    cadre c WHERE ts.activityId = t.id AND c.id=ts.cadreId`,function(error,results){
                 if(error)throw error;
                 let treatments;
                 results[1].forEach(row => {
                     treatments = {
-                        id:row['Id'],
-                        treatment: row['Treatment'],
+                        id:row['id'],
+                        treatment: row['activityName'],
                         cadre:row['cadre'],
                         duration:row['duration']
                     };
@@ -95,6 +137,19 @@ router.post('/treatments_cadres/:duration', (req, res) => {
                 res.json(treatments);
 
         });
+});
+
+router.patch('/activity_duration/:id', (req, res) => {
+
+    var id = parseInt(req.params.id.toString());
+
+    var value = parseInt(req.body.value.toString());
+
+    db.query(`UPDATE activity_time SET minutesPerPatient =` + value + ` WHERE id =` + id, function (error, results) {
+        if (error) throw error;
+        res.json(results);
+    });
+
 });
 
 router.post('/write_csv/:id', (req, res) => {
@@ -108,17 +163,17 @@ router.post('/write_csv/:id', (req, res) => {
    
     let data = [];
     let columns = {
-        TreatmentId: 'TreatmentId',
-        Treatment: 'Treatment',
-        CadreId:'CadreId',
-        Cadre:'Cadre',
-        TimeByPatient:'TimeByPatient'
+        activityId: 'activityId',
+        activityName: 'activityName',
+        cadreId:'cadreId',
+        cadre:'cadre',
+        timeByPatient:'timeByPatient'
     };
 
-    db.query(`SELECT Id, Treatment, Ratio FROM  Treatments;`,function(error,results){
+    db.query(`SELECT id, activity, ratio FROM  activities;`,function(error,results){
         if(error) throw error;
         results.forEach(row => {
-            data.push([row['Id'],row['Treatment'],selectedCadreId,selectedCadre,0]);
+            data.push([row['id'],row['activity'],selectedCadreId,selectedCadre,0]);
             //console.log([row['Id']+" "+row['Treatment']+" "+selectedCadreId+" "+selectedCadre]);
             /*treatments = {
                 id:row['Id'],
@@ -158,11 +213,11 @@ router.post('/write_csv/:id', (req, res) => {
 });
 
 // delete treatment
-router.delete('/treatments_cadres/:id', (req, res) => {
+router.delete('/activities_cadres/:id', (req, res) => {
 
     var id=parseInt(req.params.id.toString());
 
-       db.query(`DELETE FROM treatmentsteps WHERE Id=`+id,function(error,results,fields){
+       db.query(`DELETE FROM activity_time WHERE id=`+id,function(error,results,fields){
                     if(error)res.sendStatus(500);//throw error;
                     res.json(results);
                     //res.send(JSON.stringify(results));
@@ -170,9 +225,20 @@ router.delete('/treatments_cadres/:id', (req, res) => {
         });
 });
 
-router.get('/treatments', function(req, res){
+router.get('/activities', function(req, res){
     
-    db.query(`SELECT Id, Treatment, Ratio FROM  Treatments;`,function(error,results,fields){
+    db.query(`SELECT id, activityName, ratio FROM  activities;`,function(error,results,fields){
+    //db.query(`SELECT activityName FROM  activities;`,function(error,results,fields){
+        if(error) throw error;
+        res.json(results);
+                        //res.send(JSON.stringify({treatments}));
+                        //res.json(treatments);
+    });
+});
+
+router.get('/count_activities', function(req, res){
+    
+    db.query(`SELECT COUNT(id) AS nb FROM  activities;`,function(error,results,fields){
         if(error) throw error;
         res.json(results);
                         //res.send(JSON.stringify({treatments}));
