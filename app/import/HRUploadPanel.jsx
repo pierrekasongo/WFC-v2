@@ -24,9 +24,8 @@ export default class HRUploadPanel extends React.Component {
             workforces[workforce.id]={
 
               id:workforce.id,
-              surname:workforce.surname,
-              firstname:workforce.firstname,
               facility:workforce.facility,
+              nb_staff:workforce.staff,
               cadre:workforce.cadre
             }
           });
@@ -54,7 +53,7 @@ export default class HRUploadPanel extends React.Component {
             //console.log(result.data);
             this.setState({progress:result.data});
         }).catch(err=>console.log(err));
-  }
+   }
 
   uploadHR(ev){
     this.setState({progress:'Downloading...'});
@@ -86,24 +85,16 @@ export default class HRUploadPanel extends React.Component {
                           <Table striped hover>
                               <thead>
                                   <tr>
-                                      <th style={{ width: "20%" }}>Id</th>
-                                      <th style={{ width: "50%" }}>Surname</th>
-                                      <th style={{ width: "50%" }}>Fistname</th>
-                                      <th style={{ width: "50%" }}>Cadre</th>
-                                      <th style={{ width: "50%" }}>Facility</th>
+                                      <th style={{ width: "10%" }}>Staff</th>
+                                      <th style={{ width: "30%" }}>Cadre</th>
+                                      <th style={{ width: "60%" }}>Facility</th>
                                   </tr>
                               </thead>
                               <tbody>
                                   {Object.keys(this.state.workforces).map(id =>
                                       <tr>
                                           <td>
-                                              <h6>{this.state.workforces[id].id}</h6>
-                                          </td>
-                                          <td>
-                                              <h6>{this.state.workforces[id].surname}</h6>
-                                          </td>
-                                          <td>
-                                              <h6>{this.state.workforces[id].firstname}</h6>
+                                              <h6>{this.state.workforces[id].nb_staff}</h6>
                                           </td>
                                           <td>
                                               <h6>{this.state.workforces[id].cadre}</h6>
