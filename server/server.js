@@ -9,9 +9,9 @@ const db=require('./dbconn');
 const user = require('./routes/user');
 const admin = require('./routes/admin');
 const dhis2=require('./routes/dhis2');
-const ihris=require('./routes/ihris')
+const ihris=require('./routes/ihris');
 const configuration=require('./routes/configuration');
-
+const auth=require('./routes/auth');
 // create app server
 let app = express();
 
@@ -28,7 +28,7 @@ app.use('/api/admin', admin);
 app.use('/api/dhis2/',dhis2);
 app.use('/api/ihris', ihris);
 app.use('/api/configuration',configuration);
-
+app.use('/api/auth',auth);
 // instead of 404, redirect to index page
 app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, "../", "public", "index.html"));
