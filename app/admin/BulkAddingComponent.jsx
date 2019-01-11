@@ -71,8 +71,7 @@ export default class BulkAddingComponent extends React.Component {
             if(!this.existInDB(treatment.id)){
                  this.state.selectedTreatments.push(treatment);
             }else{
-                ToastStore.warning('this treatment has already been added to the selected cadre');
-                <ToastContainer store={ToastStore} position={ToastContainer.POSITION.TOP_CENTER}/>
+                ToastStore.warning('This treatment has already been added to the selected cadre',10000); 
             }
                
         } else {
@@ -85,6 +84,7 @@ export default class BulkAddingComponent extends React.Component {
     render() {
         return (
             <div>
+                <ToastContainer store={ToastStore} position={ToastContainer.POSITION.TOP_CENTER}/>
                 <Panel bsStyle="primary" header="Bulk adding treatments to cadres">
                     <FormControl
                         componentClass="select"
