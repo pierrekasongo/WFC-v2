@@ -7,9 +7,86 @@ const utilizationRoute = require('./user/utilization');
 
 let router = require('express').Router();
 
+router.post('/login', function(req, res){
+
+    var login=req.body.login.toString();
+    var password=req.body.password.toString();
+    
+    db.query(`SELECT * FROM users WHERE login ="`+login+`"  AND password ="`+password+`";` ,function(error,results,fields){
+                        if(error) throw error;
+                        let user={};
+                        results.forEach(row => {
+
+                            user[row['id']] = {
+                                id:row['id'],
+                                login: row['login'],
+                                name:row['name'],
+                                country_id:row['country_id'],
+                                last_login:row['last_login']
+                            };
+                           
+                        });
+                        res.json(user);
+    });
+});
 // get list of facilities
 router.get('/facilities',(req,res) => {
     db.query('SELECT * FROM facilities WHERE selected=1',function(error,results,fields){
+        if(error) throw error;                        
+        res.json(results);
+    });
+});
+
+router.get('/facility_tree', function(req, res){
+
+    db.query(`SELECT DISTINCT(regionName) AS region FROM facilities WHERE selected=1;`,function(error,results,fields){
+                        if(error) throw error;
+                        let tree={};
+                        let region="";
+                        let district="";
+                        results.forEach(row => {
+
+                            region=row['region'];
+
+                            db.query(`SELECT DISTINCT(districtName) AS district FROM facilities 
+                            WHERE regionName='`+row['region']+`' AND selected=1;`,function(err,res,fld){
+                                if(err) throw err;
+
+                                res.forEach(r => {
+                                    
+                                    district=r['district'];
+
+                                    db.query(`SELECT id,facilityCode,facilityName FROM facilities 
+                                    WHERE districtName='`+r['district']+`' AND selected=1;`,function(er,rs,fd){
+                                        if(er) throw er;
+                                        rs.forEach(rec => {
+
+                                            facilityName=rec['facilityName'];
+
+                                            //console.log(facilityName);
+                                        });
+                                    });
+
+                                });
+                            });
+                            
+
+
+                            /*treatments[row['id']] = {
+                                id:row['id'],
+                                treatment: row['activityName'],
+                                cadre:row['cadre'],
+                                duration:row['duration']
+                            };*/
+                           
+                        });
+                       
+                        //res.json(treatments);
+    });
+});
+
+router.get('/count_facilities',(req,res) => {
+    db.query('SELECT COUNT(id) AS nb FROM facilities',function(error,results,fields){
         if(error) throw error;                        
         res.json(results);
     });
@@ -29,9 +106,7 @@ router.patch('/facilities/:id', (req, res) => {
 
     var selected=parseInt(req.body.selected.toString());
 
-    console.log(id+" "+selected);
-
-    db.query(`UPDATE facilities SET selected =`+selected+` WHERE Id =`+id,function(error,results){
+    db.query(`UPDATE facilities SET selected =`+selected+` WHERE id =`+id,function(error,results){
                     if(error)throw error;
                     res.json(results);
     });
@@ -44,7 +119,7 @@ router.patch('/cadre/hours/:id', (req, res) => {
 
     var value=parseInt(req.body.hours.toString());
 
-    db.query(`UPDATE cadre SET Hours_Per_Week =`+value+` WHERE Id =`+id,function(error,results){
+    db.query(`UPDATE cadre SET hoursPerWeek =`+value+` WHERE id =`+id,function(error,results){
                     if(error)throw error;
                     res.json(results);
     });
@@ -57,7 +132,7 @@ router.patch('/cadre/admin_work/:id', (req, res) => {
 
     var value=parseInt(req.body.admin_task.toString());
 
-    db.query(`UPDATE cadre SET Admin_Task =`+value+` WHERE Id =`+id,function(error,results){
+    db.query(`UPDATE cadre SET adminTask =`+value+` WHERE od =`+id,function(error,results){
                     if(error)throw error;
                     res.json(results);
     });
@@ -65,18 +140,25 @@ router.patch('/cadre/admin_work/:id', (req, res) => {
 
 // get list of cadres
 router.get('/cadres', (req, res) => {
-        db.query('SELECT Id AS id,Job_Cadre AS name,Hours_Per_Week AS Hours,Admin_Task AS AdminTask FROM cadre',function(error,results,fields){
+        db.query('SELECT id AS id,cadreName AS name,hoursPerWeek AS Hours,adminTask AS AdminTask FROM cadre',function(error,results,fields){
             if(error) throw error;
             res.json(results);
         });
+});
+
+router.get('/count_cadres',(req,res) => {
+    db.query('SELECT COUNT(id) AS nb FROM cadre',function(error,results,fields){
+        if(error) throw error;                        
+        res.json(results);
+    });
 });
 
 // get list of available workforce by cadre and facility
 router.get('/workforce', (req, res) => {
     /*db.query('SELECT ih.Id AS id,ih.Surname AS surname,ih.First_Name AS firstname,'+
     'fa.Name AS facility,ca.Job_Cadre AS cadre  FROM ihris ih,cadre ca,facilities fa WHERE ih.FacilityId=fa.Id AND ih.CadreId=ca.Id'*/
-    db.query('SELECT ih.Id AS id,ih.Surname AS surname,ih.First_Name AS firstname,'+
-    'fa.Name AS facility,ca.Job_Cadre AS cadre  FROM ihris ih,cadre ca,facilities fa WHERE ih.FacilityCode=fa.FacilityCode AND ih.CadreId=ca.Id',function(error,results,fields){
+    db.query('SELECT s.id AS id,s.staffCount AS staff,'+
+    'fa.facilityName AS facility,ca.cadreName AS cadre  FROM staff s,cadre ca,facilities fa WHERE s.facilityCode=fa.FacilityCode AND s.cadreId=ca.id',function(error,results,fields){
         if(error) throw error;
         res.json(results);
         /*setTimeout( function() {
@@ -93,21 +175,35 @@ router.patch('/workforce/:personId', (req, res) => {
 
     console.log("person "+personId+" facilityId "+facilityId);
 
-    db.query(`UPDATE ihris SET FacilityId =`+facilityId+` WHERE Id =`+personId,function(error,results){
+    db.query(`UPDATE staff SET facilityId =`+facilityId+` WHERE id =`+personId,function(error,results){
             if(error)throw error;
             res.json(results);
     });                                                                                                                                                    
 });
 // get list of available workforce without caring about facility
 router.get('/all_workforce', (req, res) => {
-    db.query('SELECT Id AS id,FacilityId AS facilityId, FacilityCode AS facilityCode FROM ihris',function(error,results,fields){
+    db.query('SELECT id AS id,facilityId AS facilityId, facilityCode AS facilityCode FROM staff',function(error,results,fields){
         if(error) throw error;
         res.json(results);
     });
 });
+
+router.get('/count_staffs',(req,res) => {
+    db.query('SELECT SUM(`staffCount`) AS nb FROM staff',function(error,results,fields){
+        if(error) throw error;                        
+        res.json(results);
+    });
+});
+//get count staff per cadre
+router.get('/staff_per_cadre',(req,res) => {
+    db.query('SELECT c.cadreName AS cadre, SUM(`staffCount`) AS nb FROM staff st,cadre c WHERE st.cadreId=c.id GROUP BY cadreId',function(error,results,fields){
+        if(error) throw error;                        
+        res.json(results);
+    });
+});
 //get list of treatments
-router.get('/treatments', (req, res) => {
-        db.query(`SELECT Id AS id, Treatment AS treatment FROM treatments`,function(error,results,fields){
+router.get('/activities', (req, res) => {
+        db.query(`SELECT id AS id, activityName AS activityName FROM activities`,function(error,results,fields){
             if(error) throw error;
             res.json(results);
         });
