@@ -82,9 +82,6 @@ router.get('/download_hr', function(req, res){
     })
     .on('end',function(){
         console.log("Download completed");
-
-
-
         let sql="";
     
         var obj=csv();
@@ -181,8 +178,10 @@ router.post('/upload',function(req,res){
 
                 let cadre_id=cadre_code.split("|")[1];
 
-                sql+=`INSERT INTO ihris (Id,First_Name,Surname,FacilityId,FacilityCode,CadreId) VALUES(`
-                +person_id+`,"`+data[index][1]+`","`+data[index][2]+`",`+facility_id+`,"`+facility_code+`",`+cadre_id+`);`
+                let staffCount=0;
+
+                sql+=`INSERT INTO staff (id,facilityId,facilityCode,cadreId,staffCount) VALUES(`
+                +facility_id+`,"`+facility_code+`",`+cadre_id+`,`+staffCount+`);`
             }
             db.query(sql,function(error,results){
                 if(error)throw error;
@@ -203,7 +202,15 @@ router.post('/upload',function(req,res){
 
                 let id=code.split("|")[1];
 
-                sql+=`INSERT INTO cadre (Id,Job_Cadre) VALUES(`+id+`,"`+data[index][1]+`");`
+                let countryId=0;
+
+                let cadreName="";
+
+                let hoursPerWeek=0;
+
+                let adminTask=0;
+
+                sql+=`INSERT INTO cadre (id,countryId,cadreName,hoursPerWeek,adminTask) VALUES(`+id+`,`+countryId+`,"`+cadreName+`,`+hoursPerWeek+`,`+adminTask+`);`
             }
             /*db.query(sql,function(error,results){
                 if(error)throw error;
