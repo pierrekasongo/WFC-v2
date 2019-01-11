@@ -15,17 +15,20 @@ export default class UserPage extends React.Component {
     render(){
         return(
         <div>
-            <Collapsible  trigger="Work Force Pressure Calculator">
-                    <WPCPanel />
-            </Collapsible>
+            <Panel bsStyle="primary" header="Pressure Calculation">
+                <WPCPanel />
+                {/*<Collapsible  trigger="Work Force Pressure Calculator">
+                        <WPCPanel />
+                </Collapsible>
 
-            <Collapsible  trigger="Predictive Work Force Pressure Calculator">
-                    <PredictivePanel />
-            </Collapsible>
+                <Collapsible  trigger="Predictive Work Force Pressure Calculator">
+                        <PredictivePanel />
+                </Collapsible>
 
-            <Collapsible  trigger="Workforce Utilization">
-                    <WUPanel />
-            </Collapsible>
+                <Collapsible  trigger="Workforce Utilization">
+                        <WUPanel />
+            </Collapsible>*/}
+            </Panel>
         </div>
      
         );
