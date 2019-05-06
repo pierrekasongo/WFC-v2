@@ -12,30 +12,34 @@ export default class LoginPage extends React.Component {
 
       super(props);
   
-      /*this.state = {
-        login: "",
-        password: "",
-        userId:0,
-        username:""
-      };*/
+      this.state =  { 
+        userId: "",
+        username:"",
+        countryId:""
+        //countryId:cookie.load('countryId'),
+      }
       this.onLogin=this.onLogin.bind(this);
 
       this.onLogout=this.onLogout.bind(this);
     }
     componentWillMount() {
-      this.state =  { 
-        userId: cookie.load('userId'),
-        username:cookie.load('username'),
-        countryId:cookie.load('countryId'),
-      }
+     
     }
 
     onLogin(userId,countryId,username) {
       
-      this.setState({ userId,countryId,username })
-      cookie.save('userId', userId, { path: '/' })
-      cookie.save('countryId', countryId, { path: '/' })
-      cookie.save('username', username, { path: '/' })
+      cookie.save('userId', userId, { path: '/' });
+
+      cookie.save('countryId', countryId, { path: '/' });
+
+      cookie.save('username', username, { path: '/' });
+
+      this.setState({
+         userId:userId,
+         username:username,
+         countryId:countryId
+      })
+  
     }
    
     onLogout() {
@@ -106,7 +110,7 @@ export default class LoginPage extends React.Component {
     }
 
     render(){
-      const { userId } = this.state
+      const { userId } = this.state.userId;
  
       if (!userId) {
         return (

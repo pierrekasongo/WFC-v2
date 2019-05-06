@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Panel, Form, FormGroup, ControlLabel, Button, FormControl, Col, Checkbox, Table } from 'react-bootstrap';
-import {ToastContainer, ToastStore} from 'react-toasts';
-
-import ActivityList from './ActivityListComponent';
+import { ToastContainer, ToastStore } from 'react-toasts';
 
 export default class BulkAddingComponent extends React.Component {
 
@@ -11,14 +9,16 @@ export default class BulkAddingComponent extends React.Component {
 
         this.state = {
             cadreId: Object.keys(props.cadres)[0],
-            treatments_cadres:props.treatments_cadres,
+            treatments_cadres: props.treatments_cadres,
             treatmentFilter: "",
             selectedTreatments: [],
             treatmentInputs: {},
             treatmentDict: {},
             treatmentToggle: false,
             treatmentsSelected: {},
+            
         }
+        
     }
     filterTreatments() {
         return this.props.treatments.filter(treatment => {
@@ -49,16 +49,16 @@ export default class BulkAddingComponent extends React.Component {
         });
     }
 
-    existInDB(treatmentId){
+    existInDB(treatmentId) {
 
-        let treatments_cadres=this.state.treatments_cadres;
+        let treatments_cadres = this.state.treatments_cadres;
 
-        let cadreId=this.state.cadreId;
+        let cadreId = this.state.cadreId;
 
-        return Object.keys(treatments_cadres).filter(id =>{
-            return (treatments_cadres[id].treatmentId == treatmentId && 
+        return Object.keys(treatments_cadres).filter(id => {
+            return (treatments_cadres[id].treatmentId == treatmentId &&
                 treatments_cadres[id].cadreId == cadreId);
-        }).length > 0;        
+        }).length > 0;
     }
     treatmentCheckboxChanged(treatment) {
 
@@ -68,12 +68,12 @@ export default class BulkAddingComponent extends React.Component {
 
         if (treatmentInputs[treatment.id]) {
 
-            if(!this.existInDB(treatment.id)){
-                 this.state.selectedTreatments.push(treatment);
-            }else{
-                ToastStore.warning('This treatment has already been added to the selected cadre',10000); 
+            if (!this.existInDB(treatment.id)) {
+                this.state.selectedTreatments.push(treatment);
+            } else {
+                ToastStore.warning('This treatment has already been added to the selected cadre', 10000);
             }
-               
+
         } else {
             this.state.selectedTreatments.shift(treatment);
         }
@@ -84,7 +84,7 @@ export default class BulkAddingComponent extends React.Component {
     render() {
         return (
             <div>
-                <ToastContainer store={ToastStore} position={ToastContainer.POSITION.TOP_CENTER}/>
+                <ToastContainer store={ToastStore} position={ToastContainer.POSITION.TOP_CENTER} />
                 <Panel bsStyle="primary" header="Bulk adding treatments to cadres">
                     <FormControl
                         componentClass="select"
@@ -105,13 +105,13 @@ export default class BulkAddingComponent extends React.Component {
                 <div id="main">
                     <div id="d1">
                         <p className="list-notice">{this.filterTreatments().length} treatments.</p>
-                        <br/>
+                        <br />
                         <FormControl
                             type="text"
                             placeholder="filter treatment"
                             value={this.state.treatmentFilter}
                             onChange={e => this.setState({ treatmentFilter: e.target.value })} />
-                            <br/>
+                        <br />
                         <Table bordered hover>
                             <thead>
                                 <tr>
@@ -141,7 +141,7 @@ export default class BulkAddingComponent extends React.Component {
                         </Table>
                     </div>
                     <div id="d3">
-                       
+
                     </div>
                     <div id="d2">
                         <p className="list-notice">{this.state.selectedTreatments.length} treatments.</p>

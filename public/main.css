@@ -94,7 +94,12 @@ a:hover
 }
 .btn-
 .nav-tabs {
-  border-top: 1px solid #dee2e6;
+  /*border-top: 1px solid #dee2e6;
+  border-bottom: none;*/
+  float: right;
+}
+
+.nav-tabs {
   border-bottom: none;
   float: right;
 }
@@ -174,6 +179,10 @@ a:hover
     vertical-align: top;
     border: 1px solid #dee2e6;
 }
+/*.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #98FB98;
+}*/
+
 #main{
   /*width: 800px;*/
   display: flex;
@@ -311,10 +320,6 @@ a:hover
 .f-right {
   float: right;
 }
-
-
-
-
 
 .table-filter-row {
   position: relative;
@@ -512,7 +517,8 @@ a:hover
   width: 100%;
   box-sizing: border-box;
   padding-left: 8px;
-  padding-right: 60px; }
+  padding-right: 60px;
+}
   .search-parent .search-input {
     position: relative;
     width: 100%;
@@ -520,4 +526,74 @@ a:hover
     margin: 0;
     padding-left: 5px;
     box-sizing: border-box;
-    font-size: 14px; }
+    font-size: 14px;
+  }
+input[type=text],
+input[type=password],
+input[type=select]{
+  border:1px solid #59e0c5;
+}
+
+.districts-box{
+  padding:5px;
+  overflow-y: "scroll";
+  height: 100px;
+}
+
+.districts-box a{
+  border:1px solid #5cb85c;
+  margin:3px;
+  padding:3px;
+  border-radius: 3px 3px 3px 3px;
+}
+.row{
+  text-align: center;
+}
+
+.col-sm-4 button{
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  /*border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;*/
+  font-size:32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.col-sm-4 p{
+  max-width: 250px;
+  margin: 0 auto 30px;
+  border-top: 1px dashed #1abc9c;
+}
+
+.calc-container{
+  display: flex;
+}
+
+.calc-container-left{
+  width:30%;
+  padding:5px;
+  border-right:1px dotted #1abc42;
+  
+}
+
+.calc-container-right{
+  width:70%;
+  padding:5px;
+}
+
+#toast-container.toast-top-full-width>.toast {
+  max-width: 570px;
+}
+
+#toast-container>.toast-success {
+  background-color: #35c8c3;
+  opacity:1;
+  box-shadow:0px 0px 10px rgba(0,0,0,0.2);
+}
+
+#toast-container>.toast-success:hover {
+  background-color: #35c8c3;
+  opacity:1;
+  box-shadow:0px 0px 10px rgba(0,0,0,0.4);
+}

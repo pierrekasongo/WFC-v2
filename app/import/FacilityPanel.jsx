@@ -15,6 +15,7 @@ export default class FacilityPanel extends React.Component {
         };
 
         this.handleUpload = this.handleUpload.bind(this);
+        this.getFromAPI=this.getFromAPI.bind(this);
 
         axios.get('/user/facilities')
             .then(res => this.setState({ facilities: res.data }))
@@ -44,30 +45,49 @@ export default class FacilityPanel extends React.Component {
             }).catch(err => console.log(err));
     }
 
+    getFromAPI(){
+
+        this.setState({state:'loading'});
+
+        setTimeout(()=>{
+
+            axios.get('/dhis2/import_facilities_from_dhis2').then(res => {
+            this.setState({state:'form'});
+                                            
+            }).catch(err => console.log(err));
+
+        },400); 
+    }
+
     renderForm() {
         return (
             <Form horizontal>
-                <div class="alert alert-warning" role="alert">
-                    Make sure it's a csv file with following headers and order. <br />
-                    [Facility ID,Region, District, Facility code, Facility name]
-                </div>
-                <form onSubmit={this.handleUpload}>
-                    <div>
-                        <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
+                <div>
+                    <div class="alert alert-warning" role="alert">
+                        Make sure it's a csv file with following headers and order. <br />
+                        ["Region code", "Region name", "District code", "District name", "Facility code", "Facility name"]
                     </div>
-                    <br />
-                    <div>
-                        <span>
-                            <button>Upload file</button><span> {this.state.progress}</span>
-                        </span>
+                    <form onSubmit={this.handleUpload}>
+                        <div>
+                            <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
+                        </div>
+                        <br />
+                        <div>
+                            <span>
+                                <button>Upload file</button><span> {this.state.progress}</span>
+                            </span>
+                        </div>
+                    </form>
+                    <hr />
+                    <div style={{ textAlign: "left", paddingTop: 10 }}>
+                        <span><h4 >Load facilities from DHIS2</h4></span>
+                        <Button bsStyle="warning" bsSize="small" onClick={() => this.getFromAPI()}>Upload from DHIS2</Button>
                     </div>
-                </form>
-                <hr />
-                <div class="alert alert-warning" role="alert">
-                    {this.state.facilities.length} facilities imported.
+                    <hr />
+                    <div class="alert alert-warning" role="alert">
+                        {this.state.facilities.length} facilities imported.
+                    </div>
                 </div>
-                <hr />
-                
             </Form >
         );
     }
@@ -82,7 +102,7 @@ export default class FacilityPanel extends React.Component {
 
     render() {
         return (
-            <div style={{ width: "85%", margin: "0 auto 0" }}>
+            <div>
                 {this.state.state == 'form' && this.renderForm()}
                 {this.state.state == 'loading' && this.renderLoading()}
             </div>

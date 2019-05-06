@@ -32,9 +32,10 @@ export default class ConfigPanel extends React.Component {
         const value=Object.values(obj)[0];
 
         let data = {
+            id:id,
             value: value,
         };
-        axios.patch('/configuration/config/' + id, data).then(res => {
+        axios.patch('/configuration/config', data).then(res => {
 
             console.log('Value updated successfully');
 

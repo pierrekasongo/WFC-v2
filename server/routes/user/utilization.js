@@ -11,11 +11,10 @@ const db=require('../../dbconn');
 */
 router.get('/StackedBarcharts', function(req, res){
 
-        db.query(`Select temp.Treatment as treatmentName, temp.Job_Cadre, SUM(temp.MinutesPerPatient) as totalTime 
-                    from (select t.Treatment, c.Job_Cadre, tt.MinutesPerPatient, tt.Task
-                    from treatments t, treatmentsteps ts, cadre c, timeontask tt
-                    where ts.TreatmentId = t.Id AND ts.CadreId = c.Id AND ts.TaskId = tt.Id) AS temp
-                    GROUP BY temp.Treatment, temp.Job_Cadre`,function(error,results,fields){
+        db.query(`Select temp.activityName as treatmentName, temp.cadreName, SUM(temp.minutesPerPatient) as totalTime 
+                    from (select t.activityName, c.cadreName, tt.minutesPerPatient 
+                    from activities t, cadre c, activity_time tt) AS temp
+                    GROUP BY temp.activityName, temp.cadreName`,function(error,results,fields){
 
             if(error)throw error;
 
@@ -31,7 +30,7 @@ router.get('/StackedBarcharts', function(req, res){
                 }
 
                 let roundedMinutes = Math.round(row['totalTime'] * 100) / 100;
-                data[row['treatmentName']][row['Job_Cadre']] = roundedMinutes;
+                data[row['treatmentName']][row['cadreName']] = roundedMinutes;
             });
 
             data = Object.keys(data).map(name => data[name]);

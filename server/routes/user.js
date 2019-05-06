@@ -1,5 +1,5 @@
 const sql = require('mysql');
-const db=require('../dbconn')
+const db=require('../dbconn');
 
 const workforceRoute = require('./user/workforce');
 const predictiveRoute = require('./user/predictive');
@@ -31,7 +31,12 @@ router.post('/login', function(req, res){
 });
 // get list of facilities
 router.get('/facilities',(req,res) => {
-    db.query('SELECT * FROM facilities WHERE selected=1',function(error,results,fields){
+
+    countryCode='CD';
+
+    let sql = `SELECT * FROM facility WHERE districtCode IN (SELECT code FROM district WHERE regionCode IN(SELECT code FROM region WHERE countryCode ="`+countryCode+`") );`;
+
+    db.query(sql, function(error,results,fields){
         if(error) throw error;                        
         res.json(results);
     });
@@ -93,7 +98,18 @@ router.get('/count_facilities',(req,res) => {
 });
 // get list of selected facilities
 router.get('/selected_facilities',(req,res) => {
+
     db.query('SELECT * FROM facilities WHERE selected=1',function(error,results,fields){
+        if(error) throw error;                        
+        res.json(results);
+    });
+});
+
+router.get('/facilitiesByDistrict/:districtCode',(req,res) => {
+
+    let districtCode=req.params.districtCode;
+    db.query('SELECT * FROM facility WHERE districtCode="'+districtCode+'"',
+        function(error,results,fields){
         if(error) throw error;                        
         res.json(results);
     });
@@ -132,7 +148,7 @@ router.patch('/cadre/admin_work/:id', (req, res) => {
 
     var value=parseInt(req.body.admin_task.toString());
 
-    db.query(`UPDATE cadre SET adminTask =`+value+` WHERE od =`+id,function(error,results){
+    db.query(`UPDATE cadre SET adminTask =`+value+` WHERE id =`+id,function(error,results){
                     if(error)throw error;
                     res.json(results);
     });
@@ -146,6 +162,27 @@ router.get('/cadres', (req, res) => {
         });
 });
 
+router.get('/regions', (req, res) => {
+    db.query('SELECT id,code,countryCode, name FROM region',function(error,results,fields){
+        if(error) throw error;
+        res.json(results);
+    });
+});
+router.get('/districts', (req, res) => {
+    db.query('SELECT id,code,regionCode, name FROM district',function(error,results,fields){
+        if(error) throw error;
+        res.json(results);
+    });
+});
+
+router.get('/districtsByRegion/:regionCode',(req,res) => {
+    var regionCode=req.params.regionCode.toString();
+
+    db.query('SELECT id,code,regionCode, name FROM district WHERE regionCode ="'+regionCode+'"',function(error,results,fields){
+        if(error) throw error;
+        res.json(results);
+    });
+})
 router.get('/count_cadres',(req,res) => {
     db.query('SELECT COUNT(id) AS nb FROM cadre',function(error,results,fields){
         if(error) throw error;                        

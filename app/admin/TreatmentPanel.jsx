@@ -8,8 +8,6 @@ import NewTreatmentComponent from './NewTreatmentComponent';
 import TreatmentComponent from './TreatmentComponent';
 import BulkAddingComponent from './BulkAddingComponent';
 
-import { CSVLink, CSVDownload } from "react-csv";
-
 export default class TreatmentPanel extends React.Component {
 
     constructor(props) {
@@ -33,22 +31,12 @@ export default class TreatmentPanel extends React.Component {
             treatmentSteps: [],
             treatmentFilter: "",
             treatment_stats: {},
-            /*csvData:[
+           /* csvData: [
                 ["firstname", "lastname", "email"],
                 ["Ahmed", "Tomi", "ah@smthing.co.com"],
                 ["Raed", "Labes", "rl@smthing.co.com"],
                 ["Yezzi", "Min l3b", "ymin@cocococo.com"]
-            ]*/
-
-            headers: [
-                { label: "Activity Name", key: "Activity" }
-            ],
-            /*csvData:[
-                  { firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" },
-                  { firstname: "Raed", lastname: "Labes", email: "rl@smthing.co.com" },
-                  { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
             ],*/
-            csvData: [],
         };
 
         axios.get('/user/selected_facilities')
@@ -232,7 +220,7 @@ export default class TreatmentPanel extends React.Component {
 
         return ([
             <div>
-                <Collapsible trigger="Time on treatments">
+                
                     <div style={{ textAlign: "right", paddingBottom: 4, paddingTop: 10 }}>
                         
                         {
@@ -248,7 +236,6 @@ export default class TreatmentPanel extends React.Component {
                                 Add treatment to cadre
                             </a>
                         }
-
                     </div>
                     {
                         //Show the add in bulk form
@@ -302,85 +289,7 @@ export default class TreatmentPanel extends React.Component {
 
                         </tbody>
                     </Table>
-                </Collapsible>
-            </div>,
-            <hr />,
-            <div>
-                <Collapsible trigger="Import yearly treatments statistics from DHIS2">
-
-                    <FormGroup>
-                        <input type="radio" name="action" value="import" checked={this.state.selectedOption === 'import'} onChange={this.handleOptionChange} />Import&nbsp;&nbsp;
-                        <input type="radio" name="action" value="filter" checked={this.state.selectedOption === 'filter'} onChange={this.handleOptionChange} />Filter
-                    </FormGroup>
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} sm={2}>
-                            Period
-                            </Col>
-                        <Col sm={10}>
-                            <FormControl componentClass="select"
-                                onChange={e => this.setState({ selectedPeriod: e.target.value })}>
-                                {(this.state.years.map((year, i) =>
-                                    <option key={i} value={year}>{year}</option>
-                                ))}
-                            </FormControl>
-                        </Col>
-                    </FormGroup>
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} sm={2}>
-                            Facility
-                        </Col>
-                        <Col sm={10}>
-                            <FormControl componentClass="select"
-                                onChange={e => this.setState({ selectedFacility: e.target.value })}>
-                                {(this.state.facilities.map((facility, i) =>
-                                    <option key={i} value={facility.facilityCode + "|" + facility.id}>{facility.facilityName}</option>
-                                ))}
-                            </FormControl>
-                        </Col>
-                    </FormGroup>
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} sm={2}>
-                            Cadres
-                        </Col>
-                        <Col sm={10}>
-                            <FormControl componentClass="select"
-                                onChange={e => this.setState({ selectedCadre: e.target.value })}>
-                                {(this.state.cadres.map((cadre, i) =>
-                                    <option key={i} value={cadre.id}>{cadre.name}</option>
-                                ))}
-                            </FormControl>
-                        </Col>
-                    </FormGroup>
-                    <div style={{ textAlign: "right", paddingTop: 3, paddingRight: 200 }}>
-                        <Button bsStyle="warning" bsSize="small" onClick={() => this.showTreatmentStats()}>View</Button>
-                        <Button bsStyle="warning" bsSize="small" onClick={() => this.importDHIS2DataValues()}>Import</Button>
-                    </div>
-
-                    <hr />
-                    <div>
-                        <Collapsible trigger="Treatments statistics">
-                            <Table bordered hover>
-                                <thead>
-                                    <tr>
-                                        <th style={{ width: "20%" }}>Treatment</th>
-                                        <th style={{ width: "10%" }}>Year</th>
-                                        <th style={{ width: "30%" }}>Patient count</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {Object.keys(this.state.treatment_stats).map(id =>
-                                        <tr key={id}>
-                                            <td>{this.state.treatment_stats[id].treatment}</td>
-                                            <td>{this.state.treatment_stats[id].year}</td>
-                                            <td>{this.state.treatment_stats[id].caseCount}</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </Table>
-
-                        </Collapsible>
-                    </div>
-                </Collapsible>
+                
             </div>
         ]
         );

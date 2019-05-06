@@ -1,18 +1,14 @@
 const express = require('express');
-const sql = require('mysql');
 const db = require('../dbconn');
-const path = require('path');
-const stringify = require('csv-stringify');
 
-const fs = require('fs');
-const mime = require('mime')
+
 let router = express.Router();
 
-router.patch('/config/:id', (req, res) => {
+router.patch('/config', (req, res) => {
 
-    var id = parseInt(req.params.id.toString());
+    let id = parseInt(req.body.id.toString());
 
-    var value = req.body.value.toString();
+    let value = req.body.value.toString();
 
     db.query(`UPDATE config SET value ="` + value + `" WHERE id =` + id, function (error, results) {
         if (error) throw error;
@@ -20,38 +16,22 @@ router.patch('/config/:id', (req, res) => {
     });
 
 });
-// update treatmnent info
-router.patch('/config/:id', (req, res) => {
-    /*new sql.Request()
-    .input('Treatment', sql.NVarChar, req.body.treatment)
-    .input('Ratio', sql.Float, req.body.ratio)
-    .input('Id', sql.Int, req.params.id)*/
-    db.query(`UPDATE treatments SET Treatment = @Treatment, Ratio = @Ratio
-                    WHERE Id = @Id;
-                SELECT * FROM treatments
-                    WHERE Id = @Id`, function (error, results) {
-            if (error) throw error;
-            res.json(results);
-
-            let tagwords = {};
-
-            results.forEach(row => {
-                if (tagwords[row['tagword']] == null) {
-                    tagwords[row['tagword']] = [];
-                }
-                tagwords[row['tagword']].push(row['indicator']);
-            });
-        })
-    /*.then(results => res.json(results.recordset[0]))
-    .catch(err => res.sendStatus(500))*/
-});
 
 router.get('/configs', function (req, res) {
+    
+    let countryId=52;
 
-    db.query(`SELECT id, parameter, value FROM  config;`, function (error, results, fields) {
-        if (error) throw error;
-        res.json(results);
+    db.query(`SELECT id, parameter, value FROM  config WHERE country_id =`+countryId,
+        function (error, results, fields) {
+            if (error) throw error;
+            res.json(results);
     });
 });
 
+router.get('/getYears', (req, res) => {
+    db.query('SELECT id,year FROM years',function(error,results,fields){
+        if(error) throw error;
+        res.json(results);
+    });
+});
 module.exports = router;

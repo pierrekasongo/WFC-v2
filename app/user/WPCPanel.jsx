@@ -2,7 +2,13 @@ import * as React from 'react';
 import Collapsible from 'react-collapsible';
 import { Panel, Form, FormGroup, ControlLabel, Row, FormControl, Col, Checkbox, Button, Table } from 'react-bootstrap';
 import axios from 'axios';
-//import 'react-dropdown-tree-select/dist/styles.css';
+import Multiselect from 'react-multiselect-checkboxes';
+
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css'
+
+ 
+import ResultComponent from './ResultComponent';
 
 export default class WPCPanel extends React.Component {
 
@@ -10,15 +16,21 @@ export default class WPCPanel extends React.Component {
         super(props);
 
         this.state = {
+            facilitiesCombo:[],
+            cadresCombo:[],
             cadres: [],
             cadreDict: {},
             cadreInputs: {},
             facilityInputs: {},
             facilityDict: {},
             facilities: [],
-            years: ["2014", "2015", "2016", "2017", "2018", "2019", "2020"],
+            years: [],//Save years to db
+            regions:[],
+            districts:[],
             selectedPeriod: "",
             selectedFacility: "",
+            selectedFacilities:{},
+            selectedCadres:{},
             //selectedFacility: 0,
             treatments: [],
             treatmentsSelected: {},
@@ -30,22 +42,30 @@ export default class WPCPanel extends React.Component {
             cadreToggle: true,
             facilityToggle: true,
             state: 'form',
-            results: {},
-
-
-            data: []
+            results: [],
+            printable: [],
+            data: [],
+            showFilters:false,
+            filterText:'Show filter',
         };
+        this.selectMultipleFacilities = this.selectMultipleFacilities.bind(this);
+        this.selectMultipleCadres = this.selectMultipleCadres.bind(this);
 
-        this.editedData = params => {
-            console.log(params);
-        };
-
+        axios.get('/configuration/getYears').then(res =>{
+            let years = res.data;
+            this.setState({
+                years : years
+            })
+        }).catch(err => console.log(err));
 
         axios.get('/user/cadres').then(res => {
             let cadres = res.data;
 
             let cadreInputs = {};
             let cadreDict = {};
+
+            let cadresCombo=[];
+
             cadres.forEach(cadre => {
                 let hours = (cadre.Hours > 0) ? cadre.Hours : 40;
                 let admin = (cadre.AdminTask > 0) ? cadre.AdminTask : 15;
@@ -55,131 +75,117 @@ export default class WPCPanel extends React.Component {
                     adminPercentage: admin
                 }
                 cadreDict[cadre.id] = cadre.name;
-                //cadresSelected[cadre.id]=true;
+
+                let id=cadre.id+'|'+cadre.Hours+'|'+cadre.AdminTask
+
+                cadresCombo.push({label:cadre.name, value:id});
             });
             this.setState({
                 cadres: cadres,
                 cadreDict: cadreDict,
                 cadreInputs: cadreInputs,
-                //cadresSelected:cadresSelected
+                cadresCombo:cadresCombo,
             });
         }).catch(err => console.log(err));
 
-        axios.get('/user/selected_facilities')
+        axios.get('/user/regions').then(res => {
+            let regions = res.data;
+            this.setState({
+                regions: regions,
+            });
+        }).catch(err => console.log(err));
+
+        axios.get('/user/districts').then(res => {
+            let districts = res.data;
+            this.setState({
+                districts: districts,
+            });
+        }).catch(err => console.log(err));
+
+        axios.get('/user/facilities')
             .then(res => {
+
                 let facilities = res.data;
 
                 let facilityInputs = {};
+
                 let facilityDict = {};
 
-                facilities.forEach(facility => {
-                    facilityInputs[facility.id] = {
-                        selected: false,
-                        name: facility.facilityName,
-                        code: facility.facilityCode
+                let facilitiesCombo=[];
+
+                facilities.forEach(fa => {
+
+                    facilityInputs[fa.id] = {
+                        name: fa.name,
+                        code: fa.code
                     }
-                    facilityDict[facility.id] = facility.facilityName;
+                    facilityDict[fa.id] = fa.name;
+
+                    let id=fa.id+'|'+fa.code;
+
+                    facilitiesCombo.push({label:fa.name, value:id});
                 });
                 this.setState({
                     facilities: facilities,
                     facilityDict: facilityDict,
                     facilityInputs: facilityInputs,
-                });
-            })
-            .catch(err => console.log(err));
-
-        axios.get('/user/activities')
-            .then(res => {
-                let treatmentsSelected = {};
-                res.data.forEach(treatment => {
-                    treatmentsSelected[treatment.id] = true
-                });
-                this.setState({
-                    treatments: res.data,
-                    treatmentsSelected: treatmentsSelected
+                    facilitiesCombo:facilitiesCombo
                 });
             })
             .catch(err => console.log(err));
 
     }
-    cadreHoursChanged(e, id) {
 
-        let cadreInputs = this.state.cadreInputs;
-        cadreInputs[id].hours = e.target.value;
-        this.setState({ cadreInputs: cadreInputs });
+    selectMultipleCadres(values) {
 
-        let data = {
-            hours: e.target.value,
-        };
+        let selectedCadres={};
+        
+        values.forEach(val =>{
+            let name=val.label;
+            let ident=val.value.split("|");
+            let id=ident[0];
+            let hours=ident[1];
+            let adminPerc=ident[2];
 
-        axios.patch('/user/cadre/hours/' + id, data).then(res => {
-            this.setState({
-                results: res.data
-            });
-
-        }).catch(err => console.log(err));
+            selectedCadres[id] = {
+                hours: parseFloat(hours),
+                adminPercentage: parseFloat(adminPerc)
+            };
+        })
+        this.setState({selectedCadres:selectedCadres});
     }
 
-    cadreAdminAmtChanged(e, id) {
-        let cadreInputs = this.state.cadreInputs;
-        cadreInputs[id].adminPercentage = e.target.value;
-        this.setState({ cadreInputs: cadreInputs });
+    selectMultipleFacilities(values) {
 
-        let data = {
-            admin_task: e.target.value,
-        };
+        let selectedFacilities={};
+        
+        values.forEach(val =>{
 
-        axios.patch('/user/cadre/admin_work/' + id, data).then(res => {
-            this.setState({
-                results: res.data
-            });
+            let name=val.label;
+            let ident=val.value.split("|");
+            let id=ident[0];
+            let code=ident[1];
 
-        }).catch(err => console.log(err));
+            selectedFacilities[id] = {
+                id:id,
+                code:code,
+                name:name
+            };
+        })
+        this.setState({selectedFacilities:selectedFacilities});
     }
 
-    filterTreatments() {
-        return this.state.treatments.filter(treatment => {
-            let name = treatment['activityName'].toUpperCase();
-            let filter = this.state.treatmentFilter.toUpperCase();
-            return name.indexOf(filter) > -1;
-        });
-    }
-
-    filterCadres() {
-        return this.state.cadres.filter(cadre => {
-            let name = cadre['name'].toUpperCase();
-            let filter = this.state.cadreFilter.toUpperCase();
-            return name.indexOf(filter) > -1;
-        });
-    }
-    filterFacilities() {
-        return this.state.facilities.filter(facility => {
-            let name = facility['facilityName'].toUpperCase();
-            let filter = this.state.facilityFilter.toUpperCase();
-            return name.indexOf(filter) > -1;
-        });
-    }
-    treatmentCheckboxChanged(id) {
-        let treatmentsSelected = this.state.treatmentsSelected;
-        treatmentsSelected[id] = !treatmentsSelected[id];
-        this.setState({ treatmentsSelected: treatmentsSelected });
-    }
-
-    cadreCheckboxChanged(id) {
-
-        let cadreInputs = this.state.cadreInputs;
-
-        cadreInputs[id] = !cadreInputs[id];
-
-        this.setState({ cadreInputs: cadreInputs });
-    }
     facilityCheckboxChanged(id) {
 
         let facilityInputs = this.state.facilityInputs;
 
+        console.log(facilityInputs);
+
         facilityInputs[id] = !facilityInputs[id];
 
         this.setState({ facilityInputs: facilityInputs });
+
+        //console.log(this.state.facilityInputs);
     }
     toggleTreatments() {
         let treatmentToggle = !this.state.treatmentToggle;
@@ -194,7 +200,8 @@ export default class WPCPanel extends React.Component {
         });
     }
 
-    toggleCadres() {
+    toggleCadres(e) {
+        e.preventDefault();
         let cadreToggle = !this.state.cadreToggle;
         let cadreInputs = this.state.cadreInputs;
         this.state.cadres.forEach(cadre => {
@@ -206,7 +213,8 @@ export default class WPCPanel extends React.Component {
             cadreInputs: cadreInputs
         });
     }
-    toggleFacilities() {
+    toggleFacilities(e) {
+        e.preventDefault();
         let facilityToggle = !this.state.facilityToggle;
         let facilityInputs = this.state.facilityInputs;
         this.state.facilities.forEach(facility => {
@@ -220,277 +228,266 @@ export default class WPCPanel extends React.Component {
     }
 
     calculateClicked() {
-        // set state to loading
-        this.setState({ state: 'loading' });
+        
+        if(this.state.selectedPeriod.length == 0){
+            this.launchToastr("Please, select a year first before calculating.");
+            return;
+        }
+        //ALSO TEST facilities and cadres to make sure they are not empty
 
-        //console.log(this.state.cadresSelected);
+        this.setState({ results: []}, () => {  //here
+           // set state to loading
+            this.setState({state: 'loading'});
 
-        // add timeout so loading animation looks better
-        setTimeout(() => {
-            // get input from forms and put it in a data object
-            //let fa_id = this.state.selectedFacility.split("|")[0];
-            let selectedFacilities={};
-            
-            let data = {
-                cadres: {},
-                //treatments: this.state.treatmentsSelected,
-                selectedPeriod: this.state.selectedPeriod
-            };
-            this.state.cadres.forEach(cadre => {
-                if (this.state.cadreInputs[cadre.id]) {
-                    data.cadres[cadre.id] = {
-                        hours: parseFloat(cadre.Hours),
-                        adminPercentage: parseFloat(cadre.AdminTask)
-                    };
-                }
-            });
+            let printable = [];
+            // add timeout so loading animation looks better
+            setTimeout(() => {
+                let selectedFacilities = {};
 
-            this.state.facilities.forEach(fa => {
-                if (this.state.facilityInputs[fa.id]) {
-                    selectedFacilities[fa.id] = {
-                        id: fa.id,
-                        code: fa.facilityCode,
-                        name: fa.facilityName
-                    }
-                }
-            });
-            Object.keys(selectedFacilities).forEach(id => {
-
-                let facilityId=selectedFacilities[id].code;
+                let datas = {
+                    cadres: {},
+                    selectedFacilities: {},
+                    selectedPeriod: this.state.selectedPeriod
+                };
                 
-                // send the calculate workforce request
-                axios.post(`/user/workforce/${facilityId}`, data).then(res => {
-                   
-                    this.state.results[id]={
-                        facility:selectedFacilities[id].name,
-                        currentWorkers:res.data.currentWorkers,
-                        workersNeeded:res.data.workersNeeded,
-                        pressure:res.data.pressure
-                    }
-                    this.setState({
-                        state: 'results'
+                datas.selectedCadres=this.state.selectedCadres;
+                datas.selectedFacilities=this.state.selectedFacilities;
+
+                axios.post(`/user/workforce`, datas).then(res => {
+
+                    let values=res.data;
+
+                    Object.keys(values).forEach(id => { 
+
+                            this.state.results.push({
+
+                                facility: values[id].facility,
+
+                                currentWorkers: values[id].currentWorkers,
+
+                                workersNeeded: values[id].workersNeeded,
+
+                                pressure: values[id].pressure
+                            })
                     });
-                }).catch(err => console.log(err));
-            })
-
-        }, 1000);
-    }
-
-    renderForm() {
-        return (
-            <Form horizontal>
-                <br />
-                <FormGroup>
-                    <Col componentClass={ControlLabel} sm={2}>
-                        Period
-                    </Col>
-                    <Col sm={10}>
-                        <FormControl componentClass="select"
-                            onChange={e => this.setState({ selectedPeriod: e.target.value })}>
-                            {(this.state.years.map((year, i) =>
-                                <option key={i} value={year}>{year}</option>
-                            ))}
-                        </FormControl>
-                    </Col>
-                </FormGroup>
-                <br />
-
-                <FormGroup>
-                    <Col componentClass={ControlLabel} sm={2}>Enter facility</Col>
-                    <Col sm={10}>
-                        <Row>
-                            <Col xs={3}>
-                                <FormControl
-                                    type="text"
-                                    placeholder="filter facility"
-                                    value={this.state.facilityFilter}
-                                    onChange={e => this.setState({ facilityFilter: e.target.value })} />
-                                <div style={{ textAlign: "right", paddingTop: 5 }}>
-                                    <Button bsStyle="primary" bsSize="small" onClick={() => this.toggleFacilities()}>
-                                        {this.state.facilityToggle ? "Unselect" : "Select"} All
-                                        </Button>
-                                </div>
-                            </Col><br />
-                            <Col xs={9}>
-                                <div style={{ overflowY: "scroll", minHeight: 300, maxHeight: 300 }}>
-                                    <Table striped hover>
-                                        <thead>
-                                            <tr>
-                                                <th style={{ width: "7%" }}>Include</th>
-                                                <th style={{ width: "43%" }}>Facility name</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {this.filterFacilities().map(facility =>
-                                                <tr key={facility.id}>
-                                                    <td>
-                                                        <Checkbox
-                                                            //checked={this.state.cadreInputs[cadre.id].selected}
-                                                            checked={this.state.facilityInputs[facility.id]}
-                                                            onChange={() => this.facilityCheckboxChanged(facility.id)}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <h5>{facility.facilityName}</h5>
-                                                    </td>
-
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Col>
-                </FormGroup>
-                <hr />
-                <FormGroup>
-                    <Col componentClass={ControlLabel} sm={2}>Enter cadre</Col>
-                    <Col sm={10}>
-                        <Row>
-                            <Col xs={3}>
-                                <FormControl
-                                    type="text"
-                                    placeholder="filter cadres"
-                                    value={this.state.cadreFilter}
-                                    onChange={e => this.setState({ cadreFilter: e.target.value })} />
-                                <div style={{ textAlign: "right", paddingTop: 5 }}>
-                                    <Button bsStyle="primary" bsSize="small" onClick={() => this.toggleCadres()}>
-                                        {this.state.cadreToggle ? "Unselect" : "Select"} All
-                                        </Button>
-                                </div>
-                            </Col>
-                            <Col xs={9}>
-                                <div style={{ overflowY: "scroll", minHeight: 300, maxHeight: 300 }}>
-                                    <Table striped hover>
-                                        <thead>
-                                            <tr>
-                                                <th style={{ width: "10%" }}>Include</th>
-                                                <th style={{ width: "40%" }}>Cadre</th>
-                                                <th style={{ width: "20%" }}>Hours/Week</th>
-                                                <th style={{ width: "30%" }}>Percentage of time spent on administrative tasks</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {this.filterCadres().map(cadre =>
-                                                <tr key={cadre.id}>
-                                                    <td>
-                                                        <Checkbox
-                                                            //checked={this.state.cadreInputs[cadre.id].selected}
-                                                            checked={this.state.cadreInputs[cadre.id]}
-                                                            onChange={() => this.cadreCheckboxChanged(cadre.id)}
-                                                        />
-                                                    </td>
-                                                    <td>
-                                                        <h5>{cadre.name}</h5>
-                                                    </td>
-                                                    <td>
-                                                        <FormControl
-                                                            type="number"
-                                                            style={{ width: 75 }}
-                                                            disabled={!this.state.cadreInputs[cadre.id]}
-                                                            value={cadre.Hours}
-                                                            onChange={e => this.cadreHoursChanged(e, cadre.id)} />
-                                                    </td>
-                                                    <td>
-                                                        <FormControl
-                                                            type="number"
-                                                            style={{ width: 75 }}
-                                                            disabled={!this.state.cadreInputs[cadre.id]}
-                                                            value={cadre.AdminTask}
-                                                            onChange={e => this.cadreAdminAmtChanged(e, cadre.id)} />
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Col>
-                </FormGroup>
-                <hr />
-                <div style={{ textAlign: "right", paddingTop: 10 }}>
-                    <Button bsStyle="warning" bsSize="medium" onClick={() => this.calculateClicked()}>Calculate</Button>
-                </div>
-            </Form >
-        );
+                    this.setState({state: 'results'});
+                })
+                
+            }, 1000);
+        });  
         
     }
 
-    renderLoading() {
-        return (
-            <div style={{ marginTop: 120, marginBottom: 65 }}>
-                <div className="loader"></div>
-            </div>
-        );
+    processResult() {
+
+        let results=this.state.results;
+
+        let printable=[];
+
+        Object.keys(results).forEach(id => {
+
+            let facility="";
+            
+            let cadre="";
+
+            let curr_workers="";
+
+            let needed_workers="";
+
+            let pressure="";
+
+            Object.keys(results[id].workersNeeded).map(cadreId =>{
+
+                cadre=this.state.cadreDict[cadreId];
+                curr_workers=(results[id].currentWorkers[cadreId])?results[id].currentWorkers[cadreId].toString():'0';
+                needed_workers=(results[id].currentWorkers[cadreId])?results[id].currentWorkers[cadreId].toString():'0';
+                pressure=(results[id].pressure[cadreId])?Number(results[id].pressure[cadreId]).toFixed(2).toString():'0';
+
+                facility=(facility == results[id].facility)?"":results[id].facility;
+
+                printable.push({
+                    facility:facility,
+                    cadre:cadre,
+                    currentWorkers:curr_workers,
+                    workersNeeded:needed_workers,
+                    pressure:pressure
+                });
+            });
+        });
+        this.setState({
+            //printable:printable,
+            state: 'results'
+        });
+
     }
 
-    renderResults() {
-        return ([
-            <br/>,
-            <div style={{ textAlign: "right" }}>
-                <Button bsStyle="primary" bsSize="medium" onClick={() => this.setState({ state: 'form', results: null })}>Back</Button>
-            </div>,
-            <br/>,
-            Object.keys(this.state.results).map(id => 
-            <Collapsible trigger={this.state.results[id].facility}>
-                <div >
-                    <h3>Results for {this.state.results[id].facility}</h3>
-                    <Table hover striped>
-                        <thead>
-                            <tr>
-                                <th>Cadre</th>
-                                <th>Current Workers</th>
-                                <th>Workers Needed</th>
-                                <th>Workforce Pressure</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Object.keys(this.state.results[id].workersNeeded).map(cadreId =>
-                                <tr>
-                                    <td>
-                                        <h4 key={cadreId + 'cadre'}>{this.state.cadreDict[cadreId]}</h4>
-                                    </td>
-                                    <td>
-                                        <h4 key={cadreId + 'current'}>{this.state.results[id].currentWorkers[cadreId]}</h4>
-                                    </td>
-                                    <td>
-                                        <h4 key={cadreId + 'needed'}>{Math.round(this.state.results[id].workersNeeded[cadreId])}</h4>
-                                    </td>
-                                    <td>
-                                        {this.state.results[id].pressure[cadreId] &&
-                                            <h4
-                                                key={cadreId}
-                                                style={{ color: this.state.results[id].pressure[cadreId] < 1 ? "red" : "green" }}>
-                                                {Number(this.state.results[id].pressure[cadreId]).toFixed(2)}x
-                                        </h4>
-                                        }
-                                        {!this.state.results[id].pressure[cadreId] &&
-                                            <h4 key={cadreId} style={{ color: "gray" }}>N/A</h4>
-                                        }
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </Table>
-                    <br />
-                    
-                </div>
-            </Collapsible>
-            )]
-        )
+    loadDistrictsByRegion(regionCode){
+
+        let url=(regionCode == "000")?'/user/districts':'/user/districtsByRegion/'+regionCode;
+        
+        axios.get(url).then(res => {
+            let districts = res.data;
+            this.setState({
+                districts: districts,
+            });
+        }).catch(err => console.log(err));
+    }
+
+    loadFacilitiesByDistrict(districtCode){
+
+        let url=(districtCode == "000")?'/user/facilities':'/user/facilitiesByDistrict/'+districtCode;
+
+        axios.get(url).then(res => {
+
+                let facilities = res.data;
+
+                let facilityInputs = {};
+                let facilityDict = {};
+
+                let facilitiesCombo=[];
+
+                facilities.forEach(fa => {
+                    facilityInputs[fa.id] = {
+                        name: fa.name,
+                        code: fa.code
+                    }
+                    facilityDict[fa.id] = fa.name;
+
+                    let id=fa.id+'|'+fa.code;
+
+                    facilitiesCombo.push({label:fa.name, value:id});
+                });
+
+                this.setState({
+                    facilities: facilities,
+                    facilityDict: facilityDict,
+                    facilityInputs: facilityInputs,
+                    facilitiesCombo:facilitiesCombo
+                });
+            })
+            .catch(err => console.log(err));
+    }
+
+    toggleFilters(){
+        let showFilters = !this.state.showFilters;
+
+        let filterText=(showFilters)?'Hide filter':'Show filter';
+        this.setState({
+            showFilters:showFilters,
+            filterText:filterText
+        })
+    }
+
+    launchToastr(msg){
+        toastr.options = {
+          positionClass : 'toast-top-full-width',
+          hideDuration: 15,
+          timeOut: 6000
+        }
+        toastr.clear()
+        setTimeout(() => toastr.error(msg), 300)
     }
 
     render() {
         return (
-            <div style={{ width: "100%", margin: "0 auto 0" }}>
-                {this.state.state == 'form' && this.renderForm()}
-                {this.state.state == 'loading' && this.renderLoading()}
-                {this.state.state == 'results' && this.renderResults()}
+            <div className="calc-container">
+                <div className="calc-container-left">
+                <Form horizontal>
+                    <FormGroup>
+                        <Col componentClass={ControlLabel} sm={10}>
+                            Year
+                        </Col>
+                        
+                        <Col sm={15}>
+                            <FormControl componentClass="select"
+                                        onChange={e => this.setState({ selectedPeriod: e.target.value })}>
+                                        <option key="000" value="000">Select year </option>
+                                        {(this.state.years.map(yr =>
+                                            <option key={yr.id} value={yr.year}>{yr.year}</option>
+                                        ))}
+                            </FormControl>
+                        </Col>
+                    </FormGroup>                   
+                    <hr />
+                    <FormGroup>
+                        <Col componentClass={ControlLabel} sm={10}>
+                            Facilities({(this.state.facilitiesCombo.length)}) [<a href="#" onClick={() => this.toggleFilters()}>{this.state.filterText}</a>]
+                        </Col>
+                        <Col sm={15}>
+                            <Multiselect
+                                options={this.state.facilitiesCombo}
+                                onChange={this.selectMultipleFacilities}/>
+                        </Col>
+                        
+                        {this.state.showFilters && 
+                        
+                        <FormGroup>
+                            <hr/>
+                            <Col componentClass={ControlLabel} sm={10}>
+                                Region ({(this.state.regions.length)})
+                            </Col>
+                            <Col sm={15}>
+                                <FormControl componentClass="select" 
+                                    onChange={e => this.loadDistrictsByRegion(e.target.value)}>
+                                    <option key="000" value="000">Select value</option>
+                                    {(this.state.regions.map(rg =>
+                                        <option key={rg.code} value={rg.code}>{rg.name}</option>
+                                    ))}
+                                </FormControl>
+                            </Col>
+                        </FormGroup>
+                    }
+                    {this.state.showFilters && 
+                        <FormGroup>
+                            <Col componentClass={ControlLabel} sm={10}>
+                                Districts  ({(this.state.districts.length)})
+                            </Col>
+                            <Col sm={15}>
+                                <FormControl componentClass="select" 
+                                    onChange={e => this.loadFacilitiesByDistrict(e.target.value)}>
+                                    <option key="000" value="000">Select value</option>
+                                    {(this.state.districts.map(dist =>
+                                        <option key={dist.code} value={dist.code}>{dist.name}</option>
+                                    ))}
+                                </FormControl>
+                            </Col>
+                        </FormGroup>
+                    } 
+                    </FormGroup>
+                    <hr />
+                    <FormGroup>
+                        <Col componentClass={ControlLabel} sm={10}>
+                            Cadres
+                        </Col>
+                        <Col sm={15}>
+                            <Multiselect
+                                    options={this.state.cadresCombo}
+                                    onChange={this.selectMultipleCadres}/>
+                        </Col>
+                    </FormGroup>
+                    <hr />
+                    <div style={{ textAlign: "right", paddingTop: 10 }}>
+                        <Button bsStyle="warning" bsSize="medium" onClick={() => this.calculateClicked()}>Calculate</Button>
+                    </div>
+                    <br />
+                    </Form>
+                </div>
+                <div className="calc-container-right">
+                    {this.state.state == 'loading' &&
+                        <div style={{ marginTop: 120, marginBottom: 65 }}>
+                            <div className="loader"></div>
+                        </div>
+                    }
+                    {this.state.state == 'results' && 
+                        <ResultComponent
+                                results={this.state.results}
+                                cadreDict={this.state.cadreDict}
+                            />
+                    }
+                </div>
             </div>
+            
         );
-    }
 
+    }
 };

@@ -85,24 +85,23 @@ export default class HRUploadPanel extends React.Component {
                           <Table striped hover>
                               <thead>
                                   <tr>
-                                      <th style={{ width: "10%" }}>Staff</th>
                                       <th style={{ width: "30%" }}>Cadre</th>
                                       <th style={{ width: "60%" }}>Facility</th>
+                                      <th style={{ width: "10%" }}>#Staff</th>
                                   </tr>
                               </thead>
                               <tbody>
                                   {Object.keys(this.state.workforces).map(id =>
                                       <tr>
                                           <td>
-                                              <h6>{this.state.workforces[id].nb_staff}</h6>
-                                          </td>
-                                          <td>
                                               <h6>{this.state.workforces[id].cadre}</h6>
                                           </td>
                                           <td>
                                               <h6>{this.state.workforces[id].facility}</h6>
                                           </td>
-                                          
+                                          <td>
+                                              <h6>{this.state.workforces[id].nb_staff}</h6>
+                                          </td>
                                       </tr>
                                   )}
                               </tbody>

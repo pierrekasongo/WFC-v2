@@ -1,7 +1,7 @@
 {
   "name": "intrahealth-webserver",
   "version": "1.0.0",
-  "description": "Intrahealth - Uganda",
+  "description": "Intrahealth - DRC",
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Nikhila-B/D3M_Group_1.git"
+    "url": "git+https://github.com/pierrekasongo/WFC.git"
   },
-  "author": "",
+  "author": "Pierre Kasongo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Nikhila-B/D3M_Group_1/issues"
+    "url": "https://github.com/pierrekasongo/WFC/issues"
   },
-  "homepage": "https://github.com/Nikhila-B/D3M_Group_1#readme",
+  "homepage": "https://github.com/pierrekasongo/WFC.git#readme",
   "dependencies": {
     "array.partial": "^1.0.4",
     "babel-preset-env": "^1.7.0",
@@ -50,11 +50,13 @@
     "react-dropdown-tree-select": "^1.13.0",
     "react-edit-inline2": "^1.0.2",
     "react-infinite-scroll-component": "^4.2.0",
+    "react-multiselect-checkboxes": "^0.1.1",
     "react-toasts": "^2.0.14",
     "react-transition-group": "^2.5.0",
     "request": "^2.87.0",
     "request-progress": "^3.0.0",
     "sylvester": "0.0.21",
+    "toastr": "^2.1.4",
     "tryparse": "0.0.2",
     "underscore": "1.7.0"
   },

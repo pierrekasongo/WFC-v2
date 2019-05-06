@@ -70,17 +70,25 @@ export default class HomePage extends React.Component {
                 <Panel bsStyle="primary" header="Home">
                 <br />
                 <div class="container">
-                        <div class="row">
+                    <div class="row">
                         <div class="col-md-4 col-xl-3">
                                 <div class="card bg-c-pink order-card">
                                     <div class="card-block">
-                                        <h6 class="m-b-20">Cadres ({this.state.cadres.length})</h6>
-                                        {/*<h2 class="text-right"><i class="fa fa-users f-left"></i><span>{this.state.cadreCount}</span></h2>*/}
+                                        <h6 class="m-b-20">Cadres</h6>
+                                        <h2 class="text-right">
+                                            <i class="fa fa-stethoscope f-left"></i>
+                                            <span>
+                                                <a href="#">
+                                                    {this.state.cadres.length}
+                                                </a>  
+                                            </span>
+                                        </h2>
+                                        {/*<h2 class="text-right"><i class="fa fa-users f-left"></i><span>{this.state.cadreCount}</span></h2>
                                         <ul>
                                             {Object.keys(this.state.cadres).map(id => 
                                                 <li>{this.state.cadres[id].name}</li>
                                             )}
-                                        </ul>
+                                        </ul>*/}
                                     </div>
                                 </div>
                             </div>
@@ -88,7 +96,6 @@ export default class HomePage extends React.Component {
                                 <div class="card bg-c-yellow order-card">
                                     <div class="card-block">
                                         <h6 class="m-b-20">Staffs</h6>
-                                        {/*<h2 class="text-right"><i class="fa fa-user-md f-left"></i><span>{this.state.staffCount}</span></h2>*/}
                                         <ul>
                                             {Object.keys(this.state.staffs).map(id => 
                                                 <li>{this.state.staffs[id].cadre}&nbsp;: {this.state.staffs[id].nb}</li>
@@ -113,7 +120,7 @@ export default class HomePage extends React.Component {
                                 <div class="card bg-c-green order-card">
                                     <div class="card-block">
                                         <h6 class="m-b-20">Facilities</h6>
-                                        <h2 class="text-right"><i class="fa fa-hospital f-left"></i><span>{this.state.facilitiesCount}</span></h2>
+                                        <h2 class="text-right"><i class="fas fa-clinic-medical"></i><span>{this.state.facilitiesCount}</span></h2>
                                         {/*<p class="m-b-0">Completed Orders<span class="f-right">351</span></p>*/}
                                     </div>
                                 </div>
@@ -121,6 +128,35 @@ export default class HomePage extends React.Component {
                             
                         </div>
                     </div>
+                    {/*<hr/>
+                    <div class="container-fluid bg-3">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <a href="/import">
+                                    <button type="button" class="btn btn-info">1</button>
+                                </a>
+                                <p>Import all required data from dhis2, ihris or csv files into the system.</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <a href="/admin">
+                                    <button type="button" class="btn btn-info">2</button>
+                                </a>
+                                <p>Set time(duration) for each treatment(activity) involved in the calculation.</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <a href="/statistics">
+                                    <button type="button" class="btn btn-info">3</button>
+                                </a>
+                                <p>Import annual treatments data.</p>
+                            </div>
+                            <div class="col-sm-4">
+                                    <a href="/user">
+                                        <button type="button" class="btn btn-info">4</button>
+                                    </a>
+                                <p>Import all required data from dhis2, ihris or csv files into the system.</p>
+                            </div>
+                        </div>
+                    </div>*/}
                 </Panel>
                 
             </div>

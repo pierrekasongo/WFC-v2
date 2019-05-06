@@ -16,7 +16,7 @@ export default class AdminPage extends React.Component {
     render() {
         return (
             <div>
-                <Panel bsStyle="primary" header="Treatments">
+                <Panel bsStyle="primary" header="Time on treatments">
                     <Route component={TreatmentPanel} />
                 </Panel>
                 

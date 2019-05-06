@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Collapsible from 'react-collapsible';
-import { Panel, Form, FormGroup, ControlLabel, FormControl, Col, Checkbox,PanelGroup,Accordion } from 'react-bootstrap';
+import { Panel, Form, FormGroup, ControlLabel, FormControl, Col, Checkbox, PanelGroup, Accordion } from 'react-bootstrap';
 import FacilityPanel from './FacilityPanel';
 import uploadPanel from './HRUploadPanel';
 import UploadiHRISPanel from './HRUploadPanel';
@@ -12,34 +12,37 @@ import CadreUploadPanel from './CadreImportPanel';
 
 export default class ImportPage extends React.Component {
 
-    constructor(props) {
-        super(props);
+        constructor(props) {
+                super(props);
 
-    }
+        }
 
-    render(){
-        return(
-        <div>
-            <Collapsible  trigger="Import facilities from DHIS2">
-                    <FacilityPanel />
-            </Collapsible>
+        render() {
+                return (
+                        <div>
+                                <Panel bsStyle="primary" header="Data import">
+                                        <Collapsible trigger="Import facilities">
+                                                <FacilityPanel />
+                                        </Collapsible>
 
-            <Collapsible  trigger="Import Treatments from DHIS2">
-                    <ServiceUploadPanel />
-            </Collapsible>
+                                        <Collapsible trigger="Import Treatments">
+                                                <ServiceUploadPanel />
+                                        </Collapsible>
 
-            <Collapsible  trigger="Import HR data from iHRIS">
-                    <HRUploadPanel />
-            </Collapsible>
-            <Collapsible  trigger="Import cadres from iHRIS">
-                    <CadreUploadPanel />
-            </Collapsible>
-            {/*<Collapsible  trigger="Sync data to match IDs">
-                    <SynchDataPanel />
-                </Collapsible>*/}
-        </div>
-     
-        );
-      }
+                                        <Collapsible trigger="Import HR data">
+                                                <HRUploadPanel />
+                                        </Collapsible>
+                                        <Collapsible trigger="Import cadres">
+                                                <CadreUploadPanel />
+                                        </Collapsible>
+                                        {/*<Collapsible  trigger="Sync data to match IDs">
+                                        <SynchDataPanel />
+                                        </Collapsible>*/}
+                                </Panel>
+                                
+                        </div>
+
+                );
+        }
 
 };

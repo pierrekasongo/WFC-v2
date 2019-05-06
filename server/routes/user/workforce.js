@@ -4,36 +4,85 @@ let router = require('express').Router();
 
 const db = require('../../dbconn');
 
-router.post('/:code', (req, res) => {
+var calculationResults=[];
 
-    let cadres = req.body.cadres;
+router.post('/', (req, res) => {
+
+    calculationResults=[];
+
+    let cadres = req.body.selectedCadres;
 
     let period = req.body.selectedPeriod.toString();
 
-    let facilityId = req.params.code.toString();
+    let facilityId = 0;//req.params.code.toString();
+
+    let facilities = req.body.selectedFacilities;
 
     //Getting cadre ids 
     let cadreIds = [];
+
+    //Getting facility ids
+    let facilityIds = [];
+
     let i = 0;
+
+    let obj={};
+
     Object.keys(cadres).forEach(cadreId => {
         cadreIds[i] = cadreId;
         i++;
     });
-                           
-        let treatmentIds = [];
-        // queries
-        //let concernedTreatmentsQuery= `SELECT id, ratio FROM activities WHERE `;
-        let treatmentsQuery = `SELECT id, ratio FROM activities`;
-        //let treatmentsQuery = `SELECT id, ratio FROM activities WHERE id IN (SELECT activityId FROM activity_time WHERE cadreId IN(?) )`;
-        let patientCountQuery = `SELECT activityId  AS id, SUM(caseCount) AS PatientCount FROM activity_stats
-                                WHERE CONCAT(year, quarter)=ANY(SELECT DISTINCT CONCAT(year, quarter) FROM activity_stats WHERE facilityId="`+ facilityId + `" AND year="`+ period + `" ORDER BY CONCAT(year, quarter) DESC)
-                                    AND facilityId="`+ facilityId + `" GROUP BY activityId LIMIT 0,4`;
-        let timePerTreatmentQuery = `SELECT activityId, cadreId, minutesPerPatient AS TreatmentTime FROM activity_time WHERE cadreId IN(?) GROUP BY activityId, cadreId`;//Select only for selected cadres
-        let facilityStaffCountQuery = `SELECT cadreId, staffCount AS StaffCount FROM staff
-                                    WHERE  facilityCode="`+ facilityId + `"`;
-                                    
-        db.query(`${treatmentsQuery}; ${patientCountQuery}; ${timePerTreatmentQuery}; ${facilityStaffCountQuery};`, [cadreIds, cadreIds], 
-        function (error, results) {
+
+    let size=Object.keys(facilities).length;
+
+    let count=0;
+
+    let expecting=Object.keys(facilities).length;
+
+    Object.keys(facilities).forEach(id => {
+
+        count++;
+
+        facilityId = facilities[id].id;
+
+        process(facilityId,facilities,cadreIds,cadres,period,
+            function(obj) {
+                calculationResults.push(obj);
+                if(--expecting === 0){
+                    //console.log(calculationResults);
+                    res.json(calculationResults);
+                }
+            });
+    });
+
+})
+
+
+var process=function(facilityId,facilities,cadreIds,cadres,period,callback){
+    //PROCESS
+    let treatmentIds = [];
+
+    let obj={};
+
+    let facilityCode=facilities[facilityId].code;
+    // queries
+    //let concernedTreatmentsQuery= `SELECT id, ratio FROM activities WHERE `;
+    let treatmentsQuery = `SELECT id, ratio FROM activities`;
+    //let treatmentsQuery = `SELECT id, ratio FROM activities WHERE id IN (SELECT activityId FROM activity_time WHERE cadreId IN(?) )`;
+    let patientCountQuery = `SELECT activityId  AS id, SUM(caseCount) AS PatientCount FROM activity_stats
+                           WHERE CONCAT(year, quarter)=ANY(SELECT DISTINCT CONCAT(year, quarter) FROM activity_stats WHERE facilityId="`+ facilityCode + `" AND year="` + period + `" ORDER BY CONCAT(year, quarter) DESC)
+                                AND facilityId="`+ facilityCode + `" GROUP BY activityId LIMIT 0,4`;
+
+    /*let patientCountQuery = `SELECT activityId  AS id, SUM(caseCount) AS PatientCount FROM activity_stats
+                              WHERE facilityId="`+ facilityCode + 
+                              `" AND year="` + period + `" GROUP BY activityId LIMIT 0,4`;*/
+    let timePerTreatmentQuery = `SELECT activityId, cadreId, minutesPerPatient AS TreatmentTime FROM activity_time WHERE cadreId IN(?) GROUP BY activityId, cadreId`;//Select only for selected cadres
+    let facilityStaffCountQuery = `SELECT cadreId, staffCount AS StaffCount FROM staff
+                                WHERE  facilityCode="`+ facilityCode + `"`;
+    
+
+    db.query(`${treatmentsQuery}; ${patientCountQuery}; ${timePerTreatmentQuery}; ${facilityStaffCountQuery};`, [cadreIds, cadreIds],
+        function (error,results) {
 
             let treatmentsQueryResult = results[0];
 
@@ -156,20 +205,15 @@ router.post('/:code', (req, res) => {
                 pressure[row['cadreId']] = Number.parseInt(row['StaffCount']) / Number.parseFloat(workersNeeded[row['cadreId']]).toFixed(2);
             });
 
-            /*calculationResults[id]={
-                facility:facilities[id].name,
-                currentWorkers:currentWorkers,
-                workersNeeded: workersNeeded,
-                pressure: pressure
-            }*/
-            
-            res.json({
+            obj= {
+                facility: facilities[facilityId].name,
                 currentWorkers: currentWorkers,
                 workersNeeded: workersNeeded,
                 pressure: pressure
-            });
+            };
+            callback(obj);
             
-        });
-})
+        });//END QUERY CALL BACK 
+}
 
 module.exports = router;
