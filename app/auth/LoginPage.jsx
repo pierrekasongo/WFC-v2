@@ -1,10 +1,7 @@
 import  React from 'react';
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import * as axios from 'axios';
-import cookie from 'react-cookies';
-import HomePage from '../user/HomePage';
-import { Redirect } from 'react-router-dom';
-
+import Cookies from 'js-cookie';
 
 export default class LoginPage extends React.Component {
 
@@ -13,53 +10,25 @@ export default class LoginPage extends React.Component {
       super(props);
   
       this.state =  { 
-        userId: "",
-        username:"",
-        countryId:""
-        //countryId:cookie.load('countryId'),
+        login:"",
+        password:"",
+        isError:false,
+        isRefreshed:false,
       }
-      this.onLogin=this.onLogin.bind(this);
-
-      this.onLogout=this.onLogout.bind(this);
-    }
-    componentWillMount() {
-     
+      this.onSubmit=this.onSubmit.bind(this);
     }
 
-    onLogin(userId,countryId,username) {
-      
-      cookie.save('userId', userId, { path: '/' });
-
-      cookie.save('countryId', countryId, { path: '/' });
-
-      cookie.save('username', username, { path: '/' });
-
-      this.setState({
-         userId:userId,
-         username:username,
-         countryId:countryId
-      })
+    componentWillMount(){
+      Cookies.remove('user');
+      Cookies.remove('token');
+    }
   
-    }
-   
-    onLogout() {
-      console.log("Log out clicked!!")
-      cookie.remove('userId','countryId','username', { path: '/' });
-    }
-
     validateForm() {
       return this.state.login.length > 0 && this.state.password.length > 0;
     }
-  
-    handleChange() {
-      this.setState({
-        //[event.target.id]: event.target.value
-      });
-    }
-  
-    handleSubmit() {
-        
-        //console.log("Login: "+this.state.login+" Password: "+this.state.password);
+    onSubmit(event){
+
+        event.preventDefault();
 
         let login=this.state.login;
 
@@ -71,53 +40,44 @@ export default class LoginPage extends React.Component {
 
             password:password
         }
-        axios.post(`/auth/login/`,data).then(res => {
+        axios.post(`/auth/login`,data).then(res => {
 
-            let userId=res.data['id'];
-            let username=res.data['name'];
-            let countryId=res.data['country_id'];
-            this.onLogin(userId,countryId,username);
+          if(res.data == "OK"){
 
-            //this.setState({ treatments_cadres: treatments_cadres });
+            Cookies.set('user',login, { expires: 1 });
+
+            this.props.history.push(`/home`);
+
+          }else{
+            this.setState({
+              isError:true
+            });
+          }
 
         }).catch(err => console.log(err));
-        
     }
-  
-    renderLogin() {
+
+    render() {
         return (
           <div className="Login">
             {/*<form onSubmit={this.handleSubmit}>*/}
 
-              <FormGroup controlId="login" bsSize="large">
-                <ControlLabel>Login</ControlLabel>
-                <FormControl type="text" value={this.state.login} 
-                onChange={e => this.setState({login:e.target.value})}/>
-              </FormGroup>
-
-              <FormGroup controlId="password" bsSize="large">
-                <ControlLabel>Password</ControlLabel>
-                <FormControl type="password" value={this.state.password} 
-                onChange={e => this.setState({password:e.target.value})}/>
-              </FormGroup>
-
-              <Button block  bsSize="large" disabled={!this.validateForm()} type="submit" onClick={() => this.handleSubmit()}>
-                Login
-              </Button>
-            {/*</form>*/}
+              <form onSubmit={this.onSubmit}>
+                  <h2>Login</h2>
+                  {
+                    this.state.isError &&
+                    <p className="error">Login ou mot de passe incorrect</p>
+                  }
+                  <FormControl type="text" placeholder="login" value={this.state.login}
+                            onChange={e => this.setState({ login: e.target.value })} />
+                            <br/>
+                  <FormControl type="password" placeholder="password" value={this.state.password}
+                            onChange={e => this.setState({ password: e.target.value })} />
+                  <br/>
+                 <button>Login</button>
+              </form>
           </div>
         );
     }
-
-    render(){
-      const { userId } = this.state.userId;
- 
-      if (!userId) {
-        return (
-            this.renderLogin()
-        );
-      }
-      //return <HomePage userId={userId} />
-      return <Redirect to='/home' />
-    }
   }
+  

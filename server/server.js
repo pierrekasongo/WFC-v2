@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cookieParser=require('cookie-parser')
 
 // start db
 const db=require('./dbconn');
@@ -12,13 +13,14 @@ const dhis2=require('./routes/dhis2');
 const ihris=require('./routes/ihris');
 const configuration=require('./routes/configuration');
 const auth=require('./routes/auth');
+const metadata=require('./routes/metadata');
 // create app server
 let app = express();
 
 // middleware to parse request info into JSON
 app.use(bodyParser.urlencoded({ extended: false })); // application/x-www-form-urlencoded
 app.use(bodyParser.json()); // application/json
-
+app.use(cookieParser());
 // serve static files in public folder
 app.use(express.static(path.join(__dirname, "../", "public")));
 
@@ -29,6 +31,7 @@ app.use('/api/dhis2/',dhis2);
 app.use('/api/ihris', ihris);
 app.use('/api/configuration',configuration);
 app.use('/api/auth',auth);
+app.use('/api/metadata',metadata);
 // instead of 404, redirect to index page
 app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, "../", "public", "index.html"));

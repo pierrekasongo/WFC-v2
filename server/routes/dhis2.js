@@ -118,12 +118,10 @@ router.post('/upload', function (req, res) {
                 //sql += `INSERT INTO facilities (id,countryId,regionName,districtName,facilityCode,facilityName) VALUES(`
                     //+ `,` + id + countryId + `,"` + region + `","` + district + `","` + facility_code + `","` + facility_name + `");`
             }
-            console.log(sql);
-           
-            /*db.query(sql, function (error, results) {
+            db.query(sql, function (error, results) {
                 if (error) throw error;
                 res.status(200);
-            });*/
+            });
 
 
         });

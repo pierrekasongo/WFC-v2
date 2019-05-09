@@ -15,56 +15,92 @@ import StatisticsPage from './admin/StatisticsPage';
 import StartPage from './admin/StartPage';
 import LoginPage from './auth/LoginPage';
 import CadreTimePage from './user/CadreTimePage';
-import cookie from 'react-cookies';
+import MetadataPage from './admin/MetadataComponent';
+//import Cookies from 'react-cookies';
+import Cookies from 'js-cookie';
 
 
 class App extends React.Component {
 
-    componentWillMount() {
-        this.state = { cookies: cookie.loadAll() }
+    constructor(props){
+
+        super(props);
+
+        this.state = {
+            username:"",
+            isLogin:false,
+        }
     }
+    
+    componentWillMount(){
+
+        let path=window.location.pathname;
+
+        if(path === '/login'){
+            this.setState({
+                isLogin:true
+            })
+        }
+
+        let username=Cookies.get('user');
+
+        if(typeof(username) !== 'undefined'){
+
+            if(username.length >  0){
+
+                this.setState({
+                    isLoggedin:true,
+                    username:username,
+                })
+            }
+        }
+    }
+
     render() {
-        //let url=window.location.pathname;
         return (
-
             <BrowserRouter>
-                <Grid>
-                    <div className="app-name">
-                        <span>Workforce Pressure Calculator</span>
-                    </div>
+                
+                    <Grid>
+                        <div className="app-name">
+                            <span>Workforce Pressure Calculator</span>
+                        </div>
+                        {
+                            !this.state.isLogin && 
+                            <Nav bsStyle="tabs" activekey="1">
+                                
+                                <NavLink className="sign-out" to="/login"> Sign out ({this.state.username})</NavLink>
+                                
+                                <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/home">Dashboard</NavLink></NavItem>
+                                <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/start">Start</NavLink></NavItem>
+                                <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/metadata">Metadata</NavLink></NavItem>
 
-                    <Nav bsStyle="tabs" activekey="1">
-                        <NavLink className="sign-out" to="/sign-out">Sign out{/*his.state.cookies.usernam*/}</NavLink>
-                        <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/home">Dashboard</NavLink></NavItem>
-                        <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/start">Start</NavLink></NavItem>
-                        {/*<NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/import">Data import</NavLink></NavItem>
-                        <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/admin">Time on task</NavLink></NavItem>
-                        <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/statistics">Statistics</NavLink></NavItem>
-                        <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/user">Calculation</NavLink></NavItem>*/}
-                        <NavItem className="link-wrapper" componentClass='span'>
-                            <NavLink activeClassName="active" to="/config">
-                                <span class="glyphicon glyphicon-cog" aria-hidden="true">Config</span>
-                            </NavLink>
-                        </NavItem>
-                        {/*<NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/config">Config</NavLink></NavItem>*/}
-                    </Nav>
-                    <br/><br/>
-                    <Switch>
-                        <Route path='/user' component={UserPage} />
-                        <Route path='/admin' component={AdminPage} />
-                        <Route path='/import' component={ImportPage} />
-                        <Route path='/config' component={ConfigPage} />
-                        <Route path='/statistics' component={StatisticsPage} />
-                        <Route path='/start' component={StartPage} />
-                        <Route path='/home' component={HomePage} />
-                        <Route path='/cadre-time' component={CadreTimePage} />
-                        <Route path='/login' component={LoginPage} />
-                        <Route path='/sign-out' component={LoginPage} />
-                        <Redirect to='/home' />
-                    </Switch>
-
-                </Grid>
+                                <NavItem className="link-wrapper" componentClass='span'>
+                                    <NavLink activeClassName="active" to="/config">
+                                        <span class="glyphicon glyphicon-cog" aria-hidden="true">Config</span>
+                                    </NavLink>
+                                </NavItem>                       
+                            </Nav>
+                        }
+                        <br/><br/>
+                        <Switch>
+                            <Route path='/user' component={UserPage} />
+                            <Route path='/admin' component={AdminPage} />
+                            <Route path='/import' component={ImportPage} />
+                            <Route path='/config' component={ConfigPage} />
+                            <Route path='/statistics' component={StatisticsPage} />
+                            <Route path='/start' component={StartPage} />
+                            <Route path='/home' component={HomePage} />
+                            <Route path='/cadre-time' component={CadreTimePage} />
+                            <Route path='/login' component={LoginPage} />
+                            <Route path='/sign-out' component={LoginPage} />
+                            <Route path='/metadata' component={MetadataPage} />
+                            <Redirect to='/home' />
+                        </Switch>
+                        
+                    </Grid>
+                
             </BrowserRouter>
+            
         );
     }
 }

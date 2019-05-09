@@ -226,7 +226,7 @@ a:hover
 .list-notice{
   color:#FF5370;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 11px;
 }
 .panel-primary >.panel-heading {
     height: 40px;
@@ -581,6 +581,46 @@ input[type=select]{
   width:70%;
   padding:5px;
 }
+.csv-div{
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.div-top-link{
+  text-align: "right";
+  padding-bottom: 4px;
+  padding-top: 10px;
+  padding-right: 10px;
+}
+.div-top-link a{
+  padding-left:15px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.div-table{
+  height: 200px;
+  width:500px;
+  overflow-y: "scroll";
+  margin-left:5px;
+
+}
+.table-list tr{
+  border-bottom: 1px dotted #ccc;
+}
+.table-list td{
+  font-size: 11px;
+}
+.table-list th{
+  font-size: 11px;
+}
+.table-list tr:hover {
+  background-color: #a8f1a8;
+}
+.tab-main-container{
+  margin:5px;
+}
+.error{
+  color:#FF5370;
+}
 
 #toast-container.toast-top-full-width>.toast {
   max-width: 570px;
@@ -596,4 +636,45 @@ input[type=select]{
   background-color: #35c8c3;
   opacity:1;
   box-shadow:0px 0px 10px rgba(0,0,0,0.4);
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #008CBA;
+  border: none;
+  border-radius: 7px;
+  box-shadow: 0 5px #999;
+}
+
+.button:hover {
+  background-color: #68dbf0;
+}
+.button:active {
+  background-color: #008CBA;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.custom-ui{
+    text-align: center;
+    width: 500px;
+    padding: 20px;
+    /*background: #28bae6;*/
+    background: #1abc42;
+    box-shadow: 0 20px 75px rgba(0, 0, 0, 0.23);
+    color: #fff;
+    border-radius: 5px;
+}
+.custom-ui button{
+  background: #1abc42;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  color:#fff;
+  cursor: pointer;
 }

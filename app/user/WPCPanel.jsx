@@ -5,7 +5,7 @@ import axios from 'axios';
 import Multiselect from 'react-multiselect-checkboxes';
 
 import toastr from 'toastr';
-import 'toastr/build/toastr.min.css'
+import 'toastr/build/toastr.min.css';
 
  
 import ResultComponent from './ResultComponent';
@@ -231,6 +231,10 @@ export default class WPCPanel extends React.Component {
         
         if(this.state.selectedPeriod.length == 0){
             this.launchToastr("Please, select a year first before calculating.");
+            return;
+        }
+        if(typeof(this.state.selectedFacilities) == 'undefined'){
+            this.launchToastr("No facility selected.");
             return;
         }
         //ALSO TEST facilities and cadres to make sure they are not empty

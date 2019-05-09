@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Panel, Form, FormGroup, ControlLabel, Button, FormControl, Col, Checkbox, Table } from 'react-bootstrap';
-import { ToastContainer, ToastStore } from 'react-toasts';
+import axios from 'axios';
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
 
 export default class BulkAddingComponent extends React.Component {
 
@@ -15,10 +17,18 @@ export default class BulkAddingComponent extends React.Component {
             treatmentInputs: {},
             treatmentDict: {},
             treatmentToggle: false,
-            treatmentsSelected: {},
-            
+            treatmentsSelected: {}, 
+            cadreId:0,
+        }        
+    }
+    launchToastr(msg){
+        toastr.options = {
+          positionClass : 'toast-top-full-width',
+          hideDuration: 15,
+          timeOut: 6000
         }
-        
+        toastr.clear()
+        setTimeout(() => toastr.error(msg), 300)
     }
     filterTreatments() {
         return this.props.treatments.filter(treatment => {
@@ -71,7 +81,7 @@ export default class BulkAddingComponent extends React.Component {
             if (!this.existInDB(treatment.id)) {
                 this.state.selectedTreatments.push(treatment);
             } else {
-                ToastStore.warning('This treatment has already been added to the selected cadre', 10000);
+                this.launchToastr('This treatment has already been added to the selected cadre');
             }
 
         } else {
@@ -80,16 +90,40 @@ export default class BulkAddingComponent extends React.Component {
 
         this.setState({ treatmentInputs: treatmentInputs });
     }
+    cadreSelected(cadreId){
+
+        let treatmentInputs={};
+        let selectedTreatments=[];
+
+        axios.get(`/admin/activities_cadres/${cadreId}`).then(res => {
+
+            let data = res.data;
+
+            data.forEach(row => {
+                selectedTreatments.push({
+                    id:row.activityId,
+                    activityName:row.activityName
+                });
+                treatmentInputs[row.activityId]=true;
+            });
+            this.setState({
+                treatmentInputs:treatmentInputs,
+                selectedTreatments:selectedTreatments,
+                cadreId:cadreId,
+            });
+
+        }).catch(err => console.log(err));
+    }
 
     render() {
         return (
             <div>
-                <ToastContainer store={ToastStore} position={ToastContainer.POSITION.TOP_CENTER} />
                 <Panel bsStyle="primary" header="Bulk adding treatments to cadres">
                     <FormControl
                         componentClass="select"
-                        onChange={e => this.setState({ cadreId: e.target.value })}
+                        onChange={e => this.cadreSelected(e.target.value)}
                         value={this.state.cadreId}>
+                        <option value="0" key="000">Select value</option>
                         {Object.keys(this.props.cadres).map(cadre =>
                             <option
                                 key={this.props.cadres[cadre].id}
@@ -112,7 +146,7 @@ export default class BulkAddingComponent extends React.Component {
                             value={this.state.treatmentFilter}
                             onChange={e => this.setState({ treatmentFilter: e.target.value })} />
                         <br />
-                        <Table bordered hover>
+                        <table className="table-list">
                             <thead>
                                 <tr>
                                     <th style={{ width: "7%" }}>
@@ -138,14 +172,14 @@ export default class BulkAddingComponent extends React.Component {
                                     </tr>
                                 )}
                             </tbody>
-                        </Table>
+                        </table>
                     </div>
                     <div id="d3">
 
                     </div>
                     <div id="d2">
                         <p className="list-notice">{this.state.selectedTreatments.length} treatments.</p>
-                        <Table bordered hover>
+                        <table className="table-list">
                             <thead>
                                 <tr>
                                     {/*<th style={{ width: "7%" }}></th>*/}
@@ -162,13 +196,14 @@ export default class BulkAddingComponent extends React.Component {
                                     </tr>
                                 )}
                             </tbody>
-                        </Table>
+                        </table>
                     </div>
                 </div>
                 <div className="div-btn-bulk">
                     <Button bsSize="medium" bsStyle="warning" className="btn-bulk" onClick={() => this.props.cancel()}>Cancel</Button>
                     <Button bsSize="medium" bsStyle="warning" className="btn-bulk" onClick={() => this.props.save(this.state)}>Save</Button>
                 </div>
+                <br/>
             </div >
         );
     }

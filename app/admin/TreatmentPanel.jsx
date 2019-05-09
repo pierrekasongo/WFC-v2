@@ -4,9 +4,11 @@ import { Panel, Form, FormGroup, ControlLabel, Button, FormControl, Col, Row, Ra
 import * as axios from 'axios';
 import { Route, Redirect, Switch, Link } from 'react-router-dom';
 
+
 import NewTreatmentComponent from './NewTreatmentComponent';
 import TreatmentComponent from './TreatmentComponent';
 import BulkAddingComponent from './BulkAddingComponent';
+import FromCSVComponent from './FromCSVComponent';
 
 export default class TreatmentPanel extends React.Component {
 
@@ -27,28 +29,35 @@ export default class TreatmentPanel extends React.Component {
             treatments: [],
             showingNewTreatment: false,
             showingBulkAdding: false,
+            showingAddFromCSV:false,
             showingNewStep: false,
             treatmentSteps: [],
             treatmentFilter: "",
             treatment_stats: {},
-           /* csvData: [
-                ["firstname", "lastname", "email"],
-                ["Ahmed", "Tomi", "ah@smthing.co.com"],
-                ["Raed", "Labes", "rl@smthing.co.com"],
-                ["Yezzi", "Min l3b", "ymin@cocococo.com"]
-            ],*/
         };
 
-        axios.get('/user/selected_facilities')
-            .then(res => this.setState({ facilities: res.data }))
-            .catch(err => console.log(err));
+        axios.get('/user/selected_facilities') .then(res => {
+
+            this.setState({ facilities: res.data});
+            
+        }).catch(err => {
+            if(err.response.status === 401){
+                this.props.history.push(`/login`);
+            }
+        });
 
         axios.get('/admin/activities_cadres')
-            .then(res => this.setState({ treatments_cadres: res.data }))
-            .catch(err => console.log(err));
+            .then(res => { 
+                this.setState({ treatments_cadres: res.data });
+            }).catch(err => {
+                if(err.response.status === 401){
+                    this.props.history.push(`/login`);
+                }
+            });
         /*axios.get('/admin/treatments').then(res => this.setState({ treatments: res.data }))
             .catch(err => console.log(err));*/
         axios.get('/admin/activities').then(res => {
+
             let treatments = res.data;
             let csvData = res.data;
 
@@ -59,14 +68,22 @@ export default class TreatmentPanel extends React.Component {
 
             //console.log(this.state.csvData);
 
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            if(err.response.status === 401){
+                this.props.history.push(`/login`);
+            }
+        });
 
         axios.get('/user/cadres').then(res => {
             let cadres = res.data;
             this.setState({
                 cadres: cadres,
             });
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            if(err.response.status === 401){
+                this.props.history.push(`/login`);
+            }
+        });
 
     }
 
@@ -75,17 +92,28 @@ export default class TreatmentPanel extends React.Component {
         if (newProps.location != this.props.location
             && newProps.location.pathname.endsWith("admin")) {
             axios.get('/admin/activities')
-                .then(res => this.setState({ treatments: res.data }))
-                .catch(err => console.log(err));
+                .then(res => {
+   
+                    this.setState({ treatments: res.data })
+                }).catch(err => {
+                    if(err.response.status === 401){
+                        this.props.history.push(`/login`);
+                    }
+                });
         }
     }
     deleteTreatment(id) {
         //console.log(id);
         axios.delete(`/admin/activities_cadres/${id}`).then(() => {
+   
             let treatments_cadres = this.state.treatments_cadres;
             delete treatments_cadres[id];
             this.setState({ treatments_cadres: treatments_cadres });
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            if(err.response.status === 401){
+                this.props.history.push(`/login`);
+            }
+        });
     }
 
 
@@ -113,14 +141,18 @@ export default class TreatmentPanel extends React.Component {
 
             this.setState({ treatments_cadres: treatments_cadres });
 
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            if(err.response.status === 401){
+                this.props.history.push(`/login`);
+            }
+        });
     }
 
     saveTreatmentsCadre(info) {
 
         info.selectedTreatments.map(treatment => {
 
-            let duration=1;
+            let duration=0;
 
             let data = {
 
@@ -137,7 +169,11 @@ export default class TreatmentPanel extends React.Component {
     
                 this.setState({ treatments_cadres: treatments_cadres });
     
-            }).catch(err => console.log(err));
+            }).catch(err => {
+                if(err.response.status === 401){
+                    this.props.history.push(`/login`);
+                }
+            });
         });
         this.setState({ showingBulkAdding: false }); 
         
@@ -153,6 +189,7 @@ export default class TreatmentPanel extends React.Component {
         let period = this.state.selectedPeriod;
 
         axios.get(`/admin/activities_stats`, {
+            
             params: {
                 cadreId: cadreId,
                 facilityCode: facilityCode,
@@ -160,9 +197,16 @@ export default class TreatmentPanel extends React.Component {
             }
         }).then(res => {
 
+            if(res.status !== 401){
+                this.props.history.push(`/login`);
+            }
             this.setState({ treatment_stats: res.data });
 
-        }).catch(err => console.log(err));
+        }).catch(err => {
+            if(err.response.status === 401){
+                this.props.history.push(`/login`);
+            }
+        });
     }
 
     downloadFile() {
@@ -219,24 +263,40 @@ export default class TreatmentPanel extends React.Component {
     renderTreatments() {
 
         return ([
-            <div>
+            <div style={{marginLeft:10, marginRight:10}}>
                 
-                    <div style={{ textAlign: "right", paddingBottom: 4, paddingTop: 10 }}>
+                    <div className="div-top-link" style={{ textAlign: "right", paddingBottom: 4, paddingTop: 10 }}>
                         
                         {
-                            !this.state.showingBulkAdding &&
+                            !this.state.showingBulkAdding && !this.state.showingAddFromCSV &&
                             <a href="#" onClick={() => this.setState({ showingBulkAdding: true })}>
                                     Bulk add treatments to cadre
                             </a>
                         }
-                        &nbsp;{"|"}&nbsp;
+
                         {
-                            !this.state.showingBulkAdding &&   
+                            !this.state.showingBulkAdding &&  !this.state.showingAddFromCSV &&
                             <a href="#" onClick={() => this.setState({ showingNewTreatment: true })}>
-                                Add treatment to cadre
+                                Add single treatment to cadre
+                            </a>
+                        }
+                        {
+                            !this.state.showingBulkAdding && !this.state.showingAddFromCSV &&
+                            <a href="#" onClick={() => this.setState({ showingAddFromCSV: true })}>
+                                Add time from csv file
                             </a>
                         }
                     </div>
+                    {
+                        //Show add from csv
+                        this.state.showingAddFromCSV &&
+                        <FromCSVComponent
+                            cadres={this.state.cadres}
+                            treatments={this.state.treatments}
+                            treatments_cadres={this.state.treatments_cadres}
+                            save={info => this.saveTreatmentsCadre(info)}
+                            cancel={() => this.setState({ showingAddFromCSV: false })} />
+                    }
                     {
                         //Show the add in bulk form
                         this.state.showingBulkAdding &&
@@ -248,12 +308,18 @@ export default class TreatmentPanel extends React.Component {
                             cancel={() => this.setState({ showingBulkAdding: false })} />
                     }
                     <br />
+                    {
+                        !this.state.showingAddFromCSV && !this.state.showingBulkAdding &&
                     <div>
                         <FormControl type="text" placeholder="filter by cadres" value={this.state.treatmentFilter}
                             onChange={e => this.setState({ treatmentFilter: e.target.value })} />
 
                     </div>
+                   
+                    }
                     <br />
+                    {
+                        !this.state.showingAddFromCSV &&  !this.state.showingBulkAdding &&
                     <Table bordered hover>
                         <thead>
                             <tr>
@@ -289,7 +355,7 @@ export default class TreatmentPanel extends React.Component {
 
                         </tbody>
                     </Table>
-                
+                }
             </div>
         ]
         );

@@ -3,12 +3,18 @@ const sql = require('mysql');
 const db=require('../dbconn');
 const path=require('path');
 const stringify=require('csv-stringify');
+const fileUpload = require('express-fileupload');
+const fs = require('fs');
+const csv = require('csv');
+const mime=require('mime');
 
-const fs=require('fs');
-const mime=require('mime')
+const withAuth=require('./middleware');
+
 let router = express.Router();
 
-router.post('/activities/:activity', (req, res) => {
+router.use(fileUpload(/*limits: { fileSize: 50 * 1024 * 1024 },*/));
+
+router.post('/activities/:activity',withAuth, (req, res) => {
 
     //console.log(req.body.ratio)
 
@@ -29,8 +35,9 @@ router.post('/activities/:activity', (req, res) => {
     });
 });
 
+
 // update treatmnent info
-router.patch('/activities/:id', (req, res) => {
+router.patch('/activities/:id',withAuth, (req, res) => {
         /*new sql.Request()
         .input('Treatment', sql.NVarChar, req.body.treatment)
         .input('Ratio', sql.Float, req.body.ratio)
@@ -55,7 +62,7 @@ router.patch('/activities/:id', (req, res) => {
         .catch(err => res.sendStatus(500))*/
 });
 
-router.get('/activities_cadres', function(req, res){
+router.get('/activities_cadres',withAuth, function(req, res){
     
         db.query(`SELECT t.id AS treatmentId, at.id, activityName, minutesPerPatient AS duration,
                      c.cadreName AS cadre,c.id AS cadreId FROM activity_time at, activities t,
@@ -80,7 +87,7 @@ router.get('/activities_cadres', function(req, res){
         });
 });
 
-router.get('/activities_stats', function(req, res){
+router.get('/activities_stats',withAuth, function(req, res){
 
     let facilityCode=req.query.facilityCode.split("|")[0];
 
@@ -112,7 +119,7 @@ router.get('/activities_stats', function(req, res){
     });
 });
 
-router.post('/activities_cadres/:duration', (req, res) => {
+router.post('/activities_cadres/:duration',withAuth, (req, res) => {
 
     var cadreId=parseInt(req.body.cadreId.toString());
     var activityId=parseInt(req.body.treatmentId.toString())
@@ -120,7 +127,8 @@ router.post('/activities_cadres/:duration', (req, res) => {
 
     var countryId=52;
     
-    db.query(`INSERT INTO activity_time (countryId, activityId,cadreId,minutesPerPatient) VALUES (`+countryId+`,`+activityId+`,`+cadreId+`,`+duration+`); 
+    db.query(`INSERT INTO activity_time (countryId, activityId,cadreId,minutesPerPatient) 
+    VALUES (`+countryId+`,`+activityId+`,`+cadreId+`,`+duration+`); 
     SELECT t.id, t.activityName, minutesPerPatient AS duration, c.cadreName AS cadre FROM activity_time ts, activities t,
     cadre c WHERE ts.activityId = t.id AND c.id=ts.cadreId`,function(error,results){
                 if(error)throw error;
@@ -139,7 +147,7 @@ router.post('/activities_cadres/:duration', (req, res) => {
         });
 });
 
-router.patch('/activity_duration/:id', (req, res) => {
+router.patch('/activity_duration/:id',withAuth, (req, res) => {
 
     var id = parseInt(req.params.id.toString());
 
@@ -152,7 +160,7 @@ router.patch('/activity_duration/:id', (req, res) => {
 
 });
 
-router.post('/write_csv/:id', (req, res) => {
+router.post('/write_csv/:id',withAuth, (req, res) => {
 
     let selectedCadreId=parseInt(req.params.id.toString());
 
@@ -213,7 +221,7 @@ router.post('/write_csv/:id', (req, res) => {
 });
 
 // delete treatment
-router.delete('/activities_cadres/:id', (req, res) => {
+router.delete('/activities_cadres/:id',withAuth, (req, res) => {
 
     var id=parseInt(req.params.id.toString());
 
@@ -225,7 +233,21 @@ router.delete('/activities_cadres/:id', (req, res) => {
         });
 });
 
-router.get('/activities', function(req, res){
+router.get('/activities_cadres/:cadreId',withAuth, (req, res) => {
+
+    var cadreId=parseInt(req.params.cadreId);
+
+    db.query(`SELECT at.activityId as activityId, act.activityName as activityName, 
+                at.cadreId as cadreId, c.cadreName as cadreName, at.minutesPerPatient as duration FROM 
+                activity_time at, activities act, cadre c WHERE 
+                at.activityId=act.id AND at.cadreId=c.id AND 
+                cadreId=${cadreId}`,function(error,results,fields){
+        if(error)res.sendStatus(500);
+        res.json(results);
+    });
+});
+
+router.get('/activities',withAuth, function(req, res){
     
     db.query(`SELECT id, activityName, ratio FROM  activities;`,function(error,results,fields){
     //db.query(`SELECT activityName FROM  activities;`,function(error,results,fields){
@@ -236,7 +258,7 @@ router.get('/activities', function(req, res){
     });
 });
 
-router.get('/count_activities', function(req, res){
+router.get('/count_activities',withAuth, function(req, res){
     
     db.query(`SELECT COUNT(id) AS nb FROM  activities;`,function(error,results,fields){
         if(error) throw error;
@@ -245,5 +267,48 @@ router.get('/count_activities', function(req, res){
                         //res.json(treatments);
     });
 });
+
+router.post('/upload_activity_time',withAuth, function (req, res) {
+
+    let countryId = 52;
+
+    if (!req.files)
+        return res.status(400).send('No files were uploaded');
+    //The name of the input field
+    let file = req.files.file;
+
+    let filename = 'time_on_treatment.csv';
+
+    file.mv(`${__dirname}` + path.sep + 'uploads' + path.sep + 'dhis2' + path.sep + `${filename}`, function (err) {
+        if (err)
+            return res.status(500).send(err);
+        res.status(200).send('File uploaded successfully');
+    });
+
+    let sql = "";
+
+    var obj = csv();
+
+    obj.from.path(`${__dirname}` + path.sep + 'uploads' + path.sep + 'dhis2' + path.sep + `${filename}`).to.array(function (data) {
+
+            for (var index = 1; index < data.length; index++) {
+
+                let cadreId = data[index][0];
+
+                let activityId = data[index][2];
+
+                let duration = data[index][4];
+
+                sql += `UPDATE activity_time SET minutesPerPatient=${duration} WHERE cadreId=${cadreId} 
+                        AND activityId=${activityId} AND countryId=${countryId};`;
+            }
+
+            /*db.query(sql, function (error, results) {
+                if (error) throw error;
+                res.status(200);
+            });*/
+    });
+
+})
 
 module.exports = router;
