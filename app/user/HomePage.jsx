@@ -3,7 +3,7 @@ import Collapsible from 'react-collapsible';
 import { Panel, Form, FormGroup, ControlLabel, FormControl, Col, Checkbox,PanelGroup,Accordion } from 'react-bootstrap';
 import {Draggable,Droppable} from 'react-drag-and-drop';
 import axios from 'axios';
-//import CheckboxTree from 'react-checkbox-tree';
+import {FaStethoscope,FaUserMd,FaClinicMedical,FaCapsules} from 'react-icons/fa';
 
 export default class HomePage extends React.Component {
 
@@ -22,7 +22,6 @@ export default class HomePage extends React.Component {
         /*axios.get('/admin/count')
             .then(res => this.setState({ count: res.nb }))
             .catch(err => console.log(err));*/
-
 
         axios.get('/admin/count_activities').then(res => {
                 this.setState({
@@ -76,7 +75,7 @@ export default class HomePage extends React.Component {
                                     <div class="card-block">
                                         <h6 class="m-b-20">Cadres</h6>
                                         <h2 class="text-right">
-                                            <i class="fa fa-stethoscope f-left"></i>
+                                            <FaStethoscope />
                                             <span>
                                                 <a href="#">
                                                     {this.state.cadres.length}
@@ -110,7 +109,7 @@ export default class HomePage extends React.Component {
                                 <div class="card bg-c-blue order-card">
                                     <div class="card-block">
                                         <h6 class="m-b-20">Treatments</h6>
-                                        <h2 class="text-right"><i class="fa fa-stethoscope f-left"></i><span>{this.state.activitiesCount}</span></h2>
+                                        <h2 class="text-right"><FaCapsules /><span>{this.state.activitiesCount}</span></h2>
                                         {/*<p class="m-b-0">Completed Orders<span class="f-right">351</span></p>*/}
                                     </div>
                                 </div>
@@ -120,7 +119,7 @@ export default class HomePage extends React.Component {
                                 <div class="card bg-c-green order-card">
                                     <div class="card-block">
                                         <h6 class="m-b-20">Facilities</h6>
-                                        <h2 class="text-right"><i class="fas fa-clinic-medical"></i><span>{this.state.facilitiesCount}</span></h2>
+                                        <h2 class="text-right"><FaClinicMedical /><span>{this.state.facilitiesCount}</span></h2>
                                         {/*<p class="m-b-0">Completed Orders<span class="f-right">351</span></p>*/}
                                     </div>
                                 </div>

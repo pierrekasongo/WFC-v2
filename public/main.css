@@ -597,9 +597,8 @@ input[type=select]{
   text-decoration: underline;
 }
 .div-table{
-  height: 200px;
-  width:500px;
-  overflow-y: "scroll";
+  height: 400px;
+  overflow-y: auto;
   margin-left:5px;
 
 }
@@ -607,10 +606,10 @@ input[type=select]{
   border-bottom: 1px dotted #ccc;
 }
 .table-list td{
-  font-size: 11px;
+  font-size: 12px;
 }
 .table-list th{
-  font-size: 11px;
+  font-size: 12px;
 }
 .table-list tr:hover {
   background-color: #a8f1a8;
@@ -677,4 +676,55 @@ input[type=select]{
   border-radius: 5px;
   color:#fff;
   cursor: pointer;
+}
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn {
+  /*border: 2px solid #FF5370;
+  color: #FF5370;*/
+  
+  border: 1px solid #FFB64D;
+  color:#fff;
+  background-color: #FFB64D;
+  padding: 10px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.btn:hover {
+  border: 1px solid #FFB64D;
+  color:#FFB64D;
+  background-color:#fff ;
+}
+.btn:active {
+  border: 1px solid #FFB64D;
+  color:#FFB64D;
+  background-color:#fff ;
+}
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+.div-add-new-link{
+  float: left;
+}
+.add-new-link{
+  background:#008CBA;
+  font-size: 10px;
+  color:#fff;
+  padding:3px;
+  border-radius: 3px;
+}
+.add-new-link:hover {
+  border:1px solid #008CBA;
+  background:#fff;
+  color:#008CBA;
+  padding:3px;
 }

@@ -8,7 +8,13 @@ import "react-tabs/style/react-tabs.css";
 import InlineEdit from 'react-edit-inline2';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import {FaTrash,FaCloudUploadAlt } from 'react-icons/fa';
+import {FaTrash,FaCloudUploadAlt,FaCheck,FaPlusSquare} from 'react-icons/fa';
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
+
+import StdNewCadreComponent from './StdNewCadreComponent';
+import StdNewTreatmentComponent from './StdNewTreatmentComponent';
+import CountryComponent from './CountryComponent';
 
 export default class MetadataComponent extends React.Component {
 
@@ -21,7 +27,9 @@ export default class MetadataComponent extends React.Component {
             cadreCode:'',
             progress:'',
             cadreToDelete:'',
-            treatmentToDelete:''
+            treatmentToDelete:'',
+            showingNewCadre:false,
+            showingNewTreatment:false
         };
         this.handleUploadCadre = this.handleUploadCadre.bind(this);
         this.handleUploadTreatment = this.handleUploadTreatment.bind(this);
@@ -30,7 +38,7 @@ export default class MetadataComponent extends React.Component {
         this.deleteTreatment = this.deleteTreatment.bind(this);
 
         axios.get('/metadata/cadres') .then(res => {
-            this.setState({cadres:res.data });    
+            this.setState({cadres:res.data});    
         }).catch(err => {
             console.log(err);
             if(err.response.status === 401){
@@ -43,6 +51,17 @@ export default class MetadataComponent extends React.Component {
         axios.get('/metadata/treatments') .then(res => {
             this.setState({treatments:res.data });    
         }).catch(err => {
+            if(err.response.status === 401){
+                this.props.history.push(`/login`);
+            }else{
+                console.log(err);
+            }
+        });
+
+        axios.get('/metadata/countries') .then(res => {
+            this.setState({countries:res.data});    
+        }).catch(err => {
+            console.log(err);
             if(err.response.status === 401){
                 this.props.history.push(`/login`);
             }else{
@@ -66,11 +85,16 @@ export default class MetadataComponent extends React.Component {
                   <button  onClick={onClose}>No</button> &nbsp;&nbsp;
                   <button 
                     onClick={() => {
-                      //this.handleClickDelete();
-                      axios.post(`/metadata/deleteCadre/${this.state.cadreToDelete}`)
+
+                      axios.delete(`/metadata/deleteCadre/${this.state.cadreToDelete}`)
                         .then((res) => {
+                            //Update cadres
                             axios.get('/metadata/cadres') .then(res => {
-                                this.setState({cadres:res.data });    
+                                this.setState({cadres:res.data});        
+                            }).catch(err => console.log(err));
+                            //Update treatments 
+                            axios.get('/metadata/treatments') .then(res => {
+                                this.setState({treatments:res.data });    
                             }).catch(err => console.log(err));
 
                         }).catch(err => {
@@ -88,41 +112,66 @@ export default class MetadataComponent extends React.Component {
               );
             }
           });
-
-        /*axios.post(`/metadata/deleteCadre/${code}`)
-            .then((res) => {
-                axios.get('/metadata/cadres') .then(res => {
-                    this.setState({cadres:res.data });    
-                }).catch(err => console.log(err));
-
-            }).catch(err => {
-                if(err.response.status === 401){
-                    this.props.history.push(`/login`);
-                }else{
-                    console.log(err);
-                }
-            });*/
     }
+
     deleteTreatment(code){
-        axios.post(`/metadata/deleteTreatment/${code}`)
-            .then((res) => {
-                axios.get('/metadata/treatments') .then(res => {
-                    this.setState({treatments:res.data });    
-                }).catch(err => console.log(err));
 
-            }).catch(err => {
-                if(err.response.status === 401){
-                    this.props.history.push(`/login`);
-                }else{
-                    console.log(err);
-                }
-            });
+        this.setState({
+            treatmentToDelete:code
+        });
+        confirmAlert({
+            customUI: ({ onClose }) => {
+              return (
+                <div className='custom-ui'>
+                  <h3>Confirmation</h3>
+                  <p>Are you sure you want to delete this treatment?</p>
+                  <button  onClick={onClose}>No</button> &nbsp;&nbsp;
+                  <button 
+                    onClick={() => {
+
+                      axios.delete(`/metadata/deleteTreatment/${this.state.treatmentToDelete}`)
+                        .then((res) => {
+                            //Update cadres
+                            axios.get('/metadata/treatments') .then(res => {
+                                this.setState({treatments:res.data});        
+                            }).catch(err => console.log(err));
+                        }).catch(err => {
+                            if(err.response.status === 401){
+                                this.props.history.push(`/login`);
+                            }else{
+                                console.log(err);
+                            }
+                        });
+                      onClose();
+                    }}>
+                    Yes, Delete it!
+                  </button>
+                </div>
+              );
+            }
+          });
     }
+
+    launchToastr(msg){
+        toastr.options = {
+          positionClass : 'toast-top-full-width',
+          hideDuration: 15,
+          timeOut: 6000
+        }
+        toastr.clear()
+        setTimeout(() => toastr.error(msg), 300)
+    }
+
     handleUploadTreatment(ev) {
 
         ev.preventDefault();
 
         const data = new FormData();
+
+        if(this.uploadTreatmentInput.files.length == 0){
+            this.launchToastr("No file selected");
+            return;
+        }
         data.append('file', this.uploadTreatmentInput.files[0]);
 
         axios.post('/metadata/uploadTreatments', data,
@@ -155,6 +204,11 @@ export default class MetadataComponent extends React.Component {
 
         const data = new FormData();
 
+        if(this.uploadCadreInput.files.length == 0){
+            this.launchToastr("No file selected");
+            return;
+        }
+
         data.append('file', this.uploadCadreInput.files[0]);
 
         axios.post('/metadata/uploadCadres', data,
@@ -182,6 +236,8 @@ export default class MetadataComponent extends React.Component {
     }
 
     filterTreatement(cadreCode){
+
+        this.setState({showingNewTreatment:false});
         
         axios.get(`/metadata/treatments/${cadreCode}`) .then(res => {
             this.setState({treatments:res.data });    
@@ -265,6 +321,73 @@ export default class MetadataComponent extends React.Component {
             }
         });
     }
+
+    newCadreSave(info){
+
+        let code=info.code;
+        let name_fr=info.name_fr;
+        let name_en=info.name_en;
+        
+        let data = {
+            code:code,
+            name_fr:name_fr,
+            name_en:name_en
+        };
+
+        //Insert cadre in the database
+        axios.post('/metadata/insertCadre',data).then(res => {
+            //Update the cadres list
+            axios.get('/metadata/cadres') .then(res => {
+                this.setState({
+                    cadres:res.data,
+                    showingNewCadre: false
+                });    
+            }).catch(err => console.log(err));
+
+        }).catch(err => {
+            if(err.response.status === 401){
+                this.props.history.push(`/login`);
+            }else{
+                console.log(err);
+            }
+        });
+    }
+
+    newTreatmentSave(info){
+
+        let code=info.code;
+        let cadre_code=info.cadre_code;
+        let name_fr=info.name_fr;
+        let name_en=info.name_en;
+        let duration=info.duration;
+        
+        let data = {
+            code:code,
+            cadre_code:cadre_code,
+            name_fr:name_fr,
+            name_en:name_en,
+            duration:duration
+        };
+
+        //Insert cadre in the database
+        axios.post('/metadata/insertTreatment',data).then(res => {
+            //Update the cadres list
+            axios.get('/metadata/treatments') .then(res => {
+                this.setState({
+                    treatments:res.data,
+                    showingNewTreatment: false
+                });    
+            }).catch(err => console.log(err));
+
+        }).catch(err => {
+            if(err.response.status === 401){
+                this.props.history.push(`/login`);
+            }else{
+                console.log(err);
+            }
+        });
+    }
+
     render() {
         return (
             <Panel bsStyle="primary" header="Metadata configuration">
@@ -272,6 +395,7 @@ export default class MetadataComponent extends React.Component {
                     <TabList>
                         <Tab>Standard cadres</Tab>
                         <Tab>Standard treatments</Tab>
+                        <Tab>Countries</Tab>
                     </TabList>
 
                     <TabPanel>
@@ -279,18 +403,29 @@ export default class MetadataComponent extends React.Component {
                             Available standard cadres ({this.state.cadres.length})
                             <hr/>
                             <div className="div-table">
+                                <div className="div-add-new-link">
+                                    <a href="#" className="add-new-link" onClick={() => this.setState({showingNewCadre:true})}>
+                                        <FaPlusSquare /> Add new
+                                    </a>
+                                </div>
+                                <br/>
                                 <table className="table-list">
                                     <thead>
                                         <tr>
-                                            <th style={{ width: "26%" }}>Code</th>
-                                            <th style={{ width: "37%" }}>Name (fr)</th>
-                                            <th style={{ width: "37%" }}>Name (en)</th>
-                                            <th></th>
+                                            <th>Code</th>
+                                            <th>Name (fr)</th>
+                                            <th>Name (en)</th>
+                                            <th colSpan="2"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {this.state.cadres.map(cadre => 
-
+                                        {
+                                            this.state.showingNewCadre &&
+                                            <StdNewCadreComponent
+                                                    save={info => this.newCadreSave(info)}
+                                                    cancel={() => this.setState({ showingNewCadre: false })} />
+                                        }
+                                        {this.state.cadres.map(cadre =>                 
                                             <tr key={cadre.id} >
                                                 <td>
                                                     {cadre.code}
@@ -343,13 +478,14 @@ export default class MetadataComponent extends React.Component {
                                                         </a>
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td colSpan="3">
                                                     <a href="#" onClick={() => this.deleteCadre(`"${cadre.code}"`)}> 
                                                         <FaTrash />
                                                     </a>
                                                 </td>
-                                            </tr>
+                                            </tr>                        
                                         )}
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -359,16 +495,21 @@ export default class MetadataComponent extends React.Component {
                                     <div class="alert alert-warning" role="alert">
                                         Make sure it's a csv file with following headers and order. <br />
                                         Also note that every duplicate code will update the existing value.<br />
-                                        ["Code", "Name fr", "Name en"]
+                                        <b>"Code", "Name fr", "Name en"</b>
                                     </div>
                                     <form onSubmit={this.handleUploadCadre}>
-                                        <div>
+                                        {/*<div>
+                                            <input ref={(ref) => { this.uploadCadreInput = ref; }} type="file" />
+                                        </div>*/}
+                                        <div class="upload-btn-wrapper">
+                                            <button class="btn"><FaCloudUploadAlt /> Choose file...</button>
                                             <input ref={(ref) => { this.uploadCadreInput = ref; }} type="file" />
                                         </div>
                                         <br />
+                                        <br />
                                         <div>
                                             <span>
-                                                <button className="button"><FaCloudUploadAlt /> Upload file</button><span> {this.state.progress}</span>
+                                                <button className="button"><FaCheck /> Upload file</button><span> {this.state.progress}</span>
                                             </span>
                                         </div>
                                     </form>
@@ -390,7 +531,7 @@ export default class MetadataComponent extends React.Component {
                                                 <option
                                                     key={cadre.code}
                                                     value={cadre.code}>
-                                                    {cadre.name_fr}
+                                                    {cadre.name_fr+'/'+cadre.name_en}
                                                 </option>
                                             )}
                                     </FormControl>
@@ -398,22 +539,40 @@ export default class MetadataComponent extends React.Component {
                             </FormGroup>
                             <hr/>
                             <div className="div-table">
+                                <div className="div-add-new-link">
+                                    <a href="#" className="add-new-link" onClick={() => this.setState({showingNewTreatment:true})}>
+                                        <FaPlusSquare /> Add new
+                                    </a>
+                                </div>
+                                <br/>
                                 <table className="table-list">
                                     <thead>
                                         <tr>
-                                            <th style={{ width: "26%" }}>Code</th>
-                                            <th style={{ width: "32%" }}>Name (fr)</th>
-                                            <th style={{ width: "32%" }}>Name (en)</th>
-                                            <th style={{ width: "10%" }}>duration (min)</th>
-                                            <th></th>
+                                            <th>Code</th>
+                                            <th>Cadre</th>
+                                            <th>Name (fr)</th>
+                                            <th>Name (en)</th>
+                                            <th>duration (min)</th>
+                                            <th colSpan="2">                                               
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {
+                                            this.state.showingNewTreatment &&
+                                            <StdNewTreatmentComponent
+                                                    cadres={this.state.cadres}
+                                                    save={info => this.newTreatmentSave(info)}
+                                                    cancel={() => this.setState({ showingNewTreatment: false })} />
+                                        }
                                         {this.state.treatments.map(treatment => 
 
                                             <tr key={treatment.id} >
                                                 <td>
                                                     {treatment.code}
+                                                </td>
+                                                <td>
+                                                    {treatment.cadre}
                                                 </td>
                                                 <td>
                                                     {/*treatment.name_fr*/}
@@ -470,7 +629,7 @@ export default class MetadataComponent extends React.Component {
                                                             <InlineEdit
                                                                 validate={this.validateNumericValue}
                                                                 activeClassName="editing"
-                                                                text={treatment.duration}
+                                                                text={treatment.duration+``}
                                                                 paramName={treatment.code+'_duration'}
                                                                 change={this.handleTreatmentChange}
                                                                 style={{
@@ -487,7 +646,7 @@ export default class MetadataComponent extends React.Component {
                                                         </a>
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td colSpan="2">
                                                     <a href="#" onClick={() => this.deleteTreatment(`"${treatment.code}"`)}> 
                                                         <FaTrash />
                                                     </a>
@@ -503,16 +662,21 @@ export default class MetadataComponent extends React.Component {
                                     <div class="alert alert-warning" role="alert">
                                         Make sure it's a csv file with following headers and order. <br />
                                         Also note that every duplicate code will update the existing value.<br />
-                                        ["Code", "Cadre code","Name fr", "Name en","duration(min)"]
+                                        <b>"Code", "Cadre code","Name fr", "Name en","duration(min)"</b>
                                     </div>
                                     <form onSubmit={this.handleUploadTreatment}>
-                                        <div>
-                                            <input ref={(ref) => { this.uploadTreatmentInput = ref; }} type="file" />
+                                        {/*<div>
+                                            <input ref={(ref) => { this.uploadTreatmentInput = ref; }} type="file" id="file" className="inputfile"/>
+                                            <label for="file">Choose a file</label>
+                                        </div>*/}
+                                        <div class="upload-btn-wrapper">
+                                            <button class="btn"><FaCloudUploadAlt /> Upload a file...</button>
+                                            <input ref={(ref) => { this.uploadTreatmentInput = ref; }} type="file" name="myfile" />
                                         </div>
                                         <br />
                                         <div>
                                             <span>
-                                                <button className="button"><FaCloudUploadAlt /> Upload file</button><span> {this.state.progress}</span>
+                                                <button className="button"><FaCheck /> Upload file</button><span> {this.state.progress}</span>
                                             </span>
                                         </div>
                                     </form>
@@ -520,6 +684,9 @@ export default class MetadataComponent extends React.Component {
                                 </div>
                             </Form >
                         </div>
+                    </TabPanel>
+                    <TabPanel>
+                        <CountryComponent countries={this.state.countries} />
                     </TabPanel>
                 </Tabs>
                 <br/>

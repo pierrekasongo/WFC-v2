@@ -18,7 +18,8 @@ import CadreTimePage from './user/CadreTimePage';
 import MetadataPage from './admin/MetadataComponent';
 //import Cookies from 'react-cookies';
 import Cookies from 'js-cookie';
-
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import {FaCogs,FaTachometerAlt,FaPlay,FaDatabase} from 'react-icons/fa';
 
 class App extends React.Component {
 
@@ -70,13 +71,13 @@ class App extends React.Component {
                                 
                                 <NavLink className="sign-out" to="/login"> Sign out ({this.state.username})</NavLink>
                                 
-                                <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/home">Dashboard</NavLink></NavItem>
-                                <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/start">Start</NavLink></NavItem>
-                                <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/metadata">Metadata</NavLink></NavItem>
+                                <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/home"><FaTachometerAlt /> Dashboard</NavLink></NavItem>
+                                <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/start"><FaPlay /> Start</NavLink></NavItem>
+                                <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/metadata"><FaDatabase/> Metadata</NavLink></NavItem>
 
                                 <NavItem className="link-wrapper" componentClass='span'>
                                     <NavLink activeClassName="active" to="/config">
-                                        <span class="glyphicon glyphicon-cog" aria-hidden="true">Config</span>
+                                        <span class="glyphicon glyphicon-cog" aria-hidden="true"><FaCogs /> Config</span>
                                     </NavLink>
                                 </NavItem>                       
                             </Nav>

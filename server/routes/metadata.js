@@ -22,9 +22,21 @@ router.get('/cadres'/*,withAuth,*/, function(req, res){
     });
 });
 
+
+router.get('/countries'/*,withAuth,*/, function(req, res){
+    
+    db.query(`SELECT * FROM  country;`,function(error,results,fields){
+        if(error) throw error;
+        res.json(results);
+    });
+});
+
 router.get('/treatments'/*,withAuth,*/, function(req, res){
     
-    db.query(`SELECT * FROM  std_treatment;`,function(error,results,fields){
+    db.query(`SELECT t.code AS code,CONCAT(c.name_fr,"/",c.name_en) AS cadre,
+            t.name_fr AS name_fr,t.name_en AS name_en, t.duration AS duration 
+            FROM  std_treatment t, std_cadre c 
+            WHERE t.cadre_code=c.code;`,function(error,results,fields){
         if(error) throw error;
         res.json(results);
     });
@@ -33,7 +45,20 @@ router.get('/treatments'/*,withAuth,*/, function(req, res){
 router.get('/treatments/:cadreCode',withAuth, function(req, res){
 
     let cadreCode=req.params.cadreCode; 
-    db.query(`SELECT * FROM  std_treatment WHERE cadre_code="${cadreCode}"`,function(error,results,fields){
+    db.query(`SELECT t.code AS code,CONCAT(c.name_fr,"/",c.name_en) AS cadre,
+                t.name_fr AS name_fr,t.name_en AS name_en, t.duration AS duration 
+                FROM  std_treatment t, std_cadre c 
+                WHERE t.cadre_code=c.code AND cadre_code="${cadreCode}"`,function(error,results,fields){
+        if(error) throw error;
+        res.json(results);
+    });
+});
+
+router.get('/countries/:id',withAuth, function(req, res){
+
+    let id=req.params.id; 
+
+    db.query(`SELECT * FROM  country WHERE id=${id}`,function(error,results,fields){
         if(error) throw error;
         res.json(results);
     });
@@ -43,7 +68,7 @@ router.delete('/deleteCadre/:code',withAuth, function(req, res){
 
     let code=req.params.code; 
 
-    db.query(`DELETE FROM  std_treatment WHERE cadre_code="${code}";DELETE FROM  std_cadre WHERE code="${code}";`,function(error,results,fields){
+    db.query(`DELETE FROM  std_treatment WHERE cadre_code=${code};DELETE FROM  std_cadre WHERE code=${code};`,function(error,results,fields){
         if(error) throw error;
         res.status(200).send("Deleted successfully");
     });
@@ -59,6 +84,59 @@ router.delete('/deleteTreatment/:code',withAuth, function(req, res){
     });
 });
 
+router.post('/insertCadre',withAuth, (req, res) => {
+
+    let code = req.body.code;
+
+    let name_fr = req.body.name_fr;
+
+    let name_en=req.body.name_en;
+
+    db.query(`INSERT INTO std_cadre(code,name_fr,name_en) VALUES("${code}","${name_fr}","${name_en}")`, 
+        function (error, results) {
+        if (error) throw error;
+        res.json(results);
+    });
+
+});
+
+router.post('/insertCountry',withAuth, (req, res) => {
+
+    let code = req.body.code;
+
+    let name_fr = req.body.name_fr;
+
+    let name_en=req.body.name_en;
+
+    db.query(`INSERT INTO country(code,name_fr,name_en) VALUES("${code}","${name_fr}","${name_en}")`, 
+        function (error, results) {
+        if (error) throw error;
+        res.json(results);
+    });
+
+});
+
+router.post('/insertTreatment',withAuth, (req, res) => {
+
+    let code = req.body.code;
+
+    let cadre_code=req.body.cadre_code;
+
+    let name_fr = req.body.name_fr;
+
+    let name_en = req.body.name_en;
+
+    let duration = parseInt(req.body.duration.string());
+
+    db.query(`INSERT INTO std_treatment(code,cadre_code,name_fr,name_en,duration) 
+                VALUES("${code}","${cadre_code}","${name_fr}","${name_en}",${duration})`, 
+        function (error, results) {
+        if (error) throw error;
+        res.json(results);
+    });
+
+});
+
 router.patch('/editCadre', (req, res) => {
 
     let code = req.body.code;
@@ -68,6 +146,23 @@ router.patch('/editCadre', (req, res) => {
     let param=req.body.param;
 
     db.query(`UPDATE std_cadre SET ${param} ="${value}" WHERE code ="${code}"`, function (error, results) {
+        if (error) throw error;
+        res.json(results);
+    });
+
+});
+
+router.patch('/editCountry', (req, res) => {
+
+    let id=req.body.id;
+
+    let code = req.body.code;
+
+    let value = req.body.value;
+
+    let param=req.body.param;
+
+    db.query(`UPDATE country SET ${param} ="${value}" WHERE id ="${id}"`, function (error, results) {
         if (error) throw error;
         res.json(results);
     });
