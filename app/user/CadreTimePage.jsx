@@ -2,6 +2,11 @@ import * as React from 'react';
 import Collapsible from 'react-collapsible';
 import { Panel, Form, FormGroup, ControlLabel, Row, FormControl, Col, Checkbox, Button, Table } from 'react-bootstrap';
 import axios from 'axios';
+import { FaCheck, FaTrash, FaEdit, FaCheckSquare } from 'react-icons/fa';
+import { confirmAlert } from 'react-confirm-alert';
+import toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
+import InlineEdit from 'react-edit-inline2';
 
 export default class CadreTimePage extends React.Component {
 
@@ -9,146 +14,383 @@ export default class CadreTimePage extends React.Component {
         super(props);
 
         this.state = {
-            cadres: [],
-            cadreDict: {},
-            cadreInputs: {},
-            
-            cadresSelected: {},
-            
-            cadreFilter: "",
-            cadreToggle: true,
+            stdCadres: [],
+            countryCadres: [],
+            cadreToDelete: '',
+            cadreMap: new Map(),
+            config:{},
         };
 
-        axios.get('/user/cadres').then(res => {
-            let cadres = res.data;
+        axios.get('/countrycadre/cadres').then(res => {
 
-            let cadreInputs = {};
-            let cadreDict = {};
-            cadres.forEach(cadre => {
-                let hours = (cadre.Hours > 0) ? cadre.Hours : 40;
-                let admin = (cadre.AdminTask > 0) ? cadre.AdminTask : 15;
-                cadreInputs[cadre.id] = {
-                    selected: false,
-                    hours: hours,
-                    adminPercentage: admin
+            let cadreMap = new Map();
+
+            res.data.forEach(cd => {
+
+                cadreMap.set(cd.std_code, "");
+            })
+            this.setState({
+
+                countryCadres: res.data,
+
+                cadreMap: cadreMap
+            });
+        }).catch(err => console.log(err));
+
+        axios.get('/configuration/getCountryHolidays').then(res => {
+
+            let config = {};
+
+            res.data.forEach(cf => {
+
+                config={
+                    id:cf.id,
+                    parameter:cf.parameter,
+                    value:cf.value
                 }
-                cadreDict[cadre.id] = cadre.name;
-                //cadresSelected[cadre.id]=true;
-            });
-            this.setState({
-                cadres: cadres,
-                cadreDict: cadreDict,
-                cadreInputs: cadreInputs,
-                //cadresSelected:cadresSelected
-            });
+            })
+            this.setState({config:config});
         }).catch(err => console.log(err));
     }
-    cadreHoursChanged(e, id) {
+    launchToastr(msg) {
+        toastr.options = {
+            positionClass: 'toast-top-full-width',
+            hideDuration: 15,
+            timeOut: 6000
+        }
+        toastr.clear()
+        setTimeout(() => toastr.error(msg), 300)
+    }
 
-        let cadreInputs = this.state.cadreInputs;
-        cadreInputs[id].hours = e.target.value;
-        this.setState({ cadreInputs: cadreInputs });
+    deleteCadre(code) {
+
+        this.setState({
+            cadreToDelete: code
+        });
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='custom-ui'>
+                        <h3>Confirmation</h3>
+                        <p>Are you sure you want to delete this cadre?</p>
+                        <button onClick={onClose}>No</button> &nbsp;&nbsp;
+                  <button
+                            onClick={() => {
+
+                                axios.delete(`/countrycadre/deleteCadre/${this.state.cadreToDelete}`)
+                                    .then((res) => {
+                                        axios.get('/countrycadre/cadres').then(res => {
+                                            let cadreMap = new Map();
+                                            res.data.forEach(cd => {
+                                                cadreMap.set(cd.std_code, "");
+                                            })
+                                            this.setState({
+                                                countryCadres: res.data,
+                                                cadreMap: cadreMap
+                                            });
+                                        }).catch(err => console.log(err));
+
+                                    }).catch(err => {
+                                        if (err.response.status === 401) {
+                                            this.props.history.push(`/login`);
+                                        } else {
+                                            console.log(err);
+                                        }
+                                    });
+                                onClose();
+                            }}>
+                            Yes, Delete it!
+                  </button>
+                    </div>
+                );
+            }
+        });
+    }
+
+    handleHolidaysChange(obj){
+
+        const id= Object.keys(obj)[0];
+
+        const value = Object.values(obj)[0];
 
         let data = {
-            hours: e.target.value,
+            id: id,
+            value: value,
         };
+        axios.patch('/configuration/config', data).then(res => {
 
-        axios.patch('/user/cadre/hours/' + id, data).then(res => {
-            this.setState({
-                results: res.data
-            });
+            axios.get('/configuration/getCountryHolidays').then(res => {
 
-        }).catch(err => console.log(err));
+            }).catch(err => console.log(err));
+
+        }).catch(err => {
+            if (err.response.status === 401) {
+                this.props.history.push(`/login`);
+            } else {
+                console.log(err);
+            }
+        });
     }
 
-    cadreAdminAmtChanged(e, id) {
-        let cadreInputs = this.state.cadreInputs;
-        cadreInputs[id].adminPercentage = e.target.value;
-        this.setState({ cadreInputs: cadreInputs });
+    handleCadreChange(obj) {
+
+        const ident = Object.keys(obj)[0].split("-");
+
+        const code = ident[0];
+
+        const param = ident[1];
+
+        const value = Object.values(obj)[0];
 
         let data = {
-            admin_task: e.target.value,
+            std_code: code,
+            param: param,
+            value: value,
         };
+        axios.patch('/countrycadre/editCadre', data).then(res => {
 
-        axios.patch('/user/cadre/admin_work/' + id, data).then(res => {
-            this.setState({
-                results: res.data
-            });
+            console.log('Value updated successfully');
 
-        }).catch(err => console.log(err));
-    }
-    filterCadres() {
-        return this.state.cadres.filter(cadre => {
-            let name = cadre['name'].toUpperCase();
-            let filter = this.state.cadreFilter.toUpperCase();
-            return name.indexOf(filter) > -1;
+        }).catch(err => {
+            if (err.response.status === 401) {
+                this.props.history.push(`/login`);
+            } else {
+                console.log(err);
+            }
         });
     }
 
     render() {
-        return(
-            <div>
-                <Panel bsStyle="primary" header="Cadre working time">
-                <FormGroup>
-                    <Col sm={10}>
-                        <Row>
-                            <Col xs={9}>
-                                <div  style={{padding:10}}>
-                                    <FormControl
-                                        type="text"
-                                        placeholder="filter cadres"
-                                        value={this.state.cadreFilter}
-                                        onChange={e => this.setState({ cadreFilter: e.target.value })} />
-                                </div>
-                                <div style={{ overflowY: "scroll", minHeight: 450, maxHeight: 450,paddingLeft:10 }}>
-                                    <Table striped hover>
-                                        <thead>
-                                            <tr>
-                                                <th style={{ width: "30%" }}>Cadre</th>
-                                                <th style={{ width: "10%" }}>Hours/Week</th>
-                                                <th style={{ width: "30%" }}>Percentage of time spent on administrative tasks</th>
-                                                <th style={{ width: "30%" }}></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {this.filterCadres().map(cadre =>
-                                                <tr key={cadre.id}>
-                                                    <td align="left">
-                                                        {cadre.name}
-                                                    </td>
-                                                    <td>
-                                                        <FormControl
-                                                            type="number"
-                                                            style={{ width: 75 }}
-                                                            disabled={!this.state.cadreInputs[cadre.id]}
-                                                            value={cadre.Hours}
-                                                            onChange={e => this.cadreHoursChanged(e, cadre.id)} />
-                                                    </td>
-                                                    <td>
-                                                        <FormControl
-                                                            type="number"
-                                                            style={{ width: 75 }}
-                                                            disabled={!this.state.cadreInputs[cadre.id]}
-                                                            value={cadre.AdminTask}
-                                                            onChange={e => this.cadreAdminAmtChanged(e, cadre.id)} />
-                                                    </td>
-                                                    <td>
-                                                        <Button bsStyle="warning" className="btn-bulk" bsSize="small" onClick={() => this.cancel()}>Edit</Button>
-                                                        <Button bsStyle="warning" className="btn-bulk" bsSize="small" onClick={() => this.cancel()}>Cancel</Button>
-                                                        <Button bsStyle="warning" className="btn-bulk" bsSize="small" onClick={() => this.save(this.state)}>Save</Button>
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Col>
-                </FormGroup>
-                <br/>
-                </Panel>
-            </div>
-        )}
+        return (
+            <div className="tab-main-container">
+                <Panel bsStyle="primary" header="Cadre working / not working time">
+                    <FormGroup>
+                        <Col componentClass={ControlLabel} sm={20}>
+                            <div className="div-title">
+                                <b>Cadre working and not working time</b> ({this.state.countryCadres.length})
+                            </div>
+                            <hr />
+                        </Col>
+                    </FormGroup>
 
+                    <FormGroup>
+                        <table>
+                            <tr>
+                                <td><b>Country public holidays: </b></td>
+                                <td>
+                                    <div>
+                                        <a href="#">
+                                            <InlineEdit
+                                                validate={this.validateTextValue}
+                                                activeClassName="editing"
+                                                text={this.state.config.value}
+                                                paramName={this.state.config.id}
+                                                change={this.handleHolidaysChange}
+                                                style={{
+                                                    minWidth: 100,
+                                                    display: 'inline-block',
+                                                    margin: 0,
+                                                    padding: 0,
+                                                    fontSize: 11,
+                                                    outline: 0,
+                                                    border: 0
+                                                }}
+                                            />
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </FormGroup>
+                    <br/>
+                    <table className="table-list" cellspacing="5">
+                        <thead>
+                            <tr>
+                                <th>Hris code  | </th>
+                                <th>Name | </th>
+                                <th>Days per week | </th>
+                                <th>Hours per day | </th>
+                                <th>Annual leave | </th>
+                                <th>Sick leave | </th>
+                                <th>Other leave | </th>
+                                <th>Admin task (%)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.countryCadres.map(cadre =>
+                                <tr key={cadre.std_code} >
+                                    <td>
+                                        <div>
+                                            <a href="#">
+                                                <InlineEdit
+                                                    validate={this.validateTextValue}
+                                                    activeClassName="editing"
+                                                    text={(cadre.hris_code.length == 0 ? 'match hris code' : cadre.hris_code)}
+                                                    paramName={cadre.std_code + '-hris_code'}
+                                                    change={this.handleCadreChange}
+                                                    style={{
+                                                        minWidth: 50,
+                                                        display: 'inline-block',
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        fontSize: 11,
+                                                        outline: 0,
+                                                        border: 0
+                                                    }}
+                                                />
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {cadre.name_fr + '/' + cadre.name_en}
+                                    </td>
+                                    <td align="center">
+                                        <div>
+                                            <a href="#">
+                                                <InlineEdit
+                                                    validate={this.validateTextValue}
+                                                    activeClassName="editing"
+                                                    text={"" + cadre.work_days}
+                                                    paramName={cadre.std_code + '-work_days'}
+                                                    change={this.handleCadreChange}
+                                                    style={{
+                                                        minWidth: 50,
+                                                        display: 'inline-block',
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        fontSize: 11,
+                                                        outline: 0,
+                                                        border: 0
+                                                    }}
+                                                />
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <div>
+                                            <a href="#">
+                                                <InlineEdit
+                                                    validate={this.validateTextValue}
+                                                    activeClassName="editing"
+                                                    text={"" + cadre.work_hours}
+                                                    paramName={cadre.std_code + '-work_hours'}
+                                                    change={this.handleCadreChange}
+                                                    style={{
+                                                        minWidth: 50,
+                                                        display: 'inline-block',
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        fontSize: 11,
+                                                        outline: 0,
+                                                        border: 0
+                                                    }}
+                                                />
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <div>
+                                            <a href="#">
+                                                <InlineEdit
+                                                    validate={this.validateTextValue}
+                                                    activeClassName="editing"
+                                                    text={"" + cadre.annual_leave}
+                                                    paramName={cadre.std_code + '-annual_leave'}
+                                                    change={this.handleCadreChange}
+                                                    style={{
+                                                        minWidth: 50,
+                                                        display: 'inline-block',
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        fontSize: 11,
+                                                        outline: 0,
+                                                        border: 0
+                                                    }}
+                                                />
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <div>
+                                            <a href="#">
+                                                <InlineEdit
+                                                    validate={this.validateTextValue}
+                                                    activeClassName="editing"
+                                                    text={"" + cadre.sick_leave}
+                                                    paramName={cadre.std_code + '-sick_leave'}
+                                                    change={this.handleCadreChange}
+                                                    style={{
+                                                        minWidth: 50,
+                                                        display: 'inline-block',
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        fontSize: 11,
+                                                        outline: 0,
+                                                        border: 0
+                                                    }}
+                                                />
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <div>
+                                            <a href="#">
+                                                <InlineEdit
+                                                    validate={this.validateTextValue}
+                                                    activeClassName="editing"
+                                                    text={"" + cadre.other_leave}
+                                                    paramName={cadre.std_code + '-other_leave'}
+                                                    change={this.handleCadreChange}
+                                                    style={{
+                                                        minWidth: 50,
+                                                        display: 'inline-block',
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        fontSize: 11,
+                                                        outline: 0,
+                                                        border: 0
+                                                    }}
+                                                />
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <div>
+                                            <a href="#">
+                                                <InlineEdit
+                                                    validate={this.validateTextValue}
+                                                    activeClassName="editing"
+                                                    text={"" + cadre.admin_task}
+                                                    paramName={cadre.std_code + '-admin_task'}
+                                                    change={this.handleCadreChange}
+                                                    style={{
+                                                        minWidth: 50,
+                                                        display: 'inline-block',
+                                                        margin: 0,
+                                                        padding: 0,
+                                                        fontSize: 11,
+                                                        outline: 0,
+                                                        border: 0
+                                                    }}
+                                                />
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="#" onClick={() => this.deleteCadre(cadre.std_code)}>
+                                            <FaTrash />
+                                        </a>
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                    <br />
+                    <br />
+                </Panel>
+                <br />
+            </div>
+        )
+    }
 };

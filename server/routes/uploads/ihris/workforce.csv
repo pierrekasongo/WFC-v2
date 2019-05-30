@@ -1,3 +1,2 @@
-"id","firstname","surname","facility_id","facility_code","cadre_id"
-"person|12000","erick","KANDE","facility|12","uehshd","cadre|2"
-"person|13000","andre","KAKUBU","facility|12","uehshd","cadre|2"
+"Facility code","Facility name","Cadre code", "Cadre name", "Staff count"
+"t1oLKzzdDW2","nu Karawa Urbain Centre de Santé","osnk9032i","Infirmier/Nurse",4

@@ -4,6 +4,8 @@ const db = require('../dbconn');
 
 let router = express.Router();
 
+let countryId=52;
+
 router.patch('/config', (req, res) => {
 
     let id = parseInt(req.body.id.toString());
@@ -14,14 +16,21 @@ router.patch('/config', (req, res) => {
         if (error) throw error;
         res.json(results);
     });
-
 });
 
 router.get('/configs', function (req, res) {
-    
-    let countryId=52;
 
     db.query(`SELECT id, parameter, value FROM  config WHERE country_id =`+countryId,
+        function (error, results, fields) {
+            if (error) throw error;
+            res.json(results);
+    });
+});
+
+router.get('/getCountryHolidays', function (req, res) {
+
+    db.query(`SELECT id, parameter, value FROM  config WHERE 
+               parameter="COUNTRY_PUBLIC_HOLIDAYS" AND country_id =`+countryId,
         function (error, results, fields) {
             if (error) throw error;
             res.json(results);

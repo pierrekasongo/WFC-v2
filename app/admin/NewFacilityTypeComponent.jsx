@@ -2,7 +2,9 @@ import * as React from 'react';
 import { Panel, Form, FormGroup, ControlLabel, Button, FormControl, Col, Checkbox, Table } from 'react-bootstrap';
 import {FaCheck,FaTimes } from 'react-icons/fa';
 
-export default class StdNewCadreComponent extends React.Component {
+import {default as UUID} from "uuid"; 
+
+export default class NewFacilityTypeComponent extends React.Component {
 
     constructor(props) {
         super(props);
@@ -13,15 +15,12 @@ export default class StdNewCadreComponent extends React.Component {
             name_en:'',
         }
     }
+    componentDidMount(){
+        this.setState({code:UUID.v4()});
+    }
     render() {
         return (
             <tr>
-                <td style={{fontSize:14}}>
-                    <input type="text"
-                            placeholder="Code"
-                            value={this.state.code}
-                            onChange={e => this.setState({ code: e.target.value })} />
-                </td>
                 <td style={{fontSize:14}}>
                     <input type="text"
                             placeholder="Name (fr)"

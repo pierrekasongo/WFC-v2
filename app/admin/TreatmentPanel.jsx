@@ -86,22 +86,6 @@ export default class TreatmentPanel extends React.Component {
         });
 
     }
-
-    componentWillReceiveProps(newProps) {
-        // update our treatments incase one was edited
-        if (newProps.location != this.props.location
-            && newProps.location.pathname.endsWith("admin")) {
-            axios.get('/admin/activities')
-                .then(res => {
-   
-                    this.setState({ treatments: res.data })
-                }).catch(err => {
-                    if(err.response.status === 401){
-                        this.props.history.push(`/login`);
-                    }
-                });
-        }
-    }
     deleteTreatment(id) {
         //console.log(id);
         axios.delete(`/admin/activities_cadres/${id}`).then(() => {
@@ -115,8 +99,6 @@ export default class TreatmentPanel extends React.Component {
             }
         });
     }
-
-
     newTreatmentSave(info) {
 
         let treatmentId = info.treatmentId;
@@ -178,8 +160,6 @@ export default class TreatmentPanel extends React.Component {
         this.setState({ showingBulkAdding: false }); 
         
     }
-
-
     showTreatmentStats() {
 
         let facilityCode = this.state.selectedFacility;

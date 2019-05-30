@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Panel, Form, FormGroup, ControlLabel, Button, FormControl, Col, Checkbox, Table } from 'react-bootstrap';
 
 import { CSVLink, CSVDownload } from "react-csv";
 
@@ -24,7 +23,7 @@ export default class CsvComponent extends React.Component {
         let printable=[];
 
         Object.keys(this.state.results).map(id => {
-
+            
             let facility="";
             
             let cadre="";
@@ -35,32 +34,29 @@ export default class CsvComponent extends React.Component {
 
             let pressure="";
 
+            let gap="0";
+
             Object.keys(results[id].workersNeeded).map(cadreId =>{
 
                 cadre=this.state.cadreDict[cadreId];
                 curr_workers=(results[id].currentWorkers[cadreId])?results[id].currentWorkers[cadreId].toString():'0';
-                needed_workers=(results[id].workersNeeded[cadreId])?results[id].workersNeeded[cadreId].toString():'0';
-                pressure=(results[id].pressure[cadreId])?Number(results[id].pressure[cadreId]).toFixed(2).toString():'0';
-
-                facility=(facility == results[id].facility)?"":results[id].facility;
+                needed_workers=(results[id].workersNeeded[cadreId])?results[id].workersNeeded[cadreId].toFixed(0).toString():'0';
+                pressure=(results[id].pressure[cadreId])?Number(results[id].pressure[cadreId]).toFixed(0).toString():'0';
+                gap=(results[id].currentWorkers[cadreId]-results[id].workersNeeded[cadreId]).toFixed(0).toString();
+                facility=results[id].facility.toString();
 
                 printable.push({
                     facility:facility,
                     cadre:cadre,
                     currentWorkers:curr_workers,
                     workersNeeded:needed_workers,
+                    gap:gap,
                     pressure:pressure
                 });
             });
             //facility=this.state.results[id].facility; 
         });
-
-        //console.log(printable);
-
         return printable;
-        //this.state.data=printable;
-        
-        //this.csvLink.current.link.click();
     }
 
     clicked(){
@@ -68,7 +64,6 @@ export default class CsvComponent extends React.Component {
     }
 
     render() {
-        //console.log(this.state.data);
         return (
             <div>
                 {/*<button onClick={() => this.fetchData(this.props.results)}>Download to csv</button>*/}
@@ -79,8 +74,7 @@ export default class CsvComponent extends React.Component {
                     filename="pressure_calculation.csv"
                     className="hidden"
                     ref={this.csvLink}
-                    target="_blank"
-                /> 
+                    target="_blank" /> 
             </div>           
         );
     }

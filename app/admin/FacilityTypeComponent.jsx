@@ -12,30 +12,23 @@ import { FaTrash, FaCloudUploadAlt, FaCheck, FaPlusSquare } from 'react-icons/fa
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
 
-import NewCountryComponent from './NewCountryComponent';
+import NewFacilityTypeComponent from './NewFacilityTypeComponent';
 
-export default class CountryComponent extends React.Component {
+export default class FacilityTypeComponent extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            countries: this.props.countries,
-            showingNewCountry: false,
-            countryToDelete: ''
+            facilityTypes: [],
+            showingNew: false,
+            typeToDelete: ''
         };
-
-        axios.get('/metadata/countries').then(res => {
-            this.setState({ countries: res.data });
-        }).catch(err => {
-            console.log(err);
-            if (err.response.status === 401) {
-                this.props.history.push(`/login`);
-            } else {
-                console.log(err);
-            }
-        });
+        axios.get('/metadata/facilityTypes').then(res => {
+            this.setState({ facilityTypes: res.data });
+        }).catch(err => console.log(err));
     }
+    
 
     launchToastr(msg) {
         toastr.options = {
@@ -51,34 +44,29 @@ export default class CountryComponent extends React.Component {
         return (text.length > 0 && text.length < 64);
     }
 
-    deleteCountry(id) {
+    delete(id) {
 
         this.setState({
-            countryToDelete: id
+            typeToDelete: id
         });
         confirmAlert({
             customUI: ({ onClose }) => {
                 return (
                     <div className='custom-ui'>
                         <h3>Confirmation</h3>
-                        <p>Are you sure you want to delete this country?</p>
-                        <p>This will also delete users attached to this country</p>
+                        <p>Are you sure you want to delete this type?</p>
+                        <p>This will also delete treatments attached to it.</p>
                         <button onClick={onClose}>No</button> &nbsp;&nbsp;
                   <button
                             onClick={() => {
 
-                                axios.delete(`/metadata/deleteCountry/${this.state.countryToDelete}`)
+                                axios.delete(`/metadata/deleteType/${this.state.typeToDelete}`)
                                     .then((res) => {
                                         //Update cadres
-                                        axios.get('/metadata/countries').then(res => {
-                                            this.setState({ countries: res.data });
+                                        axios.get('/metadata/facilityTypes').then(res => {
+                                            this.setState({ facilityTypes: res.data });
                                         }).catch(err => console.log(err));
                                     }).catch(err => {
-                                        if (err.response.status === 401) {
-                                            this.props.history.push(`/login`);
-                                        } else {
-                                            console.log(err);
-                                        }
                                     });
                                 onClose();
                             }}>
@@ -89,9 +77,9 @@ export default class CountryComponent extends React.Component {
             }
         });
     }
-    handleCountryChange(obj) {
+    handleTypeChange(obj) {
 
-        const ident = Object.keys(obj)[0].split("-");
+        const ident = Object.keys(obj)[0].split("|");
 
         const id = ident[0];
 
@@ -105,7 +93,7 @@ export default class CountryComponent extends React.Component {
             value: value,
         };
 
-        axios.patch('/metadata/editCountry', data).then(res => {
+        axios.patch('/metadata/editType', data).then(res => {
 
             console.log('Value updated successfully');
 
@@ -118,26 +106,24 @@ export default class CountryComponent extends React.Component {
         });
     }
 
-    newCountrySave(info) {
+    newTypeSave(info) {
 
         let code = info.code;
         let name_fr = info.name_fr;
         let name_en = info.name_en;
-        let holidays = info.holidays;
         let data = {
             code: code,
             name_fr: name_fr,
-            name_en: name_en,
-            holidays: holidays
+            name_en: name_en
         };
 
         //Insert cadre in the database
-        axios.post('/metadata/insertCountry', data).then(res => {
+        axios.post('/metadata/insertType', data).then(res => {
             //Update the cadres list
-            axios.get('/metadata/countries').then(res => {
+            axios.get('/metadata/facilityTypes').then(res => {
                 this.setState({
-                    countries: res.data,
-                    showingNewCountry: false
+                    facilityTypes: res.data,
+                    showingNew: false
                 });
             }).catch(err => console.log(err));
 
@@ -152,68 +138,43 @@ export default class CountryComponent extends React.Component {
     render() {
         return (
             <div className="tab-main-container">
-                 <div className="div-title">
-                    Available countries ({this.state.countries.length})
+                <div className="div-title">
+                    Available facility types ({this.state.facilityTypes.length})
                  </div>
                 <hr />
                 <div className="div-table">
                     <div className="div-add-new-link">
-                        <a href="#" className="add-new-link" onClick={() => this.setState({ showingNewCountry: true })}>
+                        <a href="#" className="add-new-link" onClick={() => this.setState({ showingNew: true })}>
                             <FaPlusSquare /> Add new
-                                    </a>
+                        </a>
                     </div>
                     <br />
                     <table className="table-list">
                         <thead>
                             <tr>
-                                <th>Code</th>
                                 <th>Name (fr)</th>
                                 <th>Name (en)</th>
-                                <th># Public holidays</th>
                                 <th colSpan="2"></th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                this.state.showingNewCountry &&
-                                <NewCountryComponent
-                                    save={info => this.newCountrySave(info)}
-                                    cancel={() => this.setState({ showingNewCountry: false })} />
+                                this.state.showingNew &&
+                                <NewFacilityTypeComponent
+                                    save={info => this.newTypeSave(info)}
+                                    cancel={() => this.setState({ showingNew: false })} />
                             }
-                            {this.state.countries.map(ct =>
-                                <tr key={ct.id} >
+                            {this.state.facilityTypes.map(ft =>
+                                <tr key={ft.code} >
                                     <td>
                                         <div>
                                             <a href="#">
                                                 <InlineEdit
                                                     validate={this.validateTextValue}
                                                     activeClassName="editing"
-                                                    text={ct.code}
-                                                    paramName={ct.id + '-code'}
-                                                    change={this.handleCountryChange}
-                                                    style={{
-                                                        /*backgroundColor: 'yellow',*/
-                                                        minWidth: 150,
-                                                        display: 'inline-block',
-                                                        margin: 0,
-                                                        padding: 0,
-                                                        fontSize: 11,
-                                                        outline: 0,
-                                                        border: 0
-                                                    }}
-                                                />
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <a href="#">
-                                                <InlineEdit
-                                                    validate={this.validateTextValue}
-                                                    activeClassName="editing"
-                                                    text={ct.name_fr}
-                                                    paramName={ct.id + '-name_fr'}
-                                                    change={this.handleCountryChange}
+                                                    text={ft.name_fr}
+                                                    paramName={ft.code + '|name_fr'}
+                                                    change={this.handleTypeChange}
                                                     style={{
                                                         /*backgroundColor: 'yellow',*/
                                                         minWidth: 150,
@@ -235,9 +196,9 @@ export default class CountryComponent extends React.Component {
                                                 <InlineEdit
                                                     validate={this.validateTextValue}
                                                     activeClassName="editing"
-                                                    text={ct.name_en}
-                                                    paramName={ct.id + '-name_en'}
-                                                    change={this.handleCountryChange}
+                                                    text={ft.name_en}
+                                                    paramName={ft.code + '|name_en'}
+                                                    change={this.handleTypeChange}
                                                     style={{
                                                         /*backgroundColor: 'yellow',*/
                                                         minWidth: 150,
@@ -252,31 +213,9 @@ export default class CountryComponent extends React.Component {
                                             </a>
                                         </div>
                                     </td>
-                                    <td align="center">
-                                        <div>
-                                            <a href="#">
-                                                <InlineEdit
-                                                    validate={this.validateTextValue}
-                                                    activeClassName="editing"
-                                                    text={`` + ct.holidays}
-                                                    paramName={ct.id + '-holidays'}
-                                                    change={this.handleCountryChange}
-                                                    style={{
-                                                        /*backgroundColor: 'yellow',*/
-                                                        minWidth: 150,
-                                                        display: 'inline-block',
-                                                        margin: 0,
-                                                        padding: 0,
-                                                        fontSize: 11,
-                                                        outline: 0,
-                                                        border: 0
-                                                    }}
-                                                />
-                                            </a>
-                                        </div>
-                                    </td>
+                                    
                                     <td colSpan="2">
-                                        <a href="#" onClick={() => this.deleteCountry(`"${ct.id}"`)}>
+                                        <a href="#" onClick={() => this.delete(`${ft.code}`)}>
                                             <FaTrash />
                                         </a>
                                     </td>

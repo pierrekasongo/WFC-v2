@@ -1,108 +1,78 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Redirect, Switch, Link, NavLink } from 'react-router-dom'
+import { BrowserRouter, Route,withRouter, Redirect, Switch, Link, NavLink } from 'react-router-dom'
 import { Grid, NavItem, Nav, SplitButton, MenuItem } from 'react-bootstrap';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:3000/api';
 
-import AdminPage from './admin/AdminPage';
-import UserPage from './user/UserPage';
-import ImportPage from './import/ImportPage';
-import ConfigPage from './config/ConfigPage';
-import HomePage from './user/HomePage';
-import StatisticsPage from './admin/StatisticsPage';
-import StartPage from './admin/StartPage';
+
 import LoginPage from './auth/LoginPage';
-import CadreTimePage from './user/CadreTimePage';
-import MetadataPage from './admin/MetadataComponent';
-//import Cookies from 'react-cookies';
 import Cookies from 'js-cookie';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import {FaCogs,FaTachometerAlt,FaPlay,FaDatabase} from 'react-icons/fa';
+
+import Menu from './Menu';
+import Main from './Main';
 
 class App extends React.Component {
 
-    constructor(props){
+    constructor(props) {
 
         super(props);
 
         this.state = {
-            username:"",
-            isLogin:false,
+            username: "",
+            isLogin: false,
+            isLoggedin: false
         }
     }
-    
-    componentWillMount(){
 
-        let path=window.location.pathname;
+    componentWillMount() {
 
-        if(path === '/login'){
+        let path = window.location.pathname;
+
+        if (path === '/login') {
             this.setState({
-                isLogin:true
+                isLogin: true
             })
         }
+        let username = Cookies.get('user');
 
-        let username=Cookies.get('user');
+        if (typeof (username) !== 'undefined') {
 
-        if(typeof(username) !== 'undefined'){
-
-            if(username.length >  0){
+            if (username.length > 0) {
 
                 this.setState({
-                    isLoggedin:true,
-                    username:username,
+                    isLoggedin: true,
+                    username: username,
                 })
             }
         }
     }
 
     render() {
+        const path = window.location.pathname;
         return (
             <BrowserRouter>
-                
-                    <Grid>
-                        <div className="app-name">
-                            <span>Workforce Pressure Calculator</span>
-                        </div>
-                        {
-                            !this.state.isLogin && 
-                            <Nav bsStyle="tabs" activekey="1">
-                                
-                                <NavLink className="sign-out" to="/login"> Sign out ({this.state.username})</NavLink>
-                                
-                                <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/home"><FaTachometerAlt /> Dashboard</NavLink></NavItem>
-                                <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/start"><FaPlay /> Start</NavLink></NavItem>
-                                <NavItem className="link-wrapper" componentClass='span'><NavLink activeClassName="active" to="/metadata"><FaDatabase/> Metadata</NavLink></NavItem>
+                <Grid>
+                    <div>
+                        <Route path="/login" exact component={LoginPage} />  
+                        {path !== '/login' && path !== '/sign-out' &&
+                            <div>
+                                <div className="app-name">
+                                    <span>Workforce Pressure Calculator</span>
+                                </div>
 
-                                <NavItem className="link-wrapper" componentClass='span'>
-                                    <NavLink activeClassName="active" to="/config">
-                                        <span class="glyphicon glyphicon-cog" aria-hidden="true"><FaCogs /> Config</span>
-                                    </NavLink>
-                                </NavItem>                       
-                            </Nav>
-                        }
-                        <br/><br/>
-                        <Switch>
-                            <Route path='/user' component={UserPage} />
-                            <Route path='/admin' component={AdminPage} />
-                            <Route path='/import' component={ImportPage} />
-                            <Route path='/config' component={ConfigPage} />
-                            <Route path='/statistics' component={StatisticsPage} />
-                            <Route path='/start' component={StartPage} />
-                            <Route path='/home' component={HomePage} />
-                            <Route path='/cadre-time' component={CadreTimePage} />
-                            <Route path='/login' component={LoginPage} />
-                            <Route path='/sign-out' component={LoginPage} />
-                            <Route path='/metadata' component={MetadataPage} />
-                            <Redirect to='/home' />
-                        </Switch>
-                        
-                    </Grid>
-                
+                                <Menu username={this.state.username} />
+                                <br /> <br />
+                                <Main />
+                            </div>
+                        }                        
+                    </div>
+                </Grid>
             </BrowserRouter>
-            
         );
     }
 }
 ReactDOM.render(<App />, document.getElementById("app"));
+export default withRouter(App)

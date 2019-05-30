@@ -12,6 +12,8 @@ router.post('/', (req, res) => {
 
     let cadres = req.body.selectedCadres;
 
+    let holidays = req.body.holidays;
+
     let period = req.body.selectedPeriod.toString();
 
     let facilityId = 0;//req.params.code.toString();
@@ -45,7 +47,7 @@ router.post('/', (req, res) => {
 
         facilityId = facilities[id].id;
 
-        process(facilityId,facilities,cadreIds,cadres,period,
+        process(facilityId,facilities,cadreIds,cadres,period,holidays,
             function(obj) {
                 calculationResults.push(obj);
                 if(--expecting === 0){
@@ -58,30 +60,36 @@ router.post('/', (req, res) => {
 })
 
 
-var process=function(facilityId,facilities,cadreIds,cadres,period,callback){
+var process=function(facilityId,facilities,cadreIds,cadres,period,holidays, callback){
     //PROCESS
     let treatmentIds = [];
 
     let obj={};
 
     let facilityCode=facilities[facilityId].code;
+
+    let CAF = 0;
+
+    let publicHolidays=holidays;
+
     // queries
     //let concernedTreatmentsQuery= `SELECT id, ratio FROM activities WHERE `;
-    let treatmentsQuery = `SELECT id, ratio FROM activities`;
+    let treatmentsQuery = `SELECT std_code AS id,ratio FROM country_treatment WHERE cadre_code IN(?)`;
     //let treatmentsQuery = `SELECT id, ratio FROM activities WHERE id IN (SELECT activityId FROM activity_time WHERE cadreId IN(?) )`;
-    let patientCountQuery = `SELECT activityId  AS id, SUM(caseCount) AS PatientCount FROM activity_stats
-                           WHERE CONCAT(year, quarter)=ANY(SELECT DISTINCT CONCAT(year, quarter) FROM activity_stats WHERE facilityId="`+ facilityCode + `" AND year="` + period + `" ORDER BY CONCAT(year, quarter) DESC)
-                                AND facilityId="`+ facilityCode + `" GROUP BY activityId LIMIT 0,4`;
+    let patientCountQuery = `SELECT activityCode  AS id, SUM(caseCount) AS PatientCount FROM activity_stats
+                           WHERE year="${period}" AND facilityCode="${facilityCode}" GROUP BY activityCode`;
 
-    /*let patientCountQuery = `SELECT activityId  AS id, SUM(caseCount) AS PatientCount FROM activity_stats
-                              WHERE facilityId="`+ facilityCode + 
-                              `" AND year="` + period + `" GROUP BY activityId LIMIT 0,4`;*/
-    let timePerTreatmentQuery = `SELECT activityId, cadreId, minutesPerPatient AS TreatmentTime FROM activity_time WHERE cadreId IN(?) GROUP BY activityId, cadreId`;//Select only for selected cadres
-    let facilityStaffCountQuery = `SELECT cadreId, staffCount AS StaffCount FROM staff
-                                WHERE  facilityCode="`+ facilityCode + `"`;
+    //let timePerTreatmentQuery = `SELECT activityId, cadreId, minutesPerPatient AS TreatmentTime FROM 
+                           //activity_time WHERE cadreId IN(?) GROUP BY activityId, cadreId`;
+
+    let timePerTreatmentQuery = `SELECT std_code AS activityId, cadre_code AS cadreId, duration AS TreatmentTime FROM 
+                                    country_treatment WHERE cadre_code IN(?)`;//Select only for selected cadres
+    
+    let facilityStaffCountQuery = `SELECT id, cadreCode, staffCount AS StaffCount FROM staff
+                                    WHERE  facilityCode="${facilityCode}" AND cadreCode IN(?)`;
     
 
-    db.query(`${treatmentsQuery}; ${patientCountQuery}; ${timePerTreatmentQuery}; ${facilityStaffCountQuery};`, [cadreIds, cadreIds],
+    db.query(`${treatmentsQuery}; ${patientCountQuery}; ${timePerTreatmentQuery}; ${facilityStaffCountQuery};`, [cadreIds, cadreIds,cadreIds],
         function (error,results) {
 
             let treatmentsQueryResult = results[0];
@@ -96,7 +104,8 @@ var process=function(facilityId,facilities,cadreIds,cadres,period,callback){
             patientCountQueryResult.forEach(row => {
                 patientsPerTreatment[row['id']] = row['PatientCount'];
 
-                treatmentIds[row['id']] = row['id'];
+                //treatmentIds[row['id']] = row['id'];
+                treatmentIds.push(row['id']);
             });
 
             let timePerTreatmentQueryResult = results[2];
@@ -130,19 +139,40 @@ var process=function(facilityId,facilities,cadreIds,cadres,period,callback){
                     totalHoursForTreatment = (timePerPatient / 60) * patientsPerTreatment[treatmentId];
 
                     // input parameters
-                    let cadreHours = cadres[cadreId].hours;
+                    //let cadreHours = cadres[cadreId].hours;
+
+                    let workHours = cadres[cadreId].hours;
+
+                    let workDays = cadres[cadreId].days;
+                    let weeklyWorkHours = workHours * workDays;
 
                     let cadreAdminPercentage = cadres[cadreId].adminPercentage;
 
-                    let hoursAWeek = cadreHours * (1 - (cadreAdminPercentage / 100));
+                    
+                    //Non working days
+                    let holidays = parseInt(publicHolidays);
 
-                    let hoursAYear = hoursAWeek * 52;
+                    let annualLeave = parseInt(cadres[cadreId].annualLeave);
 
+                    let sickLeave = parseInt(cadres[cadreId].sickLeave);
+
+                    let otherLeave = parseInt(cadres[cadreId].otherLeave);
+
+                    let nonWorkingHours = (holidays + annualLeave + sickLeave + otherLeave) * workHours;
+                    //End non working days
+
+                    CAF = 1 / (1 - (cadreAdminPercentage / 100));
+
+                    //let hoursAWeek = weeklyWorkHours * (1 - (cadreAdminPercentage / 100));
+
+                    //let hoursAYear = hoursAWeek * 52;
+
+                    let hoursAYear = (weeklyWorkHours * 52) - nonWorkingHours;
+      
                     if (workersNeededPerTreatment[cadreId] == null) {
 
                         workersNeededPerTreatment[cadreId] = {};
                     }
-
                     workersNeededPerTreatment[cadreId][treatmentId] = totalHoursForTreatment / hoursAYear;
 
                 });
@@ -150,19 +180,30 @@ var process=function(facilityId,facilities,cadreIds,cadres,period,callback){
 
             // sum workers needed for only selected treatments
             let workersNeeded = {};
+
             Object.keys(workersNeededPerTreatment).forEach(cadreId => {
+
                 workersNeeded[cadreId] = 0;
-                treatmentIds.forEach(treatmentId =>
-                    workersNeeded[cadreId] += workersNeededPerTreatment[cadreId][treatmentId]
-                )
+
+                treatmentIds.forEach(treatmentId =>{
+                    //let cadreCode=`"${cadreId}"`;
+                    //let treatmentCode=`"${treatmentId}"`;
+                    workersNeeded[cadreId] += workersNeededPerTreatment[cadreId][treatmentId];
+
+                })
+                workersNeeded[cadreId] = workersNeeded[cadreId] * CAF;
             });
 
             /******* calculate workforce pressure ***************/
             // step 1: normalize ratio values
             let ratioSum = 0;
+
             treatmentsQueryResult.forEach(row => ratioSum += row['ratio']);
+
             let normalizedRatios = {};
+
             treatmentsQueryResult.forEach(row =>
+
                 normalizedRatios[row['id']] = row['ratio'] / ratioSum
             );
             // step 2: determine current workforce dedicated to each treatment
@@ -170,29 +211,29 @@ var process=function(facilityId,facilities,cadreIds,cadres,period,callback){
 
             facilityStaffCountQueryResult.forEach(row => {
 
-                workersPerTreatment[row['cadreId']] = {};
+                workersPerTreatment[row['cadreCode']] = {};
 
                 Object.keys(normalizedRatios).forEach(treatmentId => {
 
-                    workersPerTreatment[row['cadreId']][treatmentId] = row['StaffCount'] * normalizedRatios[treatmentId];
+                    workersPerTreatment[row['cadreCode']][treatmentId] = row['StaffCount'] * normalizedRatios[treatmentId];
                 });
             });
-
+            
             // step 3: calculate pressure, but only for the selected treatments
-            let pressure = {}
+            let pressure = {};
+
             let currentWorkers = {};
+
             Object.keys(workersPerTreatment).forEach(cadreId => {
 
                 let workers = 0;
 
                 treatmentIds.forEach(treatmentId => {
-
                     workers += workersPerTreatment[cadreId][treatmentId];
-
                 });
                 //workers=2;
                 //currentWorkers[cadreId] = 2;
-                currentWorkers[cadreId] = Number.parseFloat(workers).toFixed(2);
+                currentWorkers[cadreId] = parseInt(workers);
 
                 pressure[cadreId] = Number.parseFloat(workers).toFixed(2) / Number.parseFloat(workersNeeded[cadreId]).toFixed(2);
             });
@@ -200,12 +241,12 @@ var process=function(facilityId,facilities,cadreIds,cadres,period,callback){
             //Current workers: suggested by Pierre; simply select the available workers for the cadre
             facilityStaffCountQueryResult.forEach(row => {
 
-                currentWorkers[row['cadreId']] = row['StaffCount'];
+                currentWorkers[row['cadreCode']] = row['StaffCount'];
 
-                pressure[row['cadreId']] = Number.parseInt(row['StaffCount']) / Number.parseFloat(workersNeeded[row['cadreId']]).toFixed(2);
+                pressure[row['cadreCode']] = Number.parseInt(row['StaffCount']) / Number.parseFloat(workersNeeded[row['cadreCode']]).toFixed(2);
             });
 
-            obj= {
+            obj = {
                 facility: facilities[facilityId].name,
                 currentWorkers: currentWorkers,
                 workersNeeded: workersNeeded,

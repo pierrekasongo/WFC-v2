@@ -11,6 +11,8 @@ export default class StdNewCadreComponent extends React.Component {
             code:'',
             name_fr:'',
             name_en:'',
+            worktime:'',
+            admin_task:''
         }
     }
     render() {
@@ -19,20 +21,32 @@ export default class StdNewCadreComponent extends React.Component {
                 <td style={{fontSize:14}}>
                     <input type="text"
                             placeholder="Code"
-                            value={this.state.code}
+                            value={this.props.cadre.code}
                             onChange={e => this.setState({ code: e.target.value })} />
                 </td>
                 <td style={{fontSize:14}}>
                     <input type="text"
                             placeholder="Name (fr)"
-                            value={this.state.name_fr}
+                            value={this.props.cadre.name_fr}
                             onChange={e => this.setState({ name_fr: e.target.value })} />
                 </td>
                 <td style={{fontSize:14}}>
                     <input type="text"
                             placeholder="Name (en)"
-                            value={this.state.name_en}
+                            value={this.props.cadre.name_en}
                             onChange={e => this.setState({ name_en: e.target.value })} />
+                </td>
+                <td style={{fontSize:14}}>
+                    <input type="text"
+                            placeholder="Worktime"
+                            value={this.props.cadre.worktime}
+                            onChange={e => this.setState({ worktime: e.target.value })} />
+                </td>
+                <td style={{fontSize:14}}>
+                    <input type="text"
+                            placeholder="Admin. Task(%)"
+                            value={this.props.cadre.admin_task}
+                            onChange={e => this.setState({ admin_task: e.target.value })} />
                 </td>
                 <td>
                     <a href="#" className="add-new-link" onClick={() => this.props.cancel()}><FaTimes /></a>

@@ -13,6 +13,8 @@ let tryparse = require('tryparse');
 
 global.sum = 0;
 
+let countryId = 52;
+
 router.use(fileUpload(/*limits: { fileSize: 50 * 1024 * 1024 },*/));
 
 //var request=require('request');
@@ -53,7 +55,7 @@ router.post('/upload', function (req, res) {
     let regionsMap = new Map();
     let districtsMap = new Map();
     let facilitiesMap = new Map();
-    
+
     let regions = [];
     let districts = [];
     let facilities = [];
@@ -67,7 +69,7 @@ router.post('/upload', function (req, res) {
                 facilities.push(new facility(data[index][0], data[index][1], data[index][2], data[index][3], data[index][4]));
             }*/
             //sql = `TRUNCATE region; TRUNCATE district;TRUNCATE facility;`;
-            sql = `DELETE FROM facility WHERE districtCode IN (SELECT code FROM district WHERE regionCode IN(SELECT code FROM region WHERE countryCode =`+countryId+`) );`;
+            sql = `DELETE FROM facility WHERE districtCode IN (SELECT code FROM district WHERE regionCode IN(SELECT code FROM region WHERE countryCode =` + countryId + `) );`;
 
             let countryId = 52;
 
@@ -85,38 +87,38 @@ router.post('/upload', function (req, res) {
 
                 let facilityName = data[index][5];
 
-                if(!regionsMap.has(regionCode)){
-            
+                if (!regionsMap.has(regionCode)) {
+
                     regionsMap.set(regionCode, regionName);
                     regions.push({
-                        code:regionCode,
-                        name:regionName,
-                        country:countryId
+                        code: regionCode,
+                        name: regionName,
+                        country: countryId
                     });
-                    sql+=`INSERT INTO region (code,countryCode,name) VALUES("`+regionCode+`","`+countryId+`","`+regionName+`");`;
+                    sql += `INSERT INTO region (code,countryCode,name) VALUES("` + regionCode + `","` + countryId + `","` + regionName + `");`;
                 }
-                
-                if(!districtsMap.has(districtCode)){
-                    districtsMap.set(districtCode,districtName);
+
+                if (!districtsMap.has(districtCode)) {
+                    districtsMap.set(districtCode, districtName);
                     districts.push({
-                        code:districtCode,
-                        name:districtName,
-                        region:regionCode
+                        code: districtCode,
+                        name: districtName,
+                        region: regionCode
                     });
-                    sql+=`INSERT INTO district (code,regionCode,name) VALUES("`+districtCode+`","`+regionCode+`","`+districtName+`");`;
+                    sql += `INSERT INTO district (code,regionCode,name) VALUES("` + districtCode + `","` + regionCode + `","` + districtName + `");`;
                 }
-                if(!facilitiesMap.has(facilityCode)){
-                    facilitiesMap.set(facilityCode,facilityName);
+                if (!facilitiesMap.has(facilityCode)) {
+                    facilitiesMap.set(facilityCode, facilityName);
                     facilities.push({
-                        code:facilityCode,
-                        name:facilityName,
-                        district:districtCode
+                        code: facilityCode,
+                        name: facilityName,
+                        district: districtCode
                     });
-                    sql+=`INSERT INTO facility (code,districtCode,name) VALUES("`+facilityCode+`","`+districtCode+`","`+facilityName+`");`;
+                    sql += `INSERT INTO facility (code,districtCode,name) VALUES("` + facilityCode + `","` + districtCode + `","` + facilityName + `");`;
                 }
-                
+
                 //sql += `INSERT INTO facilities (id,countryId,regionName,districtName,facilityCode,facilityName) VALUES(`
-                    //+ `,` + id + countryId + `,"` + region + `","` + district + `","` + facility_code + `","` + facility_name + `");`
+                //+ `,` + id + countryId + `,"` + region + `","` + district + `","` + facility_code + `","` + facility_name + `");`
             }
             db.query(sql, function (error, results) {
                 if (error) throw error;
@@ -204,46 +206,40 @@ router.get('/import_facilities_from_dhis2', function (req, res) {
     }
 });
 
-router.post('/import_treatments_from_dhis2', function (req, res) {
+router.get('/get_treatments', function (req, res) {
 
-    let countryId = 52;
+    let dhis2_url = "http://192.168.1.100:8080";//req.body.dhis2_url;
 
-    let dhis2_url = req.body.dhis2_url;
+    let user_name = "admin";//req.body.user_name;
 
-    let user_name = req.body.user_name;
-
-    let password = req.body.user_password;
+    let password = "district";//req.body.user_password;
 
     var url = "dataElements.json?paging=false";
 
-    url=dhis2_url+"/api/"+url;
+    url = dhis2_url + "/api/" + url;
 
-    requestTest(url,user_name,password,function (body) {
+    let dataElement=[];
 
-            if (body.indexOf("HTTP Status 401 - Bad credentials") > -1) {
-                res.send("FAILED");
-            } else {
-                var data = JSON.parse(body);
+    requestTest(url, user_name, password, function (body) {
 
-                var sql = "DELETE FROM activities WHERE imported=1 AND countryId=" + countryId+";";
+        if (body.indexOf("HTTP Status 401 - Bad credentials") > -1) {
+            res.send("FAILED");
+        } else {
+            var data = JSON.parse(body);
 
-                let treatments = [];
+            data.dataElements.forEach(row =>
 
-                let id = 0;
-
-                data.dataElements.forEach(row =>
-
-                    sql += `INSERT INTO activities (countryId,activityName,imported,code,ratio) VALUES(` + countryId + `,"` + row.displayName + `",1,"` + row.id + `",1);`
-                    
-                );
-                db.query(sql, function (error, results) {
-                    if (error) throw error;
-                    res.sendStatus(200);
+                dataElement.push({
+                    code:row.id,
+                    name:row.displayName
                 })
-            }
-        }, function (err) {
-            res.send("ERROR");
-        });
+
+            );
+            res.json(dataElement);
+        }
+    }, function (err) {
+        res.send("ERROR");
+    });
 
 });
 
@@ -261,6 +257,14 @@ router.post('/import_values', function (req, res) {
     //curl "https://play.dhis2.org/demo/api/dataValues?de=s46m5MS0hxu&pe=201301&ou=DiszpKrYNg8&co=Prlt0C1RF0s&value=12"
     //-X POST -u admin:district -v
     let year = req.body.selectedPeriod;
+
+    let selectedFacilities = req.body.selectedFacilities;
+
+    let selectedCadres = req.body.selectedCadres;
+
+    console.log(year, selectedFacilities, selectedCadres);
+
+    return;
 
     let facilityCode = req.body.facilityId.split("|")[0];
 

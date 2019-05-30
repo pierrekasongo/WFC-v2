@@ -36,13 +36,12 @@ export default class TreatmentComponent extends React.Component {
                 <td>{this.props.treatment}</td>
                 <td>{this.props.cadre}</td>
                 <td>
-                    {/*this.props.duration*/}
                     <div>
                         <InlineEdit
                             validate={this.validateValue}
                             activeClassName="editing"
-                            text={this.props.duration}
-                            paramName={this.props.id}
+                            text={``+this.props.duration}
+                            paramName={``+this.props.id}
                             change={this.handleChange}
                             style={{
                                 /*backgroundColor: 'yellow',*/

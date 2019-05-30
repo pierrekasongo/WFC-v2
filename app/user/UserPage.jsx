@@ -1,9 +1,10 @@
 import * as React from 'react';
 import Collapsible from 'react-collapsible';
 import { Panel, Form, FormGroup, ControlLabel, FormControl, Col, Checkbox,PanelGroup,Accordion } from 'react-bootstrap';
-import WPCPanel from './WPCPanel';
+import WPCPanel from './CalculationPanel';
 import PredictivePanel from './PredictivePanel';
 import WUPanel from './WUPanel';
+import CalculationPanel from './CalculationPanel';
 
 export default class UserPage extends React.Component {
 
@@ -16,7 +17,7 @@ export default class UserPage extends React.Component {
         return(
         <div>
             <Panel bsStyle="primary" header="Pressure Calculation">
-                <WPCPanel />
+                <CalculationPanel />
                 {/*<Collapsible  trigger="Work Force Pressure Calculator">
                         <WPCPanel />
                 </Collapsible>

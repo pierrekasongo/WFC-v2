@@ -1,3 +1,3 @@
-"code","name_fr","name_en"
-"2908Jjkdh","Médecin","Medical Doctor"
-"osnk9032i","Sage-femme","Wise wife"
+"code","name_fr","name_en","Hours per week","Admin task"
+"2908Jjkdh","Médecin","Medical Doctor",40,10
+"osnk9032i","Sage-femme","Wise wife",40,10

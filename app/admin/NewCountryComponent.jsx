@@ -11,6 +11,7 @@ export default class NewCountryComponent extends React.Component {
             code:'',
             name_fr:'',
             name_en:'',
+            holidays:'',
         }
     }
     render() {
@@ -32,6 +33,12 @@ export default class NewCountryComponent extends React.Component {
                     <input type="text"
                             placeholder="Name (en)"
                             value={this.state.name_en}
+                            onChange={e => this.setState({ name_en: e.target.value })} />
+                </td>
+                <td style={{fontSize:14}}>
+                    <input type="text"
+                            placeholder="Holidays"
+                            value={this.state.holidays}
                             onChange={e => this.setState({ name_en: e.target.value })} />
                 </td>
                 <td>

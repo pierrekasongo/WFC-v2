@@ -11,6 +11,16 @@ const countryId=52;
 
 const SECRET = 'mysecretsshhh'; //Set the secret in a json secret file
 
+router.get('/users', function(req, res){
+    
+    db.query(`SELECT users.id,login,users.name,email,r.name as role, last_login 
+                 FROM users, user_roles r WHERE users.roleId=r.id AND countryId =${countryId};`,
+        function(error,results,fields){
+        if(error) throw error;
+        res.json(results);
+    });
+});
+
 router.post('/login', function(req, res){
 
     var login=req.body.login;

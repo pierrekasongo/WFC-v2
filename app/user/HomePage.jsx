@@ -4,8 +4,9 @@ import { Panel, Form, FormGroup, ControlLabel, FormControl, Col, Checkbox,PanelG
 import {Draggable,Droppable} from 'react-drag-and-drop';
 import axios from 'axios';
 import {FaStethoscope,FaUserMd,FaClinicMedical,FaCapsules} from 'react-icons/fa';
+import  { withRouter } from 'react-router-dom'
 
-export default class HomePage extends React.Component {
+class HomePage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -75,7 +76,7 @@ export default class HomePage extends React.Component {
                                     <div class="card-block">
                                         <h6 class="m-b-20">Cadres</h6>
                                         <h2 class="text-right">
-                                            <FaStethoscope />
+                                            <FaUserMd />
                                             <span>
                                                 <a href="#">
                                                     {this.state.cadres.length}
@@ -91,19 +92,19 @@ export default class HomePage extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-xl-3">
+                            {/*<div class="col-md-4 col-xl-3">
                                 <div class="card bg-c-yellow order-card">
                                     <div class="card-block">
                                         <h6 class="m-b-20">Staffs</h6>
                                         <ul>
                                             {Object.keys(this.state.staffs).map(id => 
-                                                <li>{this.state.staffs[id].cadre}&nbsp;: {this.state.staffs[id].nb}</li>
+                                                <li key={id}>{this.state.staffs[id].cadre}&nbsp;: {this.state.staffs[id].nb}</li>
                                             )}
                                         </ul>
                                          
                                     </div>
                                 </div>
-                            </div>
+                            </div>*/}
                             
                             <div class="col-md-4 col-xl-3">
                                 <div class="card bg-c-blue order-card">
@@ -161,7 +162,6 @@ export default class HomePage extends React.Component {
             </div>
         );
     }
-
     render() {
         return (
             this.renderDashboard()
@@ -169,3 +169,4 @@ export default class HomePage extends React.Component {
     }
 
 };
+export default withRouter(HomePage)

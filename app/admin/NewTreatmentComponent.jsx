@@ -8,8 +8,8 @@ export default class NewTreatmentComponent extends React.Component {
 
         this.state = {
             //name: "",
-            treatmentId:Object.keys(props.treatments)[0],
             cadreId: Object.keys(props.cadres)[0],
+            facilityTypeId: Object.keys(props.facilityTypes)[0],
             duration:0
         }
         //console.log(props.treatments);
