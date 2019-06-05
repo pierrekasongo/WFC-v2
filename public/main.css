@@ -1,4 +1,6 @@
-
+.container{
+  max-width: 100%;
+}
 .loader {
     position: relative;
     left: 50%;
@@ -627,6 +629,16 @@ input[type=select]{
   padding-right: 1px;
   border: 1px dotted #ccc;
 }
+
+.table-list td ul{
+  margin: 0;
+  padding: 0;
+  list-style-type:none;
+}
+.match-delete{
+  font-size: 10px;
+  color: #4099ff;
+}
 .table-list th{
   font-size: 12px;
   padding-left: 5px;
@@ -679,6 +691,30 @@ input[type=select]{
 }
 .button:active {
   background-color: #008CBA;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.button-cancel {
+  display: inline-block;
+  padding: 10px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: rgb(243, 94, 25);
+  border: none;
+  border-radius: 7px;
+  box-shadow: 0 5px #999;
+}
+
+.button-cancel:hover {
+  background-color: #fd956b;
+}
+.button-cancel:active {
+  background-color: #fd956b;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
@@ -842,4 +878,42 @@ input[type=select]{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+/*******************/
+.wip {
+  position: absolute;
+  width: 150px;
+  height: 100vh;
+  left: 0;
+  top: 10;
+  background-color: #EEEEEE;
+  border-right: 1px dotted;
+}
+.task-header {
+  display: inline-block;
+  background-color: skyblue;
+  width:100%;
+}
+.droppable {
+  position: absolute;
+  width: 150px;
+  height: 100vh;
+  right: 0;
+  top: 10;
+  background-color: #9E9E9E;
+  border-left: 1px dotted;
+}
+.draggable {
+  width: 100px;
+  height: 100px;
+  background-color: yellow;
+  margin: 5px auto;
+  line-height: 5em;
+}
+.tbl-multiselect td{
+  padding:5px;
+}
+.div-multiselect button{
+  width: 200px;
 }

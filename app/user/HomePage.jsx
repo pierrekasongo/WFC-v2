@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Collapsible from 'react-collapsible';
 import { Panel, Form, FormGroup, ControlLabel, FormControl, Col, Checkbox,PanelGroup,Accordion } from 'react-bootstrap';
-import {Draggable,Droppable} from 'react-drag-and-drop';
 import axios from 'axios';
 import {FaStethoscope,FaUserMd,FaClinicMedical,FaCapsules} from 'react-icons/fa';
 import  { withRouter } from 'react-router-dom'

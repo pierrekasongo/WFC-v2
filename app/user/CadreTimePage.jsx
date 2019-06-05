@@ -74,7 +74,7 @@ export default class CadreTimePage extends React.Component {
                         <h3>Confirmation</h3>
                         <p>Are you sure you want to delete this cadre?</p>
                         <button onClick={onClose}>No</button> &nbsp;&nbsp;
-                  <button
+                        <button
                             onClick={() => {
 
                                 axios.delete(`/countrycadre/deleteCadre/${this.state.cadreToDelete}`)
@@ -101,7 +101,7 @@ export default class CadreTimePage extends React.Component {
                             }}>
                             Yes, Delete it!
                   </button>
-                    </div>
+                </div>
                 );
             }
         });
@@ -206,7 +206,6 @@ export default class CadreTimePage extends React.Component {
                     <table className="table-list" cellspacing="5">
                         <thead>
                             <tr>
-                                <th>Hris code  | </th>
                                 <th>Name | </th>
                                 <th>Days per week | </th>
                                 <th>Hours per day | </th>
@@ -220,28 +219,6 @@ export default class CadreTimePage extends React.Component {
                         <tbody>
                             {this.state.countryCadres.map(cadre =>
                                 <tr key={cadre.std_code} >
-                                    <td>
-                                        <div>
-                                            <a href="#">
-                                                <InlineEdit
-                                                    validate={this.validateTextValue}
-                                                    activeClassName="editing"
-                                                    text={(cadre.hris_code.length == 0 ? 'match hris code' : cadre.hris_code)}
-                                                    paramName={cadre.std_code + '-hris_code'}
-                                                    change={this.handleCadreChange}
-                                                    style={{
-                                                        minWidth: 50,
-                                                        display: 'inline-block',
-                                                        margin: 0,
-                                                        padding: 0,
-                                                        fontSize: 11,
-                                                        outline: 0,
-                                                        border: 0
-                                                    }}
-                                                />
-                                            </a>
-                                        </div>
-                                    </td>
                                     <td>
                                         {cadre.name_fr + '/' + cadre.name_en}
                                     </td>

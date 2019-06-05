@@ -43,7 +43,7 @@ router.get('/countries'/*,withAuth,*/, function(req, res){
 router.get('/treatments'/*,withAuth,*/, function(req, res){
     
     db.query(`SELECT t.code AS code,t.cadre_code AS cadre_code,CONCAT(c.name_fr,"/",c.name_en) AS cadre,
-            t.name_fr AS name_fr,t.name_en AS name_en, CONCAT(ft.name_fr,"/",ft.name_en) AS facility_type,  
+            t.name_fr AS name_fr,t.name_en AS name_en, ft.facility_type as facility_type, CONCAT(ft.name_fr,"/",ft.name_en) AS facility_type,  
             t.duration AS duration FROM  std_treatment t, std_cadre c, std_facility_type ft 
             WHERE t.cadre_code=c.code AND t.facility_type=ft.code;`,function(error,results,fields){
         if(error) throw error;
@@ -56,7 +56,7 @@ router.get('/getTreatment/:code'/*,withAuth*/, function(req,res){
     let code=req.params.code;
 
     db.query(`SELECT t.code AS code,t.cadre_code AS cadre_code,CONCAT(c.name_fr,"/",c.name_en) AS cadre,
-                t.name_fr AS name_fr,t.name_en AS name_en, t.duration AS duration 
+                t.name_fr AS name_fr,t.name_en AS name_en, t.duration AS duration, facility_type AS facility_type 
                 FROM  std_treatment t, std_cadre c 
                 WHERE t.cadre_code=c.code AND t.code="${code}"`, function (error, results) {
         if (error) throw error;
@@ -71,12 +71,12 @@ router.get('/treatments/:cadreCode',withAuth, function(req, res){
     let sql="";
 
     if(cadreCode == "0"){
-        sql=`SELECT t.code AS code,t.cadre_code AS cadre_code, CONCAT(c.name_fr,"/",c.name_en) AS cadre,
+        sql=`SELECT t.code AS code,t.cadre_code AS cadre_code, t.facility_type, CONCAT(c.name_fr,"/",c.name_en) AS cadre,
             t.name_fr AS name_fr,t.name_en AS name_en, t.duration AS duration 
             FROM  std_treatment t, std_cadre c 
             WHERE t.cadre_code=c.code`
     }else{
-        sql=`SELECT t.code AS code,t.cadre_code AS cadre_code, CONCAT(c.name_fr,"/",c.name_en) AS cadre,
+        sql=`SELECT t.code AS code,t.cadre_code AS cadre_code,  t.facility_type,CONCAT(c.name_fr,"/",c.name_en) AS cadre,
             t.name_fr AS name_fr,t.name_en AS name_en, t.duration AS duration 
             FROM  std_treatment t, std_cadre c 
             WHERE t.cadre_code=c.code AND cadre_code="${cadreCode}"`;

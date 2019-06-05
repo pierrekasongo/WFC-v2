@@ -91,7 +91,7 @@ export default class MetadataComponent extends React.Component {
                         <p>Are you sure you want to delete this cadre?
                   This will also delete all treatments affected to this cadre.</p>
                         <button onClick={onClose}>No</button> &nbsp;&nbsp;
-                  <button
+                        <button
                             onClick={() => {
 
                                 axios.delete(`/metadata/deleteCadre/${this.state.cadreToDelete}`)

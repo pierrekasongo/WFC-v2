@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, "../", "public")));
 app.use('/api/admin', admin);
 app.use('/api/dhis2/',dhis2);
 app.use('/api/hris', hris);
-app.use('/api/configuration',configuration);
+app.use('/api/configuration',configuration.router);
 app.use('/api/auth',auth);
 app.use('/api/metadata',metadata);
 app.use('/api/countrycadre',countrycadre);
@@ -44,6 +44,6 @@ app.use('*', (req, res) => {
 })
 
 // start listening for requests
-app.listen(3000, () => {
+app.listen(3000,"0.0.0.0", () => {
     console.log("Listening on port 3000");
 });

@@ -4,9 +4,11 @@ import { Panel, Form, FormGroup, ControlLabel, Row, FormControl, Col, Checkbox, 
 import axios from 'axios';
 import InlineEdit from 'react-edit-inline2';
 import Multiselect from 'react-multiselect-checkboxes';
-
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
+
+import HRUploadPanel from '../import/HRUploadPanel';
 
 export default class StatisticsPage extends React.Component {
 
@@ -27,11 +29,9 @@ export default class StatisticsPage extends React.Component {
             filteredCadre: "",
             statistics: [],
             filteredStats: [],
-            state: 'form',
-            showFilters: false,
-            filterText: 'Show filter',
+            state: 'done',
         };
-
+        this.importStatisticsFromDhis2 = this.importStatisticsFromDhis2.bind(this);
         axios.get('/countrystatistics/statistics').then(res => {
             this.setState({
                 statistics: res.data,
@@ -50,21 +50,7 @@ export default class StatisticsPage extends React.Component {
             this.setState({ cadres: res.data });
         }).catch(err => console.log(err));
 
-        axios.get('/hris/regions').then(res => {
-            let regions = res.data;
-            this.setState({
-                regions: regions,
-            });
-        }).catch(err => console.log(err));
-
-        axios.get('/hris/districts').then(res => {
-            let districts = res.data;
-            this.setState({
-                districts: districts,
-            });
-        }).catch(err => console.log(err));
-
-        axios.get('/hris/facilities').then(res => {
+        axios.get('/dhis2/facilities').then(res => {
             this.setState({ facilities: res.data });
         })
             .catch(err => console.log(err));
@@ -100,79 +86,6 @@ export default class StatisticsPage extends React.Component {
         });
     }
 
-    importStatistics() {
-
-        if (this.state.selectedPeriod.length == 0) {
-            this.launchToastr("Please, select a year first before calculating.");
-            return;
-        }
-        if (typeof (this.state.selectedFacility) == 'undefined') {
-            this.launchToastr("No facility selected.");
-            return;
-        }
-        if (typeof (this.state.selectedCadre) == 'undefined') {
-            this.launchToastr("No cadre selected.");
-            return;
-        }
-        this.setState({ results: [] }, () => {  //here
-            // set state to loading
-            this.setState({ state: 'loading' });
-            // add timeout so loading animation looks better
-            setTimeout(() => {
-
-                let data = {
-                    selectedCadre: this.state.selectedCadre,
-                    selectedFacility: this.state.selectedFacility,
-                    selectedPeriod: this.state.selectedPeriod
-                };
-
-                axios.post(`/countrystatistics/generateStatTemplate`, data).then(res => {
-
-                    axios.get('/countrystatistics/statistics').then(res => {
-                        this.setState({ statistics: res.data })
-                    }).catch(err => console.log(err));
-
-                    this.setState({ state: 'results' });
-                })
-
-            }, 1000);
-        });
-
-    }
-
-    loadDistrictsByRegion(regionCode) {
-
-        let url = (regionCode == "000") ? '/hris/districts' : '/hris/districtsByRegion/' + regionCode;
-
-        axios.get(url).then(res => {
-            let districts = res.data;
-            this.setState({
-                districts: districts,
-            });
-        }).catch(err => console.log(err));
-    }
-
-    loadFacilitiesByDistrict(districtCode) {
-
-        let url = (districtCode == "000") ? '/hris/facilities' : '/hris/facilitiesByDistrict/' + districtCode;
-
-        axios.get(url).then(res => {
-
-            this.setState({ facilities: res.data });
-        })
-            .catch(err => console.log(err));
-    }
-
-    toggleFilters() {
-        let showFilters = !this.state.showFilters;
-
-        let filterText = (showFilters) ? 'Hide filter' : 'Show filter';
-        this.setState({
-            showFilters: showFilters,
-            filterText: filterText
-        })
-    }
-
     launchToastr(msg) {
         toastr.options = {
             positionClass: 'toast-top-full-width',
@@ -205,201 +118,200 @@ export default class StatisticsPage extends React.Component {
         }
     }
 
-    importFromDhis2() {
-        this.launchToastr("No connexion found to dhis2 server.");
+    importStatisticsFromDhis2() {
+
+        if (this.state.selectedPeriod.length == 0) {
+            this.launchToastr("Please, select a year first before calculating.");
+            return;
+        }
+        if (typeof (this.state.selectedFacility) == 'undefined') {
+            this.launchToastr("No facility selected.");
+            return;
+        }
+        if (typeof (this.state.selectedCadre) == 'undefined') {
+            this.launchToastr("No cadre selected.");
+            return;
+        }
+
+        let data = {
+            selectedPeriod: this.state.selectedPeriod,
+            selectedFacilities: this.state.selectedFacility,
+            selectedCadres: this.state.selectedCadre
+        };
+
+        this.setState({ state: 'loading' });
+
+        axios.post(`/dhis2/import_statistics`, data).then(res => {
+            //Code goes here
+            this.setState({ state: 'done' });
+        }).catch(err => console.log(err));
+
     }
 
     render() {
         return (
             <Panel bsStyle="primary" header="Import yearly treatments statistics from DHIS2">
-                <div className="calc-container">
-                    <div className="calc-container-left">
-                        <Form horizontal>
-                            <div className="div-title">
-                                <b>Set import values</b>
+                <Tabs>
+                    <TabList>
+                        <Tab>Treatments statistics</Tab>
+                        <Tab>Workforce statistics</Tab>
+                    </TabList>
+                    <TabPanel>
+                        <div className="calc-container">
+                            <div className="calc-container-left">
+                                <Form horizontal>
+                                    <div className="div-title">
+                                        <b>Set import values</b>
+                                    </div>
+                                    <FormGroup>
+                                        <Col componentClass={ControlLabel} sm={10}>
+                                            Year
+                                </Col>
+
+                                        <Col sm={15}>
+                                            <FormControl componentClass="select"
+                                                onChange={e => this.setState({ selectedPeriod: e.target.value })}>
+                                                <option key="000" value="000">Select year </option>
+                                                {(this.state.years.map(yr =>
+                                                    <option key={yr.id} value={yr.year}>{yr.year}</option>
+                                                ))}
+                                            </FormControl>
+                                        </Col>
+                                    </FormGroup>
+
+                                    <FormGroup>
+                                        <Col sm={15}>
+                                            <FormGroup>
+                                                <Col componentClass={ControlLabel} sm={10}>
+                                                    Facilities ({(this.state.facilities.length)})
+                                        </Col>
+                                                <Col sm={15}>
+                                                    <FormControl componentClass="select"
+                                                        onChange={e => this.setState({ selectedFacility: e.target.value })}>
+                                                        <option key="000" value="000">Select value</option>
+                                                        {(this.state.facilities.map(fa =>
+                                                            <option key={fa.code} value={fa.code}>{fa.name}</option>
+                                                        ))}
+                                                    </FormControl>
+                                                </Col>
+                                            </FormGroup>
+                                        </Col>
+                                    </FormGroup>
+
+                                    <FormGroup>
+                                        <Col sm={15}>
+                                            <FormGroup>
+                                                <Col componentClass={ControlLabel} sm={10}>
+                                                    Cadres ({(this.state.cadres.length)})
+                                        </Col>
+                                                <Col sm={15}>
+                                                    <FormControl componentClass="select"
+                                                        onChange={e => this.setState({ selectedCadre: e.target.value })}>
+                                                        <option key="000" value="000">Select value</option>
+                                                        {(this.state.cadres.map(cd =>
+                                                            <option key={cd.code} value={cd.code}>{cd.name}</option>
+                                                        ))}
+                                                    </FormControl>
+                                                </Col>
+                                            </FormGroup>
+                                        </Col>
+                                    </FormGroup>
+                                    <hr />
+                                    <div style={{ textAlign: "right", paddingTop: 10 }}>
+                                        <Button bsStyle="warning" bsSize="medium" onClick={this.importStatisticsFromDhis2}>Import statisticsfrom DHIS2</Button>
+                                    </div>
+                                </Form>
                             </div>
-                            <FormGroup>
-                                <Col componentClass={ControlLabel} sm={10}>
-                                    Year
-                                </Col>
+                            <div className="calc-container-right">
+                                <FormGroup>
+                                    <Col componentClass={ControlLabel} sm={20}>
+                                        <div className="div-title">
+                                            <b>Annual treatment statistics</b>({this.state.filteredStats.length})
+                                </div>
+                                    </Col>
+                                    <div className="filter-container">
+                                        <div>
+                                            <FormGroup>
+                                                <Col sm={15}>
+                                                    <FormControl componentClass="select"
+                                                        onChange={e => this.filterStatByCadre(e.target.value)}>
+                                                        <option key="000" value="000">Filter by cadre</option>
+                                                        {(this.state.cadres.map(cd =>
+                                                            <option key={cd.code} value={cd.code}>{cd.name}</option>
+                                                        ))}
+                                                    </FormControl>
+                                                </Col>
+                                            </FormGroup>
+                                        </div>
 
-                                <Col sm={15}>
-                                    <FormControl componentClass="select"
-                                        onChange={e => this.setState({ selectedPeriod: e.target.value })}>
-                                        <option key="000" value="000">Select year </option>
-                                        {(this.state.years.map(yr =>
-                                            <option key={yr.id} value={yr.year}>{yr.year}</option>
-                                        ))}
-                                    </FormControl>
-                                </Col>
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Col sm={15}>
-                                    <FormGroup>
-                                        <Col componentClass={ControlLabel} sm={10}>
-                                            Facilities ({(this.state.facilities.length)}) [<a href="#" onClick={() => this.toggleFilters()}>{this.state.filterText}</a>]
-                                        </Col>
-                                        <Col sm={15}>
-                                            <FormControl componentClass="select"
-                                                onChange={e => this.setState({ selectedFacility: e.target.value })}>
-                                                <option key="000" value="000">Select value</option>
-                                                {(this.state.facilities.map(fa =>
-                                                    <option key={fa.code} value={fa.code}>{fa.name}</option>
-                                                ))}
-                                            </FormControl>
-                                        </Col>
-                                    </FormGroup>
-                                </Col>
-
-                                {this.state.showFilters &&
-
-                                    <FormGroup>
-                                        <hr />
-                                        <Col componentClass={ControlLabel} sm={10}>
-                                            Region ({(this.state.regions.length)})
-                                        </Col>
-                                        <Col sm={15}>
-                                            <FormControl componentClass="select"
-                                                onChange={e => this.loadDistrictsByRegion(e.target.value)}>
-                                                <option key="000" value="000">Select value</option>
-                                                {(this.state.regions.map(rg =>
-                                                    <option key={rg.code} value={rg.code}>{rg.name}</option>
-                                                ))}
-                                            </FormControl>
-                                        </Col>
-                                    </FormGroup>
+                                        <div>
+                                            <FormGroup>
+                                                <Col sm={15}>
+                                                    <input typye="text" className="form-control"
+                                                        placeholder="Filter by facility" onChange={e => this.filterStatByFacility(e.target.value)} />
+                                                </Col>
+                                            </FormGroup>
+                                        </div>
+                                    </div>
+                                </FormGroup>
+                                <hr />
+                                {this.state.state == 'loading' &&
+                                    <div style={{ marginTop: 120, marginBottom: 65 }}>
+                                        <div className="loader"></div>
+                                    </div>
                                 }
-                                {this.state.showFilters &&
-                                    <FormGroup>
-                                        <Col componentClass={ControlLabel} sm={10}>
-                                            Districts  ({(this.state.districts.length)})
-                                        </Col>
-                                        <Col sm={15}>
-                                            <FormControl componentClass="select"
-                                                onChange={e => this.loadFacilitiesByDistrict(e.target.value)}>
-                                                <option key="000" value="000">Select value</option>
-                                                {(this.state.districts.map(dist =>
-                                                    <option key={dist.code} value={dist.code}>{dist.name}</option>
-                                                ))}
-                                            </FormControl>
-                                        </Col>
-                                    </FormGroup>
-                                }
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Col sm={15}>
-                                    <FormGroup>
-                                        <Col componentClass={ControlLabel} sm={10}>
-                                            Cadres ({(this.state.cadres.length)})
-                                        </Col>
-                                        <Col sm={15}>
-                                            <FormControl componentClass="select"
-                                                onChange={e => this.setState({ selectedCadre: e.target.value })}>
-                                                <option key="000" value="000">Select value</option>
-                                                {(this.state.cadres.map(cd =>
-                                                    <option key={cd.code} value={cd.code}>{cd.name}</option>
-                                                ))}
-                                            </FormControl>
-                                        </Col>
-                                    </FormGroup>
-                                </Col>
-                            </FormGroup>
-                            <hr />
-                            <div style={{ textAlign: "right", paddingTop: 10 }}>
-                                <Button bsStyle="warning" bsSize="medium" onClick={() => this.importStatistics()}>Generate template</Button>
+                                <table className="table-list">
+                                    <thead>
+                                        <tr>
+                                            <th>Facility</th>
+                                            <th>Cadre</th>
+                                            <th>Treatment</th>
+                                            <th># patients</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.state.filteredStats.map(st =>
+                                            <tr key={st.id}>
+                                                <td>{st.facility}</td>
+                                                <td>{st.cadre}</td>
+                                                <td>{st.treatment}</td>
+                                                {/*<td>{tr.patients}</td>*/}
+                                                <td>
+                                                    <div>
+                                                        <a href="#">
+                                                            <InlineEdit
+                                                                validate={this.validateTextValue}
+                                                                activeClassName="editing"
+                                                                text={`` + st.patients}
+                                                                paramName={st.id + '-caseCount'}
+                                                                change={this.handlePatientsChange}
+                                                                style={{
+                                                                    minWidth: 150,
+                                                                    display: 'inline-block',
+                                                                    margin: 0,
+                                                                    padding: 0,
+                                                                    fontSize: 11,
+                                                                    outline: 0,
+                                                                    border: 0
+                                                                }}
+                                                            />
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
                             </div>
                             <br />
-                            <div style={{ textAlign: "right", paddingTop: 10 }}>
-                                <Button bsStyle="warning" bsSize="medium" onClick={() => this.importFromDhis2()}>Import service data from DHIS2</Button>
-                            </div>
-                        </Form>
-                    </div>
-                    <div className="calc-container-right">
-                        <FormGroup>
-                            <Col componentClass={ControlLabel} sm={20}>
-                                <div className="div-title">
-                                    <b>Annual treatment statistics</b>({this.state.filteredStats.length})
-                                </div>
-                            </Col>
-                            <div className="filter-container">
-                                <div>
-                                    <FormGroup>
-                                        <Col sm={15}>
-                                            <FormControl componentClass="select"
-                                                onChange={e => this.filterStatByCadre(e.target.value)}>
-                                                <option key="000" value="000">Filter by cadre</option>
-                                                {(this.state.cadres.map(cd =>
-                                                    <option key={cd.code} value={cd.code}>{cd.name}</option>
-                                                ))}
-                                            </FormControl>
-                                        </Col>
-                                    </FormGroup>
-                                </div>
+                        </div>
+                        <br />
+                    </TabPanel>
 
-                                <div>
-                                    <FormGroup>
-                                        <Col sm={15}>
-                                            <input typye="text" className="form-control"
-                                                placeholder="Filter by facility" onChange={e => this.filterStatByFacility(e.target.value)} />
-                                        </Col>
-                                    </FormGroup>
-                                </div>
-                            </div>
-                        </FormGroup>
-                        <hr />
-                        {this.state.state == 'loading' &&
-                            <div style={{ marginTop: 120, marginBottom: 65 }}>
-                                <div className="loader"></div>
-                            </div>
-                        }
-                        <table className="table-list">
-                            <thead>
-                                <tr>
-                                    <th>Facility</th>
-                                    <th>Cadre</th>
-                                    <th>Treatment</th>
-                                    <th># patients</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.filteredStats.map(st =>
-                                    <tr key={st.id}>
-                                        <td>{st.facility}</td>
-                                        <td>{st.cadre}</td>
-                                        <td>{st.treatment}</td>
-                                        {/*<td>{tr.patients}</td>*/}
-                                        <td>
-                                            <div>
-                                                <a href="#">
-                                                    <InlineEdit
-                                                        validate={this.validateTextValue}
-                                                        activeClassName="editing"
-                                                        text={`` + st.patients}
-                                                        paramName={st.id + '-caseCount'}
-                                                        change={this.handlePatientsChange}
-                                                        style={{
-                                                            minWidth: 150,
-                                                            display: 'inline-block',
-                                                            margin: 0,
-                                                            padding: 0,
-                                                            fontSize: 11,
-                                                            outline: 0,
-                                                            border: 0
-                                                        }}
-                                                    />
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                    <br />
-                </div>
-                <br />
+                    <TabPanel>
+                        <HRUploadPanel />
+                    </TabPanel>
+                </Tabs>
             </Panel>
         );
 

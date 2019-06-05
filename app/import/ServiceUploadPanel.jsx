@@ -23,10 +23,6 @@ export default class ServiceUploadPanel extends React.Component {
             filteredTreatments: [],
             countryTreatments: [],
             dhis2Treatments: [],
-            filteredDhis2Treatments: [],
-            dhis2AssignedTreatments: [],
-            dhis2TreatmentCombo:[],
-            selectedDhis2Treatments:[],
             selectedStdCadre: '',
             selectedCountryCadre: '',
             progress: '',
@@ -34,29 +30,9 @@ export default class ServiceUploadPanel extends React.Component {
             treatmentToMatch: "",
             treatmentMap: new Map(),
         };
-        this.handleUploadTreatment = this.handleUploadTreatment.bind(this);
-        this.selectMultipleDhis2Treatments = this.selectMultipleDhis2Treatments.bind(this);
         axios.get('/metadata/cadres').then(res => {
 
             this.setState({ stdCadres: res.data });
-
-        }).catch(err => console.log(err));
-
-        axios.get('/dhis2/get_treatments').then(res => {
-
-            let dhis2AssignedTreatments = [];
-
-            let dhis2TreatmentCombo=[];
-
-            res.data.forEach(tr => {
-                dhis2AssignedTreatments[tr.code] = false;
-                dhis2TreatmentCombo.push({label:tr.name, value:tr.code});
-            })
-            this.setState({
-                dhis2Treatments: res.data,
-                dhis2TreatmentCombo:dhis2TreatmentCombo,
-                dhis2AssignedTreatments: dhis2AssignedTreatments
-            });
 
         }).catch(err => console.log(err));
 
@@ -87,45 +63,6 @@ export default class ServiceUploadPanel extends React.Component {
             this.setState({ countryCadres: res.data });
 
         }).catch(err => console.log(err));
-    }
-
-    handleUploadTreatment(ev) {
-
-        ev.preventDefault();
-
-        const data = new FormData();
-
-        data.append('file', this.uploadTreatmentInput.files[0]);
-
-        if (this.uploadTreatmentInput.files.length == 0) {
-            this.launchToastr("No file selected");
-            return;
-        }
-
-        axios.post('/countrytreatment/uploadTreatments', data,
-            {
-                onUploadProgress: progressEvent => {
-                    var prog = (progressEvent.loaded / progressEvent.total) * 100;
-                    var pg = (prog < 100) ? prog.toFixed(2) : prog.toFixed(0);
-                    this.setState({ progress: pg });
-                }
-            })
-            .then((result) => {
-                this.setState({ progress: result.data });
-                axios.get('/countrytreatment/treatments').then(res => {
-                    this.setState({
-                        countryTreatments: res.data,
-                        filteredTreatments: res.data,
-                    });
-                }).catch(err => console.log(err));
-
-            }).catch(err => {
-                if (err.response.status === 401) {
-                    this.props.history.push(`/login`);
-                } else {
-                    console.log(err);
-                }
-            });
     }
 
     filterStdTreatement(cadreCode) {
@@ -203,48 +140,7 @@ export default class ServiceUploadPanel extends React.Component {
             }
         });
     }
-
-    generateCSV() {
-
-        let selectedStdCadre = this.state.selectedStdCadre;
-
-        const columns = {
-            code: 'Std code',
-            code_dhis2: 'Dhis2 code',
-            std_name: 'Std name',
-            cust_name: 'Customized name',
-            cadre_code: 'Std cadre code',
-            cadre: 'Std cadre name',
-            duration: 'Duration',
-        };
-
-        axios.get(`/metadata/treatments/${selectedStdCadre}`).then(res => {
-
-            let data = res.data;
-
-            let csvData = [];
-
-            data.forEach(row => {
-                csvData.push({
-                    code: row.code,
-                    code_dhis2: '',
-                    std_name: row.name_fr + '/' + row.name_en,
-                    cust_name: '',
-                    cadre_code: row.cadre_code,
-                    cadre: row.cadre,
-                    duration: row.duration
-                })
-            });
-            if (csvData.length > 0) {
-                downloadCsv(csvData, columns);
-            } else {
-                this.launchToastr("No data found. Please add some treatments to this cadre.");
-            }
-
-
-        }).catch(err => console.log(err));
-    }
-
+    
     deleteTreatment(code) {
 
         this.setState({
@@ -291,107 +187,6 @@ export default class ServiceUploadPanel extends React.Component {
             }
         });
     }
-    matchTreatmentWithDHIS2(){
-        
-        let data = {
-            code:this.state.treatmentToMatch.split("|")[0],
-            selectedTreatments:this.state.selectedDhis2Treatments
-        };
-
-        axios.patch('/countrytreatment/match_dhis2', data).then(res => {
-
-            axios.get('/dhis2/get_treatments').then(res => {
-
-                let dhis2AssignedTreatments = [];
-    
-                let dhis2TreatmentCombo=[];
-    
-                res.data.forEach(tr => {
-                    dhis2AssignedTreatments[tr.code] = false;
-                    dhis2TreatmentCombo.push({label:tr.name, value:tr.code});
-                })
-                this.setState({
-                    dhis2Treatments: res.data,
-                    dhis2TreatmentCombo:dhis2TreatmentCombo,
-                    dhis2AssignedTreatments: dhis2AssignedTreatments
-                });
-    
-            }).catch(err => console.log(err));
-
-        }).catch(err => {
-
-        });
-    }
-
-    showMatchDialog(code, name, dhis2_code) {
-
-        this.setState({
-            treatmentToMatch: code + `|` + name
-        });
-
-        let dhis2Code = dhis2_code.split(",");
-
-        dhis2Code.forEach(cd => {
-            this.state.dhis2AssignedTreatments[cd] = true;
-        })
-        confirmAlert({
-            customUI: ({ onClose }) => {
-                return (
-                    <div className='match-dialog'>
-                        <h3><b>Match to DHIS2</b></h3>
-                        <p>Treatment: {this.state.treatmentToMatch.split('|')[1]}</p>
-                        
-                        <hr />
-                        <div>
-                            <FormGroup>
-                                <Col componentClass={ControlLabel} sm={10}>
-                                    <b>Dhis2 treatments({(this.state.dhis2TreatmentCombo.length)})</b>
-                                </Col>
-                                <Col sm={30}>
-                                        <Multiselect
-                                            options={this.state.dhis2TreatmentCombo}
-                                            onChange={this.selectMultipleDhis2Treatments} />
-                                </Col>
-                            </FormGroup>
-                        </div>
-                        <hr/>
-                        {/*<div className="div-table">
-                            <table className="table-list">
-                                <thead>
-                                    <th>Code</th>
-                                    <th>Treatment</th>
-                                    <th></th>
-                                </thead>
-                                <tbody>
-                                    {this.state.filteredDhis2Treatments.map(tr =>
-                                        <tr>
-                                            <td>{tr.code}</td>
-                                            <td>{tr.name}</td>
-                                            <td>
-                                                {!this.state.dhis2AssignedTreatments[tr.code] &&
-                                                    <a href="#" className="add-new-link" onClick={() => this.matchTreatmentWithDHIS2()}>
-                                                        <FaCheckSquare />
-                                                    </a>
-                                                }
-
-                                                {this.state.dhis2AssignedTreatments[tr.code] &&
-                                                    <a href="#" className="cancel-link" onClick={() => this.setState({ showingNewCadre: true, isEditCadre: false, selectedCadre: '' })}>
-                                                        <FaTrash />
-                                                    </a>
-                                                }
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>*/}
-                        <button className="dialog-button" onClick={onClose}>Close</button> &nbsp;&nbsp;&nbsp;
-                        <button className="dialog-button" onClick={() => this.matchTreatmentWithDHIS2}>Match</button>
-                    </div>
-                );
-            }
-        });
-    }
 
     useStdTreatment(code) {
 
@@ -403,9 +198,11 @@ export default class ServiceUploadPanel extends React.Component {
 
             let cadre_code = stdTreatment.cadre_code;
 
-            var cadre = stdTreatment.cadre;
+            let cadre = stdTreatment.cadre;
 
             let name = stdTreatment.name_fr + "/" + stdTreatment.name_en;
+
+            let facility_type = stdTreatment.facility_type;
 
             let duration = stdTreatment.duration;
 
@@ -414,6 +211,7 @@ export default class ServiceUploadPanel extends React.Component {
                 cadre_code: cadre_code,
                 name: name,
                 duration: duration,
+                facility_type:facility_type
             }
             //Check if cadre exist in country db
             axios.get(`/countrycadre/getCadre/${cadre_code}`).then(res => {
@@ -453,24 +251,6 @@ export default class ServiceUploadPanel extends React.Component {
     filterCountryTreatment(name) {
         let treats = this.state.countryTreatments;
         this.setState({ filteredTreatments: treats.filter(tr => tr.name_std.toLowerCase().includes(name.toLowerCase())) })
-    }
-
-    selectMultipleDhis2Treatments(values) {
-
-        let selectedDhis2Treatments = [];
-
-        values.forEach(val => {
-
-            let name = val.label;
-
-            let code = val.value;
-
-            selectedDhis2Treatments.push({
-                code: code,
-                name: name
-            })
-        })
-        this.setState({selectedDhis2Treatments:selectedDhis2Treatments});
     }
     
     render() {
@@ -540,17 +320,6 @@ export default class ServiceUploadPanel extends React.Component {
                                 </table>
                                 <br />
                                 <br />
-                                <hr />
-                                <div class="alert alert-warning" role="alert">
-                                    <p>Generate a template file to be customized and imported at <br />the right side for your country.</p>
-                                    <p>Before import, you can set or change values for following field in the file:</p>
-                                    <ul>
-                                        <li>Dhis2 code (comma separated)</li>
-                                        <li>Customized name</li>
-                                        <li>Duration</li>
-                                    </ul>
-                                </div>
-                                <Button bsSize="medium" bsStyle="warning" onClick={() => this.generateCSV()}><FaFileCsv /> Generate csv file</Button>
                             </div>
 
                             <div className="div-flex-table-right">
@@ -596,12 +365,6 @@ export default class ServiceUploadPanel extends React.Component {
                                         <tr>
                                             <th>Standard name</th>
                                             <th>Customized name</th>
-                                            <th>Dhis2 code
-                                                <a data-tip data-for='code-help'> <FaQuestion /> </a>
-                                                <ReactTooltip id='code-help' place='top' type='warning' effect='solid'>
-                                                    <span>Separate multiple codes with a comma(,)</span>
-                                                </ReactTooltip>
-                                            </th>
                                             <th>Duration (min)</th>
                                         </tr>
                                     </thead>
@@ -632,32 +395,6 @@ export default class ServiceUploadPanel extends React.Component {
                                                             />
                                                         </a>
                                                     </div>
-                                                </td>
-                                                <td>
-                                                    <a href="#" onClick={() => this.showMatchDialog(treatment.code, treatment.name_std, treatment.dhis2_code)}>
-                                                        {(treatment.dhis2_code.length > 0) ? "View" : "Match"}
-                                                    </a>
-
-                                                    {/*<div>
-                                                        <a href="#">
-                                                            <InlineEdit
-                                                                validate={this.validateTextValue}
-                                                                activeClassName="editing"
-                                                                text={(treatment.dhis2_code.length == 0) ? 'match code' : treatment.dhis2_code}
-                                                                paramName={treatment.code + '|dhis2_code'}
-                                                                change={this.handleTreatmentChange}
-                                                                style={{
-                                                                    minWidth: 150,
-                                                                    display: 'inline-block',
-                                                                    margin: 0,
-                                                                    padding: 0,
-                                                                    fontSize: 11,
-                                                                    outline: 0,
-                                                                    border: 0
-                                                                }}
-                                                            />
-                                                        </a>
-                                                    </div>*/}
                                                 </td>
                                                 <td align="center">
                                                     <div>
@@ -691,32 +428,6 @@ export default class ServiceUploadPanel extends React.Component {
                                         )}
                                     </tbody>
                                 </table>
-                                <br /><br />
-                                <hr />
-                                <Form horizontal>
-                                    <div>
-                                        <div class="alert alert-warning" role="alert">
-                                            <p>Make sure it's a csv file with following headers and order. <br />
-                                                Also note that every duplicate code will update the existing value.<br /></p>
-                                            <p><b>"Std code","Dhis2 code","Std name", "Customized name", "Std cadre code",
-                                                "Std cadre name", "Duration"</b></p>
-                                        </div>
-                                        <form onSubmit={this.handleUploadTreatment}>
-                                            <div class="upload-btn-wrapper">
-                                                <button class="btn"><FaFolderOpen /> Choose file...</button>
-                                                <input ref={(ref) => { this.uploadTreatmentInput = ref; }} type="file" />
-                                            </div>
-                                            <br />
-                                            <br />
-                                            <div>
-                                                <span>
-                                                    <button className="button"><FaCloudUploadAlt /> Upload file</button><span> {this.state.progress}</span>
-                                                </span>
-                                            </div>
-                                        </form>
-
-                                    </div>
-                                </Form >
                                 <br /><br />
                             </div>
                         </div>

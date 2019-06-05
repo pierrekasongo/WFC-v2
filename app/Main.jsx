@@ -17,17 +17,18 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 const Main = () => {
     return (
         <div>
-            <Route path='/user' component={UserPage} />
-            <Route path='/admin' component={AdminPage} />
-            <Route path='/import' component={ImportPage} />
-            <Route path='/config' component={ConfigPage} />
-            <Route path='/statistics' component={StatisticsPage} />
-            <Route path='/start' component={StartPage} />
-            <Route path='/home' component={HomePage} />
-            <Route path='/cadre-time' component={CadreTimePage} />
+            <Route path='/user' exact component={UserPage} />
+            <Route path='/admin' exact component={AdminPage} />
+            <Route path='/import' exact component={ImportPage} />
+            <Route path='/config' exact component={ConfigPage} />
+            <Route path='/statistics' exact component={StatisticsPage} />
+            <Route path='/start' exact component={StartPage} />
+            <Route path='/home'exact component={HomePage} />
+            <Route path='/cadre-time' exactcomponent={CadreTimePage} />
             {/*<Route path='/login' component={LoginPage} />
             <Route path='/sign-out' component={LoginPage} />*/}
-            <Route path='/metadata' component={MetadataPage} />
+            <Route path='/metadata' exact component={MetadataPage} />
+            <Route path='/' exact component={HomePage} />
             {/*<Redirect to='/home' />*/}
         </div>
     )

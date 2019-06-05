@@ -23,7 +23,7 @@ export default class ImportPage extends React.Component {
                                                         <Tab><FaUserMd /> Cadres</Tab>
                                                         <Tab><FaCapsules /> Treatments</Tab>
                                                         <Tab><FaClinicMedical /> Facilities</Tab>
-                                                        <Tab><FaUserNurse /> HR</Tab>
+                                                        {/*<Tab><FaUserNurse /> HR</Tab>*/}
                                                 </TabList>
 
                                                 <TabPanel>
@@ -38,32 +38,13 @@ export default class ImportPage extends React.Component {
                                                         <FacilityPanel />
                                                 </TabPanel>
 
-                                                <TabPanel>
+                                                {/*<TabPanel>
                                                         <HRUploadPanel />
-                                                </TabPanel>
+                                                </TabPanel>*/}
                                         </Tabs>
                                 </Panel>
-                                <br /><br />
+                                <br />
                         </div>
-                        /*<div>
-                        
-                                <Panel bsStyle="primary" header="Data import">
-                                        <Collapsible trigger="Import facilities">
-                                                <FacilityPanel />
-                                        </Collapsible>
-
-                                        <Collapsible trigger="Import Treatments">
-                                                <ServiceUploadPanel />
-                                        </Collapsible>
-
-                                        <Collapsible trigger="Import HR data">
-                                                <HRUploadPanel />
-                                        </Collapsible>
-                                        <Collapsible trigger="Import cadres">
-                                                <CadreUploadPanel />
-                                        </Collapsible>
-                                </Panel>
-                        </div>*/
                 );
         }
 };

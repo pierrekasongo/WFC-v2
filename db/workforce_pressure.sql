@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Jeu 30 Mai 2019 à 15:01
+-- Généré le :  Jeu 06 Juin 2019 à 01:22
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -3644,17 +3644,17 @@ CREATE TABLE IF NOT EXISTS `activity_stats` (
 --
 
 INSERT INTO `activity_stats` (`id`, `facilityCode`, `year`, `activityCode`, `cadreCode`, `caseCount`) VALUES
-(9, 't1oLKzzdDW2', '2017', '157a54fc-a76a-475b-8684-a8bf376654d4', 'wmiff88', 30),
-(10, 't1oLKzzdDW2', '2017', '19453745-8586-481f-aca2-04896dc7317e', 'wmiff88', 16),
-(11, 't1oLKzzdDW2', '2017', '29c9494c-3743-49a0-a5ad-3f6cf4d245fc', 'wmiff88', 71),
-(12, 't1oLKzzdDW2', '2017', '471ac1e9-608a-4b96-9ac9-a5906a2c70e5', 'wmiff88', 1533),
-(13, 't1oLKzzdDW2', '2017', '5956a3fe-a109-472a-91e5-d910f2ab6632', 'wmiff88', 6132),
-(14, 't1oLKzzdDW2', '2017', 'ae1700ff-67c1-47cd-a3db-13dfe27c9a55', 'wmiff88', 2235),
-(15, 't1oLKzzdDW2', '2017', 'c832ef65-ae15-48d6-8a13-6d4816493a9c', 'wmiff88', 468),
-(16, 't1oLKzzdDW2', '2017', 'e32ebd3d-8158-4379-b2c1-096e7d6f9991', 'wmiff88', 2703),
-(17, 't1oLKzzdDW2', '2017', 'f68b386d-a559-46c9-8796-d5edc2d8a610', 'wmiff88', 673),
-(18, 't1oLKzzdDW2', '2017', '296af4b9-cc56-46ac-a8ab-be2f583ea57a', 'wmiff88', 5415),
-(19, 't1oLKzzdDW2', '2017', '5d789a41-a11b-4f0c-b4e0-0c19351c2a06', 'wmiff88', 60);
+(9, 'djEJoDxWda6', '2017', '157a54fc-a76a-475b-8684-a8bf376654d4', 'wmiff88', 30),
+(10, 'djEJoDxWda6', '2017', '19453745-8586-481f-aca2-04896dc7317e', 'wmiff88', 16),
+(11, 'djEJoDxWda6', '2017', '29c9494c-3743-49a0-a5ad-3f6cf4d245fc', 'wmiff88', 71),
+(12, 'djEJoDxWda6', '2017', '471ac1e9-608a-4b96-9ac9-a5906a2c70e5', 'wmiff88', 1533),
+(13, 'djEJoDxWda6', '2017', '5956a3fe-a109-472a-91e5-d910f2ab6632', 'wmiff88', 6132),
+(14, 'djEJoDxWda6', '2017', 'ae1700ff-67c1-47cd-a3db-13dfe27c9a55', 'wmiff88', 2235),
+(15, 'djEJoDxWda6', '2017', 'c832ef65-ae15-48d6-8a13-6d4816493a9c', 'wmiff88', 468),
+(16, 'djEJoDxWda6', '2017', 'e32ebd3d-8158-4379-b2c1-096e7d6f9991', 'wmiff88', 2703),
+(17, 'djEJoDxWda6', '2017', 'f68b386d-a559-46c9-8796-d5edc2d8a610', 'wmiff88', 673),
+(18, 'djEJoDxWda6', '2017', '296af4b9-cc56-46ac-a8ab-be2f583ea57a', 'wmiff88', 5415),
+(19, 'djEJoDxWda6', '2017', '5d789a41-a11b-4f0c-b4e0-0c19351c2a06', 'wmiff88', 60);
 
 -- --------------------------------------------------------
 
@@ -3743,23 +3743,25 @@ CREATE TABLE IF NOT EXISTS `config` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `country_id` int(11) NOT NULL,
   `parameter` varchar(50) NOT NULL,
-  `value` varchar(50) NOT NULL,
+  `value` varchar(150) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Contenu de la table `config`
 --
 
 INSERT INTO `config` (`id`, `country_id`, `parameter`, `value`) VALUES
-(1, 52, 'URL_DHIS2', 'https://snisrdc.com'),
-(2, 52, 'URL_iHRIS', 'http://managedrc.org'),
+(1, 52, 'URL_DHIS2', 'http://192.168.1.102:8080'),
+(2, 52, 'URL_iHRIS', 'http://192.168.1.102/iHRIS/ihris-manage-site-demo/FHIR'),
 (3, 52, 'CADRE_FILENAME', 'cadre_report.csv'),
 (4, 52, 'HR_FILENAME', 'hr_report.csv'),
-(5, 52, 'DHIS2_USER', 'Pierre_Kasongo'),
-(6, 52, 'DHIS_PWD', '********'),
+(5, 52, 'DHIS2_USER', 'admin'),
+(6, 52, 'DHIS_PWD', 'district'),
 (7, 52, 'DHIS_FACILITY_SQLVIEW', 'rrd3zb1EVzH'),
-(8, 52, 'COUNTRY_PUBLIC_HOLIDAYS', '9');
+(8, 52, 'COUNTRY_PUBLIC_HOLIDAYS', '9'),
+(9, 52, 'iHRIS_USER', 'i2ce_admin'),
+(10, 52, 'iHRIS_PWD', 'capuccino@');
 
 -- --------------------------------------------------------
 
@@ -4055,7 +4057,7 @@ CREATE TABLE IF NOT EXISTS `country_cadre` (
 --
 
 INSERT INTO `country_cadre` (`std_code`, `hris_code`, `work_days`, `work_hours`, `annual_leave`, `sick_leave`, `other_leave`, `admin_task`, `country_id`) VALUES
-('2908Jjkdh', '', 5, 8, 0, 0, 0, 10, 52),
+('2908Jjkdh', 'test', 5, 8, 0, 0, 0, 10, 52),
 ('osnk9032i', '', 5, 8, 0, 0, 0, 10, 52),
 ('wmiff88', '', 5.5, 8, 30, 2, 6.2, 10, 52);
 
@@ -4067,11 +4069,12 @@ INSERT INTO `country_cadre` (`std_code`, `hris_code`, `work_days`, `work_hours`,
 
 CREATE TABLE IF NOT EXISTS `country_treatment` (
   `std_code` varchar(50) NOT NULL,
-  `dhis2_code` varchar(150) NOT NULL,
+  `countryId` int(11) NOT NULL,
   `cadre_code` varchar(50) NOT NULL,
   `name_std` varchar(255) NOT NULL,
   `name_customized` varchar(150) NOT NULL,
   `treatment_type` enum('SERVICE','ADDITIONAL','INDIVIDUAL') NOT NULL,
+  `facility_type` varchar(25) NOT NULL,
   `duration` int(11) NOT NULL,
   `ratio` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`std_code`)
@@ -4081,42 +4084,44 @@ CREATE TABLE IF NOT EXISTS `country_treatment` (
 -- Contenu de la table `country_treatment`
 --
 
-INSERT INTO `country_treatment` (`std_code`, `dhis2_code`, `cadre_code`, `name_std`, `name_customized`, `treatment_type`, `duration`, `ratio`) VALUES
-('157a54fc-a76a-475b-8684-a8bf376654d4', 'exn1jds8Ut1', 'wmiff88', 'Accompagnement des patients référés/Transfert', '', 'SERVICE', 360, 1),
-('19453745-8586-481f-aca2-04896dc7317e', 'D5pwIu2vzkY', 'wmiff88', 'Section césarienne/Caesarean section', '', 'SERVICE', 330, 1),
-('296af4b9-cc56-46ac-a8ab-be2f583ea57a', 'iP4QYMAKsJJ', 'wmiff88', 'Consultations ambulatoires/consultation', '', 'SERVICE', 30, 1),
-('29c9494c-3743-49a0-a5ad-3f6cf4d245fc', 'GogLALKPwB0,exn1jds8Ut1', 'wmiff88', 'Chirurgie mineur et Circoncision/Minor operation and male circumcisions', '', 'SERVICE', 25, 1),
-('471ac1e9-608a-4b96-9ac9-a5906a2c70e5', '', 'wmiff88', 'Patients hautement dépendant/Routine nursing care (high dependent patients)', '', 'SERVICE', 351, 1),
-('5956a3fe-a109-472a-91e5-d910f2ab6632', '', 'wmiff88', 'Patients autonomes/Routine nursing care (self care patients)', '', 'SERVICE', 95, 1),
-('5d789a41-a11b-4f0c-b4e0-0c19351c2a06', '', 'wmiff88', 'Consultations aux urgences/Emergency', '', 'SERVICE', 60, 1),
-('ae1700ff-67c1-47cd-a3db-13dfe27c9a55', '', 'wmiff88', 'Sortants autorises/guéris/Discharge a patient', '', 'SERVICE', 24, 1),
-('c832ef65-ae15-48d6-8a13-6d4816493a9c', '', 'wmiff88', 'Audit de décès/Death: Last office', '', 'SERVICE', 42, 1),
-('e32ebd3d-8158-4379-b2c1-096e7d6f9991', '', 'wmiff88', 'Admission de patient/Admit a patient', '', 'SERVICE', 52, 1),
-('f68b386d-a559-46c9-8796-d5edc2d8a610', '', 'wmiff88', 'Opération majeure/Major operation', '', 'SERVICE', 330, 1);
+INSERT INTO `country_treatment` (`std_code`, `countryId`, `cadre_code`, `name_std`, `name_customized`, `treatment_type`, `facility_type`, `duration`, `ratio`) VALUES
+('157a54fc-a76a-475b-8684-a8bf376654d4', 52, 'wmiff88', 'Accompagnement des patients référés/Transfert', '', 'SERVICE', '', 360, 1),
+('19453745-8586-481f-aca2-04896dc7317e', 52, 'wmiff88', 'Section césarienne/Caesarean section', '', 'SERVICE', '', 330, 1),
+('296af4b9-cc56-46ac-a8ab-be2f583ea57a', 52, 'wmiff88', 'Consultations ambulatoires/consultation', '', 'SERVICE', '', 30, 1),
+('29c9494c-3743-49a0-a5ad-3f6cf4d245fc', 52, 'wmiff88', 'Chirurgie mineur et Circoncision/Minor operation and male circumcisions', '', 'SERVICE', '', 25, 1),
+('471ac1e9-608a-4b96-9ac9-a5906a2c70e5', 52, 'wmiff88', 'Patients hautement dépendant/Routine nursing care (high dependent patients)', '', 'SERVICE', '', 351, 1),
+('5956a3fe-a109-472a-91e5-d910f2ab6632', 52, 'wmiff88', 'Patients autonomes/Routine nursing care (self care patients)', '', 'SERVICE', '', 95, 1),
+('5d789a41-a11b-4f0c-b4e0-0c19351c2a06', 52, 'wmiff88', 'Consultations aux urgences/Emergency', '', 'SERVICE', '', 60, 1),
+('ae1700ff-67c1-47cd-a3db-13dfe27c9a55', 52, 'wmiff88', 'Sortants autorises/guéris/Discharge a patient', '', 'SERVICE', '', 24, 1),
+('c832ef65-ae15-48d6-8a13-6d4816493a9c', 52, 'wmiff88', 'Audit de décès/Death: Last office', '', 'SERVICE', '', 42, 1),
+('e32ebd3d-8158-4379-b2c1-096e7d6f9991', 52, 'wmiff88', 'Admission de patient/Admit a patient', '', 'SERVICE', '', 52, 1),
+('f68b386d-a559-46c9-8796-d5edc2d8a610', 52, 'wmiff88', 'Opération majeure/Major operation', '', 'SERVICE', '', 330, 1);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `district`
+-- Structure de la table `country_treatment_dhis2`
 --
 
-CREATE TABLE IF NOT EXISTS `district` (
+CREATE TABLE IF NOT EXISTS `country_treatment_dhis2` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(25) NOT NULL,
-  `regionCode` varchar(25) NOT NULL,
-  `name` varchar(50) NOT NULL,
+  `treatment_code` varchar(150) NOT NULL,
+  `dhis2_code` varchar(150) NOT NULL,
+  `dhis2_dataset` varchar(50) NOT NULL,
+  `dhis2_name` varchar(150) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
--- Contenu de la table `district`
+-- Contenu de la table `country_treatment_dhis2`
 --
 
-INSERT INTO `district` (`id`, `code`, `regionCode`, `name`) VALUES
-(1, '2908Jjkdh', 'klqdfhoi', 'Lubumbashi'),
-(2, '109238Jjkdh', 'klqdfhoi', 'Kenya'),
-(3, '10009hsh', 'klqdmfjiouh', 'Mutshatsha'),
-(4, '40989jstuk', 'klqdmfjiouh', 'Mwangeji');
+INSERT INTO `country_treatment_dhis2` (`id`, `treatment_code`, `dhis2_code`, `dhis2_dataset`, `dhis2_name`) VALUES
+(5, '29c9494c-3743-49a0-a5ad-3f6cf4d245fc', 'HpOj9VHOvVt', '', 'Abstinence'),
+(6, '29c9494c-3743-49a0-a5ad-3f6cf4d245fc', 'T5eTqtEeqGG', '', 'AMF et Cas Contacts conseillés'),
+(7, '157a54fc-a76a-475b-8684-a8bf376654d4', 'wmSFP6I7Crl', '', 'ABC+3TC+EFV'),
+(9, '19453745-8586-481f-aca2-04896dc7317e', 'nP77dfk7XKK', '', 'AMF et Cas Contacts ayant retiré les résultats'),
+(10, '296af4b9-cc56-46ac-a8ab-be2f583ea57a', 'RcVqkBim8W5', 'NrjKIBdpmNV', 'Cons_NC conseillés');
 
 -- --------------------------------------------------------
 
@@ -21820,20 +21825,23 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 
 CREATE TABLE IF NOT EXISTS `facility` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `countryCode` int(11) NOT NULL,
   `code` varchar(25) NOT NULL,
-  `districtCode` varchar(25) NOT NULL,
+  `ihrisCode` varchar(50) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `parentCode` varchar(50) NOT NULL,
+  `parentName` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14246 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14250 ;
 
 --
 -- Contenu de la table `facility`
 --
 
-INSERT INTO `facility` (`id`, `code`, `districtCode`, `name`) VALUES
-(1, 'iA3y8AyMTG2', '2908Jjkdh', 'bu Aboso Centre de Santé'),
-(2, 'JcBeYo96Wfu', '2908Jjkdh', 'bu Ahaupa Centre de Santé'),
-(14245, 't1oLKzzdDW2', '2908Jjkdh', 'HGR Karawa\r\n');
+INSERT INTO `facility` (`id`, `countryCode`, `code`, `ihrisCode`, `name`, `parentCode`, `parentName`) VALUES
+(14246, 52, 'djEJoDxWda6', 'facility|15', 'Abbé Delbeke Centre de Santé', '', 'Lubumbashi'),
+(14247, 52, 'TsbCLPX5EAd', 'facility|3', 'Accueil Centre de Santé', '', 'Kenya'),
+(14248, 52, 'ot1gXRKpxiX', 'facility|13', 'Adventiste Centre Hôspitalier', '', 'Lubumbashi');
 
 -- --------------------------------------------------------
 
@@ -21845,28 +21853,6 @@ CREATE TABLE IF NOT EXISTS `keywords` (
   `tagword` varchar(25) NOT NULL,
   PRIMARY KEY (`tagword`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `region`
---
-
-CREATE TABLE IF NOT EXISTS `region` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(25) NOT NULL,
-  `countryCode` varchar(25) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Contenu de la table `region`
---
-
-INSERT INTO `region` (`id`, `code`, `countryCode`, `name`) VALUES
-(1, 'klqdfhoi', 'CD', 'Haut katanga'),
-(2, 'klqdmfjiouh', 'CD', 'Lualaba');
 
 -- --------------------------------------------------------
 
@@ -21902,8 +21888,8 @@ CREATE TABLE IF NOT EXISTS `staff` (
 --
 
 INSERT INTO `staff` (`id`, `facilityCode`, `cadreCode`, `staffCount`) VALUES
-(1, 't1oLKzzdDW2', 'wmiff88', 38),
-(11, 't1oLKzzdDW2', 'osnk9032i', 4);
+(1, 'djEJoDxWda6', 'wmiff88', 38),
+(11, 'djEJoDxWda6', '2908Jjkdh', 4);
 
 -- --------------------------------------------------------
 

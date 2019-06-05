@@ -11,6 +11,8 @@ const api_caller = require('./config');
 let router = require('express').Router();
 let tryparse = require('tryparse');
 
+let config = require('./configuration.js');
+
 global.sum = 0;
 
 let countryId = 52;
@@ -28,6 +30,33 @@ router.use(function (req, res, next) {
 }).options('*', function (req, res, next) {
     res.end();
 });
+
+// get list of facilities
+router.get('/facilities', (req, res) => {
+
+    let sql = `SELECT * FROM facility WHERE countryCode =${countryId};`;
+
+    db.query(sql, function (error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+    });
+});
+
+router.post('/insert_facilities', (req,res) => {
+
+    let sql=``;
+
+    let selectedFacilities = req.body.selectedFacilities;
+
+    selectedFacilities.forEach(fac => {
+        sql+=`INSERT INTO facility(countryCode,code,name,parentName) 
+                VALUES(${countryId},"${fac.id}","${fac.name}","${fac.parent}");`;
+    });
+    db.query(sql, function (error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+    });
+})
 
 router.post('/upload', function (req, res) {
 
@@ -125,7 +154,6 @@ router.post('/upload', function (req, res) {
                 res.status(200);
             });
 
-
         });
     } else {//Service data
         var obj = csv();
@@ -157,66 +185,91 @@ router.post('/upload', function (req, res) {
     }
 })
 
-router.get('/import_facilities_from_dhis2', function (req, res) {
+router.post('/match_facility', function (req, res) {
 
+    let code = req.body.facilityCode;
 
-    var dhis2_facility_sqlView = api_caller.dhis2.facility_sqlView;
-
-
-    var api_url = api_caller.dhis2.api_url + "sqlViews/" + dhis2_facility_sqlView + "/data.json?paging=false";
-
-    var user_name = api_caller.dhis2.api_user;
-
-    var password = api_caller.dhis2.api_pwd;
-
-    if (typeof (api_url) !== "undefined" && api_url
-        && typeof (user_name) !== "undefined" && user_name
-        && typeof (password) !== "undefined" && password) {
-        requestTest(api_url, user_name, password, function (body) {
-
-            if (body.indexOf("HTTP Status 401 - Bad credentials") > -1) {
-                res.send("FAILED");
-            } else {
-                var data = JSON.parse(body);
-
-                var sql = `TRUNCATE facilities;`;;
-
-                //res.json(data['rows'])
-                let facilities = []
-
-                let id = 0;
-
-                let countryId = 0;
-
-                data['rows'].forEach(row =>
-
-                    sql += `INSERT INTO facilities (countryId,regionName,districtName,facilityCode,facilityName) VALUES("` + countryId + `,` + row[0] + `","` + row[2] + `","` + row[7] + `","` + row[6] + `");`
-                );
-                /*db.query(sql,function(error,results){
-                    if(error)throw error;
-                    res.sendStatus(200);
-                })*/
-                console.log(sql);
-            }
-        }, function (err) {
-            res.send("ERROR");
-        });
-    } else {
-        res.send("FIELD_REQUIRED");
-    }
+    let ihrisCode = req.body.ihrisCode;
+ 
+    db.query(`UPDATE facility SET ihrisCode="${ihrisCode}" WHERE code="${code}"`, function (error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+    });
 });
 
-router.get('/get_treatments', function (req, res) {
 
-    let dhis2_url = "http://192.168.1.100:8080";//req.body.dhis2_url;
+router.delete('/deleteFacility/:id', function (req, res) {
 
-    let user_name = "admin";//req.body.user_name;
+    let id = req.params.id;
 
-    let password = "district";//req.body.user_password;
+    db.query(`DELETE FROM  facility WHERE id=${id}`, function (error, results, fields) {
+        if (error) throw error;
+        res.status(200).send("Deleted successfully");
+    });
+});
+router.get('/import_facilities_from_dhis2', async function (req, res) {
 
-    var url = "dataElements.json?paging=false";
+    let params = await config.dhis2Credentials(countryId);
 
-    url = dhis2_url + "/api/" + url;
+    let dhis2_url = params.url;
+
+    let user_name = params.user;
+
+    let password = params.pwd;
+
+    var resource = "organisationUnits.json?fields=id,name,level,parent&paging=false";
+
+    url = dhis2_url + "/api/" + resource;
+
+    let facilities=[];
+
+    requestTest(url, user_name, password, function (body) {
+
+        if (body.indexOf("HTTP Status 401 - Bad credentials") > -1) {
+            res.send("FAILED");
+        } else {
+            var data = JSON.parse(body);
+
+            data.organisationUnits.forEach(row =>
+
+                facilities.push({
+                    id:row.id,
+                    level:row.level,
+                    name:row.name,
+                    parent:row.parent
+                })
+
+            );
+            res.json(facilities);
+        }
+    }, function (err) {
+        res.status(500).send(err);
+    });
+});
+
+router.delete('/deleteDhis2Code/:id', function (req, res) {
+
+    let id = req.params.id;
+
+    db.query(`DELETE FROM  country_treatment_dhis2 WHERE id="${id}"`, function (error, results, fields) {
+        if (error) throw error;
+        res.status(200).send("Deleted successfully");
+    });
+});
+
+router.get('/getDhis2_treatments',async function (req, res) {
+
+    let params = await config.dhis2Credentials(countryId);
+
+    let dhis2_url = params.url;
+
+    let user_name = params.user;
+
+    let password = params.pwd;
+
+    var resource = "dataElements.json?fields=id,displayName,dataSetElements&paging=false";
+
+    url = dhis2_url + "/api/" + resource;
 
     let dataElement=[];
 
@@ -227,18 +280,26 @@ router.get('/get_treatments', function (req, res) {
         } else {
             var data = JSON.parse(body);
 
-            data.dataElements.forEach(row =>
+            data.dataElements.forEach(row =>{
+
+                let dataset = row.dataSetElements;
+
+                let datasetId="";
+
+                dataset.forEach(dts =>{
+                    datasetId = dts.dataSet.id
+                });
 
                 dataElement.push({
                     code:row.id,
-                    name:row.displayName
+                    name:row.displayName,
+                    dataset:datasetId
                 })
-
-            );
+            });
             res.json(dataElement);
         }
     }, function (err) {
-        res.send("ERROR");
+        res.status(500).send(err);
     });
 
 });
@@ -249,64 +310,54 @@ function makeSum(value) {
     return global.sum;
 }
 
-router.post('/import_values', function (req, res) {
-    //de:dataelement
-    //pe:period
-    //ou:org unit
+router.post('/import_statistics', async function (req, res) {
 
-    //curl "https://play.dhis2.org/demo/api/dataValues?de=s46m5MS0hxu&pe=201301&ou=DiszpKrYNg8&co=Prlt0C1RF0s&value=12"
-    //-X POST -u admin:district -v
     let year = req.body.selectedPeriod;
 
     let selectedFacilities = req.body.selectedFacilities;
 
     let selectedCadres = req.body.selectedCadres;
 
-    console.log(year, selectedFacilities, selectedCadres);
-
-    return;
-
-    let facilityCode = req.body.facilityId.split("|")[0];
-
-    let facilityId = req.body.facilityId.split("|")[1];
-
     let sql = "";
-
-    let cadreId = req.body.cadreId;
 
     let months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
 
-    db.query(`SELECT t.id as id,t.code as code FROM activity_time ts,activities t
-                     WHERE ts.cadreId =`+ cadreId + ` AND t.id=ts.activityId`, function (error, results, fields) {
+
+
+
+    let params = await config.dhis2Credentials(countryId);
+
+    let dhis2_url = params.url;
+
+    let user_name = params.user;
+
+    let password = params.pwd;
+
+    let resource = "dataElements/";
+
+    let url = dhis2_url + "/api/" + resource;
+    
+
+
+    db.query(`SELECT dhis2_code as code FROM country_treatment_dhis2 
+                     WHERE treatment_code IN 
+                     (SELECT std_code FROM country_treatment WHERE cadre_code ="${selectedCadres}" AND countryId=${countryId})`, 
+                     function (error, results, fields) {
             if (error) throw error;
 
             let treatments = {};
 
             let activityId = 0;
 
-            ////////////
-            let url = "https://snisrdc.com/api/";
-            let user = "Pierre_Kasongo";
-            let password = "ABC@bc2018";
-
             results.forEach(row => {
 
-                //let de="tTK7nV64EvX";
                 let de = row['code'];
-
-                activityId = row['id'];
 
                 //Seek dataelementgroup and dataset for the dataelement [code]
 
-                url = "https://snisrdc.com/api/dataElements/" + de + ".json";
+                let req_url = url+de+".json";
 
-                console.log(url);
-
-                /*if (typeof(api_caller.dhis2.api_url+url) !== "undefined" && api_caller.dhis2.api_url+url
-                    && typeof(api_caller.dhis2.api_user) !== "undefined" && api_caller.dhis2.api_user
-                    && typeof(api_caller.dhis2.api_pwd) !== "undefined" && api_caller.dhis2.api_pwd) {*/
-
-                requestTest(url, user, password, function (body) {
+                requestTest(req_url, user_name, password, function (body) {
 
                     if (body.indexOf("HTTP Status 401 - Bad credentials") > -1) {
                         console.log("ERROR");
@@ -332,7 +383,7 @@ router.post('/import_values', function (req, res) {
 
                             let url = "dataValues?dataSet=" + dataSet + "&dataElementGroup=" + dataElementGroup + "&de=" + de + "&pe=" + period + "&ou=" + facilityCode;
 
-                            requestTest(url, user, password, function (body) {
+                            requestTest(url, user_name, password, function (body) {
 
                                 if (body.indexOf("HTTP Status 401 - Bad credentials") > -1) {
                                     res.send("FAILED");

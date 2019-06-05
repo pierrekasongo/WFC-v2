@@ -4,7 +4,7 @@ const db = require('../dbconn');
 
 let router = express.Router();
 
-let countryId=52;
+let countryId = 52;
 
 router.patch('/config', (req, res) => {
 
@@ -20,27 +20,103 @@ router.patch('/config', (req, res) => {
 
 router.get('/configs', function (req, res) {
 
-    db.query(`SELECT id, parameter, value FROM  config WHERE country_id =`+countryId,
+    db.query(`SELECT id, parameter, value FROM  config WHERE country_id =` + countryId,
+        function (error, results, fields) {
+            if (error) throw error;
+            res.json(results);
+        });
+});
+
+/*router.get('/getDHIS2Credentials', function (req, res) {
+
+    db.query(`SELECT id, parameter, value FROM  config WHERE parameter 
+                IN("URL_DHIS2","DHIS2_USER","DHIS_PWD") AND country_id =`+countryId,
         function (error, results, fields) {
             if (error) throw error;
             res.json(results);
     });
-});
+});*/
 
 router.get('/getCountryHolidays', function (req, res) {
 
     db.query(`SELECT id, parameter, value FROM  config WHERE 
-               parameter="COUNTRY_PUBLIC_HOLIDAYS" AND country_id =`+countryId,
+               parameter="COUNTRY_PUBLIC_HOLIDAYS" AND country_id =`+ countryId,
         function (error, results, fields) {
             if (error) throw error;
             res.json(results);
-    });
+        });
 });
 
+let ihrisCredentials = async function (countryId) {
+
+    let sql = `SELECT id, parameter, value FROM  config WHERE parameter 
+                IN("URL_iHRIS","iHRIS_USER","iHRIS_PWD") AND country_id =${countryId}`;
+
+    let results = await new Promise((resolve, reject) => db.query(sql, function (error, results) {
+        if (error) {
+            reject(error)
+        } else {
+            resolve(results);
+        }
+    }));
+    let res = await makeObject(results);
+
+    return res;
+}
+
+let dhis2Credentials = async function (countryId) {
+
+    let sql = `SELECT id, parameter, value FROM  config WHERE parameter 
+                IN("URL_DHIS2","DHIS2_USER","DHIS_PWD") AND country_id =${countryId}`;
+
+    let results = await new Promise((resolve, reject) => db.query(sql, function (error, results) {
+        if (error) {
+            reject(error)
+        } else {
+            resolve(results);
+        }
+    }));
+    let res = await makeObject(results);
+
+    return res;
+}
+
+let makeObject = async (results) => {
+
+    let cred = {};
+    let url = "";
+    let user = "";
+    let pwd = "";
+
+    results.forEach(p => {
+        let prm = p.parameter;
+        let value = p.value;
+
+        if (prm.includes("URL")) {
+            url = value;
+        } else if (prm.includes("USER")) {
+            user = value;
+        } else {
+            pwd = value;
+        }
+        cred = {
+            url: url,
+            user: user,
+            pwd: pwd
+        };
+    });
+    return cred; 
+}
+
 router.get('/getYears', (req, res) => {
-    db.query('SELECT id,year FROM years',function(error,results,fields){
-        if(error) throw error;
+    db.query('SELECT id,year FROM years', function (error, results, fields) {
+        if (error) throw error;
         res.json(results);
     });
 });
-module.exports = router;
+module.exports = {
+    ihrisCredentials:ihrisCredentials,
+    dhis2Credentials: dhis2Credentials,
+    router: router
+}
+//module.exports = router;

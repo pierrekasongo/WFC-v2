@@ -25,8 +25,6 @@ export default class CalculationPanel extends React.Component {
             facilityDict: {},
             facilities: [],
             years: [],//Save years to db
-            regions: [],
-            districts: [],
             selectedPeriod: "",
             selectedFacility: "",
             selectedFacilities: {},
@@ -45,9 +43,7 @@ export default class CalculationPanel extends React.Component {
             results: [],
             printable: [],
             data: [],
-            showFilters: false,
-            filterText: 'Show filter',
-            config:{},
+            config: {},
         };
         this.selectMultipleFacilities = this.selectMultipleFacilities.bind(this);
         this.selectMultipleCadres = this.selectMultipleCadres.bind(this);
@@ -58,13 +54,13 @@ export default class CalculationPanel extends React.Component {
 
             res.data.forEach(cf => {
 
-                config={
-                    id:cf.id,
-                    parameter:cf.parameter,
-                    value:cf.value
+                config = {
+                    id: cf.id,
+                    parameter: cf.parameter,
+                    value: cf.value
                 }
             })
-            this.setState({config:config});
+            this.setState({ config: config });
         }).catch(err => console.log(err));
 
         axios.get('/configuration/getYears').then(res => {
@@ -91,12 +87,12 @@ export default class CalculationPanel extends React.Component {
                 let other_leave = cadre.other_leave;
 
                 cadreInputs[cadre.code] = {
-                    days:days,
+                    days: days,
                     hours: hours,
                     adminPercentage: admin,
-                    annualLeave:annual_leave,
-                    sickLeave:sick_leave,
-                    otherLeave:other_leave
+                    annualLeave: annual_leave,
+                    sickLeave: sick_leave,
+                    otherLeave: other_leave
                 }
                 cadreDict[cadre.code] = cadre.name;
 
@@ -112,24 +108,10 @@ export default class CalculationPanel extends React.Component {
             });
 
             console.log(this.state.cadreInputs);
-            
+
         }).catch(err => console.log(err));
 
-        axios.get('/hris/regions').then(res => {
-            let regions = res.data;
-            this.setState({
-                regions: regions,
-            });
-        }).catch(err => console.log(err));
-
-        axios.get('/hris/districts').then(res => {
-            let districts = res.data;
-            this.setState({
-                districts: districts,
-            });
-        }).catch(err => console.log(err));
-
-        axios.get('/hris/facilities')
+        axios.get('/dhis2/facilities')
             .then(res => {
 
                 let facilities = res.data;
@@ -167,7 +149,7 @@ export default class CalculationPanel extends React.Component {
 
         let selectedCadres = {};
 
-        let cadreInputs=this.state.cadreInputs;
+        let cadreInputs = this.state.cadreInputs;
 
         values.forEach(val => {
             let name = val.label;
@@ -183,9 +165,9 @@ export default class CalculationPanel extends React.Component {
                 days: days,
                 hours: parseFloat(hours),
                 adminPercentage: parseFloat(adminPerc),
-                annualLeave:annualLeave,
-                sickLeave:sickLeave,
-                otherLeave:otherLeave,
+                annualLeave: annualLeave,
+                sickLeave: sickLeave,
+                otherLeave: otherLeave,
             };
         })
         this.setState({ selectedCadres: selectedCadres });
@@ -284,7 +266,7 @@ export default class CalculationPanel extends React.Component {
 
                 let datas = {
                     cadres: {},
-                    holidays:this.state.config.value,
+                    holidays: this.state.config.value,
                     selectedFacilities: {},
                     selectedPeriod: this.state.selectedPeriod
                 };
@@ -359,63 +341,6 @@ export default class CalculationPanel extends React.Component {
 
     }
 
-    loadDistrictsByRegion(regionCode) {
-
-        let url = (regionCode == "000") ? '/hris/districts' : '/hris/districtsByRegion/' + regionCode;
-
-        axios.get(url).then(res => {
-            let districts = res.data;
-            this.setState({
-                districts: districts,
-            });
-        }).catch(err => console.log(err));
-    }
-
-    loadFacilitiesByDistrict(districtCode) {
-
-        let url = (districtCode == "000") ? '/hris/facilities' : '/hris/facilitiesByDistrict/' + districtCode;
-
-        axios.get(url).then(res => {
-
-            let facilities = res.data;
-
-            let facilityInputs = {};
-            let facilityDict = {};
-
-            let facilitiesCombo = [];
-
-            facilities.forEach(fa => {
-                facilityInputs[fa.id] = {
-                    name: fa.name,
-                    code: fa.code
-                }
-                facilityDict[fa.id] = fa.name;
-
-                let id = fa.id + '|' + fa.code;
-
-                facilitiesCombo.push({ label: fa.name, value: id });
-            });
-
-            this.setState({
-                facilities: facilities,
-                facilityDict: facilityDict,
-                facilityInputs: facilityInputs,
-                facilitiesCombo: facilitiesCombo
-            });
-        })
-            .catch(err => console.log(err));
-    }
-
-    toggleFilters() {
-        let showFilters = !this.state.showFilters;
-
-        let filterText = (showFilters) ? 'Hide filter' : 'Show filter';
-        this.setState({
-            showFilters: showFilters,
-            filterText: filterText
-        })
-    }
-
     launchToastr(msg) {
         toastr.options = {
             positionClass: 'toast-top-full-width',
@@ -434,6 +359,7 @@ export default class CalculationPanel extends React.Component {
                         <div className="div-title">
                             <b>Set calculation values</b>
                         </div>
+                        <hr />
                         <FormGroup>
                             <Col componentClass={ControlLabel} sm={10}>
                                 Year
@@ -449,66 +375,36 @@ export default class CalculationPanel extends React.Component {
                                 </FormControl>
                             </Col>
                         </FormGroup>
-                        <hr />
+                        
                         <FormGroup>
                             <Col componentClass={ControlLabel} sm={10}>
-                                Facilities({(this.state.facilitiesCombo.length)}) [<a href="#" onClick={() => this.toggleFilters()}>{this.state.filterText}</a>]
+                                Facilities({(this.state.facilitiesCombo.length)})
                             </Col>
                             <Col sm={15}>
-                                <Multiselect
-                                    options={this.state.facilitiesCombo}
-                                    onChange={this.selectMultipleFacilities} />
-                            </Col>
+                                <div className="div-multiselect">
+                                    <Multiselect
+                                        options={this.state.facilitiesCombo}
+                                        onChange={this.selectMultipleFacilities} />
+                                </div>
 
-                            {this.state.showFilters &&
-
-                                <FormGroup>
-                                    <hr />
-                                    <Col componentClass={ControlLabel} sm={10}>
-                                        Region ({(this.state.regions.length)})
                             </Col>
-                                    <Col sm={15}>
-                                        <FormControl componentClass="select"
-                                            onChange={e => this.loadDistrictsByRegion(e.target.value)}>
-                                            <option key="000" value="000">Select value</option>
-                                            {(this.state.regions.map(rg =>
-                                                <option key={rg.code} value={rg.code}>{rg.name}</option>
-                                            ))}
-                                        </FormControl>
-                                    </Col>
-                                </FormGroup>
-                            }
-                            {this.state.showFilters &&
-                                <FormGroup>
-                                    <Col componentClass={ControlLabel} sm={10}>
-                                        Districts  ({(this.state.districts.length)})
-                            </Col>
-                                    <Col sm={15}>
-                                        <FormControl componentClass="select"
-                                            onChange={e => this.loadFacilitiesByDistrict(e.target.value)}>
-                                            <option key="000" value="000">Select value</option>
-                                            {(this.state.districts.map(dist =>
-                                                <option key={dist.code} value={dist.code}>{dist.name}</option>
-                                            ))}
-                                        </FormControl>
-                                    </Col>
-                                </FormGroup>
-                            }
                         </FormGroup>
-                        <hr />
+                        
                         <FormGroup>
                             <Col componentClass={ControlLabel} sm={10}>
                                 Cadres
-                        </Col>
+                            </Col>
                             <Col sm={15}>
-                                <Multiselect
-                                    options={this.state.cadresCombo}
-                                    onChange={this.selectMultipleCadres} />
+                                <div className="div-multiselect">
+                                    <Multiselect
+                                        options={this.state.cadresCombo}
+                                        onChange={this.selectMultipleCadres} />
+                                </div>
                             </Col>
                         </FormGroup>
                         <hr />
                         <div style={{ textAlign: "right", paddingTop: 10 }}>
-                            <Button bsStyle="warning" bsSize="medium" onClick={() => this.calculateClicked()}>Calculate</Button>
+                            <Button bsStyle="warning" bsSize="medium" onClick={() => this.calculateClicked()}>Calculate pressure</Button>
                         </div>
                         <br />
                     </Form>
@@ -520,6 +416,7 @@ export default class CalculationPanel extends React.Component {
                                 <b>Workforce pressure calculation results</b>
                             </div>
                         </Col>
+                        <hr/>
                     </FormGroup>
                     {this.state.state == 'loading' &&
                         <div style={{ marginTop: 120, marginBottom: 65 }}>
