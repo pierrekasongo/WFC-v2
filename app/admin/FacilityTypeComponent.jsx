@@ -8,9 +8,13 @@ import "react-tabs/style/react-tabs.css";
 import InlineEdit from 'react-edit-inline2';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { FaTrash, FaCloudUploadAlt, FaCheck, FaPlusSquare } from 'react-icons/fa';
+import { FaTrash, FaCloudUploadAlt, FaCheck, FaPlusSquare,FaFileExcel } from 'react-icons/fa';
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
+
+import * as FileSaver from 'file-saver';
+
+import * as XLSX from 'xlsx';
 
 import NewFacilityTypeComponent from './NewFacilityTypeComponent';
 
@@ -24,11 +28,40 @@ export default class FacilityTypeComponent extends React.Component {
             showingNew: false,
             typeToDelete: ''
         };
-        axios.get('/metadata/facilityTypes').then(res => {
+        axios.get('/facility/facilityTypes').then(res => {
             this.setState({ facilityTypes: res.data });
         }).catch(err => console.log(err));
     }
     
+    createTemplate(facilityTypes){
+
+        const template = [];
+
+        facilityTypes.forEach(ft => {
+
+            template.push({"Code":ft.code,"Name":ft.name});
+        });
+
+        return template;
+    }
+  
+    async generateTemplate(facilityTypes){
+
+        const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const fileExtension = '.xlsx';
+        const fileName = 'facilityType';
+
+        const template = await this.createTemplate(facilityTypes);
+
+        
+        const wb = XLSX.utils.book_new();
+
+        const ws_template = XLSX.utils.json_to_sheet(template);
+        XLSX.utils.book_append_sheet(wb,ws_template,"FACILITY TYPES");
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], {type: fileType});
+        FileSaver.saveAs(data, fileName + fileExtension);
+    }
 
     launchToastr(msg) {
         toastr.options = {
@@ -60,10 +93,10 @@ export default class FacilityTypeComponent extends React.Component {
                   <button
                             onClick={() => {
 
-                                axios.delete(`/metadata/deleteType/${this.state.typeToDelete}`)
+                                axios.delete(`/facility/deleteType/${this.state.typeToDelete}`)
                                     .then((res) => {
                                         //Update cadres
-                                        axios.get('/metadata/facilityTypes').then(res => {
+                                        axios.get('/facility/facilityTypes').then(res => {
                                             this.setState({ facilityTypes: res.data });
                                         }).catch(err => console.log(err));
                                     }).catch(err => {
@@ -93,7 +126,7 @@ export default class FacilityTypeComponent extends React.Component {
             value: value,
         };
 
-        axios.patch('/metadata/editType', data).then(res => {
+        axios.patch('/facility/editType', data).then(res => {
 
             console.log('Value updated successfully');
 
@@ -109,18 +142,16 @@ export default class FacilityTypeComponent extends React.Component {
     newTypeSave(info) {
 
         let code = info.code;
-        let name_fr = info.name_fr;
-        let name_en = info.name_en;
+        let name= info.name;
         let data = {
             code: code,
-            name_fr: name_fr,
-            name_en: name_en
+            name: name
         };
 
         //Insert cadre in the database
-        axios.post('/metadata/insertType', data).then(res => {
+        axios.post('/facility/insertType', data).then(res => {
             //Update the cadres list
-            axios.get('/metadata/facilityTypes').then(res => {
+            axios.get('/facility/facilityTypes').then(res => {
                 this.setState({
                     facilityTypes: res.data,
                     showingNew: false
@@ -143,17 +174,30 @@ export default class FacilityTypeComponent extends React.Component {
                  </div>
                 <hr />
                 <div className="div-table">
-                    <div className="div-add-new-link">
-                        <a href="#" className="add-new-link" onClick={() => this.setState({ showingNew: true })}>
-                            <FaPlusSquare /> Add new
-                        </a>
-                    </div>
+                    <table>
+                        <tr>
+                            {/*<td>
+                                <div className="div-add-new-link">
+                                    <a href="#" className="add-new-link" onClick={() => this.setState({ showingNew: true })}>
+                                        <FaPlusSquare /> Add new
+                                    </a>
+                                </div>
+                            </td>*/}
+                            <td>
+                                <div>
+                                    <button className="button" onClick={() => this.generateTemplate(this.state.facilityTypes)}>
+                                    <FaFileExcel /> Download</button>
+                                </div>  
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <br />
                     <br />
                     <table className="table-list">
                         <thead>
                             <tr>
-                                <th>Name (fr)</th>
-                                <th>Name (en)</th>
+                                <th>Name</th>
                                 <th colSpan="2"></th>
                             </tr>
                         </thead>
@@ -166,29 +210,7 @@ export default class FacilityTypeComponent extends React.Component {
                             }
                             {this.state.facilityTypes.map(ft =>
                                 <tr key={ft.code} >
-                                    <td>
-                                        <div>
-                                            <a href="#">
-                                                <InlineEdit
-                                                    validate={this.validateTextValue}
-                                                    activeClassName="editing"
-                                                    text={ft.name_fr}
-                                                    paramName={ft.code + '|name_fr'}
-                                                    change={this.handleTypeChange}
-                                                    style={{
-                                                        /*backgroundColor: 'yellow',*/
-                                                        minWidth: 150,
-                                                        display: 'inline-block',
-                                                        margin: 0,
-                                                        padding: 0,
-                                                        fontSize: 11,
-                                                        outline: 0,
-                                                        border: 0
-                                                    }}
-                                                />
-                                            </a>
-                                        </div>
-                                    </td>
+                                   
                                     <td>
                                         {/*cadre.name_en*/}
                                         <div>
@@ -196,8 +218,8 @@ export default class FacilityTypeComponent extends React.Component {
                                                 <InlineEdit
                                                     validate={this.validateTextValue}
                                                     activeClassName="editing"
-                                                    text={ft.name_en}
-                                                    paramName={ft.code + '|name_en'}
+                                                    text={ft.name}
+                                                    paramName={ft.code + '|name'}
                                                     change={this.handleTypeChange}
                                                     style={{
                                                         /*backgroundColor: 'yellow',*/
@@ -224,7 +246,7 @@ export default class FacilityTypeComponent extends React.Component {
 
                         </tbody>
                     </table>
-                </div>
+                </div>  
             </div>
         )
     }

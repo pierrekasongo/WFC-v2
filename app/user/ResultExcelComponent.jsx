@@ -2,7 +2,14 @@ import * as React from 'react';
 
 import { CSVLink, CSVDownload } from "react-csv";
 
-export default class CsvComponent extends React.Component {
+import {FaFileExcel } from 'react-icons/fa';
+
+import * as FileSaver from 'file-saver';
+
+import * as XLSX from 'xlsx';
+
+export default class ResultExcelComponent extends React.Component {
+
     constructor(props) {
 
         super(props);
@@ -11,18 +18,14 @@ export default class CsvComponent extends React.Component {
             cadreDict:props.cadreDict,
             results:props.results,
         }
-        this.csvLink=React.createRef();
 
-        this.state={
-            data:this.fetchData(props.results)
-        }
     }
 
-    fetchData(results){
+    createTemplate(results){
 
         let printable=[];
 
-        Object.keys(this.state.results).map(id => {
+        Object.keys(results).map(id => {
             
             let facility="";
             
@@ -54,28 +57,33 @@ export default class CsvComponent extends React.Component {
                     pressure:pressure
                 });
             });
-            //facility=this.state.results[id].facility; 
         });
         return printable;
     }
+  
+    async generateTemplate(results){
 
-    clicked(){
-        this.csvLink.current.link.click();
+        const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const fileExtension = '.xlsx';
+        const fileName = 'results';
+
+        const template = await this.createTemplate(results);
+
+        
+        const wb = XLSX.utils.book_new();
+
+        const ws_template = XLSX.utils.json_to_sheet(template);
+        XLSX.utils.book_append_sheet(wb,ws_template,"RESULTS");
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], {type: fileType});
+        FileSaver.saveAs(data, fileName + fileExtension);
     }
-
     render() {
         return (
             <div>
-                {/*<button onClick={() => this.fetchData(this.props.results)}>Download to csv</button>*/}
-                <a href="#" onClick={() => this.clicked()}>Download to csv</a>
-                <br/>
-                <CSVLink 
-                    data={this.state.data} 
-                    filename="pressure_calculation.csv"
-                    className="hidden"
-                    ref={this.csvLink}
-                    target="_blank" /> 
-            </div>           
+                <button className="button" onClick={() => this.generateTemplate(this.props.results)}>
+                    <FaFileExcel /> Download</button>
+            </div>    
         );
     }
 }

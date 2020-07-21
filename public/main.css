@@ -917,3 +917,6 @@ input[type=select]{
 .div-multiselect button{
   width: 200px;
 }
+.dashboard-button{
+  margin-left: 10px;
+}

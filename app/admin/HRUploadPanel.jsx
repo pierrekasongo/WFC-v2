@@ -26,11 +26,11 @@ export default class HRUploadPanel extends React.Component {
 
         this.handleUploadHR = this.handleUploadHR.bind(this);
 
-        axios.get('/hris/workforce').then(res => {
+        axios.get('/staff/workforce').then(res => {
             this.setState({ staffs: res.data });
         }).catch(err => console.log(err));
 
-        axios.get('/countrycadre/cadres').then(res => {
+        axios.get('/cadre/cadres').then(res => {
 
             this.setState({ cadres: res.data });
 
@@ -40,11 +40,11 @@ export default class HRUploadPanel extends React.Component {
     filterWorkforce(cadreCode) {
 
         if (cadreCode == "0") {
-            axios.get('/hris/workforce').then(res => {
+            axios.get('/staff/workforce').then(res => {
                 this.setState({ staffs: res.data });
             }).catch(err => console.log(err));
         } else {
-            axios.get(`/hris/workforce/${cadreCode}`).then(res => {
+            axios.get(`/staff/workforce/${cadreCode}`).then(res => {
                 this.setState({ staffs: res.data });
             }).catch(err => {
                 console.log(err);
@@ -76,11 +76,11 @@ export default class HRUploadPanel extends React.Component {
         data.append('file', this.uploadHRInput.files[0]);
 
         if (this.uploadHRInput.files.length == 0) {
-            this.launchToastr("No file selected");
+            this.launchToastr("No file selected. Please select a valid file before validating.");
             return;
         }
 
-        axios.post('/hris/uploadHR', data,
+        axios.post('/staff/uploadHR', data,
             {
                 onUploadProgress: progressEvent => {
                     var prog = (progressEvent.loaded / progressEvent.total) * 100;
@@ -90,7 +90,7 @@ export default class HRUploadPanel extends React.Component {
             })
             .then((result) => {
                 this.setState({ progress: result.data });
-                axios.get('/hris/workforce').then(res => {
+                axios.get('/staff/workforce').then(res => {
                     this.setState({ staffs: res.data });
                 }).catch(err => console.log(err));
 
@@ -165,8 +165,8 @@ export default class HRUploadPanel extends React.Component {
             param: param,
             value: value,
         };
-        axios.patch('/hris/editHR', data).then(res => {
-            axios.get('/hris/workforce').then(res => {
+        axios.patch('/staff/editHR', data).then(res => {
+            axios.get('/staff/workforce').then(res => {
                 this.setState({ staffs: res.data });
             }).catch(err => console.log(err));
         }).catch(err => {
@@ -233,7 +233,7 @@ export default class HRUploadPanel extends React.Component {
 
                                                 <div class="alert alert-warning" role="alert">
                                                     <p>Make sure it's a csv file with following headers and order.</p>
-                                                    <p><b>"Facility code","Facility name","Cadre code", "Cadre name", "Staff count"</b></p>
+                                                    <p><b>"Region","District","Facility type","Facility code","Facility name","Cadre code", "Cadre name", "Staff count"</b></p>
                                                 </div>
 
                                                 <form onSubmit={this.handleUploadHR}>
@@ -254,17 +254,6 @@ export default class HRUploadPanel extends React.Component {
                                     </Col>
                                 </FormGroup>
                                 <hr />
-                                <div style={{ textAlign: "left", paddingTop: 10 }}>
-                                    <FormGroup>
-                                        <Col componentClass={ControlLabel} sm={20}>
-                                            <div className="div-title">
-                                                <b>Load HR from iHRIS</b>
-                                            </div>
-                                            <hr />
-                                        </Col>
-                                    </FormGroup>
-                                    <Button bsStyle="warning" bsSize="small" onClick={() => this.getFromAPI()}>Upload from iHRIS</Button>
-                                </div>
                             </div>
                             <br/><br/>
 
@@ -315,7 +304,7 @@ export default class HRUploadPanel extends React.Component {
                                                                 validate={this.validateTextValue}
                                                                 activeClassName="editing"
                                                                 text={`` + st.staff}
-                                                                paramName={st.id + '-staff'}
+                                                                paramName={st.id + '-staffCount'}
                                                                 change={this.handleStaffChange}
                                                                 style={{
                                                                     minWidth: 150,

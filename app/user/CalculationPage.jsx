@@ -7,8 +7,13 @@ import Multiselect from 'react-multiselect-checkboxes';
 import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
 
+import DropdownTreeSelect from 'react-dropdown-tree-select'
+import 'react-dropdown-tree-select/dist/styles.css'
 
-import ResultComponent from './ResultComponent';
+//https://dowjones.github.io/react-dropdown-tree-select/?spm=a2c6h.14275010.0.0.709972a4NHNfbz#/story/options
+
+
+import  ResultComponent from './ResultComponent';
 
 export default class CalculationPanel extends React.Component {
 
@@ -44,9 +49,16 @@ export default class CalculationPanel extends React.Component {
             printable: [],
             data: [],
             config: {},
+            treeData:{}
         };
         this.selectMultipleFacilities = this.selectMultipleFacilities.bind(this);
         this.selectMultipleCadres = this.selectMultipleCadres.bind(this);
+
+        axios.get('/facility/get_tree').then(res => {
+            this.setState({
+                treeData:res.data
+            })
+        }).catch(err => console.log(err));
 
         axios.get('/configuration/getCountryHolidays').then(res => {
 
@@ -70,7 +82,7 @@ export default class CalculationPanel extends React.Component {
             })
         }).catch(err => console.log(err));
 
-        axios.get('/hris/cadres').then(res => {
+        axios.get('/cadre/cadres').then(res => {
             let cadres = res.data;
             let cadreInputs = {};
             let cadreDict = {};
@@ -107,11 +119,9 @@ export default class CalculationPanel extends React.Component {
                 cadresCombo: cadresCombo,
             });
 
-            console.log(this.state.cadreInputs);
-
         }).catch(err => console.log(err));
 
-        axios.get('/dhis2/facilities')
+        axios.get('/facility/facilities')
             .then(res => {
 
                 let facilities = res.data;
@@ -274,7 +284,7 @@ export default class CalculationPanel extends React.Component {
                 datas.selectedCadres = this.state.selectedCadres;
                 datas.selectedFacilities = this.state.selectedFacilities;
 
-                axios.post(`/hris/workforce`, datas).then(res => {
+                axios.post(`/staff/workforce`, datas).then(res => {
 
                     let values = res.data;
 
@@ -351,88 +361,140 @@ export default class CalculationPanel extends React.Component {
         setTimeout(() => toastr.error(msg), 300)
     }
 
+    /*onChange(currentNode, selectedNodes) {
+        
+        var name = currentNode.label;
+        var id = currentNode.value;
+        var depth = currentNode._depth;
+        var code = currentNode.code;
+        console.log(id,code,name,depth);
+
+        let selectedFacilities = {};
+
+        selectedFacilities[id] = {
+            id: id,
+            code: code,
+            name: name,
+            depth:depth
+        };
+        this.setState({ selectedFacilities: selectedFacilities });
+    }*/
+
+    
+    /*onAction(node, action){
+        console.log('onAction::', action, node)
+      }
+    onNodeToggle(currentNode){
+        console.log('onNodeToggle::', currentNode)
+    }*/
+
     render() {
-        return (
-            <div className="calc-container">
-                <div className="calc-container-left">
-                    <Form horizontal>
-                        <div className="div-title">
-                            <b>Set calculation values</b>
-                        </div>
-                        <hr />
-                        <FormGroup>
-                            <Col componentClass={ControlLabel} sm={10}>
-                                Year
-                            </Col>
-
-                            <Col sm={15}>
-                                <FormControl componentClass="select"
-                                    onChange={e => this.setState({ selectedPeriod: e.target.value })}>
-                                    <option key="000" value="000">Select year </option>
-                                    {(this.state.years.map(yr =>
-                                        <option key={yr.id} value={yr.year}>{yr.year}</option>
-                                    ))}
-                                </FormControl>
-                            </Col>
-                        </FormGroup>
-                        
-                        <FormGroup>
-                            <Col componentClass={ControlLabel} sm={10}>
-                                Facilities({(this.state.facilitiesCombo.length)})
-                            </Col>
-                            <Col sm={15}>
-                                <div className="div-multiselect">
-                                    <Multiselect
-                                        options={this.state.facilitiesCombo}
-                                        onChange={this.selectMultipleFacilities} />
-                                </div>
-
-                            </Col>
-                        </FormGroup>
-                        
-                        <FormGroup>
-                            <Col componentClass={ControlLabel} sm={10}>
-                                Cadres
-                            </Col>
-                            <Col sm={15}>
-                                <div className="div-multiselect">
-                                    <Multiselect
-                                        options={this.state.cadresCombo}
-                                        onChange={this.selectMultipleCadres} />
-                                </div>
-                            </Col>
-                        </FormGroup>
-                        <hr />
-                        <div style={{ textAlign: "right", paddingTop: 10 }}>
-                            <Button bsStyle="warning" bsSize="medium" onClick={() => this.calculateClicked()}>Calculate pressure</Button>
-                        </div>
-                        <br />
-                    </Form>
-                </div>
-                <div className="calc-container-right">
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} sm={20}>
+       const onChange= (currentNode, selectedNodes) => {
+        
+            var name = currentNode.label;
+            var id = currentNode.value;
+            var depth = currentNode._depth;
+            var code = currentNode.code;
+            console.log(id,code,name,depth);
+    
+            let selectedFacilities = {};
+    
+            selectedFacilities[id] = {
+                id: id,
+                code: code,
+                name: name,
+                depth:depth
+            };
+            this.setState({ selectedFacilities: selectedFacilities });
+        }
+        return(
+            <div>
+            <Panel bsStyle="primary" header="Pressure Calculation">
+                <div className="calc-container">
+                    <div className="calc-container-left">
+                        <Form horizontal>
                             <div className="div-title">
-                                <b>Workforce pressure calculation results</b>
+                                <b>Set calculation values</b>
                             </div>
-                        </Col>
-                        <hr/>
-                    </FormGroup>
-                    {this.state.state == 'loading' &&
-                        <div style={{ marginTop: 120, marginBottom: 65 }}>
-                            <div className="loader"></div>
-                        </div>
-                    }
-                    {this.state.state == 'results' &&
-                        <ResultComponent
-                            results={this.state.results}
-                            cadreDict={this.state.cadreDict}
-                        />
-                    }
+                            <hr />
+                            <FormGroup>
+                                <Col componentClass={ControlLabel} sm={10}>
+                                    Year
+                                </Col>
+
+                                <Col sm={15}>
+                                    <FormControl componentClass="select"
+                                        onChange={e => this.setState({ selectedPeriod: e.target.value })}>
+                                        <option key="000" value="000">Select year </option>
+                                        {(this.state.years.map(yr =>
+                                            <option key={yr.id} value={yr.year}>{yr.year}</option>
+                                        ))}
+                                    </FormControl>
+                                </Col>
+                            </FormGroup>
+                            <br/>
+                            <FormGroup>
+                                <Col componentClass={ControlLabel} sm={10}>
+                                    Facilities({(this.state.facilitiesCombo.length)})
+                                </Col>
+                                <Col sm={15}>
+                                    <div className="div-multiselect">
+                                        {/*<Multiselect
+                                            options={this.state.facilitiesCombo}
+                                        onChange={this.selectMultipleFacilities} />*/}
+                                         {/*<DropdownTreeSelect data={this.state.treeData} onChange={(curr,selected) => this.onChange(curr,selected)}  texts={{ placeholder: 'Search or choose' }} /> */}
+
+                                        <DropdownTreeSelect data={this.state.treeData} onChange={onChange} /*showDropdownAlways={true}*/ texts={{ placeholder: 'Search or choose' }} />
+                                    </div>
+
+                                </Col>
+                            </FormGroup>
+                            <br/>
+                            <FormGroup>
+                                <Col componentClass={ControlLabel} sm={10}>
+                                    Cadres
+                                </Col>
+                                <Col sm={15}>
+                                    <div className="div-multiselect">
+                                        <Multiselect
+                                            options={this.state.cadresCombo}
+                                            onChange={this.selectMultipleCadres} />
+                                    </div>
+                                </Col>
+                            </FormGroup>
+                            <hr />
+                            <div style={{ textAlign: "right", paddingTop: 10 }}>
+                                <Button bsStyle="warning" bsSize="medium" onClick={() => this.calculateClicked()}>Calculate pressure</Button>
+                            </div>
+                            <br />
+                        </Form>
+
+                    </div>
+                    <div className="calc-container-right">
+                        <FormGroup>
+                            <Col componentClass={ControlLabel} sm={20}>
+                                <div className="div-title">
+                                    <b>Workforce pressure calculation results</b>
+                                </div>
+                            </Col>
+                            <hr/>
+                        </FormGroup>
+                        {this.state.state == 'loading' &&
+                            <div style={{ marginTop: 120, marginBottom: 65 }}>
+                                <div className="loader"></div>
+                            </div>
+                        }
+                        {this.state.state == 'results' &&
+                            <ResultComponent
+                                //saveAsFavorite={map=>this.saveAsFavorite(map)}
+                                results={this.state.results}
+                                cadreDict={this.state.cadreDict}
+                            />
+                        }
+                    </div>
                 </div>
+            </Panel>
             </div>
-
         );
-
     }
 };

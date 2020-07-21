@@ -12,6 +12,8 @@ const withAuth=require('./middleware');
 
 let router = express.Router();
 
+let countryId = 52;
+
 router.use(fileUpload(/*limits: { fileSize: 50 * 1024 * 1024 },*/));
 
 router.get('/cadres'/*,withAuth,*/, function(req, res){
@@ -42,8 +44,8 @@ router.get('/countries'/*,withAuth,*/, function(req, res){
 
 router.get('/treatments'/*,withAuth,*/, function(req, res){
     
-    db.query(`SELECT t.code AS code,t.cadre_code AS cadre_code,CONCAT(c.name_fr,"/",c.name_en) AS cadre,
-            t.name_fr AS name_fr,t.name_en AS name_en, ft.facility_type as facility_type, CONCAT(ft.name_fr,"/",ft.name_en) AS facility_type,  
+    db.query(`SELECT t.code AS code,t.cadre_code AS cadre_code,c.name AS cadre,
+            t.name AS name,t.name AS name, ft.name AS facility_type,  
             t.duration AS duration FROM  std_treatment t, std_cadre c, std_facility_type ft 
             WHERE t.cadre_code=c.code AND t.facility_type=ft.code;`,function(error,results,fields){
         if(error) throw error;
@@ -55,8 +57,8 @@ router.get('/getTreatment/:code'/*,withAuth*/, function(req,res){
 
     let code=req.params.code;
 
-    db.query(`SELECT t.code AS code,t.cadre_code AS cadre_code,CONCAT(c.name_fr,"/",c.name_en) AS cadre,
-                t.name_fr AS name_fr,t.name_en AS name_en, t.duration AS duration, facility_type AS facility_type 
+    db.query(`SELECT t.code AS code,t.cadre_code AS cadre_code,c.name AS cadre,
+                t.name AS name, t.duration AS duration, facility_type AS facility_type 
                 FROM  std_treatment t, std_cadre c 
                 WHERE t.cadre_code=c.code AND t.code="${code}"`, function (error, results) {
         if (error) throw error;
@@ -71,13 +73,13 @@ router.get('/treatments/:cadreCode',withAuth, function(req, res){
     let sql="";
 
     if(cadreCode == "0"){
-        sql=`SELECT t.code AS code,t.cadre_code AS cadre_code, t.facility_type, CONCAT(c.name_fr,"/",c.name_en) AS cadre,
-            t.name_fr AS name_fr,t.name_en AS name_en, t.duration AS duration 
+        sql=`SELECT t.code AS code,t.cadre_code AS cadre_code, t.facility_type, c.name AS cadre,
+            t.name AS name, t.duration AS duration 
             FROM  std_treatment t, std_cadre c 
             WHERE t.cadre_code=c.code`
     }else{
-        sql=`SELECT t.code AS code,t.cadre_code AS cadre_code,  t.facility_type,CONCAT(c.name_fr,"/",c.name_en) AS cadre,
-            t.name_fr AS name_fr,t.name_en AS name_en, t.duration AS duration 
+        sql=`SELECT t.code AS code,t.cadre_code AS cadre_code,  t.facility_type,c.name AS cadre,
+            t.name, t.duration AS duration 
             FROM  std_treatment t, std_cadre c 
             WHERE t.cadre_code=c.code AND cadre_code="${cadreCode}"`;
     }
@@ -131,16 +133,14 @@ router.post('/insertCadre',withAuth, (req, res) => {
 
     let code = req.body.code;
 
-    let name_fr = req.body.name_fr;
-
-    let name_en=req.body.name_en;
+    let name = req.body.name;
 
     let worktime=req.body.worktime;
 
     let admin_task=req.body.admin_task;
 
-    db.query(`INSERT INTO std_cadre(code,name_fr,name_en,worktime,admin_task) 
-            VALUES("${code}","${name_fr}","${name_en}",${worktime},${admin_task})`, 
+    db.query(`INSERT INTO std_cadre(code,name,worktime,admin_task) 
+            VALUES("${code}","${name}",${worktime},${admin_task})`, 
         function (error, results) {
         if (error) throw error;
         res.json(results);
@@ -152,16 +152,13 @@ router.post('/updateCadre',withAuth, (req, res) => {
 
     let code = req.body.code;
 
-    let name_fr = req.body.name_fr;
-
-    let name_en=req.body.name_en;
+    let name = req.body.name;
 
     let worktime=req.body.worktime;
 
     let admin_task=req.body.admin_task;
 
-    db.query(`UPDATE std_cadre SET name_fr="${name_fr}", 
-                name_en="${name_en}", worktime=${worktime},
+    db.query(`UPDATE std_cadre SET name="${name}", 
                 admin_task=${admin_task} WHERE code="${code}"`, 
         function (error, results) {
         if (error) throw error;
@@ -194,14 +191,12 @@ router.post('/insertTreatment',withAuth, (req, res) => {
 
     let cadre_code=req.body.cadre_code;
 
-    let name_fr = req.body.name_fr;
-
-    let name_en = req.body.name_en;
+    let name = req.body.name;
 
     let duration = req.body.duration;
 
-    db.query(`INSERT INTO std_treatment(code,cadre_code,name_fr,name_en,facility_type,duration) 
-                VALUES("${code}","${cadre_code}","${name_fr}","${name_en}","${facility_type}",${duration})`, 
+    db.query(`INSERT INTO std_treatment(code,cadre_code,name,facility_type,duration) 
+                VALUES("${code}","${cadre_code}","${name}","${facility_type}",${duration})`, 
         function (error, results) {
         if (error) throw error;
         res.json(results);
@@ -283,56 +278,6 @@ router.patch('/editTreatment', (req, res) => {
 
 });
 
-router.get('/facilityTypes'/*,withAuth,*/, function(req, res){
-    
-    db.query(`SELECT * FROM  std_facility_type;`,function(error,results,fields){
-        if(error) throw error;
-        res.json(results);
-    });
-});
-
-router.post('/insertType',withAuth, (req, res) => {
-
-    let code = req.body.code;
-
-    let name_fr = req.body.name_fr;
-
-    let name_en=req.body.name_en;
-
-    db.query(`INSERT INTO std_facility_type(code,name_fr,name_en) 
-            VALUES("${code}","${name_fr}","${name_en}")`, 
-        function (error, results) {
-        if (error) throw error;
-        res.json(results);
-    });
-
-});
-
-router.delete('/deleteType/:code',withAuth, function(req, res){
-
-    let code=req.params.code; 
-
-    db.query(`DELETE FROM  std_treatment WHERE facility_type="${code}";
-                DELETE FROM  std_facility_type WHERE code="${code}";`,function(error,results,fields){
-        if(error) throw error;
-        res.status(200).send("Deleted successfully");
-    });
-});
-
-router.patch('/editType', (req, res) => {
-
-    let code = req.body.code;
-
-    let value = req.body.value;
-
-    let param=req.body.param;
-
-    db.query(`UPDATE std_facility_type SET ${param} ="${value}" WHERE code ="${code}"`, function (error, results) {
-        if (error) throw error;
-        res.json(results);
-    });
-
-});
 
 router.post('/uploadCadres',withAuth, function (req, res) {
 
@@ -357,27 +302,25 @@ router.post('/uploadCadres',withAuth, function (req, res) {
 
                     let code = data[index][0];
 
-                    let name_fr = data[index][1];
+                    let name = data[index][1];
 
-                    let name_en = data[index][2];
+                    let days=data[index][2];
 
-                    let days=data[index][3];
+                    let hours=data[index][3];
 
-                    let hours=data[index][4];
+                    let annual_leave=data[index][4];
 
-                    let annual_leave=data[index][5];
+                    let sick_leave=data[index][5];
 
-                    let sick_leave=data[index][6];
+                    let other_leave=data[index][6];
 
-                    let other_leave=data[index][7];
+                    let admin_task=data[index][7];
 
-                    let admin_task=data[index][8];
-
-                    sql += `INSERT INTO std_cadre(code,name_fr,name_en,work_days,work_hours,
-                            annual_leave, sick_leave, other_leave, admin_task) VALUES("${code}",
-                            "${name_fr}","${name_en}",${days},${hours},${annual_leave},${sick_leave},
-                             ${other_leave},${adminTask}) 
-                            ON DUPLICATE KEY UPDATE name_fr="${name_fr}",name_en = "${name_en}",work_days=${days},
+                    sql += `INSERT INTO std_cadre(code,name,work_days,work_hours,
+                            annual_leave, sick_leave, other_leave, admin_task,countryId) VALUES("${code}",
+                            "${name}",${days},${hours},${annual_leave},${sick_leave},
+                             ${other_leave},${adminTask},${countryId}) 
+                            ON DUPLICATE KEY UPDATE name="${name}",work_days=${days},
                             work_hours=${hours},annual_leave=${annual_leave},
                             sick_leave=${sick_leave},other_leave=${other_leave},admin_task=${admin_task};`;
                 }
@@ -389,6 +332,7 @@ router.post('/uploadCadres',withAuth, function (req, res) {
         });
     });
 })
+
 
 router.post('/uploadTreatments',withAuth, function (req, res) {
 
@@ -415,14 +359,12 @@ router.post('/uploadTreatments',withAuth, function (req, res) {
 
                     let cadre_code = data[index][1];
 
-                    let name_fr = data[index][2];
+                    let name = data[index][2];
 
-                    let name_en = data[index][3];
+                    let duration = data[index][3];
 
-                    let duration = data[index][4];
-
-                    sql += `INSERT INTO std_treatment(code,cadre_code,name_fr,name_en,duration) VALUES("${code}","${cadre_code}","${name_fr}","${name_en}",${duration}) 
-                            ON DUPLICATE KEY UPDATE name_fr="${name_fr}",name_en = "${name_en}",duration=${duration};`;
+                    sql += `INSERT INTO std_treatment(code,cadre_code,name,duration) VALUES("${code}","${cadre_code}","${name}",${duration}) 
+                            ON DUPLICATE KEY UPDATE name="${name}",duration=${duration};`;
                 }
 
                 db.query(sql, function (error, results) {

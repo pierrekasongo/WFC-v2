@@ -4,6 +4,8 @@ const db = require('../dbconn');
 
 let router = express.Router();
 
+const withAuth = require('./auth')
+
 let countryId = 52;
 
 router.patch('/config', (req, res) => {
@@ -46,7 +48,79 @@ router.get('/getCountryHolidays', function (req, res) {
             res.json(results);
         });
 });
+router.get('/countries/:id',withAuth, function(req, res){
 
+    let id=req.params.id; 
+
+    db.query(`SELECT * FROM  country WHERE id=${id}`,function(error,results,fields){
+        if(error) throw error;
+        res.json(results);
+    });
+});
+router.patch('/editCountry', (req, res) => {
+
+    let id=req.body.id;
+
+    let code = req.body.code;
+
+    let value = req.body.value;
+
+    let param=req.body.param;
+
+    let sql="";
+
+    if(param.includes("holidays")){
+
+        sql=`UPDATE country SET ${param} =${value} WHERE id =${id}`;
+    }else{
+        sql=`UPDATE country SET ${param} ="${value}" WHERE id =${id}`;
+    }
+
+    db.query(sql, function (error, results) {
+        if (error) throw error;
+        res.json(results);
+    });
+
+});
+
+
+router.delete('/deleteCountry/:id',withAuth, function(req, res){
+
+    let id=req.params.id; 
+
+    db.query(`DELETE FROM  users WHERE countryId=${id};DELETE FROM  country WHERE id=${id};`,function(error,results,fields){
+        if(error) throw error;
+        res.status(200).send("Deleted successfully");
+    });
+});
+
+router.delete('/deleteTreatment/:code',withAuth, function(req, res){
+
+    let code=req.params.code; 
+
+    db.query(`DELETE FROM  std_treatment WHERE code="${code}"`,function(error,results,fields){
+        if(error) throw error;
+        res.status(200).send("Deleted successfully");
+    });
+});
+
+
+
+router.post('/insertCountry',withAuth, (req, res) => {
+
+    let code = req.body.code;
+
+    let name_fr = req.body.name_fr;
+
+    let name_en=req.body.name_en;
+
+    db.query(`INSERT INTO country(code,name_fr,name_en) VALUES("${code}","${name_fr}","${name_en}")`, 
+        function (error, results) {
+        if (error) throw error;
+        res.json(results);
+    });
+
+});
 let ihrisCredentials = async function (countryId) {
 
     let sql = `SELECT id, parameter, value FROM  config WHERE parameter 
@@ -119,4 +193,6 @@ module.exports = {
     dhis2Credentials: dhis2Credentials,
     router: router
 }
+
+
 //module.exports = router;

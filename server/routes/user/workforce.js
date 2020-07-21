@@ -74,7 +74,7 @@ var process=function(facilityId,facilities,cadreIds,cadres,period,holidays, call
 
     // queries
     //let concernedTreatmentsQuery= `SELECT id, ratio FROM activities WHERE `;
-    let treatmentsQuery = `SELECT std_code AS id,ratio FROM country_treatment WHERE cadre_code IN(?)`;
+    let treatmentsQuery = `SELECT code AS id,ratio FROM country_treatment WHERE cadre_code IN(?)`;
     //let treatmentsQuery = `SELECT id, ratio FROM activities WHERE id IN (SELECT activityId FROM activity_time WHERE cadreId IN(?) )`;
     let patientCountQuery = `SELECT activityCode  AS id, SUM(caseCount) AS PatientCount FROM activity_stats
                            WHERE year="${period}" AND facilityCode="${facilityCode}" GROUP BY activityCode`;
@@ -82,7 +82,7 @@ var process=function(facilityId,facilities,cadreIds,cadres,period,holidays, call
     //let timePerTreatmentQuery = `SELECT activityId, cadreId, minutesPerPatient AS TreatmentTime FROM 
                            //activity_time WHERE cadreId IN(?) GROUP BY activityId, cadreId`;
 
-    let timePerTreatmentQuery = `SELECT std_code AS activityId, cadre_code AS cadreId, duration AS TreatmentTime FROM 
+    let timePerTreatmentQuery = `SELECT code AS activityId, cadre_code AS cadreId, duration AS TreatmentTime FROM 
                                     country_treatment WHERE cadre_code IN(?)`;//Select only for selected cadres
     
     let facilityStaffCountQuery = `SELECT id, cadreCode, staffCount AS StaffCount FROM staff

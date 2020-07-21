@@ -73,7 +73,6 @@ router.post('/save', function(req, res){
     let email=req.body.email;
     let name=req.body.name;
     let password=req.body.password;
-    console.log("PASSWORD ",name);
     let hash = bcrypt.hashSync(password, SALT);
     
     db.query(`INSERT INTO users(login,name,email,password,countryId) VALUES 

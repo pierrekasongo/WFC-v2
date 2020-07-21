@@ -7,22 +7,13 @@ import 'rc-steps/assets/iconfont.css';
 import Steps, { Step } from 'rc-steps';
 
 
-import ImportPage from '../import/ImportPage';
-import AdminPage from '../admin/AdminPage';
-import CadreTimePage from '../user/CadreTimePage';
+import TemplatePage from '../template/TemplatePage';
 import StatisticsPage from '../admin/StatisticsPage';
-import UserPage from '../user/UserPage';
-import MatchingPage from '../admin/MatchingPage';
+import CaluclationPage from '../user/CalculationPage';
 
-const importData_desc = 'Import all required metadata into the system.';
+const generate_template_desc ='Generate service and HR data template.';
 
-//const activityDuration_desc='Set time(duration) for each treatment(activity) involved in the calculation.';
-
-const cadreTime_desc ='Set cadre working and not working time.';
-
-const Match_desc ='Match treatments to Dhis2 and facilities to iHRIS.';
-
-const startImport_desc = 'Import treatments annual statistics and workforce data';
+const upload_data_desc = 'Upload service  and HR statistics data.';
 
 const calculation_desc='Calculate the workforce pressure.';
 
@@ -34,7 +25,7 @@ export default class StartPage extends React.Component {
 
         this.state = {
             currentStep:0,
-            maxSteps:4,
+            maxSteps:3,
         }
     }
     nexStep(){
@@ -74,11 +65,8 @@ export default class StartPage extends React.Component {
                     <div class="container-fluid bg-3">
                         <div style={{marginTop:5}}>
                             <Steps current={this.state.currentStep}>
-                                <Step title="Metadata import" description={importData_desc} />
-                                {/*<Step title="Time on treatment" description={activityDuration_desc} />*/}
-                                <Step title="Cadre worktime" description={cadreTime_desc} />
-                                <Step title="Treatments/facilities matching" description={Match_desc} />
-                                <Step title="Annual/Workforce statistics" description={startImport_desc} />
+                                <Step title="Generate service and HR template" description={generate_template_desc} />
+                                <Step title="Service and HR Data upload" description={upload_data_desc} />
                                 <Step title="Workload calculation" description={calculation_desc} />
                             </Steps>
                             <div className="div-steps">
@@ -91,22 +79,13 @@ export default class StartPage extends React.Component {
                             </div>
                             <hr/>
                             {(this.state.currentStep == 0) && 
-                                <ImportPage />
+                                <TemplatePage />
                             }
-                            {/*(this.state.currentStep == 1) && 
-                                <AdminPage />
-                            */}
                             {(this.state.currentStep == 1) && 
-                                <CadreTimePage />
-                            }
-                            {(this.state.currentStep == 2) && 
-                                <MatchingPage />
-                            }
-                            {(this.state.currentStep == 3) && 
                                 <StatisticsPage />
                             }
-                            {(this.state.currentStep == 4) && 
-                                <UserPage />
+                            {(this.state.currentStep == 2) && 
+                                <CaluclationPage />
                             }
                         </div>
                     </div>                        

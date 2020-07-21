@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>API Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <style>
+        pre{
+            color:rgb(185, 118, 35);
+            border:1px dashed rgb(185, 118, 35);;
+            padding:5px;
+            background-color:rgb(248, 242, 234);
+        }
+        li{
+            color:rgb(209, 115, 8);
+            font-weight: bold;
+        }
+        .block{
+            margin:10px;padding:5px;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: center">
+        <h2>API v1 Documentation</h2>
+        <hr>
+    </div>
+    <div>
+        <ul>
+            <li>Facilities</li>
+            <div class="block">
+                <b>POST /api/v1/facility/push</b>
+                <br>
+                <h4>JSON body</h4>
+                <pre>
+                    var data =[
+                        {
+                            "Region":"region",
+                            "District":"district",
+                            "Facility_type_code":"facility type code",
+                            "Facility_code":"facility code",
+                            "Facility_name":"facility name",
+                        }
+                    ]
+                    </pre>
+            </div>
+            
+            <li>Cadres/Worktime</li>
+            <div class="block">
+                <b>POST /api/v1/cadre/push</b>
+                <br>
+                <h4>JSON body</h4>
+                <pre>
+                    var data =[
+                        {
+                            "Code":"code",
+                            "Facility_type_code":"facility type code",
+                            "Name":"name",
+                            "Work_days":0,
+                            "Work_hours":0,
+                            "Annual_leave":0,
+                            "Sick_leave":0,
+                            "Other_leave":0,
+                            "Admin_task":0,
+                        }
+                    ]
+                </pre>
+            </div>
+            <li>Activities</li>
+            <div class="block">
+                <b>POST /api/v1/activity/push</b>
+                <br>
+                <h4>JSON body</h4>
+                <pre>
+                    var data =[
+                        {
+                            "Code":"code",
+                            "Cadre_code":"cadre",
+                            "Name":"name",
+                            "Duration":0
+                        }
+                    ]
+                </pre>
+            </div>
+            
+            <li>Workforce</li>
+            <div class="block">
+                <b>POST /api/v1/staff/push</b>
+                <br>
+                <h4>JSON body</h4>
+                <pre>
+                    var data =[
+                        {
+                            "Facility_code":"0001",
+                            "Cadre_code":"cd-00198",
+                            "Staff_count": 10
+                        }
+                    ]
+                </pre>
+            </div>
+            <li>Activity statistics</li>
+            <div class="block">
+                <b>POST /api/v1/statistics/push</b>
+                <br>
+                <h4>JSON body</h4>
+                <pre>
+                    var data = [
+                        {
+                            "Facility_code":"faCode",
+                            "Cadre_code":"cdCode",
+                            "Activity_code":"trCode",
+                            "Year":"year",
+                            "Patients_count": 0
+                        }
+                    ]
+                </pre>
+            </div>
+        </ul>
+    </div>
+</body>
+</html>

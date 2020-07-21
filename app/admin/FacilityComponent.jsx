@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { Panel, Form, FormGroup, ControlLabel, Row, FormControl, Col, Checkbox, Button, Table } from 'react-bootstrap';
 import axios from 'axios';
-import { FaCheck, FaTrash } from 'react-icons/fa';
+import { FaCheck, FaTrash,FaCloudUploadAlt,FaFileExcel } from 'react-icons/fa';
 import toastr from 'toastr';
 import { confirmAlert } from 'react-confirm-alert';
 import 'toastr/build/toastr.min.css';
-import Multiselect from 'react-multiselect-checkboxes';
 
-export default class FacilityPanel extends React.Component {
+import * as FileSaver from 'file-saver';
+
+import * as XLSX from 'xlsx';
+
+export default class FacilityComponent extends React.Component {
 
     constructor(props) {
         super(props);
@@ -21,11 +24,13 @@ export default class FacilityPanel extends React.Component {
             facilitiesMap: new Map(),
             showButtons:false,
         };
+      
+        this.handleUploadFacility = this.handleUploadFacility.bind(this);
         this.selectMultipleFacilities = this.selectMultipleFacilities.bind(this);
         this.deleteFacility = this.deleteFacility.bind(this);
         this.insertFacilities = this.insertFacilities.bind(this);
 
-        axios.get('/dhis2/facilities').then(res => {
+        axios.get('/facility/facilities').then(res => {
 
             let facilitiesMap = new Map();
 
@@ -38,37 +43,7 @@ export default class FacilityPanel extends React.Component {
             });
         }).catch(err => console.log(err));
 
-        axios.get('/dhis2/import_facilities_from_dhis2').then(res => {
-
-            let bulkFacilities = {};
-
-            res.data.forEach(bf => {
-
-                bulkFacilities[bf.id] = {
-                    id: bf.id,
-                    level: bf.level,
-                    name: bf.name,
-                    parent: bf.parent
-                }
-            });
-            this.setState({ bulkFacilities: bulkFacilities });
-
-            let facilitiesCombo = [];
-
-            res.data.forEach(fa => {
-
-                let facility = "";
-
-                if (bulkFacilities[fa.id].parent) {
-                    facility = bulkFacilities[fa.parent.id].name + '/' + fa.name;
-                } else {
-                    facility = fa.name;
-                }
-                facilitiesCombo.push({ label: facility, value: fa.id });
-            });
-            this.setState({ facilitiesCombo: facilitiesCombo });
-
-        }).catch(err => console.log(err));
+        console.log(this.state.facilities);
     }
 
     deleteFacility(id) {
@@ -85,10 +60,10 @@ export default class FacilityPanel extends React.Component {
 
                                 this.setState({ state: 'loading' });
 
-                                axios.delete(`/dhis2/deleteFacility/${id}`)
+                                axios.delete(`/facility/deleteFacility/${id}`)
                                     .then((res) => {
 
-                                        axios.get('/dhis2/facilities').then(res => {
+                                        axios.get('/facility/facilities').then(res => {
 
                                             let facilitiesMap = new Map();
 
@@ -123,9 +98,9 @@ export default class FacilityPanel extends React.Component {
 
         this.setState({ state: 'loading' });
 
-        axios.post(`/dhis2/insert_facilities`, data).then(res => {
+        axios.post(`/facility/insert_facilities`, data).then(res => {
 
-            axios.get('/dhis2/facilities').then(res => {
+            axios.get('/facility/facilities').then(res => {
 
                 let facilitiesMap = new Map();
 
@@ -149,9 +124,11 @@ export default class FacilityPanel extends React.Component {
 
         values.forEach(val => {
             let names = val.label.split("/");
-            let parent = names[0];
-            let facility = names[1];
+            let region = names[0];
+            let district = names[1];
+            let facility = names[2];
             let id = val.value;
+            
             if (this.state.facilitiesMap.has(id)) {
                 this.launchToastr("This facility has been added already");
                 return;
@@ -159,7 +136,8 @@ export default class FacilityPanel extends React.Component {
                 selectedFacilities.push({
                     id: id,
                     name: facility,
-                    parent: parent,
+                    region: region,
+                    district: district,
                 });
             }
         })
@@ -176,65 +154,137 @@ export default class FacilityPanel extends React.Component {
         setTimeout(() => toastr.error(msg), 300)
     }
 
+    handleUploadFacility(ev) {
+
+        ev.preventDefault();
+
+        const data = new FormData();
+
+        if (this.uploadFacilityInput.files.length == 0) {
+            this.launchToastr("No file selected");
+            return;
+        }
+
+        data.append('file', this.uploadFacilityInput.files[0]);
+
+        axios.post('/facility/uploadFacilities', data,
+            {
+                onUploadProgress: progressEvent => {
+                    var prog = (progressEvent.loaded / progressEvent.total) * 100;
+                    var pg = (prog < 100) ? prog.toFixed(2) : prog.toFixed(0);
+                    this.setState({ progress: pg });
+                    //console.log(pg+"%");
+                }
+            })
+            .then((result) => {
+                this.setState({ progress: result.data });
+                axios.get('/facility/facilities').then(res => {
+
+                    let facilitiesMap = new Map();
+        
+                    res.data.forEach(dt => {
+                        facilitiesMap.set(dt.code, dt.name);
+                    })
+                    this.setState({
+                        facilities: res.data,
+                        facilitiesMap: facilitiesMap
+                    });
+                }).catch(err => console.log(err));
+
+            }).catch(err => {
+                if (err.response.status === 401) {
+                    this.props.history.push(`/login`);
+                } else {
+                    console.log(err);
+                }
+            });
+    }
+    createTemplate(facilities){
+
+        const template = [];
+
+        facilities.forEach(fa => {
+
+            template.push({"Region":fa.region,"District":fa.district,"Facility type code":fa.facilityTypeCode,
+            "Facility type name":fa.facilityType, "Facility code":fa.code,"Facility name":fa.name});
+        });
+
+        return template;
+    }
+  
+    async generateTemplate(facilities){
+
+        const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const fileExtension = '.xlsx';
+        const fileName = 'facilities';
+
+        const template = await this.createTemplate(facilities);
+
+        
+        const wb = XLSX.utils.book_new();
+
+        const ws_template = XLSX.utils.json_to_sheet(template);
+        XLSX.utils.book_append_sheet(wb,ws_template,"FACILITIES");
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], {type: fileType});
+        FileSaver.saveAs(data, fileName + fileExtension);
+    }
+
+
     render() {
         return (
             <div className="tab-main-container">
+                
                 <Form horizontal>
                     <div className="cadres-container">
-
                         <div>
                             <FormGroup>
                                 <Col componentClass={ControlLabel} sm={20}>
                                     <div className="div-title">
-                                        <b>Import facilities from DHIS2</b>
+                                        <b>Available facilities</b>
                                     </div>
                                     <hr />
                                 </Col>
                             </FormGroup>
-                            <div class="alert alert-warning" role="alert">
-                                Select facilities from below dropbox and click the button to import.
-                            </div>
+                           
                             <FormGroup>
                                 <Col componentClass={ControlLabel} sm={10}>
-                                    Choose from DHIS2 ({this.state.facilitiesCombo.length})
+                                    <div>
+                                        <button className="button" onClick={() => this.generateTemplate(this.state.facilities)}>
+                                        <FaFileExcel /> Download</button>
+                                    </div> 
                                 </Col>
-                                <table className="tbl-multiselect">
-                                    <tr>
-                                        <td>
-                                            <div className="div-multiselect">
-                                                <Multiselect
-                                                    options={this.state.facilitiesCombo}
-                                                    onChange={this.selectMultipleFacilities} />
-                                            </div>
-
-                                        </td>
-                                        {this.state.showButtons &&
-                                            <td>
-                                                <button className="button" onClick={() => this.insertFacilities()}><FaCheck /> Import</button>
-                                            </td>
-                                        }
-                                    </tr>
-                                </table>
-                                <hr />
                             </FormGroup>
-
+                            <br/>
                             {this.state.state == 'loading' &&
                                 <div style={{ marginTop: 120, marginBottom: 65 }}>
                                     <div className="loader"></div>
                                 </div>
                             }
+                            {
+                                this.state.showingNew &&
+                                <NewFacilityComponent
+                                    facilities={this.state.facilities}
+                                    facilityType={this.state.facilityType}
+                                    save={info => this.newFacilitySave(info)}
+                                    cancel={() => this.setState({ showingNew: false })} />
+                            }
                             {this.state.state == 'done' &&
                                 <table className="table-list" cellSpacing="10">
                                     <thead>
-                                        <th>Parent</th>
+                                        <th>Region</th>
+                                        <th>District</th>
                                         <th>Facility</th>
+                                        <th>Facility type</th>
                                         <th></th>
                                     </thead>
                                     <tbody>
                                         {this.state.facilities.map(fac =>
                                             <tr key={fac.id}>
-                                                <td>{fac.parentName}</td>
+                                                <td>{fac.region}</td>
+                                                <td>{fac.district}</td>
                                                 <td>{fac.name}</td>
+                                                <td>{fac.facilityType}</td>
                                                 <td>
                                                     <a href="#" onClick={() => this.deleteFacility(fac.id)}>
                                                         <FaTrash />

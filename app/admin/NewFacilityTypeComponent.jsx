@@ -11,8 +11,7 @@ export default class NewFacilityTypeComponent extends React.Component {
 
         this.state = {
             code:'',
-            name_fr:'',
-            name_en:'',
+            name:'',
         }
     }
     componentDidMount(){
@@ -23,15 +22,9 @@ export default class NewFacilityTypeComponent extends React.Component {
             <tr>
                 <td style={{fontSize:14}}>
                     <input type="text"
-                            placeholder="Name (fr)"
-                            value={this.state.name_fr}
-                            onChange={e => this.setState({ name_fr: e.target.value })} />
-                </td>
-                <td style={{fontSize:14}}>
-                    <input type="text"
-                            placeholder="Name (en)"
-                            value={this.state.name_en}
-                            onChange={e => this.setState({ name_en: e.target.value })} />
+                            placeholder="Name"
+                            value={this.state.name}
+                            onChange={e => this.setState({ name: e.target.value })} />
                 </td>
                 <td>
                     <a href="#" className="add-new-link" onClick={() => this.props.cancel()}><FaTimes /></a>

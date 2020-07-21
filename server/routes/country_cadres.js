@@ -80,12 +80,7 @@ router.patch('/editCadre', (req, res) => {
 });
 // get list of cadres
 router.get('/cadres', (req, res) => {
-        db.query(`SELECT ct.std_code AS std_code, ct.hris_code AS hris_code,
-                    ct.work_days AS work_days, ct.work_hours AS work_hours,
-                    ct.annual_leave AS annual_leave, ct.sick_leave AS sick_leave,
-                    ct.other_leave AS other_leave, ct.admin_task AS admin_task, std.name_fr
-                    AS name_fr, std.name_en AS name_en FROM country_cadre ct, std_cadre std 
-                    WHERE ct.std_code=std.code AND ct.country_id=${countryId}`,function(error,results,fields){
+        db.query(`SELECT * FROM  std_cadre WHERE countryId=${countryId}`,function(error,results,fields){
             if(error) throw error;
             res.json(results);
         });

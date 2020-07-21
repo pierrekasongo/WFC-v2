@@ -37,7 +37,7 @@
     "download-csv": "^1.1.1",
     "express": "^4.16.2",
     "express-fileupload": "^0.4.0",
-    "fhir.js": "0.0.20",
+    "file-saver": "^2.0.2",
     "i18n-nodejs": "^3.0.0",
     "js-cookie": "^2.2.0",
     "js-file-download": "^0.4.1",
@@ -54,8 +54,9 @@
     "react-confirm-alert": "^2.4.1",
     "react-csv": "^1.0.18",
     "react-dom": "^16.6.3",
-    "react-dropdown-tree-select": "^1.13.0",
+    "react-dropdown-tree-select": "^1.20.1",
     "react-edit-inline2": "^1.0.2",
+    "react-i18next": "^11.7.0",
     "react-icons": "^3.6.1",
     "react-infinite-scroll-component": "^4.2.0",
     "react-multiselect-checkboxes": "^0.1.1",
@@ -70,7 +71,9 @@
     "toastr": "^2.1.4",
     "tryparse": "0.0.2",
     "underscore": "1.7.0",
-    "uuid": "^3.3.2"
+    "unique-filename": "^1.1.1",
+    "uuid": "^3.3.2",
+    "xlsx": "^0.16.3"
   },
   "devDependencies": {
     "axios": "^0.17.0",
