@@ -82,6 +82,25 @@ router.patch('/cadre/hours/:id', (req, res) => {
     });
 });
 
+router.patch('/editCadre', (req, res) => {
+
+    let code = req.body.code;
+
+    let value = req.body.value;
+
+    let param=req.body.param;
+
+    let sql="";
+
+    sql=`UPDATE std_cadre SET ${param} =${value} WHERE code ="${code}"`;
+
+    db.query(sql, function (error, results) {
+        if (error) throw error;
+        res.json(results);
+    });
+
+});
+
 //Update hours per week for a cadre
 router.patch('/cadre/admin_work/:id', (req, res) => {
 

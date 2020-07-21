@@ -196,11 +196,12 @@ export default class CadreComponent extends React.Component {
             console.log('Value updated successfully');
 
         }).catch(err => {
-            if (err.response.status === 401) {
+            console.log(err)
+            /*if (err.response.status === 401) {
                 this.props.history.push(`/login`);
             } else {
                 console.log(err);
-            }
+            }*/
         });
     }
 

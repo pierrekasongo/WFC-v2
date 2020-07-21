@@ -189,8 +189,8 @@ router.get('/getYears', (req, res) => {
     });
 });
 module.exports = {
-    ihrisCredentials:ihrisCredentials,
-    dhis2Credentials: dhis2Credentials,
+   // ihrisCredentials:ihrisCredentials,
+    //dhis2Credentials: dhis2Credentials,
     router: router
 }
 

@@ -1,43 +1,43 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
--- http://www.phpmyadmin.net
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
 --
--- Client :  127.0.0.1
--- Généré le :  Jeu 06 Juin 2019 à 01:22
--- Version du serveur :  5.6.17
--- Version de PHP :  5.5.12
+-- Host: 127.0.0.1
+-- Generation Time: Jul 21, 2020 at 01:53 PM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.2.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `workforce_pressure`
+-- Database: `workforce_pressure`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `activities`
+-- Table structure for table `activities`
 --
 
-CREATE TABLE IF NOT EXISTS `activities` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `activities` (
+  `id` int(11) NOT NULL,
   `countryId` int(11) NOT NULL,
   `activityName` varchar(250) NOT NULL,
   `imported` tinyint(1) NOT NULL,
   `code` varchar(50) NOT NULL,
-  `ratio` int(20) NOT NULL,
-  PRIMARY KEY (`id`)
+  `ratio` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `activities`
+-- Dumping data for table `activities`
 --
 
 INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`, `ratio`) VALUES
@@ -118,7 +118,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (21479, 52, 'A 1.9 Nouveaux cas SVS', 1, 'AzbPgAky5SS', 1),
 (21480, 52, 'A 1.9 Nouveaux cas SVS féminins', 1, 'BzwsgyBcWgU', 1),
 (21481, 52, 'A 1.9 SVS ayant bénéficié PEC médicale après 72h', 1, 'I5OqJSnVYSZ', 1),
-(21482, 52, 'A 1.9 SVS ayant recu la Contraception d''Urgence', 1, 'DecbSLAlRXR', 1),
+(21482, 52, 'A 1.9 SVS ayant recu la Contraception d\'Urgence', 1, 'DecbSLAlRXR', 1),
 (21483, 52, 'A 1.9 SVS ayant recu le kit PEP en deans 72 h', 1, 'QVoXSSWXWuP', 1),
 (21484, 52, 'A 1.9 SVS ayant recu une PEC médicale (Méd ou Inf)', 1, 'f7tofVMMXMM', 1),
 (21485, 52, 'A 1.9 SVS référés à la réinsertion socio-économique', 1, 'ClKert7yKed', 1),
@@ -150,7 +150,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (21511, 52, 'A 2.2 VAT 4', 1, 'bZDbSvdUcPC', 1),
 (21512, 52, 'A 2.2 VAT 5', 1, 'lXstTq1MDSv', 1),
 (21513, 52, 'A 2.3 Accouchées âgées de < 20 ans', 1, 'kXNOd6EGFih', 1),
-(21514, 52, 'A 2.3 Accouchées référées l''HGR', 1, 'WH7lsVxnAVS', 1),
+(21514, 52, 'A 2.3 Accouchées référées l\'HGR', 1, 'WH7lsVxnAVS', 1),
 (21515, 52, 'A 2.3 Accouchements', 1, 'WgZr7FrDfVn', 1),
 (21516, 52, 'A 2.3 Accouchements par personnel qualifié', 1, 'aoIpDzKttLJ', 1),
 (21517, 52, 'A 2.3 Complications obstétricales Post Partum', 1, 'O0eYKOFhMee', 1),
@@ -232,11 +232,11 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (21593, 52, 'A 3.2 NXT - quantité administrée CS (A)', 1, 'rZB9TZBCHlo', 1),
 (21594, 52, 'A 3.2 NXT - quantité perdue', 1, 'xZRKiTD18bH', 1),
 (21595, 52, 'A 3.2 NXT - stock disponible utilisable CS', 1, 'LClaHvsPUhL', 1),
-(21596, 52, 'A 3.2 Pilule d''urgence - nb de jours de Rupture', 1, 'eGsWWQJ2JaB', 1),
-(21597, 52, 'A 3.2 Pilule d''urgence - quantité administrée ADBC (B)', 1, 'UJfaMbPNF4E', 1),
-(21598, 52, 'A 3.2 Pilule d''urgence - quantité administrée CS (A)', 1, 'oPPQtyEfNoq', 1),
-(21599, 52, 'A 3.2 Pilule d''urgence - quantité perdue', 1, 'UZDSrXiks5w', 1),
-(21600, 52, 'A 3.2 Pilule d''urgence - stock disponible utilisable CS', 1, 'YqJd43urAXw', 1),
+(21596, 52, 'A 3.2 Pilule d\'urgence - nb de jours de Rupture', 1, 'eGsWWQJ2JaB', 1),
+(21597, 52, 'A 3.2 Pilule d\'urgence - quantité administrée ADBC (B)', 1, 'UJfaMbPNF4E', 1),
+(21598, 52, 'A 3.2 Pilule d\'urgence - quantité administrée CS (A)', 1, 'oPPQtyEfNoq', 1),
+(21599, 52, 'A 3.2 Pilule d\'urgence - quantité perdue', 1, 'UZDSrXiks5w', 1),
+(21600, 52, 'A 3.2 Pilule d\'urgence - stock disponible utilisable CS', 1, 'YqJd43urAXw', 1),
 (21601, 52, 'A 3.2 Plaquette pilule combinée (COC) - nb de jours de Rupture', 1, 'aBNjieqbnol', 1),
 (21602, 52, 'A 3.2 Plaquette pilule combinée (COC) - quantité administrée ADBC (B)', 1, 'DnK8aY6xRRe', 1),
 (21603, 52, 'A 3.2 Plaquette pilule combinée (COC) - quantité administrée CS (A)', 1, 'YzLzUq3E8ZQ', 1),
@@ -270,8 +270,8 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (21631, 52, 'A 3.2 Sterilisation Fem (ligature) - quantité administrée CS', 1, 'G6PydS9e47W', 1),
 (21632, 52, 'A 3.2 Sterilisation masc. (Vasectomie) - quantité administrée CS', 1, 'SBg7V6KXIpg', 1),
 (21633, 52, 'A 4.1 Personnes supervisées', 1, 'rQOQC6jpYq0', 1),
-(21634, 52, 'A 4.1 Supervision de l''ECZS reçue', 1, 'mGOL7UsJVlk', 1),
-(21635, 52, 'A 4.1 Supervision de l''ECZS reçue avec rétro-information écrite reçue', 1, 'qv06YR2WomM', 1),
+(21634, 52, 'A 4.1 Supervision de l\'ECZS reçue', 1, 'mGOL7UsJVlk', 1),
+(21635, 52, 'A 4.1 Supervision de l\'ECZS reçue avec rétro-information écrite reçue', 1, 'qv06YR2WomM', 1),
 (21636, 52, 'A 4.2 Médicaments totalement subventionnés', 1, 'cl7BoPQNO9S', 1),
 (21637, 52, 'A 4.2 Montant à payer au tiers', 1, 'LcrN8rtpU8y', 1),
 (21638, 52, 'A 4.2 Montant à recouvrer', 1, 'i8L8O0ERDU5', 1),
@@ -300,34 +300,34 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (21661, 52, 'A 4.5 Paiements non stockables', 1, 'RWexxUBlkxe', 1),
 (21662, 52, 'A 4.5 Prime locale', 1, 'tkai5lORRyj', 1),
 (21663, 52, 'A 4.5 Transport personnel', 1, 'vMifRAhyYxJ', 1),
-(21664, 52, 'A 4.6 Prime de l''Etat', 1, 'KoPau0rienT', 1),
-(21665, 52, 'A 4.6 Salaire de l''Etat', 1, 'I7HF7ckiJjf', 1),
+(21664, 52, 'A 4.6 Prime de l\'Etat', 1, 'KoPau0rienT', 1),
+(21665, 52, 'A 4.6 Salaire de l\'Etat', 1, 'I7HF7ckiJjf', 1),
 (21666, 52, 'A 4.7 Accoucheur(se)/Sage-femme - abs justifie', 1, 'gsROLLJCQ08', 1),
 (21667, 52, 'A 4.7 Accoucheur(se)/Sage-femme - agents', 1, 'Y0v8wAu2OQe', 1),
 (21668, 52, 'A 4.7 Accoucheur(se)/Sage-femme - travail preste', 1, 'OSqlcAaGnVV', 1),
 (21669, 52, 'A 4.7 Accoucheur(se)/Sage-femme - travail prevu', 1, 'S9TI14HzQ4Q', 1),
 (21670, 52, 'A 4.7 Autre personnel Agents', 1, 'jx7B0d5C75a', 1),
-(21671, 52, 'A 4.7 Autre personnel Jours d''absences justifiées', 1, 'XdVAPaXYrqv', 1),
+(21671, 52, 'A 4.7 Autre personnel Jours d\'absences justifiées', 1, 'XdVAPaXYrqv', 1),
 (21672, 52, 'A 4.7 Autre personnel Jours de travail préstés', 1, 'guJv882zvEz', 1),
 (21673, 52, 'A 4.7 Autre personnel Jours de travail prévus', 1, 'MFYm7uQdeKf', 1),
 (21674, 52, 'A 4.7 Infirmier A1 Agents', 1, 'MtQbqqRai95', 1),
-(21675, 52, 'A 4.7 Infirmier A1 Jours d''absences justifiées', 1, 'ah2YmSUD8r9', 1),
+(21675, 52, 'A 4.7 Infirmier A1 Jours d\'absences justifiées', 1, 'ah2YmSUD8r9', 1),
 (21676, 52, 'A 4.7 Infirmier A1 Jours de travail préstés', 1, 'eIG9xD0Pqtw', 1),
 (21677, 52, 'A 4.7 Infirmier A1 Jours de travail prévus', 1, 'Qlic8c7pNWo', 1),
 (21678, 52, 'A 4.7 Infirmier A2 Agents', 1, 'ezeEllgXATH', 1),
-(21679, 52, 'A 4.7 Infirmier A2 Jours d''absences justifiées', 1, 'ighoPWpkdob', 1),
+(21679, 52, 'A 4.7 Infirmier A2 Jours d\'absences justifiées', 1, 'ighoPWpkdob', 1),
 (21680, 52, 'A 4.7 Infirmier A2 Jours de travail préstés', 1, 'MoL2P0r1nD6', 1),
 (21681, 52, 'A 4.7 Infirmier A2 Jours de travail prévus', 1, 'cyOgeyBbmEI', 1),
 (21682, 52, 'A 4.7 Infirmier L2 Agents', 1, 'X2BAHvCNuB8', 1),
-(21683, 52, 'A 4.7 Infirmier L2 Jours d''absences justifiées', 1, 'EaSnAa2oh7v', 1),
+(21683, 52, 'A 4.7 Infirmier L2 Jours d\'absences justifiées', 1, 'EaSnAa2oh7v', 1),
 (21684, 52, 'A 4.7 Infirmier L2 Jours de travail préstés', 1, 'ylYTiSFSmzk', 1),
 (21685, 52, 'A 4.7 Infirmier L2 Jours de travail prévus', 1, 'xmZiOZbORNj', 1),
 (21686, 52, 'A 4.7 Médecin généraliste Agents', 1, 'ehTcME2KSyk', 1),
-(21687, 52, 'A 4.7 Médecin généraliste Jours d''absences justifiées', 1, 'ruomicqxCd9', 1),
+(21687, 52, 'A 4.7 Médecin généraliste Jours d\'absences justifiées', 1, 'ruomicqxCd9', 1),
 (21688, 52, 'A 4.7 Médecin généraliste Jours de travail préstés', 1, 'VnOpSCIKK6b', 1),
 (21689, 52, 'A 4.7 Médecin généraliste Jours de travail prévus', 1, 'dxK838IVETq', 1),
 (21690, 52, 'A 4.7 Nutritionnistes A2 /A1/ L2 Agents', 1, 'yVTpy45Jvtp', 1),
-(21691, 52, 'A 4.7 Nutritionnistes A2 /A1/ L2 Jours d''absences justifiées', 1, 'RyGu90sHDRU', 1),
+(21691, 52, 'A 4.7 Nutritionnistes A2 /A1/ L2 Jours d\'absences justifiées', 1, 'RyGu90sHDRU', 1),
 (21692, 52, 'A 4.7 Nutritionnistes A2 /A1/ L2 Jours de travail préstés', 1, 'fF6xosajR9e', 1),
 (21693, 52, 'A 4.7 Nutritionnistes A2 /A1/ L2 Jours de travail prévus', 1, 'LP9RpmAXYKR', 1),
 (21694, 52, 'A 4.7 Technicien de labo A2/ A1/ L2 - abs justifie', 1, 'Ibt791WLqWu', 1),
@@ -337,7 +337,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (21698, 52, 'A 5.1 Bandelette urinaire: albumine positif', 1, 'PUgkxjbrkfB', 1),
 (21699, 52, 'A 5.1 Bandelette urinaire: sucre positif', 1, 'lEKvp3L7nd2', 1),
 (21700, 52, 'A 5.1 Chimie urine realise', 1, 'wUXLnHnnZPN', 1),
-(21701, 52, 'A 5.1 Dosage de l''Albumine positif', 1, 'BRUSspSdsxW', 1),
+(21701, 52, 'A 5.1 Dosage de l\'Albumine positif', 1, 'BRUSspSdsxW', 1),
 (21702, 52, 'A 5.1 Dosage du sucre positif', 1, 'nfuBhis4o34', 1),
 (21703, 52, 'A 5.1 Examen direct autre positif', 1, 'IutUnkzP5cK', 1),
 (21704, 52, 'A 5.1 Examen direct culot urinaire réalisé', 1, 'S2ROAlE1jpg', 1),
@@ -383,10 +383,10 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (21744, 52, 'B 11.2 Décès', 1, 'kfyEce7bzWh', 1),
 (21745, 52, 'B 11.2 Guéris', 1, 'EFZmTN1hyHV', 1),
 (21746, 52, 'B 11.2 Non répondants', 1, 'mjJdQHIRTz0', 1),
-(21747, 52, 'B 11.2 Référés à l''UNTI', 1, 'lbEfZVzSWdJ', 1),
+(21747, 52, 'B 11.2 Référés à l\'UNTI', 1, 'lbEfZVzSWdJ', 1),
 (21748, 52, 'B 11.2 Transferés vers autre UNTA', 1, 'wgAfXYtOh4A', 1),
-(21749, 52, 'B 11.3 MAM Dépistées à l ''UNS', 1, 'TXXmmBInkBW', 1),
-(21750, 52, 'B 11.3 MAM transférées de l''UNTA/UNTI', 1, 'riQCDPYsmPr', 1),
+(21749, 52, 'B 11.3 MAM Dépistées à l \'UNS', 1, 'TXXmmBInkBW', 1),
+(21750, 52, 'B 11.3 MAM transférées de l\'UNTA/UNTI', 1, 'riQCDPYsmPr', 1),
 (21751, 52, 'B 11.4 Abandons', 1, 'cJyKMt3yhSV', 1),
 (21752, 52, 'B 11.4 Décès', 1, 'QZBBViwVih3', 1),
 (21753, 52, 'B 11.4 Déchargés guéris', 1, 'MZe26EObfqR', 1),
@@ -503,7 +503,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (21864, 52, 'B 6.1 VPO doses - reçu au cours du mois', 1, 'z5yHY0q1AxT', 1),
 (21865, 52, 'B 6.1 VPO doses - stock début du mois', 1, 'wRRIQXeLhQh', 1),
 (21866, 52, 'B 6.1 VPO doses - utilisé', 1, 'diKi16jLH5R', 1),
-(21867, 52, 'B 7.1 Consultations référées vers l''HGR', 1, 'bOfjRt0MPZn', 1),
+(21867, 52, 'B 7.1 Consultations référées vers l\'HGR', 1, 'bOfjRt0MPZn', 1),
 (21868, 52, 'B 7.1 dont Accouchées référées', 1, 'Jr1CDZh5BKh', 1),
 (21869, 52, 'B 7.1 dont Diarhee deshydration severe référée', 1, 'GwnZxOfDoI6', 1),
 (21870, 52, 'B 7.1 dont Femmes enceinte a risque référées', 1, 'SZhsGuHCYEL', 1),
@@ -535,7 +535,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (21896, 52, 'B 7.2 Trypanosomiase - décès', 1, 'TkQOhJpMVsp', 1),
 (21897, 52, 'B 7.2 Tuberculose - décès', 1, 'ObOakjwKtVv', 1),
 (21898, 52, 'B 7.2 VIH - décès', 1, 'NMGonMqVmPV', 1),
-(21899, 52, 'B 8.1 Enfants avec l''allaitement continu', 1, 'J8zh0pqZpvZ', 1),
+(21899, 52, 'B 8.1 Enfants avec l\'allaitement continu', 1, 'J8zh0pqZpvZ', 1),
 (21900, 52, 'B 8.1 Enfants ayant recu a Vit a 6 mois', 1, 'Z5bsL8radSf', 1),
 (21901, 52, 'B 8.1 Enfants déparasités', 1, 'uDO32E3pW5D', 1),
 (21902, 52, 'B 8.1 Enfants dont les mères ont reçu ANJE', 1, 'oCtJD9hxDMN', 1),
@@ -584,7 +584,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (21945, 52, 'B 9.1 RECOs existants', 1, 'Lgp0OwkqfD1', 1),
 (21946, 52, 'B 9.1 RECOs opérationnels', 1, 'k25Z10o4D2u', 1),
 (21947, 52, 'B 9.2 Personnes supervisees', 1, 'xabuWU5Ku3S', 1),
-(21948, 52, 'B 9.2 Visite de supervision des RECO par l''IT', 1, 'JLPgIzzO2mN', 1),
+(21948, 52, 'B 9.2 Visite de supervision des RECO par l\'IT', 1, 'JLPgIzzO2mN', 1),
 (21949, 52, 'B 9.2 Visites à domicile réalisées par les RECO', 1, 'MgZhj1SViBJ', 1),
 (21950, 52, 'B 9.3 Participants femmes', 1, 'O28K655srG6', 1),
 (21951, 52, 'B 9.3 Participants hommes', 1, 'tDCDlSD6eOK', 1),
@@ -682,14 +682,14 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22043, 52, 'C1 12.1 Levonorgestrel (Implant) 2X75 mg Implant - stock disponible utilisable', 1, 'o4ZycnbLKjB', 1),
 (22044, 52, 'C1 12.1 Levonorgestrel (Pillule de lendemain) 0,75 mg Comprimé - jours rupture de stock', 1, 'RG0SVyMNrmh', 1),
 (22045, 52, 'C1 12.1 Levonorgestrel (Pillule de lendemain) 0,75 mg Comprimé - quantité consommée', 1, 'WUa5Leqv9Zz', 1),
-(22046, 52, 'C1 12.1 Levonorgestrel (Pillule de lendemain) 0,75 mg Comprimé - quantité perdue', 1, 'lAiHC2NZeS5', 1);
-INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`, `ratio`) VALUES
+(22046, 52, 'C1 12.1 Levonorgestrel (Pillule de lendemain) 0,75 mg Comprimé - quantité perdue', 1, 'lAiHC2NZeS5', 1),
 (22047, 52, 'C1 12.1 Levonorgestrel (Pillule de lendemain) 0,75 mg Comprimé - stock disponible utilisable', 1, 'nEA2eqB8iMy', 1),
 (22048, 52, 'C1 12.1 Levonorgestrel ( Pillule de lendemain) 30µg Comprimé - jours rupture de stock', 1, 'M3yYu6tSy0d', 1),
 (22049, 52, 'C1 12.1 Levonorgestrel ( Pillule de lendemain) 30µg Comprimé - quantité consommée', 1, 'JheD82LonuJ', 1),
 (22050, 52, 'C1 12.1 Levonorgestrel ( Pillule de lendemain) 30µg Comprimé - quantité perdue', 1, 'eFO7WoXW5oe', 1),
 (22051, 52, 'C1 12.1 Levonorgestrel ( Pillule de lendemain) 30µg Comprimé - stock disponible utilisable', 1, 'AHwn29wfkLR', 1),
-(22052, 52, 'C1 12.1 Lumefantrine+ Artemether 40mg+240mg Comprimé - jours rupture de stock', 1, 'knmN58tBqVU', 1),
+(22052, 52, 'C1 12.1 Lumefantrine+ Artemether 40mg+240mg Comprimé - jours rupture de stock', 1, 'knmN58tBqVU', 1);
+INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`, `ratio`) VALUES
 (22053, 52, 'C1 12.1 Lumefantrine+ Artemether 40mg+240mg Comprimé - quantité consommée', 1, 'aeTpblK0SVC', 1),
 (22054, 52, 'C1 12.1 Lumefantrine+ Artemether 40mg+240mg Comprimé - quantité perdue', 1, 'omnlJ0k8xSN', 1),
 (22055, 52, 'C1 12.1 Lumefantrine+ Artemether 40mg+240mg Comprimé - stock disponible utilisable', 1, 'YfFT13OPy46', 1),
@@ -1006,7 +1006,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22366, 52, 'D 11.1 Salpingectomie/cure de GEU', 1, 'YccPBBtHUVW', 1),
 (22367, 52, 'D 11.2 Autre interventions', 1, 'Nz54WyrTVhi', 1),
 (22368, 52, 'D 11.2 Circoncision', 1, 'lwYBTjmLT7J', 1),
-(22369, 52, 'D 11.2 Cure d''hydrocèle', 1, 'gbr3SGinh2E', 1),
+(22369, 52, 'D 11.2 Cure d\'hydrocèle', 1, 'gbr3SGinh2E', 1),
 (22370, 52, 'D 11.2 Curetage', 1, 'yWsZ6YqoUeD', 1),
 (22371, 52, 'D 11.2 Extraction des corps étrangers', 1, 'lE8CbEsxlS2', 1),
 (22372, 52, 'D 11.2 Lipomectomie', 1, 'rF8825XKfWT', 1),
@@ -1158,8 +1158,8 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22518, 52, 'D 5.3 PCR - Examens réalisés', 1, 'TsicCTzOdDP', 1),
 (22519, 52, 'D 5.3 Test Determine - Examens positifs', 1, 'iIysLOmUu5j', 1),
 (22520, 52, 'D 5.3 Test Determine - Examens réalisés', 1, 'BDGr5vCeOy4', 1),
-(22521, 52, 'D 5.3 Test d''Hemel Positif - Examens positifs', 1, 'x3Ov4RbBDLZ', 1),
-(22522, 52, 'D 5.3 Test d''Hemel Positif - Examens réalisés', 1, 'Hw609kAS8v7', 1),
+(22521, 52, 'D 5.3 Test d\'Hemel Positif - Examens positifs', 1, 'x3Ov4RbBDLZ', 1),
+(22522, 52, 'D 5.3 Test d\'Hemel Positif - Examens réalisés', 1, 'Hw609kAS8v7', 1),
 (22523, 52, 'D 5.3 Test syphilis (RPR) Dont RPR positif - Examens positifs', 1, 'BXvDdwK55ZC', 1),
 (22524, 52, 'D 5.3 Test syphilis (RPR) - Examens réalisés', 1, 'rcSiFD4hw0N', 1),
 (22525, 52, 'D 5.3 Test unigold - Examens positifs', 1, 'pyZlROwTP2M', 1),
@@ -1170,7 +1170,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22530, 52, 'D 5.4 Ionogramme - Examens réalisés', 1, 'GRNBkPT5mZk', 1),
 (22531, 52, 'D 5.4 Recherche Rhesus - Examens réalisés', 1, 'LJqVLKHVicO', 1),
 (22532, 52, 'D 5.5 Autre Echographie - Examens réalisés', 1, 'xXFgXL9S2ak', 1),
-(22533, 52, 'D 5.5 Autres examens d''imagerie médicale - Examens réalisés', 1, 'EqcqdDTCKD2', 1),
+(22533, 52, 'D 5.5 Autres examens d\'imagerie médicale - Examens réalisés', 1, 'EqcqdDTCKD2', 1),
 (22534, 52, 'D 5.5 Autre type de Radiographie - Examens réalisés', 1, 'Zy0gQpVclQG', 1),
 (22535, 52, 'D 5.5 ECG - Examens réalisés', 1, 'mfY109rqAPP', 1),
 (22536, 52, 'D 5.5 Echographie obstétricale - Examens réalisés', 1, 'd8CWOhCveoY', 1),
@@ -1213,7 +1213,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22573, 52, 'D 6.3 Acouchés référés par le CS', 1, 'TltCz6WeXSN', 1),
 (22574, 52, 'D 6.3 Cas Référé par le CS', 1, 'jngFBiylvIR', 1),
 (22575, 52, 'D 6.3 Consultations Hospitalisés', 1, 'i7PJGMDQ26t', 1),
-(22576, 52, 'D 6.3 Consultations référés vers l''HGRP', 1, 'r7InejLWa0l', 1),
+(22576, 52, 'D 6.3 Consultations référés vers l\'HGRP', 1, 'r7InejLWa0l', 1),
 (22577, 52, 'D 6.3 Femmes enceintes a risque référées par le CS', 1, 'szbkxz76Gbk', 1),
 (22578, 52, 'D 6.3 Urgences référés vers HGRP/FOSA spécialisée', 1, 'jKdieTMPKpb', 1),
 (22579, 52, 'D 7.1 Admission debut mois (Report mois precedent)', 1, 'ZPiG2SbHdep', 1),
@@ -1222,7 +1222,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22582, 52, 'D 7.1 NA avec PT<-3 ou PB<115mm avec complication', 1, 'VoDNfcVwrBW', 1),
 (22583, 52, 'D 7.1 NA rechute avec complication', 1, 'ppRa6I6UCh8', 1),
 (22584, 52, 'D 7.2 Abandons', 1, 'ulxNCNdqRRK', 1),
-(22585, 52, 'D 7.2 Contre refere vers l''UNTA', 1, 'Q0z1uQynmgv', 1),
+(22585, 52, 'D 7.2 Contre refere vers l\'UNTA', 1, 'Q0z1uQynmgv', 1),
 (22586, 52, 'D 7.2 Deces', 1, 'edc5Wl0thpm', 1),
 (22587, 52, 'D 7.2 Gueris', 1, 'eJnFOL1LPrJ', 1),
 (22588, 52, 'D 7.2 Non Repondants', 1, 'ULWYMxMCDpj', 1),
@@ -1237,8 +1237,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22597, 52, 'D 8.2 Décès avant 48 h', 1, 'JLWIeNgoevT', 1),
 (22598, 52, 'D 8.2 Evadés / Abandons', 1, 'm1Dxr4u7dJY', 1),
 (22599, 52, 'D 8.2 Guéris', 1, 'OjfKBbjt1H7', 1),
-(22600, 52, 'D 8.2 Sortants du mois dont (b)', 1, 'dalpflTMRMZ', 1);
-INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`, `ratio`) VALUES
+(22600, 52, 'D 8.2 Sortants du mois dont (b)', 1, 'dalpflTMRMZ', 1),
 (22601, 52, 'D 8.2 Statu quo', 1, 'T6gM4PseLeS', 1),
 (22602, 52, 'D 8.2 Total décès enfants <5ans', 1, 'bshpnlfnwvP', 1),
 (22603, 52, 'D 8.2 Transféré vers autre hôpital', 1, 'DqDKxAnuewJ', 1),
@@ -1262,7 +1261,8 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22621, 52, 'D 9.2 Cancer (autres)', 1, 'gQgSUFviayJ', 1),
 (22622, 52, 'D 9.2 cirrhose hepatique', 1, 'sNb1v3YybLX', 1),
 (22623, 52, 'D 9.2 Diabète', 1, 'UkQllfnMi5t', 1),
-(22624, 52, 'D 9.2 Epilepsie/ crise convulsive', 1, 'nwtQ1KSmOwZ', 1),
+(22624, 52, 'D 9.2 Epilepsie/ crise convulsive', 1, 'nwtQ1KSmOwZ', 1);
+INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`, `ratio`) VALUES
 (22625, 52, 'D 9.2 Fièvre d’origine inconnue', 1, 'pfBYyB1plT2', 1),
 (22626, 52, 'D 9.2 Fièvre typhoïde', 1, 'W3cEPIS9HuK', 1),
 (22627, 52, 'D 9.2 Hépatite virale aigue', 1, 'LiX3vGbr3k5', 1),
@@ -1309,7 +1309,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22668, 52, 'D 9.4 Ruptures utérines', 1, 'W3XqOhxcY0J', 1),
 (22669, 52, 'D 9.5 Cas de cancer confirmé, admis en traitement chimiothérapie', 1, 'IzvRY0cbezP', 1),
 (22670, 52, 'D 9.5 Cas de cancer confirmé, ayant reçu la morphine', 1, 'fckbLA7kFvD', 1),
-(22671, 52, 'D 9.5 Cas d''hypertension diagnostiqués et mis sous traitement', 1, 'gyV2Tj02Z2t', 1),
+(22671, 52, 'D 9.5 Cas d\'hypertension diagnostiqués et mis sous traitement', 1, 'gyV2Tj02Z2t', 1),
 (22672, 52, 'D 9.5 Nouveaux cas de Déficience physique et sensorielle correctement pris en charge', 1, 'BlYH2NXa1V0', 1),
 (22673, 52, 'D 9.5 Nouveaux patients diabétiques mis sous traitement', 1, 'xLNXhVgmLaO', 1),
 (22674, 52, 'D 9.5 Personnes conseillées et traitées afin de prévenir les crises cardiaques ou les AVC', 1, 'V0OB6QVtsgS', 1),
@@ -1371,10 +1371,10 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22730, 52, 'DQI Entretien de bâtiments, matériels et équipements CS', 1, 'EwVNwKPepbv', 1),
 (22731, 52, 'DQI Entretien des infrastructures BCZ', 1, 'zG8llS62Cnv', 1),
 (22732, 52, 'DQI Entretien des infrastructures HGR', 1, 'i2nq4b3cl1h', 1),
-(22733, 52, 'DQI Équipements indispensables à l''ensemble de services essentielsCS', 1, 'fKIfHd544pO', 1),
+(22733, 52, 'DQI Équipements indispensables à l\'ensemble de services essentielsCS', 1, 'fKIfHd544pO', 1),
 (22734, 52, 'DQI Evaluation de commande des fournitures, MEC BCZ', 1, 'RpV9Bmo8vDc', 1),
 (22735, 52, 'DQI Evaluation de commande des fournitures, MEC HGR', 1, 'mvVrSZadLrc', 1),
-(22736, 52, 'DQI Evaluation de commande des MEC s''appuyant sur des données de suivi CS', 1, 'EMhvQ3YXSgC', 1),
+(22736, 52, 'DQI Evaluation de commande des MEC s\'appuyant sur des données de suivi CS', 1, 'EMhvQ3YXSgC', 1),
 (22737, 52, 'DQI Evaluation de la disponibilité des ressources humainesBCZ', 1, 'tRehzqM4Pgm', 1),
 (22738, 52, 'DQI Evaluation de la disponibilité des ressources humaines CS', 1, 'fojWHaR2JPK', 1),
 (22739, 52, 'DQI Evaluation de la disponibilité des ressources humaines HGR', 1, 'YXTZW3yZIS8', 1),
@@ -1395,7 +1395,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22754, 52, 'DQI Evaluation du système de surveillance des MEC CS', 1, 'sED7stTOpZg', 1),
 (22755, 52, 'DQI Evaluation du système de surveillance des MEC HGR', 1, 'DCLOR38QSnZ', 1),
 (22756, 52, 'DQI Fonctionnalité des services médico-techniques HGR', 1, 'UbCxco4ih4A', 1),
-(22757, 52, 'DQI Fonctionnalité du système d''information et de gestion sanitaire CS', 1, 'gNuuQFHatz5', 1),
+(22757, 52, 'DQI Fonctionnalité du système d\'information et de gestion sanitaire CS', 1, 'gNuuQFHatz5', 1),
 (22758, 52, 'DQI Fonctionnalité du système d’information sanitaire BCZ', 1, 'jtL9BXY1cdA', 1),
 (22759, 52, 'DQI Fonctionnalité du système d’information sanitaire HGR', 1, 'Tcf3xdTVbN3', 1),
 (22760, 52, 'DQI Fonctionnalité du système d’orientation recours HGR', 1, 'LPhrC8zRE34', 1),
@@ -1512,7 +1512,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22871, 52, 'Etat a Detection-Date Début Fièvre', 1, 'S1OoEiha3D4', 1),
 (22872, 52, 'Etat a Detection-Date debut funéraille', 1, 'wwzR6usqtvk', 1),
 (22873, 52, 'Etat a Detection-Date Début Sympt', 1, 'nwGja1mRXSs', 1),
-(22874, 52, 'Etat a Detection-Date d''Hosp', 1, 'UBBqRcjR5jB', 1),
+(22874, 52, 'Etat a Detection-Date d\'Hosp', 1, 'UBBqRcjR5jB', 1),
 (22875, 52, 'Etat a Detection-Date du Deces', 1, 'psYUMLMo9sS', 1),
 (22876, 52, 'Etat a Detection-Date du visite', 1, 'zfXH4bHuIXi', 1),
 (22877, 52, 'Etat a Detection-Date fin funéraille', 1, 'LyhCvDA3PJ8', 1),
@@ -1523,7 +1523,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22882, 52, 'Etat a Detection-Douleurs Abd', 1, 'jkpIf058J85', 1),
 (22883, 52, 'Etat a Detection-Epistaxis', 1, 'UEeNZU7y3AO', 1),
 (22884, 52, 'Etat a Detection-Est-ce que le patient a été hospitalisé en isolement', 1, 'TiI7nQvB67Q', 1),
-(22885, 52, 'Etat a Detection-Est-ce que le patient s''est deplace pendant la maladie', 1, 'QVye99ZdPCy', 1),
+(22885, 52, 'Etat a Detection-Est-ce que le patient s\'est deplace pendant la maladie', 1, 'QVye99ZdPCy', 1),
 (22886, 52, 'Etat a Detection-Etat a Detection', 1, 'QXOv3kI8Ihb', 1),
 (22887, 52, 'Etat a Detection-Expliquer quel type de traitement traditionnel', 1, 'mEEGbPlI4GY', 1),
 (22888, 52, 'Etat a Detection-Fatigue', 1, 'hsF9q0Q46dN', 1),
@@ -1559,8 +1559,8 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22918, 52, 'Etat a Detection-Si Oui remplir la liste indiquant les villages', 1, 'D1TS8rbJ5ES', 1),
 (22919, 52, 'Etat a Detection-Symptom Remarques', 1, 'OI1x70ZF83r', 1),
 (22920, 52, 'Etat a Detection-Toux', 1, 'RJFu2HngQQp', 1),
-(22921, 52, 'Etat a Detection-Type d''animal', 1, 'V7BfRVYysKs', 1),
-(22922, 52, 'Etat a Detection-Village de l''enterr', 1, 'iDb7MZEDISp', 1),
+(22921, 52, 'Etat a Detection-Type d\'animal', 1, 'V7BfRVYysKs', 1),
+(22922, 52, 'Etat a Detection-Village de l\'enterr', 1, 'iDb7MZEDISp', 1),
 (22923, 52, 'Etat a Detection-Vomissements', 1, 'KKGd4CHJTxi', 1),
 (22924, 52, 'F 1.1 Activités en Cours d’Exécution', 1, 'CIpCBHD0CsC', 1),
 (22925, 52, 'F 1.1 Activités entièrement exécutées', 1, 'KoiTSKpvxHv', 1),
@@ -1609,7 +1609,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22968, 52, 'F 1.6 Participants Nutritionniste', 1, 'VCAPXVutOT1', 1),
 (22969, 52, 'F 1.6 Participants Pharmaciens', 1, 'pvACdCSsGSJ', 1),
 (22970, 52, 'F 2.1 Administrateur gestionnaire Agents', 1, 'uIiGu2DNWek', 1),
-(22971, 52, 'F 2.1 Administrateur gestionnaire Jours d''absences justifiées', 1, 'PjV1DHi8JsB', 1),
+(22971, 52, 'F 2.1 Administrateur gestionnaire Jours d\'absences justifiées', 1, 'PjV1DHi8JsB', 1),
 (22972, 52, 'F 2.1 Administrateur gestionnaire Jours de travail préstés', 1, 'pOKy4hmTFmZ', 1),
 (22973, 52, 'F 2.1 Administrateur gestionnaire Jours de travail prévus', 1, 'Y2hmrEjGSJs', 1),
 (22974, 52, 'F 2.1 Autre personnel - abs justifie', 1, 'xhRrQ2AJykw', 1),
@@ -1629,7 +1629,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (22988, 52, 'F 2.1 Infirmier L2 - travail preste', 1, 'Qc3XzHBwuZF', 1),
 (22989, 52, 'F 2.1 Infirmier L2 - travail prevu', 1, 'CPffUqDBamY', 1),
 (22990, 52, 'F 2.1 Médecin santé publique Agents', 1, 'ntUhiLOul9B', 1),
-(22991, 52, 'F 2.1 Médecin santé publique Jours d''absences justifiées', 1, 'DAxzOHYvmGr', 1),
+(22991, 52, 'F 2.1 Médecin santé publique Jours d\'absences justifiées', 1, 'DAxzOHYvmGr', 1),
 (22992, 52, 'F 2.1 Médecin santé publique Jours de travail prést', 1, 'Lyom6yeAWxf', 1),
 (22993, 52, 'F 2.1 Médecin santé publique Jours de travail prévus', 1, 'MPLGeIfJyFX', 1),
 (22994, 52, 'F 2.1 Médecins generaliste - abs justifie', 1, 'XPZeXt0dOwk', 1),
@@ -1641,11 +1641,11 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23000, 52, 'F 2.1 Nutritionniste A2/A1/L2 - travail preste', 1, 'NaLHReeSdH3', 1),
 (23001, 52, 'F 2.1 Nutritionniste A2/A1/L2 - travail prevu', 1, 'mOWPZUAM2nx', 1),
 (23002, 52, 'F 2.1 Pharmacien Agents', 1, 'zqJGYpfqcMI', 1),
-(23003, 52, 'F 2.1 Pharmacien Jours d''absences justifiées', 1, 'VMusC9KykaD', 1),
+(23003, 52, 'F 2.1 Pharmacien Jours d\'absences justifiées', 1, 'VMusC9KykaD', 1),
 (23004, 52, 'F 2.1 Pharmacien Jours de travail prestés', 1, 'F9TDayJp2MA', 1),
 (23005, 52, 'F 2.1 Pharmacien Jours de travail prévus', 1, 'gOCoyn6boUf', 1),
 (23006, 52, 'F 2.2 Fosa avec au moins 90% des médicaments traceurs', 1, 'BnAiSmPM24O', 1),
-(23007, 52, 'F 2.2 Fosa n''ayant signalé aucune rupture de stock des anti paludéens', 1, 'WN4NVnFLvu1', 1),
+(23007, 52, 'F 2.2 Fosa n\'ayant signalé aucune rupture de stock des anti paludéens', 1, 'WN4NVnFLvu1', 1),
 (23008, 52, 'F 2.2 Item avec risque de perte par péremption', 1, 'hxVeVrYqFo6', 1),
 (23009, 52, 'F 2.2 Item dont une partie du stock est en voie de péremption', 1, 'ZTXq04ST13O', 1),
 (23010, 52, 'F 2.2 Items en stock', 1, 'TnMP6kMC2F8', 1),
@@ -1694,15 +1694,15 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23053, 52, 'F 2.5 Registre CPN-Qté distribuée', 1, 'uTAC5thHTUC', 1),
 (23054, 52, 'F 2.5 Registre CPN-Qté recue', 1, 'neg1VdM00Q2', 1),
 (23055, 52, 'F 2.5 Registre CPN-Stock début', 1, 'uYzkJvfE6WI', 1),
-(23056, 52, 'F 2.5 Registre d''accouchements-Qté distribuée', 1, 'WWDakHRKVQh', 1),
-(23057, 52, 'F 2.5 Registre d''accouchements-Qté recue', 1, 'BqMkHhXPDQ5', 1),
-(23058, 52, 'F 2.5 Registre d''accouchements-Stock début', 1, 'Lw75NlTrJdM', 1),
+(23056, 52, 'F 2.5 Registre d\'accouchements-Qté distribuée', 1, 'WWDakHRKVQh', 1),
+(23057, 52, 'F 2.5 Registre d\'accouchements-Qté recue', 1, 'BqMkHhXPDQ5', 1),
+(23058, 52, 'F 2.5 Registre d\'accouchements-Stock début', 1, 'Lw75NlTrJdM', 1),
 (23059, 52, 'F 2.5 Registre de consultation curative-Qté distribuée', 1, 's0JMH4w3LX2', 1),
 (23060, 52, 'F 2.5 Registre de consultation curative-Qté recue', 1, 'RDoIQgELz5Q', 1),
 (23061, 52, 'F 2.5 Registre de consultation curative-Stock début', 1, 'UkaqKjdZpGb', 1),
-(23062, 52, 'F 2.5 Registre d''hospitalisation-Qté distribuée', 1, 'stHNiWExVrY', 1),
-(23063, 52, 'F 2.5 Registre d''hospitalisation-Qté recue', 1, 'HrgWHT0qBE9', 1),
-(23064, 52, 'F 2.5 Registre d''hospitalisation-Stock début', 1, 'ty3a5KcpwDL', 1),
+(23062, 52, 'F 2.5 Registre d\'hospitalisation-Qté distribuée', 1, 'stHNiWExVrY', 1),
+(23063, 52, 'F 2.5 Registre d\'hospitalisation-Qté recue', 1, 'HrgWHT0qBE9', 1),
+(23064, 52, 'F 2.5 Registre d\'hospitalisation-Stock début', 1, 'ty3a5KcpwDL', 1),
 (23065, 52, 'F 2.5 RUMER-Qté distribuée', 1, 'bvjJZySnsLe', 1),
 (23066, 52, 'F 2.5 RUMER-Qté recue', 1, 'DYv3ErMZYES', 1),
 (23067, 52, 'F 2.5 RUMER-Stock début', 1, 'wLqoNzCDMav', 1),
@@ -1871,7 +1871,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23230, 52, 'F 6.3 Choléra - Cas confirmé', 1, 'vCa7Iaay6MV', 1),
 (23231, 52, 'F 6.3 Choléra - Cas investigué', 1, 'CuvcMODwlep', 1),
 (23232, 52, 'F 6.3 Choléra - Echantillon Examine (labo)', 1, 'Mad7RbF0qRJ', 1),
-(23233, 52, 'F 6.3 Choléra - Epidémie ayant fait l''objet de riposte', 1, 'vdZXPAVEmrq', 1),
+(23233, 52, 'F 6.3 Choléra - Epidémie ayant fait l\'objet de riposte', 1, 'vdZXPAVEmrq', 1),
 (23234, 52, 'F 6.3 Choléra - Epidémie déclarée', 1, 'zsbk2HKNvF2', 1),
 (23235, 52, 'F 6.3 Choléra - Seuil epidémie', 1, 's5cX0Ec7jyH', 1),
 (23236, 52, 'F 6.3 Choléra - Seuil epidémie Atteint ou depassé', 1, 'J9Mn6lLhuPG', 1),
@@ -1879,7 +1879,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23238, 52, 'F 6.3 Coqueluche - Cas confirmé', 1, 'EwdLtit0vRd', 1),
 (23239, 52, 'F 6.3 Coqueluche - Cas investigué', 1, 'pRpNzlraO3m', 1),
 (23240, 52, 'F 6.3 Coqueluche - Echantillon Examine (labo)', 1, 'ZEexxHHL9Sn', 1),
-(23241, 52, 'F 6.3 Coqueluche - Epidémie ayant fait l''objet de riposte', 1, 'rI2ktqZxEty', 1),
+(23241, 52, 'F 6.3 Coqueluche - Epidémie ayant fait l\'objet de riposte', 1, 'rI2ktqZxEty', 1),
 (23242, 52, 'F 6.3 Coqueluche - Epidémie déclarée', 1, 'tnxdOYvggug', 1),
 (23243, 52, 'F 6.3 Coqueluche - Seuil epidémie', 1, 'uK6hHUZ8b9w', 1),
 (23244, 52, 'F 6.3 Coqueluche - Seuil epidémique Atteint ou depassé', 1, 'os5r4pe1kXh', 1),
@@ -1887,7 +1887,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23246, 52, 'F 6.3 Diarrhée sanglante - Cas confirmé', 1, 'Abzxal0jkjr', 1),
 (23247, 52, 'F 6.3 Diarrhée sanglante - Cas investigué', 1, 'OwOOvm8UcyK', 1),
 (23248, 52, 'F 6.3 Diarrhée sanglante - Echantillon Examine (labo)', 1, 'tyhjkwROPHd', 1),
-(23249, 52, 'F 6.3 Diarrhée sanglante - Epidémie ayant fait l''objet de riposte', 1, 'JaUZApoXFss', 1),
+(23249, 52, 'F 6.3 Diarrhée sanglante - Epidémie ayant fait l\'objet de riposte', 1, 'JaUZApoXFss', 1),
 (23250, 52, 'F 6.3 Diarrhée sanglante - Epidémie déclarée', 1, 'uZnwqIzKSR4', 1),
 (23251, 52, 'F 6.3 Diarrhée sanglante - Seuil epidémie', 1, 'Lf2uzquSpsE', 1),
 (23252, 52, 'F 6.3 Diarrhée sanglante - Seuil epidémique Atteint ou depassé', 1, 'Ro2nrKGAsC7', 1),
@@ -1895,7 +1895,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23254, 52, 'F 6.3 Fièvre hémorragique - Cas confirmé', 1, 'NyavalVixB0', 1),
 (23255, 52, 'F 6.3 Fièvre hémorragique - Cas investigué', 1, 'wpWhUhCnySP', 1),
 (23256, 52, 'F 6.3 Fièvre hémorragique - Echantillon Examine (labo)', 1, 'cNbgkILM9ad', 1),
-(23257, 52, 'F 6.3 Fièvre hémorragique - Epidémie ayant fait l''objet de riposte', 1, 'EVnevADtRiT', 1),
+(23257, 52, 'F 6.3 Fièvre hémorragique - Epidémie ayant fait l\'objet de riposte', 1, 'EVnevADtRiT', 1),
 (23258, 52, 'F 6.3 Fièvre hémorragique - Epidémie déclarée', 1, 'cltXsKUW7C3', 1),
 (23259, 52, 'F 6.3 Fièvre hémorragique - Seuil epidémie', 1, 'R3ba1spnm8M', 1),
 (23260, 52, 'F 6.3 Fièvre hémorragique - Seuil epidémique Atteint ou depassé', 1, 'iYAGyyVPkbM', 1),
@@ -1903,16 +1903,15 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23262, 52, 'F 6.3 Fièvre Jaune - Cas confirmé', 1, 'OfAyz5pUPWH', 1),
 (23263, 52, 'F 6.3 Fièvre Jaune - Cas investigué', 1, 'zDTdd6k6YPY', 1),
 (23264, 52, 'F 6.3 Fièvre Jaune - Echantillon Examine (labo)', 1, 'vbZmz8LqhFe', 1),
-(23265, 52, 'F 6.3 Fièvre Jaune - Epidémie ayant fait l''objet de riposte', 1, 'dBKWEQgvqXl', 1),
-(23266, 52, 'F 6.3 Fièvre Jaune - Epidémie déclarée', 1, 'kEXZNZhuBgO', 1);
-INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`, `ratio`) VALUES
+(23265, 52, 'F 6.3 Fièvre Jaune - Epidémie ayant fait l\'objet de riposte', 1, 'dBKWEQgvqXl', 1),
+(23266, 52, 'F 6.3 Fièvre Jaune - Epidémie déclarée', 1, 'kEXZNZhuBgO', 1),
 (23267, 52, 'F 6.3 Fièvre Jaune - Seuil epidémie', 1, 'Ciia8QY2axI', 1),
 (23268, 52, 'F 6.3 Fièvre Jaune - Seuil epidémique Atteint ou depassé', 1, 'o6PeXXWwG4U', 1),
 (23269, 52, 'F 6.3 Fièvre typhoïde - Cas', 1, 'VhytRbef7YQ', 1),
 (23270, 52, 'F 6.3 Fièvre typhoïde - Cas confirmé', 1, 'KCWjPaY6uEW', 1),
 (23271, 52, 'F 6.3 Fièvre typhoïde - Cas investigué', 1, 'aA2yMMDccyb', 1),
 (23272, 52, 'F 6.3 Fièvre typhoïde - Echantillon Examine (labo)', 1, 'ERmWKzpUq3Q', 1),
-(23273, 52, 'F 6.3 Fièvre typhoïde - Epidémie ayant fait l''objet de riposte', 1, 'rPfoSJaHyfN', 1),
+(23273, 52, 'F 6.3 Fièvre typhoïde - Epidémie ayant fait l\'objet de riposte', 1, 'rPfoSJaHyfN', 1),
 (23274, 52, 'F 6.3 Fièvre typhoïde - Epidémie déclarée', 1, 'EYIKY9OZZbJ', 1),
 (23275, 52, 'F 6.3 Fièvre typhoïde - Seuil epidémie', 1, 'fURBoHHSR9k', 1),
 (23276, 52, 'F 6.3 Fièvre typhoïde - Seuil epidémique Atteint ou depassé', 1, 'eXM98zIUqoS', 1),
@@ -1920,7 +1919,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23278, 52, 'F 6.3 IRA - Cas confirmé', 1, 'KajkPob6Sd3', 1),
 (23279, 52, 'F 6.3 IRA - Cas investigué', 1, 'OvmMBOqGfuP', 1),
 (23280, 52, 'F 6.3 IRA - Echantillon Examine (labo)', 1, 'Gs8NDAjg4RA', 1),
-(23281, 52, 'F 6.3 IRA - Epidémie ayant fait l''objet de riposte', 1, 'uqEtu5BRoQn', 1),
+(23281, 52, 'F 6.3 IRA - Epidémie ayant fait l\'objet de riposte', 1, 'uqEtu5BRoQn', 1),
 (23282, 52, 'F 6.3 IRA - Epidémie déclarée', 1, 'fOEr0kdDWkj', 1),
 (23283, 52, 'F 6.3 IRA - Seuil epidémie', 1, 'A6TPSoAEbLj', 1),
 (23284, 52, 'F 6.3 IRA - Seuil epidémique Atteint ou depassé', 1, 'sEgQlrAapfk', 1),
@@ -1928,15 +1927,16 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23286, 52, 'F 6.3 Méningite - Cas confirmé', 1, 'yrvsVZ6Rl6G', 1),
 (23287, 52, 'F 6.3 Méningite - Cas investigué', 1, 'GUYFtphRqYI', 1),
 (23288, 52, 'F 6.3 Méningite - Echantillon Examine (labo)', 1, 'NTjhscvF6ij', 1),
-(23289, 52, 'F 6.3 Méningite - Epidémie ayant fait l''objet de riposte', 1, 'C3lbtf015vS', 1),
+(23289, 52, 'F 6.3 Méningite - Epidémie ayant fait l\'objet de riposte', 1, 'C3lbtf015vS', 1),
 (23290, 52, 'F 6.3 Méningite - Epidémie déclarée', 1, 'yhjMUMQmIpQ', 1),
 (23291, 52, 'F 6.3 Méningite - Seuil epidémie', 1, 'ymhvNMw3rzF', 1),
 (23292, 52, 'F 6.3 Méningite - Seuil epidémique Atteint ou depassé', 1, 'qGnHvH3dZsr', 1),
 (23293, 52, 'F 6.3 Monkey pox - Cas', 1, 'DeuS0xnuntF', 1),
 (23294, 52, 'F 6.3 Monkey pox - Cas confirmé', 1, 'YFW7D6gi88F', 1),
-(23295, 52, 'F 6.3 Monkey pox - Cas investigué', 1, 'AjHmrhifL38', 1),
+(23295, 52, 'F 6.3 Monkey pox - Cas investigué', 1, 'AjHmrhifL38', 1);
+INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`, `ratio`) VALUES
 (23296, 52, 'F 6.3 Monkey pox - Echantillon Examine (labo)', 1, 'kgw5oQGooxx', 1),
-(23297, 52, 'F 6.3 Monkey pox - Epidémie ayant fait l''objet de riposte', 1, 'YvuWeMaeFOu', 1),
+(23297, 52, 'F 6.3 Monkey pox - Epidémie ayant fait l\'objet de riposte', 1, 'YvuWeMaeFOu', 1),
 (23298, 52, 'F 6.3 Monkey pox - Epidémie déclarée', 1, 'JfQ9FZWEyAr', 1),
 (23299, 52, 'F 6.3 Monkey pox - Seuil epidémie', 1, 'wzPQNWbAwsK', 1),
 (23300, 52, 'F 6.3 Monkey pox - Seuil epidémique Atteint ou depassé', 1, 'Hgbjs2fvzni', 1),
@@ -1944,7 +1944,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23302, 52, 'F 6.3 Paludisme - Cas confirmé', 1, 'M6eYxahaMS6', 1),
 (23303, 52, 'F 6.3 Paludisme - Cas investigué', 1, 'ttCVBTcWvQr', 1),
 (23304, 52, 'F 6.3 Paludisme - Echantillon Examine (labo)', 1, 'VQpsSXpK6aS', 1),
-(23305, 52, 'F 6.3 Paludisme - Epidémie ayant fait l''objet de riposte', 1, 'iJ4e9sCJolK', 1),
+(23305, 52, 'F 6.3 Paludisme - Epidémie ayant fait l\'objet de riposte', 1, 'iJ4e9sCJolK', 1),
 (23306, 52, 'F 6.3 Paludisme - Epidémie déclarée', 1, 'RECzedbeKeF', 1),
 (23307, 52, 'F 6.3 Paludisme - Seuil epidémie', 1, 'tkGOW7WAKTU', 1),
 (23308, 52, 'F 6.3 Paludisme - Seuil epidémique Atteint ou depassé', 1, 'a4bYMoqyqkR', 1),
@@ -1952,7 +1952,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23310, 52, 'F 6.3 Peste - Cas confirmé', 1, 'yZw0E8sPQVD', 1),
 (23311, 52, 'F 6.3 Peste - Cas investigué', 1, 'XpftcJNwM0v', 1),
 (23312, 52, 'F 6.3 Peste - Echantillon Examine (labo)', 1, 'jsqzTsNnoPw', 1),
-(23313, 52, 'F 6.3 Peste - Epidémie ayant fait l''objet de riposte', 1, 'oqRMPJcVHvJ', 1),
+(23313, 52, 'F 6.3 Peste - Epidémie ayant fait l\'objet de riposte', 1, 'oqRMPJcVHvJ', 1),
 (23314, 52, 'F 6.3 Peste - Epidémie déclarée', 1, 'Bnz8jdEHIEe', 1),
 (23315, 52, 'F 6.3 Peste - Seuil epidémie', 1, 'qMJjU8rTZqv', 1),
 (23316, 52, 'F 6.3 Peste - Seuil epidémique Atteint ou depassé', 1, 'iJdm0TPJGi0', 1),
@@ -1960,7 +1960,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23318, 52, 'F 6.3 PFA - Cas confirmé', 1, 'MaK4NIZrhXZ', 1),
 (23319, 52, 'F 6.3 PFA - Cas investigué', 1, 'uk7Q3HVgnKw', 1),
 (23320, 52, 'F 6.3 PFA - Echantillon Examine (labo)', 1, 'f5CKCrr4WNe', 1),
-(23321, 52, 'F 6.3 PFA - Epidémie ayant fait l''objet de riposte', 1, 'hR2eAHqwk5z', 1),
+(23321, 52, 'F 6.3 PFA - Epidémie ayant fait l\'objet de riposte', 1, 'hR2eAHqwk5z', 1),
 (23322, 52, 'F 6.3 PFA - Epidémie déclarée', 1, 'uRarFl3DaXk', 1),
 (23323, 52, 'F 6.3 PFA - Seuil epidémie', 1, 'fLUsdzKVHbD', 1),
 (23324, 52, 'F 6.3 PFA - Seuil epidémique Atteint ou depassé', 1, 'QqGHrc2eTj2', 1),
@@ -1968,7 +1968,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23326, 52, 'F 6.3 Rage - Cas confirmé', 1, 'YgqcFFElW7e', 1),
 (23327, 52, 'F 6.3 Rage - Cas investigué', 1, 'A0IZtUKEWOi', 1),
 (23328, 52, 'F 6.3 Rage - Echantillon Examine (labo)', 1, 'NPj9d8z3gNI', 1),
-(23329, 52, 'F 6.3 Rage - Epidémie ayant fait l''objet de riposte', 1, 'EujN9vKDL5t', 1),
+(23329, 52, 'F 6.3 Rage - Epidémie ayant fait l\'objet de riposte', 1, 'EujN9vKDL5t', 1),
 (23330, 52, 'F 6.3 Rage - Epidémie déclarée', 1, 'QT2neJhkLxu', 1),
 (23331, 52, 'F 6.3 Rage - Seuil epidémie', 1, 'RcOZCAKl9Re', 1),
 (23332, 52, 'F 6.3 Rage - Seuil epidémique Atteint ou depassé', 1, 'UXYyidjKPtu', 1),
@@ -1976,7 +1976,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23334, 52, 'F 6.3 Rougeole - Cas confirmé', 1, 'tZKh9zgUhvx', 1),
 (23335, 52, 'F 6.3 Rougeole - Cas investigué', 1, 'n9HwZARzNhL', 1),
 (23336, 52, 'F 6.3 Rougeole - Echantillon Examine (labo)', 1, 'GdJa4Ggh69n', 1),
-(23337, 52, 'F 6.3 Rougeole - Epidémie ayant fait l''objet de riposte', 1, 'bNYEizeSMuY', 1),
+(23337, 52, 'F 6.3 Rougeole - Epidémie ayant fait l\'objet de riposte', 1, 'bNYEizeSMuY', 1),
 (23338, 52, 'F 6.3 Rougeole - Epidémie déclarée', 1, 'oQjrPVWecZH', 1),
 (23339, 52, 'F 6.3 Rougeole - Seuil epidémie', 1, 'IzJgksRvsqa', 1),
 (23340, 52, 'F 6.3 Rougeole - Seuil epidémique Atteint ou depassé', 1, 'Su7xDUM1w6z', 1),
@@ -1984,7 +1984,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23342, 52, 'F 6.3 Tétanos Néonatal - Cas confirmé', 1, 'av2EATBJAXQ', 1),
 (23343, 52, 'F 6.3 Tétanos Néonatal - Cas investigué', 1, 'd2xkS8Wmizt', 1),
 (23344, 52, 'F 6.3 Tétanos Néonatal - Echantillon Examine (labo)', 1, 'B7GkxzCb13m', 1),
-(23345, 52, 'F 6.3 Tétanos Néonatal - Epidémie ayant fait l''objet de riposte', 1, 'euWScJ4dVBi', 1),
+(23345, 52, 'F 6.3 Tétanos Néonatal - Epidémie ayant fait l\'objet de riposte', 1, 'euWScJ4dVBi', 1),
 (23346, 52, 'F 6.3 Tétanos Néonatal - Epidémie déclarée', 1, 'ccyVAdM30r8', 1),
 (23347, 52, 'F 6.3 Tétanos Néonatal - Seuil epidémie', 1, 'NpdENGvcnZk', 1),
 (23348, 52, 'F 6.3 Tétanos Néonatal - Seuil epidémique Atteint ou depassé', 1, 'omtacHvOREe', 1),
@@ -2100,11 +2100,11 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23458, 52, 'Hospitalisation-Date de Deces', 1, 'lmRrsFtEMjY', 1),
 (23459, 52, 'Hospitalisation-Date de sortie hospitalisation', 1, 'iaFL4bVtCGZ', 1),
 (23460, 52, 'Hospitalisation-Date de sortie isolement', 1, 'jAaK3kXxoFi', 1),
-(23461, 52, 'Hospitalisation-Date d''Hosp', 1, 'AYm5Ct54bYa', 1),
+(23461, 52, 'Hospitalisation-Date d\'Hosp', 1, 'AYm5Ct54bYa', 1),
 (23462, 52, 'Hospitalisation-Etat Actuel', 1, 'kwu1PCtSdj0', 1),
 (23463, 52, 'Hospitalisation-FOSA', 1, 'tldrBeI89Ak', 1),
 (23464, 52, 'Hospitalisation-Isolé actuel', 1, 'QPruSOKgGCL', 1),
-(23465, 52, 'Hospitalisation-Isolé à l''admis', 1, 'aryHTRpnjiv', 1),
+(23465, 52, 'Hospitalisation-Isolé à l\'admis', 1, 'aryHTRpnjiv', 1),
 (23466, 52, 'I.1.1 Paludisme simple confirmé traité AL ', 1, 'JGj4nfAwh8f', 1),
 (23467, 52, 'I.1.1 Paludisme simple confirmé traité AL avec effet indésirable', 1, 'XuzEUX2pZLT', 1),
 (23468, 52, 'I.1.1 Paludisme simple confirmé traité AL avec effet indésirable grave', 1, 'WyvWgZfMWIT', 1),
@@ -2151,7 +2151,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23509, 52, 'Issue-Lieu du Décès', 1, 'tER4897Mhrh', 1),
 (23510, 52, 'Issue-Nom de FOSA', 1, 'mSq2WcalchD', 1),
 (23511, 52, 'Issue-Nom du Village', 1, 'GorsOAzbPAz', 1),
-(23512, 52, 'Issue-Village de l''enterrement', 1, 'Fy21ibZKZjM', 1),
+(23512, 52, 'Issue-Village de l\'enterrement', 1, 'Fy21ibZKZjM', 1),
 (23513, 52, 'J 1.1 Admis en hospitalisation', 1, 'Nu9A3jfMQp2', 1),
 (23514, 52, 'J.1.1 Décès paludisme en hospitalisation', 1, 'm1h87LpfGzq', 1),
 (23515, 52, 'J 1.1 Hospitalisé avec diagnostic paludisme', 1, 'OgjNG9TPViF', 1),
@@ -2192,80 +2192,80 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23550, 52, 'Laboratoire-Sérologie Anticorps 1', 1, 'Dt4FyhFtuTA', 1),
 (23551, 52, 'Laboratoire-Sérologie Anticorps 2', 1, 'fhdBL9XccVP', 1),
 (23552, 52, 'Laboratoire-Type de Prelevement Autre détailler', 1, 'cLhzouGcsl3', 1),
-(23553, 52, 'O2 Comp Au cours des 3 derniers mois, l''ECZ a-t-elle organisé des séances de rafraichissement de connaissances à l''intention du personnel des FOSA sur le remplissage des outils de collecte (ex. au cours des reunions de monitorage)', 1, 'fERezoKKpgq', 1),
-(23554, 52, 'O2 Comp Au cours des 3 derniers mois l''ECZ a-t-elle organisé des séances de rafraichissement de connaissances à l''intention du personnel des FOSA sur l''utilisation de l''information (ex. au cours des reunions de monitorage)', 1, 'iTSu29AK5Md', 1),
-(23555, 52, 'O2 Comp Durant les trois dernières années, plus de deux personnes actuellement en poste au BCZ ont-elles bénéficiées d''une formation sur le Système d''information?', 1, 'npoHVLtnNTx', 1),
-(23556, 52, 'O2 Comp Durant les trois dernières années, plus de deux personnes actuellement en poste au BCZ ont-elles bénéficiées d''une formation sur l''utilisation du dhis2?', 1, 'vOESLLyauLR', 1),
+(23553, 52, 'O2 Comp Au cours des 3 derniers mois, l\'ECZ a-t-elle organisé des séances de rafraichissement de connaissances à l\'intention du personnel des FOSA sur le remplissage des outils de collecte (ex. au cours des reunions de monitorage)', 1, 'fERezoKKpgq', 1),
+(23554, 52, 'O2 Comp Au cours des 3 derniers mois l\'ECZ a-t-elle organisé des séances de rafraichissement de connaissances à l\'intention du personnel des FOSA sur l\'utilisation de l\'information (ex. au cours des reunions de monitorage)', 1, 'iTSu29AK5Md', 1),
+(23555, 52, 'O2 Comp Durant les trois dernières années, plus de deux personnes actuellement en poste au BCZ ont-elles bénéficiées d\'une formation sur le Système d\'information?', 1, 'npoHVLtnNTx', 1),
+(23556, 52, 'O2 Comp Durant les trois dernières années, plus de deux personnes actuellement en poste au BCZ ont-elles bénéficiées d\'une formation sur l\'utilisation du dhis2?', 1, 'vOESLLyauLR', 1),
 (23557, 52, 'O2 Comp Le responsable S/E est-il capable de donner de façon adéquate les directives de vérification des données avant saisie ? (Vérifier en posant des questions)', 1, 'Gz5c3MXQwzf', 1),
-(23558, 52, 'O2 Comp S''il existe, un plan operationnel de la ZS , mentionne t''il plus de deux activités de formation du personnel en en rapport avec le Système d''Information ?', 1, 'im5Qx49CqB2', 1),
+(23558, 52, 'O2 Comp S\'il existe, un plan operationnel de la ZS , mentionne t\'il plus de deux activités de formation du personnel en en rapport avec le Système d\'Information ?', 1, 'im5Qx49CqB2', 1),
 (23559, 52, 'O2 Dhis2 Aptitude à produire des exports Excel', 1, 'IoZWobkwjCS', 1),
 (23560, 52, 'O2 Dhis2 Aptitude à produire des rapports standards', 1, 'vpuujuSL5T5', 1),
 (23561, 52, 'O2 Dhis2 Aptitude à utiliser des Tableaux Croisés Dynamiques', 1, 'slMgjM9yQTb', 1),
-(23562, 52, 'O2 Dispo Au jour d''aujourd''hui , un seul format de canevas RMA CS est-il utilisé dans la ZS ?', 1, 'EHjGx7MS1ff', 1),
-(23563, 52, 'O2 Dispo Cet ordinateur est-il doté d''un antivirus à jour ?', 1, 'xr1yXFdD4YH', 1),
-(23564, 52, 'O2 Dispo Cet ordinateur est-il en permanence disponible pour la saisie de l''information ?', 1, 'VOvaya1kn9Q', 1),
-(23565, 52, 'O2 Dispo Des formats PDF d''outils de gestion ( canevas, registres, manuels de remplissage) sont-ils disponibles sur l''un des ordinateurs de l''ECZ?', 1, 'PpPJTc6e2cl', 1),
-(23566, 52, 'O2 Dispo Les canevas de RMA actuellement en stock au BCZ, (est elle) sont -ils d''une lisibilité correcte ?( sur 10 canevas voir la prédominance)', 1, 'bNUMLrxvuaD', 1),
-(23567, 52, 'O2 Dispo Selon le responsable S/E, la disponibilité de l''internet est : Excellente=4, bonne= 3, mauvaise= 1, absente= 0', 1, 'svR2vYwKhZK', 1),
+(23562, 52, 'O2 Dispo Au jour d\'aujourd\'hui , un seul format de canevas RMA CS est-il utilisé dans la ZS ?', 1, 'EHjGx7MS1ff', 1),
+(23563, 52, 'O2 Dispo Cet ordinateur est-il doté d\'un antivirus à jour ?', 1, 'xr1yXFdD4YH', 1),
+(23564, 52, 'O2 Dispo Cet ordinateur est-il en permanence disponible pour la saisie de l\'information ?', 1, 'VOvaya1kn9Q', 1),
+(23565, 52, 'O2 Dispo Des formats PDF d\'outils de gestion ( canevas, registres, manuels de remplissage) sont-ils disponibles sur l\'un des ordinateurs de l\'ECZ?', 1, 'PpPJTc6e2cl', 1),
+(23566, 52, 'O2 Dispo Les canevas de RMA actuellement en stock au BCZ, (est elle) sont -ils d\'une lisibilité correcte ?( sur 10 canevas voir la prédominance)', 1, 'bNUMLrxvuaD', 1),
+(23567, 52, 'O2 Dispo Selon le responsable S/E, la disponibilité de l\'internet est : Excellente=4, bonne= 3, mauvaise= 1, absente= 0', 1, 'svR2vYwKhZK', 1),
 (23568, 52, 'O2 Dispo Un ordinateur spécifiquement dédié à la saisie dans le dhis2, existe-t-il au niveau du BCZ ?', 1, 's9nxoFOE84i', 1),
 (23569, 52, 'O2 Dispo Un stock de canevas de RMA est il disponible au niveau du BCZ (plus de 15 RMA CS disponibles au temps présent ) ?', 1, 'MnqlGFOkzBe', 1),
 (23570, 52, 'O2 Dispo Un stock de registres du SNIS -BCZS est il disponible au niveau du BCZ ?', 1, 'TGUDJmRJ3zy', 1),
 (23571, 52, 'O2 ExactSaisie Formation sanitaire N°1 (Premier RMA verifié)', 1, 'SNIMtrLHnPa', 1),
 (23572, 52, 'O2 ExactSaisie Formation sanitaire N°2 (Deuxieme RMA vérifié)', 1, 'wOIrvfX0zZW', 1),
-(23573, 52, 'O2 Org Des directives écrites définissant les modalités de vérification des RMA avant la saisie dans le dhis2 sont-elles disponibles : au minimum SOPs (manuel de procédure) : personnes responsables + circuit de l''information) ?', 1, 'aPXGD1BxN2M', 1),
+(23573, 52, 'O2 Org Des directives écrites définissant les modalités de vérification des RMA avant la saisie dans le dhis2 sont-elles disponibles : au minimum SOPs (manuel de procédure) : personnes responsables + circuit de l\'information) ?', 1, 'aPXGD1BxN2M', 1),
 (23574, 52, 'O2 Org Existe-t-il au BCZ un document précisant le nom et le rôle des agents responsabilisés pour la saisie des RMA reçus des FOSA ?', 1, 'PtzLq6li1MW', 1),
 (23575, 52, 'O2 Org Existe-t-il au BCZ un document précisant le nom et le rôle des agents responsabilisés pour la vérification des RMA reçus des FOSA ?', 1, 'fM5ZRamej0d', 1),
-(23576, 52, 'O2 Org Existe-t-il au sein de l''ECZ une personne spécifiquement chargée des aspects de suivi évaluation (suivi de la complétude, calcul des indicateurs, suivi des performances des FOSA, etc.) ?', 1, 'EJatfaR9Lap', 1),
+(23576, 52, 'O2 Org Existe-t-il au sein de l\'ECZ une personne spécifiquement chargée des aspects de suivi évaluation (suivi de la complétude, calcul des indicateurs, suivi des performances des FOSA, etc.) ?', 1, 'EJatfaR9Lap', 1),
 (23577, 52, 'O2 Org Les anciens RMA sont ils bien archivés ?', 1, 'ObhY0oj7ZYi', 1),
-(23578, 52, 'O2 Org Peut-on considérer que l''opérateur de saisie a une bonne connaissance de son rôle et du contenu de sa description de poste par rapport au SNIS ? (A EVALUER PAR LE SUPERVISEUR de 0 à 2)', 1, 'QViKQkvhLCd', 1),
-(23579, 52, 'O2 Org Un Data manager est-il spécifiquement responsable de la saisie de l''information des données dans le dhis2 ?', 1, 'tLyWenhVSyw', 1),
-(23580, 52, 'O2 Org Un manuel de procédure d''utilisation du dhis 2 est il disponible (acces possible par le personnel du BCZ à tout moment)?', 1, 'lyOjZAJm19T', 1),
+(23578, 52, 'O2 Org Peut-on considérer que l\'opérateur de saisie a une bonne connaissance de son rôle et du contenu de sa description de poste par rapport au SNIS ? (A EVALUER PAR LE SUPERVISEUR de 0 à 2)', 1, 'QViKQkvhLCd', 1),
+(23579, 52, 'O2 Org Un Data manager est-il spécifiquement responsable de la saisie de l\'information des données dans le dhis2 ?', 1, 'tLyWenhVSyw', 1),
+(23580, 52, 'O2 Org Un manuel de procédure d\'utilisation du dhis 2 est il disponible (acces possible par le personnel du BCZ à tout moment)?', 1, 'lyOjZAJm19T', 1),
 (23581, 52, 'O2 Plan Cette carte mentionne elle également la delimitation des aires de santé et les sites de soins communautaires ?', 1, 'JAg1z89Qyfr', 1),
-(23582, 52, 'O2 Plan Les chiffres de populations cibles par AS pour l''année en cours, est-il disponible ?', 1, 'by3D2mKX6pf', 1),
-(23583, 52, 'O2 Plan Si un plan opérationnel de la ZS pour l''année en cours existe mentionne t''il des actions spécifiques au SNIS ? (à vérifier)', 1, 'mjFa34gUUxo', 1),
+(23582, 52, 'O2 Plan Les chiffres de populations cibles par AS pour l\'année en cours, est-il disponible ?', 1, 'by3D2mKX6pf', 1),
+(23583, 52, 'O2 Plan Si un plan opérationnel de la ZS pour l\'année en cours existe mentionne t\'il des actions spécifiques au SNIS ? (à vérifier)', 1, 'mjFa34gUUxo', 1),
 (23584, 52, 'O2 Plan Une carte ou croquis de la ZS mentionnant la localisation des FOSA est elle disponible au niveau du BCZ ?', 1, 'uLjKntg1B8B', 1),
 (23585, 52, 'O2 Plan Un tableau montrant la complétude de FOSA de la ZS, à jour pour le mois précedent la visite de supervision est-il disponible au BCZ?', 1, 'sghQSIjUgm9', 1),
-(23586, 52, 'O2 Plan Un tableau récapitulant les paquets d''activités prestées par chaque FOSA de la ZS est-il disponible ?', 1, 'aIcosA2k2SY', 1),
-(23587, 52, 'O2 Saisie La durée de la saise est elle considérée comme adéquate par le superviseur (à mesurer par rapport à un standard à définir ) ( standard= moins d''une heure)', 1, 'YI6glwsZKOz', 1),
-(23588, 52, 'O2 Saisie Lors de l''observation, le superviseur n''observe pas d''erreurs majeures de saisie', 1, 'PTrwxROhYLr', 1),
-(23589, 52, 'O2 Test Nombre d''erreurs détectée RMA formation sanitaire N°1', 1, 'oXm4JT6AjyE', 1),
-(23590, 52, 'O2 Test Nombre d''erreurs détectée RMA formation sanitaire N°12', 1, 'NlkeUVSKr7W', 1),
-(23591, 52, 'O2 Util Au moins un feedback formel a t''il été donné au COGE de santé de la ZS sur l''information durant ce dernier mois ?', 1, 'sSK3HG7bIHc', 1),
-(23592, 52, 'O2 Util Nombre de lettre de rétro-information décrivant la situation de l''activités des CS et l''épidémiologie de la ZS adressés aux responsables de FOSA durant les trois derniers mois ?', 1, 'f2Nu96BmupU', 1),
-(23593, 52, 'O2 Util Un tableau récapitulatif mentionnant les performances mensuelles en terme de soins curatifs , est t''il disponible ? (taux de couverture par AS; imprimé ou sur un ordinateur en format word ou Excel)', 1, 'unj4AX5gBxD', 1),
-(23594, 52, 'O2 Util Un tableau récapitulatif mentionnant les performances mensuelles en termes de santé de la reproduction, est t''il disponible (taux de couverture par AS; imprimé ou sur un ordinateur en format word ou Excel) ?', 1, 'CERM9B4y4DU', 1),
-(23595, 52, 'O2 Util Un tableau résumant les performances mensuelles des AS en terme de vaccination, est t''il disponible ? (taux de couverture par AS; imprimée ou sur un ordinateur en format word ou Excel )', 1, 'IbI8MPzWTX8', 1),
-(23596, 52, 'O2 Util Un tableau synoptique mentionnant les performances mensuelles des formations sanitaires en terme de production des rapports d''activité, est t''il disponible ? (complétude promptitude; en dur ou electronique)', 1, 'YNtCiygECOz', 1),
+(23586, 52, 'O2 Plan Un tableau récapitulant les paquets d\'activités prestées par chaque FOSA de la ZS est-il disponible ?', 1, 'aIcosA2k2SY', 1),
+(23587, 52, 'O2 Saisie La durée de la saise est elle considérée comme adéquate par le superviseur (à mesurer par rapport à un standard à définir ) ( standard= moins d\'une heure)', 1, 'YI6glwsZKOz', 1),
+(23588, 52, 'O2 Saisie Lors de l\'observation, le superviseur n\'observe pas d\'erreurs majeures de saisie', 1, 'PTrwxROhYLr', 1),
+(23589, 52, 'O2 Test Nombre d\'erreurs détectée RMA formation sanitaire N°1', 1, 'oXm4JT6AjyE', 1),
+(23590, 52, 'O2 Test Nombre d\'erreurs détectée RMA formation sanitaire N°12', 1, 'NlkeUVSKr7W', 1),
+(23591, 52, 'O2 Util Au moins un feedback formel a t\'il été donné au COGE de santé de la ZS sur l\'information durant ce dernier mois ?', 1, 'sSK3HG7bIHc', 1),
+(23592, 52, 'O2 Util Nombre de lettre de rétro-information décrivant la situation de l\'activités des CS et l\'épidémiologie de la ZS adressés aux responsables de FOSA durant les trois derniers mois ?', 1, 'f2Nu96BmupU', 1),
+(23593, 52, 'O2 Util Un tableau récapitulatif mentionnant les performances mensuelles en terme de soins curatifs , est t\'il disponible ? (taux de couverture par AS; imprimé ou sur un ordinateur en format word ou Excel)', 1, 'unj4AX5gBxD', 1),
+(23594, 52, 'O2 Util Un tableau récapitulatif mentionnant les performances mensuelles en termes de santé de la reproduction, est t\'il disponible (taux de couverture par AS; imprimé ou sur un ordinateur en format word ou Excel) ?', 1, 'CERM9B4y4DU', 1),
+(23595, 52, 'O2 Util Un tableau résumant les performances mensuelles des AS en terme de vaccination, est t\'il disponible ? (taux de couverture par AS; imprimée ou sur un ordinateur en format word ou Excel )', 1, 'IbI8MPzWTX8', 1),
+(23596, 52, 'O2 Util Un tableau synoptique mentionnant les performances mensuelles des formations sanitaires en terme de production des rapports d\'activité, est t\'il disponible ? (complétude promptitude; en dur ou electronique)', 1, 'YNtCiygECOz', 1),
 (23597, 52, 'O2 Vérif Ce mécanisme met il en jeu un contact téléphonique avec les IT responsables des CS en défaut ?', 1, 'LbMnp3RsSqv', 1),
-(23598, 52, 'O2 Vérif le MCZ ou une autre personne de l''ECZ réalise t''il des vérifications périodiques a posteriori de la qualité de saisie des RMA le dhis2 ?', 1, 'pNmn8NBScQG', 1),
+(23598, 52, 'O2 Vérif le MCZ ou une autre personne de l\'ECZ réalise t\'il des vérifications périodiques a posteriori de la qualité de saisie des RMA le dhis2 ?', 1, 'pNmn8NBScQG', 1),
 (23599, 52, 'O2 Vérif Les numéro de téléphones des responsables des FOSA (infirmiers titulaires, médecins directeurs) sont ils archivés dans un document unique accessible au BCZ ?', 1, 'rcwIdHUlioK', 1),
-(23600, 52, 'O2 Vérif L'' infirmier superviseur du BCZ déclare t''il contacter régulierement par téléphone les responsables de FOSA en cas de retard dans la transmission des RMA ?', 1, 'sMwG4ePUpHi', 1),
-(23601, 52, 'O2 Vérif Un agent est-il responsabilisé pour la vérification de la cohérence des RMA avant la saisie dans le dhis2 (cette personne ne peut pas être l''operateur de saisie! ) ?', 1, 'AeSKiQpsoem', 1),
-(23602, 52, 'O2 Vérif Un mécanisme accélérée visant à faire face à des rapports incoherent ou imprécis et ou manquants d''information reçus des FOSA est il définit ?', 1, 'zub8ujQmuV5', 1),
+(23600, 52, 'O2 Vérif L\' infirmier superviseur du BCZ déclare t\'il contacter régulierement par téléphone les responsables de FOSA en cas de retard dans la transmission des RMA ?', 1, 'sMwG4ePUpHi', 1),
+(23601, 52, 'O2 Vérif Un agent est-il responsabilisé pour la vérification de la cohérence des RMA avant la saisie dans le dhis2 (cette personne ne peut pas être l\'operateur de saisie! ) ?', 1, 'AeSKiQpsoem', 1),
+(23602, 52, 'O2 Vérif Un mécanisme accélérée visant à faire face à des rapports incoherent ou imprécis et ou manquants d\'information reçus des FOSA est il définit ?', 1, 'zub8ujQmuV5', 1),
 (23603, 52, 'O2 Violat Nombre de violation des règles de validation durant les trois derniers mois', 1, 'sK4H4TrLe3d', 1),
 (23604, 52, 'O3 Autre Comité opérationnel (une réunion le dernier mois)', 1, 'YPRsjAj4nAT', 1),
-(23605, 52, 'O3 Comp Au cours des 6 derniers mois, le personnel de la maternité a t''il reçu au moins un rafraichissement de connaissance sur le remplissage des outils de collecte du SNIS et définitions de cas?', 1, 'IW5dRuu9EsJ', 1),
-(23606, 52, 'O3 Comp Au cours des 6 derniers mois, le personnel des services d''hospitalisation a t''il reçu au moins un rafraichissement de connaissance sur le remplissage des outils de collecte du SNIS et définitions de cas?', 1, 'TBSJuwn9DBA', 1),
-(23607, 52, 'O3 Comp Des séances de formation en cours d''emploi abordant le sujet de l''information sanitaire (par exemple au cours de réunions de staff) ont-elles été organisées au cours du dernier mois ?', 1, 'ZU4HGV8X6VG', 1),
-(23608, 52, 'O3 Comp Durant les 3 dernières années , le DN ( ou une personne mandatée par le DN) a t''il été formé à la transcription dans le RMA des données issues des registres (formation en salle) ?', 1, 'OxKLE9gEFAw', 1),
-(23609, 52, 'O3 Comp Le Directeur de l''HGR considère t''il que les agents impliqués dans le remplissage des registres / fiches de pointages ont une bonne connaissance du contenu et des tâches qui leur incombent ?', 1, 'nnJU3A5C9Pt', 1),
-(23610, 52, 'O3 Comp Un agent de de l''HGR est-il formellement désigné comme responsable de la vérification du contenu du RMA avant envoi de celui-ci à l''ECZ ?', 1, 'vJOT9FuZ6fg', 1),
-(23611, 52, 'O3 Dispo Aujourd''hui des fiches de dépouillement des données d''hospitalisation sont elles disponibles', 1, 'DyjenI0cLjY', 1),
-(23612, 52, 'O3 Dispo Aujourd''hui, les formulaires de collecte de l''information spécifiques à la gestion du médicament sont-ils disponibles et utilisés (fiches de stock à la pharmacie de gros + RUMER à la pharmacie de détail ) ?', 1, 'ESkL4Fk5mU1', 1),
-(23613, 52, 'O3 Dispo Aujourd''hui, les formulaires individuels de collecte de d''information spécifiques à la SR sont-ils disponibles et conformes aux normes du MSP (partogramme & fiche de PF) ?', 1, 'MyENwv3aunN', 1),
-(23614, 52, 'O3 Dispo Aujourd''hui, les registres de soins utilisés sont-ils conformes aux standards de la DSNIS (observation directe)', 1, 'mzzUWi6YdRZ', 1),
-(23615, 52, 'O3 Dispo Le DN déclare t''il expérimenter des ruptures de stock prolongées de registres (plus d''un mois) ?', 1, 'NUX9jyNugfU', 1),
+(23605, 52, 'O3 Comp Au cours des 6 derniers mois, le personnel de la maternité a t\'il reçu au moins un rafraichissement de connaissance sur le remplissage des outils de collecte du SNIS et définitions de cas?', 1, 'IW5dRuu9EsJ', 1),
+(23606, 52, 'O3 Comp Au cours des 6 derniers mois, le personnel des services d\'hospitalisation a t\'il reçu au moins un rafraichissement de connaissance sur le remplissage des outils de collecte du SNIS et définitions de cas?', 1, 'TBSJuwn9DBA', 1),
+(23607, 52, 'O3 Comp Des séances de formation en cours d\'emploi abordant le sujet de l\'information sanitaire (par exemple au cours de réunions de staff) ont-elles été organisées au cours du dernier mois ?', 1, 'ZU4HGV8X6VG', 1),
+(23608, 52, 'O3 Comp Durant les 3 dernières années , le DN ( ou une personne mandatée par le DN) a t\'il été formé à la transcription dans le RMA des données issues des registres (formation en salle) ?', 1, 'OxKLE9gEFAw', 1),
+(23609, 52, 'O3 Comp Le Directeur de l\'HGR considère t\'il que les agents impliqués dans le remplissage des registres / fiches de pointages ont une bonne connaissance du contenu et des tâches qui leur incombent ?', 1, 'nnJU3A5C9Pt', 1),
+(23610, 52, 'O3 Comp Un agent de de l\'HGR est-il formellement désigné comme responsable de la vérification du contenu du RMA avant envoi de celui-ci à l\'ECZ ?', 1, 'vJOT9FuZ6fg', 1),
+(23611, 52, 'O3 Dispo Aujourd\'hui des fiches de dépouillement des données d\'hospitalisation sont elles disponibles', 1, 'DyjenI0cLjY', 1),
+(23612, 52, 'O3 Dispo Aujourd\'hui, les formulaires de collecte de l\'information spécifiques à la gestion du médicament sont-ils disponibles et utilisés (fiches de stock à la pharmacie de gros + RUMER à la pharmacie de détail ) ?', 1, 'ESkL4Fk5mU1', 1),
+(23613, 52, 'O3 Dispo Aujourd\'hui, les formulaires individuels de collecte de d\'information spécifiques à la SR sont-ils disponibles et conformes aux normes du MSP (partogramme & fiche de PF) ?', 1, 'MyENwv3aunN', 1),
+(23614, 52, 'O3 Dispo Aujourd\'hui, les registres de soins utilisés sont-ils conformes aux standards de la DSNIS (observation directe)', 1, 'mzzUWi6YdRZ', 1),
+(23615, 52, 'O3 Dispo Le DN déclare t\'il expérimenter des ruptures de stock prolongées de registres (plus d\'un mois) ?', 1, 'NUX9jyNugfU', 1),
 (23616, 52, 'O3 Dispo Les canevas de RMA pré imprimés disponibles actuellement ont-t-ils une lisibilité correcte ? (6/10 Canevas)', 1, 'npRDOU238jG', 1),
-(23617, 52, 'O3 Enc Durant les six derniers mois, l''HGR a-t-elle reçu au moins une supervision se rapportant spécifiquement à l''information sanitaire ? (le superviseur doit examiner le cahier de supervision!)', 1, 'mbWwjMQGjGl', 1),
-(23618, 52, 'O3 Enc Durant les trois derniers mois l''HGR a-t-elle reçu au moins une supervision intégrée de l''ECZ abordant le SNIS (examiner le cahier de supervision et au moins une référence au SNIS doit être présente!)', 1, 'VWL32YQxDpc', 1),
-(23619, 52, 'O3 Enc Existe t''il un cahier de supervision à l''HGR ?', 1, 'wfBphqkN3QK', 1),
-(23620, 52, 'O3 Enc Le DN participe t''il à des réunions de monitorage organisées par l''ECZ où sont présentés des bilans chiffrés des performances des FOSA de la ZS ?', 1, 'MBsHXTh1bUQ', 1),
+(23617, 52, 'O3 Enc Durant les six derniers mois, l\'HGR a-t-elle reçu au moins une supervision se rapportant spécifiquement à l\'information sanitaire ? (le superviseur doit examiner le cahier de supervision!)', 1, 'mbWwjMQGjGl', 1),
+(23618, 52, 'O3 Enc Durant les trois derniers mois l\'HGR a-t-elle reçu au moins une supervision intégrée de l\'ECZ abordant le SNIS (examiner le cahier de supervision et au moins une référence au SNIS doit être présente!)', 1, 'VWL32YQxDpc', 1),
+(23619, 52, 'O3 Enc Existe t\'il un cahier de supervision à l\'HGR ?', 1, 'wfBphqkN3QK', 1),
+(23620, 52, 'O3 Enc Le DN participe t\'il à des réunions de monitorage organisées par l\'ECZ où sont présentés des bilans chiffrés des performances des FOSA de la ZS ?', 1, 'MBsHXTh1bUQ', 1),
 (23621, 52, 'O3 La FOSA est un site sentinelle de surveillance ?', 1, 'GD20EafoB6B', 1),
-(23622, 52, 'O3 Planif Ce plan d''actions contient t''il au moins deux activités budgétisées visant spécifiquement le Système d''Information ?', 1, 'dGc4fBNRxYn', 1),
-(23623, 52, 'O3 Planif Existe-t-il un plan d''actions annuel au niveau de l''HGR ?', 1, 'fcGg1VBWhlY', 1),
-(23624, 52, 'O3 Planif Existe-t-il un projet d''Etablissement en cours de mise en œuvre ?', 1, 'GoSG6m3Fh3u', 1),
-(23625, 52, 'O3 Planif Les chiffres de populations cibles de l''année sont-ils connus de l''HGR ? (au moins une activité)', 1, 'QDpnjwSn4Ao', 1),
-(23626, 52, 'O3 Planif Si oui, ce PEH développe t''il une stratégie spécifique par rapport à l''information sanitaire ?', 1, 'rTXLCxMO2Qa', 1),
+(23622, 52, 'O3 Planif Ce plan d\'actions contient t\'il au moins deux activités budgétisées visant spécifiquement le Système d\'Information ?', 1, 'dGc4fBNRxYn', 1),
+(23623, 52, 'O3 Planif Existe-t-il un plan d\'actions annuel au niveau de l\'HGR ?', 1, 'fcGg1VBWhlY', 1),
+(23624, 52, 'O3 Planif Existe-t-il un projet d\'Etablissement en cours de mise en œuvre ?', 1, 'GoSG6m3Fh3u', 1),
+(23625, 52, 'O3 Planif Les chiffres de populations cibles de l\'année sont-ils connus de l\'HGR ? (au moins une activité)', 1, 'QDpnjwSn4Ao', 1),
+(23626, 52, 'O3 Planif Si oui, ce PEH développe t\'il une stratégie spécifique par rapport à l\'information sanitaire ?', 1, 'rTXLCxMO2Qa', 1),
 (23627, 52, 'O3 PMA Accouchements', 1, 'rZ0U7bmWtBN', 1),
 (23628, 52, 'O3 PMA Activités de bloc opératoire', 1, 'xNRfqFsZIJs', 1),
 (23629, 52, 'O3 PMA Consultation ambulatoire de référence', 1, 'Lq3Mf6MMbnz', 1),
@@ -2277,12 +2277,12 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23635, 52, 'O3 PMA Laboratoire', 1, 'Dp7irlYHus6', 1),
 (23636, 52, 'O3 Remp Les outils primaires utilisés (dossier du malade, partogrammes, etc. ) sont-ils archivés correctement ?', 1, 'vCuZfHLquVZ', 1),
 (23637, 52, 'O3 RMA Des définitions de cas sont elles affichées sur un support spécifique disponible à la consultation (affiche murale ou feuille spécifique)', 1, 'RMtSfjm05Ax', 1),
-(23638, 52, 'O3 RMA Des définitions de cas sont elles affichées sur un support spécifique disponible dans les services d''hospitalisation (affiche murale ou feuille spécifique)', 1, 'nGTxImvVkoN', 1),
-(23639, 52, 'O3 RMA Des directives écrites décrivant les procédures de remplissage des registres et la transcription dans le RMA sont-elles actuellement disponibles à l''HGR (manuel de remplissage des outils effectivement disponible)?', 1, 'yZldyikMDcR', 1),
-(23640, 52, 'O3 RMA Le DN a-t-il une connaissance acceptable de son rôle et du contenu de sa description de poste ? (avis du superviseur après interview de l''intéressé)', 1, 'hHB573kGYRx', 1),
-(23641, 52, 'O3 RMA lLe DN est-il en mesure de fournir les directives pour la transmission des données du SNIS de routine au BCZ ( circuit et date limite d''envoi) ?', 1, 'DHAu6TrRWpn', 1),
-(23642, 52, 'O3 RMA Une description de poste du DN précisant les tâches qu''il doit réaliser dans le cadre du SNIS est-elle disponible ?', 1, 'YFYt138ds1w', 1),
-(23643, 52, 'O3 RMA Un service statistique existe-t-il au niveau de l''HGR (personnel affecté avec fiche de poste)', 1, 'MppOad74sSr', 1),
+(23638, 52, 'O3 RMA Des définitions de cas sont elles affichées sur un support spécifique disponible dans les services d\'hospitalisation (affiche murale ou feuille spécifique)', 1, 'nGTxImvVkoN', 1),
+(23639, 52, 'O3 RMA Des directives écrites décrivant les procédures de remplissage des registres et la transcription dans le RMA sont-elles actuellement disponibles à l\'HGR (manuel de remplissage des outils effectivement disponible)?', 1, 'yZldyikMDcR', 1),
+(23640, 52, 'O3 RMA Le DN a-t-il une connaissance acceptable de son rôle et du contenu de sa description de poste ? (avis du superviseur après interview de l\'intéressé)', 1, 'hHB573kGYRx', 1),
+(23641, 52, 'O3 RMA lLe DN est-il en mesure de fournir les directives pour la transmission des données du SNIS de routine au BCZ ( circuit et date limite d\'envoi) ?', 1, 'DHAu6TrRWpn', 1),
+(23642, 52, 'O3 RMA Une description de poste du DN précisant les tâches qu\'il doit réaliser dans le cadre du SNIS est-elle disponible ?', 1, 'YFYt138ds1w', 1),
+(23643, 52, 'O3 RMA Un service statistique existe-t-il au niveau de l\'HGR (personnel affecté avec fiche de poste)', 1, 'MppOad74sSr', 1),
 (23644, 52, 'O3 Test1 Accouchements (registre maternité)', 1, 'OYxlGdukHI1', 1),
 (23645, 52, 'O3 Test1 Activités de bloc opératoire (registre boc et protocole)', 1, 'e8OBbH7DoOi', 1),
 (23646, 52, 'O3 Test1 Consultation ambulatoire de référence (registre consultation de référence)', 1, 'op839eyAI6k', 1),
@@ -2292,43 +2292,43 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23650, 52, 'O3 Test1 Hospitalisation Médecine interne (registre hospitalisation)', 1, 't2myjjsgDc8', 1),
 (23651, 52, 'O3 Test1 Hospitalisation Pédiatrie (registre hospitalisation)', 1, 'TK2gqaGHta4', 1),
 (23652, 52, 'O3 Test1 Laboratoire (Registre labo)', 1, 'J9ph87z6RUE', 1),
-(23653, 52, 'O3 Test1 Nombre de registres de soins préimprimés actuellement utilisés dans l''ensemble des services cités', 1, 'yfRCKKACZMk', 1),
-(23654, 52, 'O3 Test1 Nombre de registres de soins tirés au stylo actuellement utilisés dans l''ensemble des services cités', 1, 'uYiwbGSAgdM', 1),
+(23653, 52, 'O3 Test1 Nombre de registres de soins préimprimés actuellement utilisés dans l\'ensemble des services cités', 1, 'yfRCKKACZMk', 1),
+(23654, 52, 'O3 Test1 Nombre de registres de soins tirés au stylo actuellement utilisés dans l\'ensemble des services cités', 1, 'uYiwbGSAgdM', 1),
 (23655, 52, 'O3 Test1 Nombre de RMA vierges en stock actuellement au niveau de la FOSA', 1, 'KnOphaq17Ep', 1),
 (23656, 52, 'O3 Test1 Nombre total de registre indispensables', 1, 'NwI21PUmEAb', 1),
 (23657, 52, 'O3 Trans Des procédures standards sont-elles utilisées par le DN ou du la personne que ce dernier à mandaté pour ce travail, pour la saisie dans le canevas du RMA? (vérification par interview)', 1, 'JQR8spse49D', 1),
 (23658, 52, 'O3 Trans Les fiches de pointages sont-elles archivées pour vérification ?', 1, 'QawjgBLIQ9f', 1),
 (23659, 52, 'O3 Trans Les procédures standards pour dépouiller les registres à la fin du mois sont-elles connues du DN ou du la personne que ce dernier à mandaté pour ce travail?', 1, 'p1SHKVhq6Yh', 1),
-(23660, 52, 'O3 Trans Pour le dépouillement des données de consultation curative, le personnel utilise t''il des fiches de pointages?', 1, 'gml7XJhf3RZ', 1),
-(23661, 52, 'O3 Trans Pour le dépouillement des données d''hospitalisation , le personnel utilise t''il des fiches de pointages?', 1, 'Dh9uEyIsyUv', 1),
+(23660, 52, 'O3 Trans Pour le dépouillement des données de consultation curative, le personnel utilise t\'il des fiches de pointages?', 1, 'gml7XJhf3RZ', 1),
+(23661, 52, 'O3 Trans Pour le dépouillement des données d\'hospitalisation , le personnel utilise t\'il des fiches de pointages?', 1, 'Dh9uEyIsyUv', 1),
 (23662, 52, 'O3 Trans Une vérification systématique de la cohérence interne des données est elle réalisée avant envoi au BCZ', 1, 'QnsvaF58U4v', 1),
 (23663, 52, 'O3 TsR1 Les données confidentielles sont-elles conservées selon les directives en vigueur au niveau national ?', 1, 'pNteUSLIuBp', 1),
 (23664, 52, 'O3 TsR1 les totaux sont ils reportés en bas de page et ces totaux sont-ils exacts ?', 1, 'AnbYJmwhLiB', 1),
 (23665, 52, 'O3 TsR1 Sur les registres examinés, existe-t-il en moyenne plus de 3 ratures par page ?', 1, 'UGhZuSOaps2', 1),
 (23666, 52, 'O3 TsR1 Sur les registres examinés, peut-on mettre en évidence des donnée manquantes ou incomplètes ?', 1, 'DsV2AQkgkWL', 1),
-(23667, 52, 'O3 TsR1 Sur les registres examinés, quel est le nombre d''erreur evidentes observées ?', 1, 'F61wZQX3pG5', 1),
+(23667, 52, 'O3 TsR1 Sur les registres examinés, quel est le nombre d\'erreur evidentes observées ?', 1, 'F61wZQX3pG5', 1),
 (23668, 52, 'O3 TsR2 Les données confidentielles sont-elles conservées selon les directives en vigueur au niveau national ?', 1, 'msVUzm9SuUy', 1),
 (23669, 52, 'O3 TsR2 les totaux sont ils reportés en bas de page et ces totaux sont-ils exacts ?', 1, 'K2nfvKjkHqg', 1),
 (23670, 52, 'O3 TsR2 Sur les registres examinés, existe-t-il en moyenne plus de 3 ratures par page ?', 1, 'K1nxtoI3SAt', 1),
 (23671, 52, 'O3 TsR2 Sur les registres examinés, peut-on mettre en évidence des donnée manquantes ou incomplètes ?', 1, 'KMZjo3xDw01', 1),
-(23672, 52, 'O3 TsR2 Sur les registres examinés, quel est le nombre d''erreur evidentes observées ?', 1, 'buDFqiVYKfj', 1),
+(23672, 52, 'O3 TsR2 Sur les registres examinés, quel est le nombre d\'erreur evidentes observées ?', 1, 'buDFqiVYKfj', 1),
 (23673, 52, 'O3 Util Des graphiques ou tableaux de bord montrant les performances par services sont-ils disponibles (version papier ou version informatique)?', 1, 'WRDUnv7A7O4', 1),
-(23674, 52, 'O3 Util Existe-t-il au moins une personne au niveau de l''hôpital possédant des droits pour utiliser le dhis2 pour l''analyse ?', 1, 'lFwkZsaU8yK', 1),
-(23675, 52, 'O3 Util Le DN et/ou la Direction de l''hôpital donne t''il une rétroinformation mensuelle sur les performances de l''HGR à son personnel ?', 1, 'ZDJI2TLIDah', 1),
+(23674, 52, 'O3 Util Existe-t-il au moins une personne au niveau de l\'hôpital possédant des droits pour utiliser le dhis2 pour l\'analyse ?', 1, 'lFwkZsaU8yK', 1),
+(23675, 52, 'O3 Util Le DN et/ou la Direction de l\'hôpital donne t\'il une rétroinformation mensuelle sur les performances de l\'HGR à son personnel ?', 1, 'ZDJI2TLIDah', 1),
 (23676, 52, 'O3 Util Le MDH/DN élabore t-il le plan de remédiation basé sur les données analysées (voir le plan du mois passé)', 1, 'UC4zFwTI9Iq', 1),
-(23677, 52, 'O3 Util Un suivi des indicateurs de l''activité hospitalière est t''il réalisé (existence de tableaux ou graphiques de monitorage à jour pour le mois précédent) ?', 1, 'ybTfk7QHZnt', 1),
+(23677, 52, 'O3 Util Un suivi des indicateurs de l\'activité hospitalière est t\'il réalisé (existence de tableaux ou graphiques de monitorage à jour pour le mois précédent) ?', 1, 'ybTfk7QHZnt', 1),
 (23678, 52, 'O3 Util Un suivi des indicateurs de mortalité hospitalière est-il réalisé (existence de tableaux ou graphiques de monitorage à jour pour le mois précédent) ?', 1, 'MBwNnmKrfEt', 1),
-(23679, 52, 'O3 Util Un suivi des indicateurs spécifiques à la consultation de référence est t''il réalisé (tableau de bord ou équivalent à jour sur l''utilisation de la consultation de référence et de la morbidité pour le mois précédent) ?', 1, 'uGHsKD0hBcf', 1),
+(23679, 52, 'O3 Util Un suivi des indicateurs spécifiques à la consultation de référence est t\'il réalisé (tableau de bord ou équivalent à jour sur l\'utilisation de la consultation de référence et de la morbidité pour le mois précédent) ?', 1, 'uGHsKD0hBcf', 1),
 (23680, 52, 'O3 Util Un suivi spécifique des indicateurs relatif à la maternité est il réalisé (existence de tableaux de bord spécifiques traitant de la santé de la reproduction)', 1, 'AliSCyXl4Vk', 1),
 (23681, 52, 'O3 Util Un suivi spécifique des indicateurs relatif au paludisme est il réalisé (existence de tableaux de bords spécifiques au paludisme)', 1, 'vHfUrqzXnCl', 1),
-(23682, 52, 'OA Recompt Comptez le nombre de personnes, de cas ou d''événements enregistrés dans le registre pendant la période d''étude, en passant en revue les documents source. E1', 1, 'UZ7fRuoxdP4', 1),
-(23683, 52, 'OA Recompt Comptez le nombre de personnes, de cas ou d''événements enregistrés dans le registre pendant la période d''étude, en passant en revue les documents source. E2', 1, 'Dq5tDVSTExO', 1),
-(23684, 52, 'OA Recompt Comptez le nombre de personnes, de cas ou d''événements enregistrés dans le registre pendant la période d''étude, en passant en revue les documents source. E3', 1, 'ZstKBUmhTvQ', 1),
-(23685, 52, 'OA Recompt Comptez le nombre de personnes, de cas ou d''événements enregistrés dans le registre pendant la période d''étude, en passant en revue les documents source. E4', 1, 'geZ8ha33YhZ', 1),
-(23686, 52, 'OA Recompt Recopiez le nombre de personnes, de cas ou d''événements rapportés dans les RMA pendant la période d''étude (si plusieurs mois, cumuler.) E1', 1, 'p87PEs6Z7VQ', 1),
-(23687, 52, 'OA Recompt Recopiez le nombre de personnes, de cas ou d''événements rapportés dans les RMA pendant la période d''étude (si plusieurs mois, cumuler.) E2', 1, 'kctiAW7zxwP', 1),
-(23688, 52, 'OA Recompt Recopiez le nombre de personnes, de cas ou d''événements rapportés dans les RMA pendant la période d''étude (si plusieurs mois, cumuler.) E3', 1, 'ekFAlbqoFlO', 1),
-(23689, 52, 'OA Recompt Recopiez le nombre de personnes, de cas ou d''événements rapportés dans les RMA pendant la période d''étude (si plusieurs mois, cumuler.) E4', 1, 'TiZiItVTPur', 1),
+(23682, 52, 'OA Recompt Comptez le nombre de personnes, de cas ou d\'événements enregistrés dans le registre pendant la période d\'étude, en passant en revue les documents source. E1', 1, 'UZ7fRuoxdP4', 1),
+(23683, 52, 'OA Recompt Comptez le nombre de personnes, de cas ou d\'événements enregistrés dans le registre pendant la période d\'étude, en passant en revue les documents source. E2', 1, 'Dq5tDVSTExO', 1),
+(23684, 52, 'OA Recompt Comptez le nombre de personnes, de cas ou d\'événements enregistrés dans le registre pendant la période d\'étude, en passant en revue les documents source. E3', 1, 'ZstKBUmhTvQ', 1),
+(23685, 52, 'OA Recompt Comptez le nombre de personnes, de cas ou d\'événements enregistrés dans le registre pendant la période d\'étude, en passant en revue les documents source. E4', 1, 'geZ8ha33YhZ', 1),
+(23686, 52, 'OA Recompt Recopiez le nombre de personnes, de cas ou d\'événements rapportés dans les RMA pendant la période d\'étude (si plusieurs mois, cumuler.) E1', 1, 'p87PEs6Z7VQ', 1),
+(23687, 52, 'OA Recompt Recopiez le nombre de personnes, de cas ou d\'événements rapportés dans les RMA pendant la période d\'étude (si plusieurs mois, cumuler.) E2', 1, 'kctiAW7zxwP', 1),
+(23688, 52, 'OA Recompt Recopiez le nombre de personnes, de cas ou d\'événements rapportés dans les RMA pendant la période d\'étude (si plusieurs mois, cumuler.) E3', 1, 'ekFAlbqoFlO', 1),
+(23689, 52, 'OA Recompt Recopiez le nombre de personnes, de cas ou d\'événements rapportés dans les RMA pendant la période d\'étude (si plusieurs mois, cumuler.) E4', 1, 'TiZiItVTPur', 1),
 (23690, 52, 'OA Revue de doc Si oui, déterminez comment ceci pourrait avoir affecté des nombres rapportés E1', 1, 'JiYUOAiFvzf', 1),
 (23691, 52, 'OA Revue de doc Si oui, déterminez comment ceci pourrait avoir affecté des nombres rapportés E2', 1, 'RWODYmafbKE', 1),
 (23692, 52, 'OA Revue de doc Si oui, déterminez comment ceci pourrait avoir affecté des nombres rapportés E3', 1, 'nHU9auQxX7d', 1),
@@ -2341,11 +2341,11 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23699, 52, 'OA Revue de doc Y a-t-il une indication que les documents sont incomplets ? E2', 1, 'pBtcArJmefs', 1),
 (23700, 52, 'OA Revue de doc Y a-t-il une indication que les documents sont incomplets ? E3', 1, 'hpdkxZLySvh', 1),
 (23701, 52, 'OA Revue de doc Y a-t-il une indication que les documents sont incomplets ? E4', 1, 'fGPLQNN2t1s', 1),
-(23702, 52, 'O Au cours des 6 derniers mois, le personnel de soins de la FOSA a t''il reçu de la part de l''infirmier en chef au moins un rafraîchissement de connaissance par rapport au remplissage d'' outils de collecte SNIS ?', 1, 'pcNXjsYS2s8', 1),
-(23703, 52, 'O Aujourd''hui, les formulaires de collecte de l''information spécifiques à la comptabilité financière et la comptabilité matière sont-ils disponibles (fiches de stock ou RUMER + registres de dépenses + registre de recettes) ?', 1, 'Otf2M7lUw0h', 1),
-(23704, 52, 'O Aujourd''hui, les formulaires individuels de collecte de d''information spécifiques à la SR sont-ils disponibles et conformes aux normes du MSP (présence de fiches de CPN & partogramme & fiche de PF) ?', 1, 'pxPQ1Kp0EBV', 1),
-(23705, 52, 'O Aujourd''hui, les formulaires individuels de collecte de l''information spécifiques à la vaccination sont-ils disponibles et conformes aux normes du MSP (présence de carnet de vaccination & fiche de pointage) ?', 1, 'YE37NcCABy6', 1),
-(23706, 52, 'O Aujourd''hui, les registres de soins utilisés sont-ils conformes aux standards de la DSNIS (observation directe)', 1, 'gKafZC8QsF2', 1),
+(23702, 52, 'O Au cours des 6 derniers mois, le personnel de soins de la FOSA a t\'il reçu de la part de l\'infirmier en chef au moins un rafraîchissement de connaissance par rapport au remplissage d\' outils de collecte SNIS ?', 1, 'pcNXjsYS2s8', 1),
+(23703, 52, 'O Aujourd\'hui, les formulaires de collecte de l\'information spécifiques à la comptabilité financière et la comptabilité matière sont-ils disponibles (fiches de stock ou RUMER + registres de dépenses + registre de recettes) ?', 1, 'Otf2M7lUw0h', 1),
+(23704, 52, 'O Aujourd\'hui, les formulaires individuels de collecte de d\'information spécifiques à la SR sont-ils disponibles et conformes aux normes du MSP (présence de fiches de CPN & partogramme & fiche de PF) ?', 1, 'pxPQ1Kp0EBV', 1),
+(23705, 52, 'O Aujourd\'hui, les formulaires individuels de collecte de l\'information spécifiques à la vaccination sont-ils disponibles et conformes aux normes du MSP (présence de carnet de vaccination & fiche de pointage) ?', 1, 'YE37NcCABy6', 1),
+(23706, 52, 'O Aujourd\'hui, les registres de soins utilisés sont-ils conformes aux standards de la DSNIS (observation directe)', 1, 'gKafZC8QsF2', 1),
 (23707, 52, 'OA Vérif DHIS2 Extraire du dhis2 le nombre de cas enregistrés pour le ou les mois selectionnés E1', 1, 'iyXG1DlvKk8', 1),
 (23708, 52, 'OA Vérif DHIS2 Extraire du dhis2 le nombre de cas enregistrés pour le ou les mois selectionnés E2', 1, 'dnrluOMVpsn', 1),
 (23709, 52, 'OA Vérif DHIS2 Extraire du dhis2 le nombre de cas enregistrés pour le ou les mois selectionnés E3', 1, 'bqU2O83pCDM', 1),
@@ -2354,10 +2354,10 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23712, 52, 'OA Vérif Elément de données 2 choisi', 1, 'VpHP2T1ViXM', 1),
 (23713, 52, 'OA Vérif Elément de données 3 choisi', 1, 'FGkvvk0mYjC', 1),
 (23714, 52, 'OA Vérif Elément de données 4 choisi', 1, 'MXyhc6tTJeG', 1),
-(23715, 52, 'O Bilan Nombre de registres de soins préimprimés actuellement utilisés dans l''ensemble des Services cités', 1, 'BHBp4CZQ1zD', 1),
-(23716, 52, 'O Bilan Nombre de registres de soins tirés au stylo actuellement utilisés dans l''ensemble des Services cités', 1, 'Pjs1TfC4kxR', 1),
+(23715, 52, 'O Bilan Nombre de registres de soins préimprimés actuellement utilisés dans l\'ensemble des Services cités', 1, 'BHBp4CZQ1zD', 1),
+(23716, 52, 'O Bilan Nombre de registres de soins tirés au stylo actuellement utilisés dans l\'ensemble des Services cités', 1, 'Pjs1TfC4kxR', 1),
 (23717, 52, 'O Bilan Nombre de RMA vierges en stock actuellement au niveau de la FOSA', 1, 'TKLPhtX0ewk', 1),
-(23718, 52, 'O Ce plan d''actions contient t''il au moins deux activités visant spécifiquement le Système d''Information ?', 1, 'f0ONdxkI3WY', 1),
+(23718, 52, 'O Ce plan d\'actions contient t\'il au moins deux activités visant spécifiquement le Système d\'Information ?', 1, 'f0ONdxkI3WY', 1),
 (23719, 52, 'O Des définitions de cas sont elles affichées sur un support spécifique disponible à la consultation (affiche murale ou feuille spécifique)', 1, 'pVEiTcJb0tf', 1),
 (23720, 52, 'O Des directives écrites décrivant les procédures de remplissage des registres et la transcription dans le RMA sont-elles actuellement disponibles au CS (manuel de remplissage des outils) ?', 1, 'OWQin7l7rhk', 1),
 (23721, 52, 'O Dispo Accouchements (registre des accouchements)', 1, 'jcfy1fHck4d', 1),
@@ -2369,21 +2369,20 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23727, 52, 'O Dispo Laboratoire (Registre de laboratoire)', 1, 'Rrb0NTkYUU6', 1),
 (23728, 52, 'O Dispo Planning Familial (registre de PF )', 1, 'hJzgxOR0XxE', 1),
 (23729, 52, 'O Dispo Vaccination (registre de vaccination ou équivalent )', 1, 'zFESXTfz7t9', 1),
-(23730, 52, 'O Durant 3 derniers mois, l''Infirmier en Chef a t''il bénéficié session de rafraîchissement des compétences sur le thème de l''info?', 1, 'DcYv6pq8FRy', 1),
-(23731, 52, 'O Durant les 3 dernières années , l''Infirmier en Chef a t''il été formé à la transcription dans le RMA des données issues des registres (lors d''une formation en salle) ?', 1, 'TyMI5vNwT7Y', 1),
-(23732, 52, 'O Durant les six derniers mois, la FOSA a-t-elle reçu au moins une supervision se rapportant spécifiquement à l''information sanitaire ? (le superviseur doit examiner le cahier de supervision!)', 1, 'YL33fbhvWym', 1),
-(23733, 52, 'O Durant les trois derniers mois a-t-elle reçu au moins une supervision intégrée de l''ECZ abordant le SNIS ((examiner le cahier de supervision et au moins une référence au SNIS doit être présente!)', 1, 'nJVang5NiDL', 1),
-(23734, 52, 'O Existe t''il un cahier de supervision dans la formations sanitaire ?', 1, 'jEOAHa6REP8', 1);
-INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`, `ratio`) VALUES
-(23735, 52, 'O Existe-t-il un plan d''actions de l''AS au niveau de la FOSA ?', 1, 'fuJV7x26jIG', 1),
-(23736, 52, 'O Le responsable de la FOSA considère t''il que les agents impliqué dans le remplissage des registres / fiches de pointages ont une bonne connaissance du contenu et des tâches qui leur incombent ?', 1, 'k52PE3SI5j6', 1),
+(23730, 52, 'O Durant 3 derniers mois, l\'Infirmier en Chef a t\'il bénéficié session de rafraîchissement des compétences sur le thème de l\'info?', 1, 'DcYv6pq8FRy', 1),
+(23731, 52, 'O Durant les 3 dernières années , l\'Infirmier en Chef a t\'il été formé à la transcription dans le RMA des données issues des registres (lors d\'une formation en salle) ?', 1, 'TyMI5vNwT7Y', 1),
+(23732, 52, 'O Durant les six derniers mois, la FOSA a-t-elle reçu au moins une supervision se rapportant spécifiquement à l\'information sanitaire ? (le superviseur doit examiner le cahier de supervision!)', 1, 'YL33fbhvWym', 1),
+(23733, 52, 'O Durant les trois derniers mois a-t-elle reçu au moins une supervision intégrée de l\'ECZ abordant le SNIS ((examiner le cahier de supervision et au moins une référence au SNIS doit être présente!)', 1, 'nJVang5NiDL', 1),
+(23734, 52, 'O Existe t\'il un cahier de supervision dans la formations sanitaire ?', 1, 'jEOAHa6REP8', 1),
+(23735, 52, 'O Existe-t-il un plan d\'actions de l\'AS au niveau de la FOSA ?', 1, 'fuJV7x26jIG', 1),
+(23736, 52, 'O Le responsable de la FOSA considère t\'il que les agents impliqué dans le remplissage des registres / fiches de pointages ont une bonne connaissance du contenu et des tâches qui leur incombent ?', 1, 'k52PE3SI5j6', 1),
 (23737, 52, 'O Les canevas de RMA pré imprimés disponibles actuellement ont-t-ils une lisibilité correcte ?(6 lisibles/10 canevas)', 1, 'Qo9UYjGuwXJ', 1),
-(23738, 52, 'O Les chiffres de populations cibles de l''année sont-ils connus de l''infirmire ? (au moins pour deux activités)', 1, 'TuNJtlLnwRn', 1),
+(23738, 52, 'O Les chiffres de populations cibles de l\'année sont-ils connus de l\'infirmire ? (au moins pour deux activités)', 1, 'TuNJtlLnwRn', 1),
 (23739, 52, 'O Les outils primaires utilisés (dossier du malade, fiche CPS, fiche CPN, partogrammes, etc. ) sont-ils archivés correctement ?', 1, 'gSfwFVGacb0', 1),
-(23740, 52, 'O L''infirmier en chef envoie-t-il le rapport SNIS à  l''IT de l''aire de santé pour sa validation avant de le transmettre au Bureau Central de la Zone?', 1, 'ikn2mMD9sWm', 1),
-(23741, 52, 'O L''IT a-t-il une connaissance acceptable de son rôle et du contenu de sa description de poste ? (avis du superviseur après interview de l''intéressé)', 1, 'eOu4NVMX06F', 1),
-(23742, 52, 'O L''IT déclare t''il expérimenter des ruptures de stock prolongées de registres (plus d''un mois) ?', 1, 'pKVIEnMXyBd', 1),
-(23743, 52, 'O L''IT participe t''il à des réunions de monitorage organisées par l''ECZ où sont présentés des bilan chiffré des performances des FOSA de la ZS ?', 1, 'LBkCqoVeKZ2', 1),
+(23740, 52, 'O L\'infirmier en chef envoie-t-il le rapport SNIS à  l\'IT de l\'aire de santé pour sa validation avant de le transmettre au Bureau Central de la Zone?', 1, 'ikn2mMD9sWm', 1),
+(23741, 52, 'O L\'IT a-t-il une connaissance acceptable de son rôle et du contenu de sa description de poste ? (avis du superviseur après interview de l\'intéressé)', 1, 'eOu4NVMX06F', 1),
+(23742, 52, 'O L\'IT déclare t\'il expérimenter des ruptures de stock prolongées de registres (plus d\'un mois) ?', 1, 'pKVIEnMXyBd', 1),
+(23743, 52, 'O L\'IT participe t\'il à des réunions de monitorage organisées par l\'ECZ où sont présentés des bilan chiffré des performances des FOSA de la ZS ?', 1, 'LBkCqoVeKZ2', 1),
 (23744, 52, 'O PMA Accouchements', 1, 'aqwiQF0C1sX', 1),
 (23745, 52, 'O PMA CODESA opérationnel (une réunion le dernier mois)', 1, 'rEu4X5cPh2g', 1),
 (23746, 52, 'O PMA Consultation curative', 1, 'rLV9XHzo0Ee', 1),
@@ -2401,14 +2400,15 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23758, 52, 'O PMA Vaccination', 1, 's7IkZbwuA7P', 1),
 (23759, 52, 'O R1 Les données confidentielles sont-elles conservées selon les directives en vigueur au niveau national ?', 1, 'ffChSdFgBlz', 1),
 (23760, 52, 'O R1 les totaux sont ils reportés en bas de page et ces totaux sont-ils exacts ?', 1, 'AXcYGof8G0P', 1),
-(23761, 52, 'O R1 Sur les registres examinés, existe-t-il en moyenne plus de 3 ratures par page ?', 1, 'wziBZhbJMlB', 1),
+(23761, 52, 'O R1 Sur les registres examinés, existe-t-il en moyenne plus de 3 ratures par page ?', 1, 'wziBZhbJMlB', 1);
+INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`, `ratio`) VALUES
 (23762, 52, 'O R1 Sur les registres examinés, peut-on mettre en évidence des donnée manquantes ou incomplètes ?', 1, 'tUfF97MDwbe', 1),
-(23763, 52, 'O R1 Sur les registres examinés, quel est le nombre d''erreur evidentes observées ?', 1, 'AoAsDrhx9ac', 1),
+(23763, 52, 'O R1 Sur les registres examinés, quel est le nombre d\'erreur evidentes observées ?', 1, 'AoAsDrhx9ac', 1),
 (23764, 52, 'O R2 Les données confidentielles sont-elles conservées selon les directives en vigueur au niveau national ?', 1, 'BlY2MkbMjoD', 1),
 (23765, 52, 'O R2 les totaux sont ils reportés en bas de page et ces totaux sont-ils exacts ?', 1, 'us0jnLfCT5M', 1),
 (23766, 52, 'O R2 Sur les registres examinés, existe-t-il en moyenne plus de 3 ratures par page ?', 1, 'mGRa9bAc28d', 1),
 (23767, 52, 'O R2 Sur les registres examinés, peut-on mettre en évidence des donnée manquantes ou incomplètes ?', 1, 'LGHSItnEN0b', 1),
-(23768, 52, 'O R2 Sur les registres examinés, quel est le nombre d''erreur evidentes observées ?', 1, 'VjaXd9fVS6K', 1),
+(23768, 52, 'O R2 Sur les registres examinés, quel est le nombre d\'erreur evidentes observées ?', 1, 'VjaXd9fVS6K', 1),
 (23769, 52, 'O Si des organisations privées fournissent des registres à la FOSA en plus de ce qui est préconisé par la DSNIS, ces formulaires sont-ils conformes au modèle du MSP? (observation directe)', 1, 'Xt3zWSbv0Px', 1),
 (23770, 52, 'O Tkce Variable 1 choisie', 1, 'CjLQcNtLS2l', 1),
 (23771, 52, 'O Tkce Variable 1 cotation', 1, 'HcApGd0CmZj', 1),
@@ -2419,20 +2419,20 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23776, 52, 'O Tkce Variable 4 choisie', 1, 'eiho1Ujzd7J', 1),
 (23777, 52, 'O Tkce Variable 4 cotation', 1, 'P46HhqWbGc9', 1),
 (23778, 52, 'O Tr Ces fiches de pointages sont-elles archivées pour vérification ?', 1, 'kWpEHnHND9n', 1),
-(23779, 52, 'O Tr Ces procédures standards sont-elles utilisées par l''IT pour la saisie dans le canevas du RMA? (vérification par interview)', 1, 'ohA1fitpoV1', 1),
-(23780, 52, 'O Tr Les procédures standards pour dépouiller les registres à la fin du mois sont-elles connues de l''IT ?', 1, 'dLNJGQFC1WR', 1),
-(23781, 52, 'O Tr Pour le dépouillement des données de consultation curative , le personnel utilise t''il des fiches de pointages ?', 1, 'z6Pv0YvoNCS', 1),
+(23779, 52, 'O Tr Ces procédures standards sont-elles utilisées par l\'IT pour la saisie dans le canevas du RMA? (vérification par interview)', 1, 'ohA1fitpoV1', 1),
+(23780, 52, 'O Tr Les procédures standards pour dépouiller les registres à la fin du mois sont-elles connues de l\'IT ?', 1, 'dLNJGQFC1WR', 1),
+(23781, 52, 'O Tr Pour le dépouillement des données de consultation curative , le personnel utilise t\'il des fiches de pointages ?', 1, 'z6Pv0YvoNCS', 1),
 (23782, 52, 'O Tr Une vérification systématique de la cohérence interne des données est elle réalisée avant envoi au BCZ', 1, 'ZByz3olDpCQ', 1),
-(23783, 52, 'O U Des graphiques ou tableaux de suivi des performances montrant le degré d''atteinte des objectifs par rapport aux cibles fixées sont-ils affichés sur les murs de la FOSA?', 1, 'He8cGjSm3O3', 1),
-(23784, 52, 'O U L''IT/DN utilise t''il les données du SNIS pour monitorer les performances en termes de vaccination ? (Tanahashi, monitoring pour l''action ou équivalent)', 1, 'c7WvPpClX9d', 1),
-(23785, 52, 'O U L''IT donne t''il un compte rendu mensuel des performances au CODESA / COGES ?', 1, 'Alw0hX81lEl', 1),
-(23786, 52, 'O U L''IT élabore t-il le plan de remédiation basé sur les données analysées (voir le plan du mois passé)', 1, 'zpG70s2myxG', 1),
-(23787, 52, 'O Un agent de la formation sanitaire est-il formellement désigné comme responsable de la vérification du contenu du RMA (Rapport Mensuel d''Activité) avant envoi de celui-ci à l''ECZ ?', 1, 'TRbGfuNmzga', 1),
-(23788, 52, 'O Une description de poste de l''Infirmier en Chef précisant les tâches qu''il doit réaliser dans le cadre du SNIS est-elle disponible ?', 1, 'k8JGdLFivtw', 1),
-(23789, 52, 'O U Un suivi des indicateurs de la vaccination est t''il réalisé (existence de tableau ou graphique de monitorage à jour pour le mois précédent; suivi de 4 ou plus indicateurs) ?', 1, 'HkCKVjUTrKC', 1),
-(23790, 52, 'O U Un suivi des indicateurs des recettes et des dépenses est t''il réalisé (existence de tableau ou graphique de monitorage à jour pour le mois précédent; suivi de 2 ou plus indicateurs) ?', 1, 'gJT4VayOsUG', 1),
-(23791, 52, 'O U Un suivi des indicateurs relatifs à la consultation curative est t''il réalisé (existence de tableau ou graphique de monitorage à jour pour le mois précédent; suivi de 4 ou plus indicateurs de morbidité) ?', 1, 'Yn8BXqi9OZd', 1),
-(23792, 52, 'O U Un suivi des indicateurs relatifs à la santé de la reproduction est t''il réalisé (existence de tableau ou graphique de monitorage à jour pour le mois précédent; suivi de 4 ou plus indicateurs) ?', 1, 'm1E4WVnGQFV', 1),
+(23783, 52, 'O U Des graphiques ou tableaux de suivi des performances montrant le degré d\'atteinte des objectifs par rapport aux cibles fixées sont-ils affichés sur les murs de la FOSA?', 1, 'He8cGjSm3O3', 1),
+(23784, 52, 'O U L\'IT/DN utilise t\'il les données du SNIS pour monitorer les performances en termes de vaccination ? (Tanahashi, monitoring pour l\'action ou équivalent)', 1, 'c7WvPpClX9d', 1),
+(23785, 52, 'O U L\'IT donne t\'il un compte rendu mensuel des performances au CODESA / COGES ?', 1, 'Alw0hX81lEl', 1),
+(23786, 52, 'O U L\'IT élabore t-il le plan de remédiation basé sur les données analysées (voir le plan du mois passé)', 1, 'zpG70s2myxG', 1),
+(23787, 52, 'O Un agent de la formation sanitaire est-il formellement désigné comme responsable de la vérification du contenu du RMA (Rapport Mensuel d\'Activité) avant envoi de celui-ci à l\'ECZ ?', 1, 'TRbGfuNmzga', 1),
+(23788, 52, 'O Une description de poste de l\'Infirmier en Chef précisant les tâches qu\'il doit réaliser dans le cadre du SNIS est-elle disponible ?', 1, 'k8JGdLFivtw', 1),
+(23789, 52, 'O U Un suivi des indicateurs de la vaccination est t\'il réalisé (existence de tableau ou graphique de monitorage à jour pour le mois précédent; suivi de 4 ou plus indicateurs) ?', 1, 'HkCKVjUTrKC', 1),
+(23790, 52, 'O U Un suivi des indicateurs des recettes et des dépenses est t\'il réalisé (existence de tableau ou graphique de monitorage à jour pour le mois précédent; suivi de 2 ou plus indicateurs) ?', 1, 'gJT4VayOsUG', 1),
+(23791, 52, 'O U Un suivi des indicateurs relatifs à la consultation curative est t\'il réalisé (existence de tableau ou graphique de monitorage à jour pour le mois précédent; suivi de 4 ou plus indicateurs de morbidité) ?', 1, 'Yn8BXqi9OZd', 1),
+(23792, 52, 'O U Un suivi des indicateurs relatifs à la santé de la reproduction est t\'il réalisé (existence de tableau ou graphique de monitorage à jour pour le mois précédent; suivi de 4 ou plus indicateurs) ?', 1, 'm1E4WVnGQFV', 1),
 (23793, 52, 'PNLS-ARV-Cas TB dépistés parmi les PVVIH au cours du mois', 1, 'dk139mVl29G', 1),
 (23794, 52, 'PNLS-ARV-Cas TB dépistés parmi les PVVIH au cours du mois age', 1, 'HfEoVMqB0mn', 1),
 (23795, 52, 'PNLS-ARV-Cas TB dépistés parmi les PVVIH au cours du mois-Autres', 1, 'EKbCkr59haQ', 1),
@@ -2518,7 +2518,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (23875, 52, 'PNLS-ARV-PVVIH malnutries pas répondu au traitement-soutien', 1, 'NL9WDAZvYZR', 1),
 (23876, 52, 'PNLS-ARV-PVVIH malnutries\rperdues de vue', 1, 'z8EmJ88VrFV', 1),
 (23877, 52, 'PNLS-ARV-PVVIH malnutries perdues de vue-soutien', 1, 'xDyfXuiiCBK', 1),
-(23878, 52, 'PNLS-ARV-PVVIH malnutries qui n''ont pas répondu au traitement', 1, 'tyXEswiKrNa', 1),
+(23878, 52, 'PNLS-ARV-PVVIH malnutries qui n\'ont pas répondu au traitement', 1, 'tyXEswiKrNa', 1),
 (23879, 52, 'PNLS-ARV-PVVIH malnutries réhabilitées nutritionnel-soutien', 1, 'Dy5SlV5YCst', 1),
 (23880, 52, 'PNLS-ARV-PVVIH malnutries\rréhabilitées sur le plan nutritionnel', 1, 'Tr9ZOa9nILB', 1),
 (23881, 52, 'PNLS-ARV-PVVIH malnutries traitement/supplment nutri-soutien', 1, 'PhGeAXFmetM', 1),
@@ -2787,10 +2787,10 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (24144, 52, 'PNLS-COM-PTC ou GAS-sex', 1, 'jyEhYUgX1mW', 1),
 (24145, 52, 'PNLS-COM-PTME', 1, 'vClugcYaESZ', 1),
 (24146, 52, 'PNLS-COM-PTME-sex', 1, 'VAYyZeqkoQw', 1),
-(24147, 52, 'PNLS-COM-PVVIH ayant bénéficié d''une AGR', 1, 'ddbhijMXV0l', 1),
-(24148, 52, 'PNLS-COM-PVVIH ayant bénéficié d''une AGR-sex', 1, 'z8QBT3Za0Mw', 1),
-(24149, 52, 'PNLS-COM-PVVIH et PA ayant bénéficié d''une VAD', 1, 'oQ9zBsPV2EY', 1),
-(24150, 52, 'PNLS-COM-PVVIH et PA ayant bénéficié d''une VAD-sex', 1, 'mTgJLnExGCH', 1),
+(24147, 52, 'PNLS-COM-PVVIH ayant bénéficié d\'une AGR', 1, 'ddbhijMXV0l', 1),
+(24148, 52, 'PNLS-COM-PVVIH ayant bénéficié d\'une AGR-sex', 1, 'z8QBT3Za0Mw', 1),
+(24149, 52, 'PNLS-COM-PVVIH et PA ayant bénéficié d\'une VAD', 1, 'oQ9zBsPV2EY', 1),
+(24150, 52, 'PNLS-COM-PVVIH et PA ayant bénéficié d\'une VAD-sex', 1, 'mTgJLnExGCH', 1),
 (24151, 52, 'PNLS-COM-PVVIH PDV ayant été visitées', 1, 'dYTyn9AL0Cu', 1),
 (24152, 52, 'PNLS-COM-PVVIH PDV ayant été visitées-sex', 1, 'NwVFQlDGuCa', 1),
 (24153, 52, 'PNLS-COM-PVVIH sorties de la clandestinité adhéré à un GAS', 1, 'nJmIr3uBtDi', 1),
@@ -2932,24 +2932,23 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (24289, 52, 'PNLS-PTME-EEV sous une alimentation mixte au cours du mois', 1, 'YNR4TJqdBmd', 1),
 (24290, 52, 'PNLS-PTME-Enfants exposés au VIH enrôlés dans les services de suivi à partir de 6 semaines', 1, 'Him9Gog4cho', 1),
 (24291, 52, 'PNLS-PTME-Enfants exposés au VIH mis sous ARV à partir de 6 semaines d’âge', 1, 'ZIecMrHAJFo', 1),
-(24292, 52, 'PNLS-PTME-Enfants exposés au VIH mis sous CTX à partir de 6 semaines d’âge', 1, 'jrYmhUReUmX', 1);
-INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`, `ratio`) VALUES
+(24292, 52, 'PNLS-PTME-Enfants exposés au VIH mis sous CTX à partir de 6 semaines d’âge', 1, 'jrYmhUReUmX', 1),
 (24293, 52, 'PNLS-PTME-Enfants exposés au VIH revenus pour la visite à partir de 6 semaines', 1, 'ESaqAjxuTMw', 1),
 (24294, 52, 'PNLS-PTME-Enfants exposés mis sous prophylaxie ARV pour la PTME à la naissance', 1, 'huGDafUTh7B', 1),
 (24295, 52, 'PNLS-PTME-Enfants exposés nés vivants des mères VIH +', 1, 'y3qfsVFmoSc', 1),
 (24296, 52, 'PNLS-PTME-Enfants exposés sous Allaitement Maternel Exclusif (AME) au cours du mois', 1, 'iNBlswgsPAg', 1),
-(24297, 52, 'PNLS-PTME-Enfants exposés sous ARV et qui bénéficie de l''allaitement au sein au cours du mois', 1, 'cT47KRTjctz', 1),
+(24297, 52, 'PNLS-PTME-Enfants exposés sous ARV et qui bénéficie de l\'allaitement au sein au cours du mois', 1, 'cT47KRTjctz', 1),
 (24298, 52, 'PNLS-PTME-Femmes allaitantes qui sont passées de l’Option A à l’Option B+', 1, 'hp4c3UNDz3e', 1),
 (24299, 52, 'PNLS-PTME-Femmes dépistées VIH+ à la salle d’accouchement et en post partum mises sous TARV', 1, 'zH4glMMjhcX', 1),
 (24300, 52, 'PNLS-PTME-Femmes enceintes dépistées VIH+ ailleurs mises sous TARV à la salle d’accouchement', 1, 'DaytMch9YtT', 1),
 (24301, 52, 'PNLS-PTME-Femmes enceintes dépistées VIH+ ailleurs reçues dans la structure au cours du mois déjà sous TAR', 1, 'iKekGMwvtVy', 1),
 (24302, 52, 'PNLS-PTME-Femmes enceintes dépistées VIH+ ailleurs venues sous TARV et ayant accouché à la maternité', 1, 'H0skpxsq2U3', 1),
 (24303, 52, 'PNLS-PTME-Femmes enceintes dépistés VIH+ ailleurs reçues dans la structure au cours du mois', 1, 'NIC3bM4fv4v', 1),
-(24304, 52, 'PNLS-PTME-Femmes enceintes et allaitantes connaissant leur statut VIH+ avant d''arriver dans la structure sous TAR', 1, 'urDEeghmDdM', 1),
+(24304, 52, 'PNLS-PTME-Femmes enceintes et allaitantes connaissant leur statut VIH+ avant d\'arriver dans la structure sous TAR', 1, 'urDEeghmDdM', 1),
 (24305, 52, 'PNLS-PTME-Femmes enceintes ou allaitantes conseillées', 1, 'N4PHR4YOtft', 1),
 (24306, 52, 'PNLS-PTME-Femmes enceintes ou allaitantes informées des résultats', 1, 'NyhY4crzdyy', 1),
 (24307, 52, 'PNLS-PTME-Femmes enceintes ou allaitantes mises sous ARV le mois passé et qui sont encore sous TARV le mois suivant', 1, 'flQA2CliTNX', 1),
-(24308, 52, 'PNLS-PTME-Femmes enceintes ou allaitantes ne connaissant leur statut VIH+ avant d''arriver dans la structure sous TAR', 1, 'OvDex6UdyMv', 1),
+(24308, 52, 'PNLS-PTME-Femmes enceintes ou allaitantes ne connaissant leur statut VIH+ avant d\'arriver dans la structure sous TAR', 1, 'OvDex6UdyMv', 1),
 (24309, 52, 'PNLS-PTME-Femmes enceintes ou allaitantes ne connaissant pas leur statut VIH avant toute intervention dans la structure', 1, 'XskaKtIsCDM', 1),
 (24310, 52, 'PNLS-PTME-Femmes enceintes ou allaitantes testées', 1, 'DXz4Zxd4fKq', 1),
 (24311, 52, 'PNLS-PTME-Femmes enceintes ou allaitantes VIH+', 1, 'gHBcPOF5y3z', 1),
@@ -2964,7 +2963,8 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (24320, 52, 'PNLS-PTME-Femmes enceintes reçues en consultation CPN et qui ont bénéficié du dépistage de la syphilis (lors de la 1ère CPN)', 1, 'afraF9C0TZB', 1),
 (24321, 52, 'PNLS-PTME-Femmes enceintes reçues en consultation CPN pour lesquelles le dépistage de la syphilis est positif au Determine syphilis', 1, 'dZZZsK31r0O', 1),
 (24322, 52, 'PNLS-PTME-Femmes enceintes testées VIH+ mises sous ARV OPTION B+', 1, 'W3gqHx3lLhF', 1),
-(24323, 52, 'PNLS-PTME-Femmes enceintes testées VIH+ mises sous ARV pour leur propre santé', 1, 'v4gJbfRyKHX', 1),
+(24323, 52, 'PNLS-PTME-Femmes enceintes testées VIH+ mises sous ARV pour leur propre santé', 1, 'v4gJbfRyKHX', 1);
+INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`, `ratio`) VALUES
 (24324, 52, 'PNLS-PTME-Femmes enceintes testées VIH+ mises sous prophylaxie ARV (AZT/AZT+3TC+NVP)', 1, 'UMAv0wDsomS', 1),
 (24325, 52, 'PNLS-PTME-Femmes enceintes VIH+ ayant accouché à la maternité', 1, 'CyZ9wMA7iSi', 1),
 (24326, 52, 'PNLS-PTME-Femmes enceintes VIH+ ayant accouché mises sous ARV à la CPN', 1, 'XHzJ8g7KOvb', 1),
@@ -3050,7 +3050,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (24406, 52, 'PNLT-5-Patient TB VIH+ sous TARV', 1, 'mevbKBpmEvi', 1),
 (24407, 52, 'PNLT-5-PVVIH avec recherche de la TB', 1, 'rLNsa4QqIfH', 1),
 (24408, 52, 'PNLT-5-PVVIH exclus de la TB', 1, 'RCOgaMU3dMt', 1),
-(24409, 52, 'PNLT-5-PVVIH mis sous l''INH', 1, 'OdujAH3VGlq', 1),
+(24409, 52, 'PNLT-5-PVVIH mis sous l\'INH', 1, 'OdujAH3VGlq', 1),
 (24410, 52, 'PNLT-6-Nouveaux Patients-Cas confirmes TB MR/RR', 1, 'IgHm0PXrkQj', 1),
 (24411, 52, 'PNLT-6-Nouveaux Patients-Cas confirmes TB XDR', 1, 'U6MzSUUtmA0', 1),
 (24412, 52, 'PNLT-6-Nouveaux Patients-Cas presume TB MR/RR', 1, 'ZUZEZJ6TqaL', 1),
@@ -3123,7 +3123,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (24479, 52, 'PNLT-9-TB/VIH+ Nvx&Rechute Non evalues', 1, 'bW85ZAQcKZy', 1),
 (24480, 52, 'PNLT-9-TB/VIH+ Nvx&Rechute Perdus de vue', 1, 'qWfBOMek8XP', 1),
 (24481, 52, 'PNLT-9-TB/VIH+ Nvx&Rechute Traitement termine', 1, 'rBTF6lPuZfA', 1),
-(24482, 52, 'Population de l''aire de la santé', 1, 'WLSKVyA8LoY', 1),
+(24482, 52, 'Population de l\'aire de la santé', 1, 'WLSKVyA8LoY', 1),
 (24483, 52, 'S 1.1 Campagne de CCC fournissant des messages de santé clés ciblant surtout les femmes et les filles', 1, 'IJ9EuQpVRRE', 1),
 (24484, 52, 'S 1.1 Cas VBG référés', 1, 'p5oPCjZfuMz', 1),
 (24485, 52, 'S 1.1 Cas VBG référés au service psychosocial (en groupe)', 1, 'RMuJEgUNPOr', 1),
@@ -3132,7 +3132,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (24488, 52, 'S 1.2 Acteur : Mari / Partenaire intime', 1, 'Lp8BmA14ydf', 1),
 (24489, 52, 'S 1.2 Acteur : Membre de famille', 1, 's1US9PWHLBX', 1),
 (24490, 52, 'S 1.2 Acteur : Pas connu/ ne peut pas identifier', 1, 'lFQCenP2Evk', 1),
-(24491, 52, 'S 1.2 Acteur : Quelqu''un connu ( pas membre de famille)', 1, 'YJxDzVfUF42', 1),
+(24491, 52, 'S 1.2 Acteur : Quelqu\'un connu ( pas membre de famille)', 1, 'YJxDzVfUF42', 1),
 (24492, 52, 'S 1.3 Cas Violence10 - 17 ans', 1, 'zrulkOtBIGp', 1),
 (24493, 52, 'S 1.3 Cas Violence < 10 ans', 1, 'ATZY290ql9j', 1),
 (24494, 52, 'S 1.3 Cas Violence 18 ans +', 1, 'SrjguTOQISh', 1),
@@ -3198,14 +3198,14 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (24554, 52, 'T 3.1 Artesunate Suppositoires 50 Mg - Quantité perdue', 1, 'nQa3fvDuBU4', 1),
 (24555, 52, 'T 3.1 Artesunate Suppositoires 50 Mg - Stock disponible utilisable', 1, 'aiFvFR24lIX', 1),
 (24556, 52, 'T 3.1 Catheter Court Iv Avec n, U.U., 18G, Unite  - Quantité perdue', 1, 'y9ErFfpeYEq', 1),
-(24557, 52, 'T 3.1 Catheter Court Iv Avec Site D''Injection, U.U., 18G, Unite - Jours rupture de stock', 1, 'CHsr1FpTNh0', 1),
-(24558, 52, 'T 3.1 Catheter Court Iv Avec Site D''Injection, U.U., 18G, Unite - Quantité consommée', 1, 'sQHn9CNHWmo', 1),
-(24559, 52, 'T 3.1 Catheter Court Iv Avec Site D''Injection, U.U., 18G, Unite - Quantité perdue', 1, 'oAWp4CvVeuO', 1),
-(24560, 52, 'T 3.1 Catheter Court Iv Avec Site D''Injection, U.U., 18G, Unite - Stock disponible utilisable', 1, 'ahkiqN9oyr8', 1),
-(24561, 52, 'T 3.1 Catheter Court Iv Avec Site D''Injection, U.U., 24G, Unite - Jours rupture de stock', 1, 'Sy86jL5BgeH', 1),
-(24562, 52, 'T 3.1 Catheter Court Iv Avec Site D''Injection, U.U., 24G, Unite - Quantité consommée', 1, 'jlyuaH4u17i', 1),
-(24563, 52, 'T 3.1 Catheter Court Iv Avec Site D''Injection, U.U., 24G, Unite - Quantité perdue', 1, 'XgTTAGw2hoB', 1),
-(24564, 52, 'T 3.1 Catheter Court Iv Avec Site D''Injection, U.U., 24G, Unite - Stock disponible utilisable', 1, 'J3RMu79tHrI', 1),
+(24557, 52, 'T 3.1 Catheter Court Iv Avec Site D\'Injection, U.U., 18G, Unite - Jours rupture de stock', 1, 'CHsr1FpTNh0', 1),
+(24558, 52, 'T 3.1 Catheter Court Iv Avec Site D\'Injection, U.U., 18G, Unite - Quantité consommée', 1, 'sQHn9CNHWmo', 1),
+(24559, 52, 'T 3.1 Catheter Court Iv Avec Site D\'Injection, U.U., 18G, Unite - Quantité perdue', 1, 'oAWp4CvVeuO', 1),
+(24560, 52, 'T 3.1 Catheter Court Iv Avec Site D\'Injection, U.U., 18G, Unite - Stock disponible utilisable', 1, 'ahkiqN9oyr8', 1),
+(24561, 52, 'T 3.1 Catheter Court Iv Avec Site D\'Injection, U.U., 24G, Unite - Jours rupture de stock', 1, 'Sy86jL5BgeH', 1),
+(24562, 52, 'T 3.1 Catheter Court Iv Avec Site D\'Injection, U.U., 24G, Unite - Quantité consommée', 1, 'jlyuaH4u17i', 1),
+(24563, 52, 'T 3.1 Catheter Court Iv Avec Site D\'Injection, U.U., 24G, Unite - Quantité perdue', 1, 'XgTTAGw2hoB', 1),
+(24564, 52, 'T 3.1 Catheter Court Iv Avec Site D\'Injection, U.U., 24G, Unite - Stock disponible utilisable', 1, 'J3RMu79tHrI', 1),
 (24565, 52, 'T 3.1 Catheter Court Iv  U.U., 24G, Unite  - Quantité perdue', 1, 'J4i5sOaACdj', 1),
 (24566, 52, 'T 3.1 Chloramphenicol Sodium Succinate, 1G, Vial, Unite - Jours rupture de stock', 1, 'H9cc2d83Tda', 1),
 (24567, 52, 'T 3.1 Chloramphenicol Sodium Succinate, 1G, Vial, Unite - Quantité consommée', 1, 'bMoceNnO2UG', 1),
@@ -3316,11 +3316,11 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (24672, 52, 'T 3.1 Gants Chirurgicaux, Latex, U.U., Poudres, Steriles, Taille 7.5, Paire - Stock disponible utilisable', 1, 'CzPnzROFUtq', 1),
 (24673, 52, 'T 3.1 Gants Chirurgicaux, Latex, U.U., Poudres, Steriles, Taille 7, Paire - Jours rupture de stock', 1, 'F7UO9zmbgSV', 1),
 (24674, 52, 'T 3.1 Gants Chirurgicaux, Latex, U.U Taille 7, Paire  - Quantité perdue', 1, 'kUsoTeUss9J', 1),
-(24675, 52, 'T 3.1 Gants D''Examen, Latex, U.U., Non Poudres, Non Steriles, Taille (7.5), 100 - Jours rupture de stock', 1, 'NqZYKErErpv', 1),
-(24676, 52, 'T 3.1 Gants D''Examen, Latex, U.U., Non Poudres, Non Steriles, Taille (7.5), 100 - Quantité consommée', 1, 'tqipQAkVUys', 1),
-(24677, 52, 'T 3.1 Gants D''Examen, Latex, U.U., Non Poudres, Non Steriles, Taille (7.5), 100 - Quantité perdue', 1, 'Ci1OQltZE7s', 1),
-(24678, 52, 'T 3.1 Gants D''Examen, Latex, U.U., Non Poudres, Non Steriles, Taille (7.5), 100 - Stock disponible utilisable', 1, 'ikPNGpobdP2', 1),
-(24679, 52, 'T 3.1 Gants D''Examen, Latex, U.U. Non Taille (7.5), 100  - Quantité perdue', 1, 'ezJSQJub2fI', 1),
+(24675, 52, 'T 3.1 Gants D\'Examen, Latex, U.U., Non Poudres, Non Steriles, Taille (7.5), 100 - Jours rupture de stock', 1, 'NqZYKErErpv', 1),
+(24676, 52, 'T 3.1 Gants D\'Examen, Latex, U.U., Non Poudres, Non Steriles, Taille (7.5), 100 - Quantité consommée', 1, 'tqipQAkVUys', 1),
+(24677, 52, 'T 3.1 Gants D\'Examen, Latex, U.U., Non Poudres, Non Steriles, Taille (7.5), 100 - Quantité perdue', 1, 'Ci1OQltZE7s', 1),
+(24678, 52, 'T 3.1 Gants D\'Examen, Latex, U.U., Non Poudres, Non Steriles, Taille (7.5), 100 - Stock disponible utilisable', 1, 'ikPNGpobdP2', 1),
+(24679, 52, 'T 3.1 Gants D\'Examen, Latex, U.U. Non Taille (7.5), 100  - Quantité perdue', 1, 'ezJSQJub2fI', 1),
 (24680, 52, 'T 3.1 Glibenclamide, 5Mg, Tab, 1000, Vrac - Jours rupture de stock', 1, 'RDpoYPhetRE', 1),
 (24681, 52, 'T 3.1 Glibenclamide, 5Mg, Tab, 1000, Vrac - Quantité consommée', 1, 'dlAEJNFUPfs', 1),
 (24682, 52, 'T 3.1 Glibenclamide, 5Mg, Tab, 1000, Vrac - Quantité perdue', 1, 'ST1ug5vgQDp', 1),
@@ -3386,10 +3386,10 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (24742, 52, 'T 3.1 Miconazole 2%, Creme, 30G, Tube, Unite - Quantité perdue', 1, 'RaM9CDpitd5', 1),
 (24743, 52, 'T 3.1 Miconazole 2%, Creme, 30G, Tube, Unite - Stock disponible utilisable', 1, 'CjAD6Cz90Bc', 1),
 (24744, 52, 'T 3.1 Miconazole 2%, Creme, 30G, Tube, Unite  - Quantité perdue', 1, 'vop7tipJZDr', 1),
-(24745, 52, 'T 3.1 Moustiquaire Impregnee D''Insecticide A Longue Duree D''Action: Rectangulaire (160X180X150) - Quantité consommée', 1, 'J3BD14QX6Ef', 1),
-(24746, 52, 'T 3.1 Moustiquaire Impregnee D''Insecticide A Longue Duree D''Action: Rectangulaire (160X180X150) - Quantité perdue', 1, 'BV10vNSyIdW', 1),
-(24747, 52, 'T 3.1 Moustiquaire Impregnee D''Insecticide A Longue Duree D''Action: Rectangulaire (190X180X170) - Quantité consommée', 1, 'L11WK9Yjq2l', 1),
-(24748, 52, 'T 3.1 Moustiquaire Impregnee D''Insecticide A Longue Duree D''Action: Rectangulaire (190X180X170) - Quantité perdue', 1, 'IfhoqAu8tZ2', 1),
+(24745, 52, 'T 3.1 Moustiquaire Impregnee D\'Insecticide A Longue Duree D\'Action: Rectangulaire (160X180X150) - Quantité consommée', 1, 'J3BD14QX6Ef', 1),
+(24746, 52, 'T 3.1 Moustiquaire Impregnee D\'Insecticide A Longue Duree D\'Action: Rectangulaire (160X180X150) - Quantité perdue', 1, 'BV10vNSyIdW', 1),
+(24747, 52, 'T 3.1 Moustiquaire Impregnee D\'Insecticide A Longue Duree D\'Action: Rectangulaire (190X180X170) - Quantité consommée', 1, 'L11WK9Yjq2l', 1),
+(24748, 52, 'T 3.1 Moustiquaire Impregnee D\'Insecticide A Longue Duree D\'Action: Rectangulaire (190X180X170) - Quantité perdue', 1, 'IfhoqAu8tZ2', 1),
 (24749, 52, 'T 3.1 Moustiquaire Rectangulaire (160X180X150)  - Jours rupture de stock', 1, 'AGAhr6MiBxX', 1),
 (24750, 52, 'T 3.1 Moustiquaire : Rectangulaire (160X180X150)  - Stock disponible utilisable', 1, 'lsy2UWfsXN3', 1),
 (24751, 52, 'T 3.1 Moustiquaire Rectangulaire (190X180X170)  - Jours rupture de stock', 1, 'VPV6hgx1pgj', 1),
@@ -3431,8 +3431,7 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (24787, 52, 'T 3.1 Phenoxymethylpenicillin (Peni V) , 250Mg, Tab, 1000, Vrac - Stock disponible utilisable', 1, 'I1YEayxvrd5', 1),
 (24788, 52, 'T 3.1 Phytomenadione (Vitamine K1), 10Mg/Ml, 1Ml, Amp, Unite - Jours rupture de stock', 1, 'DydQ2EZoCc1', 1),
 (24789, 52, 'T 3.1 Phytomenadione (Vitamine K1), 10Mg/Ml, 1Ml, Amp, Unite - Quantité consommée', 1, 'rTV4QstCdEU', 1),
-(24790, 52, 'T 3.1 Phytomenadione (Vitamine K1), 10Mg/Ml, 1Ml, Amp, Unite - Quantité perdue', 1, 'CQcb3zTCHOv', 1);
-INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`, `ratio`) VALUES
+(24790, 52, 'T 3.1 Phytomenadione (Vitamine K1), 10Mg/Ml, 1Ml, Amp, Unite - Quantité perdue', 1, 'CQcb3zTCHOv', 1),
 (24791, 52, 'T 3.1 Phytomenadione (Vitamine K1), 10Mg/Ml, 1Ml, Amp, Unite - Stock disponible utilisable', 1, 'Nu5IsBpyS0d', 1),
 (24792, 52, 'T 3.1 Phytomenadione (Vitamine K1) 1Ml, Amp, Unite  - Quantité perdue', 1, 'WZRB3RtXArG', 1),
 (24793, 52, 'T 3.1 Pillule Non Combinee (Microlut), Plaquette - Jours rupture de stock', 1, 'Vzw77iuRI37', 1),
@@ -3472,7 +3471,8 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (24827, 52, 'T 3.1 Salbutamol, 0,5Mg/Ml, 1Ml, Amp, Unite - Stock disponible utilisable', 1, 'wufN9rJ6IqY', 1),
 (24828, 52, 'T 3.1 Seringue, U.U., Luer, 10Ml, Avec Aiguille G21 - Jours rupture de stock', 1, 'EcAhTtS2HWH', 1),
 (24829, 52, 'T 3.1 Seringue, U.U., Luer, 10Ml, Avec Aiguille G21 - Quantité consommée', 1, 'yQztzDYBmP9', 1),
-(24830, 52, 'T 3.1 Seringue, U.U., Luer, 10Ml, Avec Aiguille G21 - Quantité perdue', 1, 'LkVtEYzB5mh', 1),
+(24830, 52, 'T 3.1 Seringue, U.U., Luer, 10Ml, Avec Aiguille G21 - Quantité perdue', 1, 'LkVtEYzB5mh', 1);
+INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`, `ratio`) VALUES
 (24831, 52, 'T 3.1 Seringue, U.U., Luer, 10Ml, Avec Aiguille G21 - Stock disponible utilisable', 1, 'gttBfF936vu', 1),
 (24832, 52, 'T 3.1 Seringue, U.U., Luer, 2Ml, Avec Aiguille G21 - Jours rupture de stock', 1, 'xrWbIHbDPZF', 1),
 (24833, 52, 'T 3.1 Seringue, U.U., Luer, 2Ml, Avec Aiguille G21 - Quantité consommée', 1, 'qjqA9lz7oQS', 1),
@@ -3586,24 +3586,24 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (24941, 52, 'V 1 Message texte envoyé aux campagnes de CCC (Palu, Nutrition, PF…)', 1, 'TIqoTe9Cf0m', 1),
 (24942, 52, 'W 1.1 ADBC fonctionnel', 1, 'dpssP2xnqpJ', 1),
 (24943, 52, 'W 1.1 CS ayant déjà FOSACOF avant', 1, 'JYx4FpqRox1', 1),
-(24944, 52, 'W 1.1 CS ayant fait l''evaluation FOSACOF', 1, 'cZ2341QVwTJ', 1),
+(24944, 52, 'W 1.1 CS ayant fait l\'evaluation FOSACOF', 1, 'cZ2341QVwTJ', 1),
 (24945, 52, 'W 1.1 CS ayant integré pour la 1ere fois FOSACOF', 1, 'Q4x0DgB1MhE', 1),
 (24946, 52, 'W 1.1 CS ayant integré pour la 1ère fois FOSACOF', 1, 'jWxSK2qaxH7', 1),
 (24947, 52, 'W 1.1 CS remplissant les 9 critéres de FOSACOF', 1, 'wM7jWgXEC89', 1),
-(24948, 52, 'W 1.1 MNG Nbre de centres de santé appliquant l''ensemble minimum d''activités (PMA)', 1, 'yxzbZ7xQqB6', 1),
+(24948, 52, 'W 1.1 MNG Nbre de centres de santé appliquant l\'ensemble minimum d\'activités (PMA)', 1, 'yxzbZ7xQqB6', 1),
 (24949, 52, 'W 1.1 Nbre DBC fonctionnel', 1, 'kuEBicjr5Ou', 1),
 (24950, 52, 'W 1.1 Prestataire de Fosa formé en PEC Palu (M & F) au CS', 1, 'i4C0A4haWoM', 1),
 (24951, 52, 'W 2.1 FP Nbre Point de service de PF base dans', 1, 'GvJZZ4VUX95', 1),
 (24952, 52, 'W 2.1 MIILD distribue_CS', 1, 'lDOETXavG7z', 1),
 (24953, 52, 'W 2.2 Personne formée en santé infantile et nutrition', 1, 'I3JOB5E08sN', 1),
 (24954, 52, 'X 1.1 Hôpital ayant deja FOSACOF avant', 1, 'bZm8Zldj1dt', 1),
-(24955, 52, 'X 1.1 Hôpital ayant fait l''evaluation FOSACOF', 1, 'P89EyHRbBJt', 1),
+(24955, 52, 'X 1.1 Hôpital ayant fait l\'evaluation FOSACOF', 1, 'P89EyHRbBJt', 1),
 (24956, 52, 'x 1.1 Hôpital ayant integré pour la 1ère fois FOSACOF', 1, 'tvlkb6VW6O8', 1),
 (24957, 52, 'X 1.1 Hôpital déjà FOSACOF avant', 1, 'I43bBn4Y60t', 1),
 (24958, 52, 'x 1.1 Hôpital remplissant les 9 critéres FOSACOF', 1, 'mQtxC20ccxv', 1),
 (24959, 52, 'X 2.1 MIILD distribue_Hôpital', 1, 'Ld7b8uZHlBF', 1),
 (24960, 52, 'Y 1.1 Aire de Santé avec CODESA', 1, 'VBpizKTcWlW', 1),
-(24961, 52, 'Y 1.1 Communauté championne ayant elaboré un plans d''action', 1, 'Fdq6L2H8oXv', 1),
+(24961, 52, 'Y 1.1 Communauté championne ayant elaboré un plans d\'action', 1, 'Fdq6L2H8oXv', 1),
 (24962, 52, 'Y 1.1 Hôpital registres de stock exacts', 1, 'agCxJjSq5Jl', 1),
 (24963, 52, 'Y 1.1 ONG représentant les femmes, les jeunes et les groupes vulnérables participantaux réunions de coordination', 1, 'K23b4Hj5Dm2', 1),
 (24964, 52, 'Y 1.1 ONG représentant les femmes, les jeunes et les groupes vulnérables recensees', 1, 'dEYq2H54PEL', 1),
@@ -3616,35 +3616,34 @@ INSERT INTO `activities` (`id`, `countryId`, `activityName`, `imported`, `code`,
 (24971, 52, 'Y 1.2 Agent de santé formé en TPI', 1, 'fGB6mdA5AGF', 1),
 (24972, 52, 'Y 1.2 Laboratin formé en TPI (M et F)', 1, 'OuTZqJmdO0c', 1),
 (24973, 52, 'Y 1.2 Membre de communauté formé en PEC paludisme (M et F)', 1, 'oFCKXR3HOuy', 1),
-(24974, 52, 'Y 1.3 CS ayant intégré l''approche FOSACOF', 1, 'Zz77SWy7p8j', 1),
+(24974, 52, 'Y 1.3 CS ayant intégré l\'approche FOSACOF', 1, 'Zz77SWy7p8j', 1),
 (24975, 52, 'Y 1.3 ECZ ayant un systéme de gestion de la performance qui inclut des éléments essentiels', 1, 'PUHBwxd58wQ', 1),
-(24976, 52, 'Y 1.3 Equipe dirigent LDP definissant le Plan d''Action pour atteintes des performances', 1, 'fJid707GqN8', 1),
+(24976, 52, 'Y 1.3 Equipe dirigent LDP definissant le Plan d\'Action pour atteintes des performances', 1, 'fJid707GqN8', 1),
 (24977, 52, 'Y 1.3 Equipe dirigent LDP réalisant les performances souhaitées', 1, 'stiLgxvInvJ', 1),
-(24978, 52, 'Y 1.3 Hôpital ayant integré l''approche FOSACOF', 1, 'BhgaYpDBP23', 1),
-(24979, 52, 'Y 1.3 Nbre d’hôpitaux généraux de recours appliquant l''ensemble des activités complémentaires (PCA)', 1, 'MK9Gl0wGq1V', 1);
+(24978, 52, 'Y 1.3 Hôpital ayant integré l\'approche FOSACOF', 1, 'BhgaYpDBP23', 1),
+(24979, 52, 'Y 1.3 Nbre d’hôpitaux généraux de recours appliquant l\'ensemble des activités complémentaires (PCA)', 1, 'MK9Gl0wGq1V', 1);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `activity_stats`
+-- Table structure for table `activity_stats`
 --
 
-CREATE TABLE IF NOT EXISTS `activity_stats` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `activity_stats` (
+  `id` int(11) NOT NULL,
   `facilityCode` varchar(50) NOT NULL,
   `year` varchar(20) NOT NULL,
   `activityCode` varchar(50) NOT NULL,
   `cadreCode` varchar(25) NOT NULL,
-  `caseCount` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+  `caseCount` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `activity_stats`
+-- Dumping data for table `activity_stats`
 --
 
 INSERT INTO `activity_stats` (`id`, `facilityCode`, `year`, `activityCode`, `cadreCode`, `caseCount`) VALUES
-(9, 'djEJoDxWda6', '2017', '157a54fc-a76a-475b-8684-a8bf376654d4', 'wmiff88', 30),
+(9, 'djEJoDxWda6', '2017', '157a54fc-a76a-475b-8684-a8bf376654d4', 'wmiff88', 35),
 (10, 'djEJoDxWda6', '2017', '19453745-8586-481f-aca2-04896dc7317e', 'wmiff88', 16),
 (11, 'djEJoDxWda6', '2017', '29c9494c-3743-49a0-a5ad-3f6cf4d245fc', 'wmiff88', 71),
 (12, 'djEJoDxWda6', '2017', '471ac1e9-608a-4b96-9ac9-a5906a2c70e5', 'wmiff88', 1533),
@@ -3659,20 +3658,19 @@ INSERT INTO `activity_stats` (`id`, `facilityCode`, `year`, `activityCode`, `cad
 -- --------------------------------------------------------
 
 --
--- Structure de la table `activity_time`
+-- Table structure for table `activity_time`
 --
 
-CREATE TABLE IF NOT EXISTS `activity_time` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `activity_time` (
+  `id` int(11) NOT NULL,
   `countryId` int(11) NOT NULL,
   `activityId` int(11) NOT NULL,
   `cadreId` int(20) DEFAULT NULL,
-  `minutesPerPatient` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+  `minutesPerPatient` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `activity_time`
+-- Dumping data for table `activity_time`
 --
 
 INSERT INTO `activity_time` (`id`, `countryId`, `activityId`, `cadreId`, `minutesPerPatient`) VALUES
@@ -3685,101 +3683,51 @@ INSERT INTO `activity_time` (`id`, `countryId`, `activityId`, `cadreId`, `minute
 -- --------------------------------------------------------
 
 --
--- Structure de la table `archive`
+-- Table structure for table `archive`
 --
 
-CREATE TABLE IF NOT EXISTS `archive` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `archive` (
+  `id` int(11) NOT NULL,
   `cadreId` int(11) NOT NULL,
-  `needed` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `needed` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `cadre`
+-- Table structure for table `config`
 --
 
-CREATE TABLE IF NOT EXISTS `cadre` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `countryId` int(11) NOT NULL,
-  `cadreName` varchar(200) NOT NULL,
-  `hoursPerWeek` int(11) NOT NULL,
-  `adminTask` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
-
---
--- Contenu de la table `cadre`
---
-
-INSERT INTO `cadre` (`id`, `countryId`, `cadreName`, `hoursPerWeek`, `adminTask`) VALUES
-(1, 52, 'ACCOUCHEUSE', 2, 10),
-(2, 52, 'ADMINISTRATEUR GESTIONNAIRE', 0, 0),
-(3, 52, 'ADMINISTRATIF', 0, 0),
-(4, 52, 'ASSISTANT EN PHARMACIE', 0, 0),
-(5, 52, 'AUTRES PROFESSIONNELS DE SANTE', 0, 0),
-(6, 52, 'CHIRURGIEN DENTISTE', 0, 0),
-(7, 52, 'INFIRMIER', 40, 15),
-(8, 52, 'KINÉSITHERAPEUTE', 0, 0),
-(9, 52, 'MÉDECIN', 0, 0),
-(10, 52, 'MÉDECINE  PHYSIQUE', 40, 0),
-(11, 52, 'NUTRITIONNISTE', 0, 0),
-(12, 52, 'PHARMACIEN', 0, 0),
-(13, 52, 'SAGE FEMME', 0, 0),
-(14, 52, 'TECHNICIEN D''ASSAINISSEMENT', 0, 0),
-(15, 52, 'TECHNICIEN DE LABORATOIRE', 0, 0),
-(16, 52, 'TECHNICIEN DE RADIOLOGIE', 0, 0),
-(17, 52, 'TECHNICIENS ODONTOLOGISTES', 0, 0);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `config`
---
-
-CREATE TABLE IF NOT EXISTS `config` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `config` (
+  `id` int(11) NOT NULL,
   `country_id` int(11) NOT NULL,
   `parameter` varchar(50) NOT NULL,
-  `value` varchar(150) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+  `value` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `config`
+-- Dumping data for table `config`
 --
 
 INSERT INTO `config` (`id`, `country_id`, `parameter`, `value`) VALUES
-(1, 52, 'URL_DHIS2', 'http://192.168.1.102:8080'),
-(2, 52, 'URL_iHRIS', 'http://192.168.1.102/iHRIS/ihris-manage-site-demo/FHIR'),
-(3, 52, 'CADRE_FILENAME', 'cadre_report.csv'),
-(4, 52, 'HR_FILENAME', 'hr_report.csv'),
-(5, 52, 'DHIS2_USER', 'admin'),
-(6, 52, 'DHIS_PWD', 'district'),
-(7, 52, 'DHIS_FACILITY_SQLVIEW', 'rrd3zb1EVzH'),
-(8, 52, 'COUNTRY_PUBLIC_HOLIDAYS', '9'),
-(9, 52, 'iHRIS_USER', 'i2ce_admin'),
-(10, 52, 'iHRIS_PWD', 'capuccino@');
+(8, 52, 'COUNTRY_PUBLIC_HOLIDAYS', '9');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `country`
+-- Table structure for table `country`
 --
 
-CREATE TABLE IF NOT EXISTS `country` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `country` (
+  `id` int(11) NOT NULL,
   `code` varchar(25) NOT NULL,
   `name_fr` varchar(255) NOT NULL,
   `name_en` varchar(255) NOT NULL,
-  `holidays` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=250 ;
+  `holidays` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `country`
+-- Dumping data for table `country`
 --
 
 INSERT INTO `country` (`id`, `code`, `name_fr`, `name_en`, `holidays`) VALUES
@@ -3837,7 +3785,7 @@ INSERT INTO `country` (`id`, `code`, `name_fr`, `name_en`, `holidays`) VALUES
 (52, 'CD', '', 'Congo, the Democratic Republic of the', 0),
 (53, 'CK', '', 'Cook Islands', 0),
 (54, 'CR', '', 'Costa Rica', 0),
-(55, 'CI', '', 'Côte d''Ivoire', 0),
+(55, 'CI', '', 'Côte d\'Ivoire', 0),
 (56, 'HR', '', 'Croatia', 0),
 (57, 'CU', '', 'Cuba', 0),
 (58, 'CW', '', 'Curaçao', 0),
@@ -3900,11 +3848,11 @@ INSERT INTO `country` (`id`, `code`, `name_fr`, `name_en`, `holidays`) VALUES
 (115, 'KZ', '', 'Kazakhstan', 0),
 (116, 'KE', '', 'Kenya', 0),
 (117, 'KI', '', 'Kiribati', 0),
-(118, 'KP', '', 'Korea, Democratic People''s Republic of', 0),
+(118, 'KP', '', 'Korea, Democratic People\'s Republic of', 0),
 (119, 'KR', '', 'Korea, Republic of', 0),
 (120, 'KW', '', 'Kuwait', 0),
 (121, 'KG', '', 'Kyrgyzstan', 0),
-(122, 'LA', '', 'Lao People''s Democratic Republic', 0),
+(122, 'LA', '', 'Lao People\'s Democratic Republic', 0),
 (123, 'LV', '', 'Latvia', 0),
 (124, 'LB', '', 'Lebanon', 0),
 (125, 'LS', '', 'Lesotho', 0),
@@ -4036,84 +3984,53 @@ INSERT INTO `country` (`id`, `code`, `name_fr`, `name_en`, `holidays`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `country_cadre`
+-- Table structure for table `country_treatment`
 --
 
-CREATE TABLE IF NOT EXISTS `country_cadre` (
-  `std_code` varchar(50) NOT NULL,
-  `hris_code` varchar(25) NOT NULL,
-  `work_days` float NOT NULL,
-  `work_hours` float NOT NULL,
-  `annual_leave` float NOT NULL,
-  `sick_leave` float NOT NULL,
-  `other_leave` float NOT NULL,
-  `admin_task` float NOT NULL,
-  `country_id` int(11) NOT NULL,
-  PRIMARY KEY (`std_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Contenu de la table `country_cadre`
---
-
-INSERT INTO `country_cadre` (`std_code`, `hris_code`, `work_days`, `work_hours`, `annual_leave`, `sick_leave`, `other_leave`, `admin_task`, `country_id`) VALUES
-('2908Jjkdh', 'test', 5, 8, 0, 0, 0, 10, 52),
-('osnk9032i', '', 5, 8, 0, 0, 0, 10, 52),
-('wmiff88', '', 5.5, 8, 30, 2, 6.2, 10, 52);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `country_treatment`
---
-
-CREATE TABLE IF NOT EXISTS `country_treatment` (
-  `std_code` varchar(50) NOT NULL,
+CREATE TABLE `country_treatment` (
+  `id` int(11) NOT NULL,
+  `code` varchar(50) NOT NULL,
   `countryId` int(11) NOT NULL,
   `cadre_code` varchar(50) NOT NULL,
-  `name_std` varchar(255) NOT NULL,
-  `name_customized` varchar(150) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `treatment_type` enum('SERVICE','ADDITIONAL','INDIVIDUAL') NOT NULL,
-  `facility_type` varchar(25) NOT NULL,
   `duration` int(11) NOT NULL,
-  `ratio` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`std_code`)
+  `ratio` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `country_treatment`
+-- Dumping data for table `country_treatment`
 --
 
-INSERT INTO `country_treatment` (`std_code`, `countryId`, `cadre_code`, `name_std`, `name_customized`, `treatment_type`, `facility_type`, `duration`, `ratio`) VALUES
-('157a54fc-a76a-475b-8684-a8bf376654d4', 52, 'wmiff88', 'Accompagnement des patients référés/Transfert', '', 'SERVICE', '', 360, 1),
-('19453745-8586-481f-aca2-04896dc7317e', 52, 'wmiff88', 'Section césarienne/Caesarean section', '', 'SERVICE', '', 330, 1),
-('296af4b9-cc56-46ac-a8ab-be2f583ea57a', 52, 'wmiff88', 'Consultations ambulatoires/consultation', '', 'SERVICE', '', 30, 1),
-('29c9494c-3743-49a0-a5ad-3f6cf4d245fc', 52, 'wmiff88', 'Chirurgie mineur et Circoncision/Minor operation and male circumcisions', '', 'SERVICE', '', 25, 1),
-('471ac1e9-608a-4b96-9ac9-a5906a2c70e5', 52, 'wmiff88', 'Patients hautement dépendant/Routine nursing care (high dependent patients)', '', 'SERVICE', '', 351, 1),
-('5956a3fe-a109-472a-91e5-d910f2ab6632', 52, 'wmiff88', 'Patients autonomes/Routine nursing care (self care patients)', '', 'SERVICE', '', 95, 1),
-('5d789a41-a11b-4f0c-b4e0-0c19351c2a06', 52, 'wmiff88', 'Consultations aux urgences/Emergency', '', 'SERVICE', '', 60, 1),
-('ae1700ff-67c1-47cd-a3db-13dfe27c9a55', 52, 'wmiff88', 'Sortants autorises/guéris/Discharge a patient', '', 'SERVICE', '', 24, 1),
-('c832ef65-ae15-48d6-8a13-6d4816493a9c', 52, 'wmiff88', 'Audit de décès/Death: Last office', '', 'SERVICE', '', 42, 1),
-('e32ebd3d-8158-4379-b2c1-096e7d6f9991', 52, 'wmiff88', 'Admission de patient/Admit a patient', '', 'SERVICE', '', 52, 1),
-('f68b386d-a559-46c9-8796-d5edc2d8a610', 52, 'wmiff88', 'Opération majeure/Major operation', '', 'SERVICE', '', 330, 1);
+INSERT INTO `country_treatment` (`id`, `code`, `countryId`, `cadre_code`, `name`, `treatment_type`, `duration`, `ratio`) VALUES
+(1, '157a54fc-a76a-475b-8684-a8bf376654d4', 52, 'wmiff88', 'Accompagnement des patients référés/Transfert', 'SERVICE', 360, 1),
+(2, '19453745-8586-481f-aca2-04896dc7317e', 52, 'wmiff88', 'Section césarienne/Caesarean section', 'SERVICE', 330, 1),
+(3, '296af4b9-cc56-46ac-a8ab-be2f583ea57a', 52, 'wmiff88', 'Consultations ambulatoires/consultation', 'SERVICE', 30, 1),
+(4, '29c9494c-3743-49a0-a5ad-3f6cf4d245fc', 52, 'wmiff88', 'Chirurgie mineur et Circoncision/Minor operation and male circumcisions', 'SERVICE', 25, 1),
+(5, '471ac1e9-608a-4b96-9ac9-a5906a2c70e5', 52, 'wmiff88', 'Patients hautement dépendant/Routine nursing care (high dependent patients)', 'SERVICE', 351, 1),
+(6, '5956a3fe-a109-472a-91e5-d910f2ab6632', 52, 'wmiff88', 'Patients autonomes/Routine nursing care (self care patients)', 'SERVICE', 95, 1),
+(7, '5d789a41-a11b-4f0c-b4e0-0c19351c2a06', 52, 'wmiff88', 'Consultations aux urgences/Emergency', 'SERVICE', 60, 1),
+(8, 'ae1700ff-67c1-47cd-a3db-13dfe27c9a55', 52, 'wmiff88', 'Sortants autorises/guéris/Discharge a patient', 'SERVICE', 24, 1),
+(9, 'c832ef65-ae15-48d6-8a13-6d4816493a9c', 52, 'wmiff88', 'Audit de décès/Death: Last office', 'SERVICE', 42, 1),
+(10, 'e32ebd3d-8158-4379-b2c1-096e7d6f9991', 52, 'wmiff88', 'Admission de patient/Admit a patient', 'SERVICE', 52, 1),
+(11, 'f68b386d-a559-46c9-8796-d5edc2d8a610', 52, 'wmiff88', 'Opération majeure/Major operation', 'SERVICE', 330, 1);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `country_treatment_dhis2`
+-- Table structure for table `country_treatment_dhis2`
 --
 
-CREATE TABLE IF NOT EXISTS `country_treatment_dhis2` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `country_treatment_dhis2` (
+  `id` int(11) NOT NULL,
   `treatment_code` varchar(150) NOT NULL,
   `dhis2_code` varchar(150) NOT NULL,
   `dhis2_dataset` varchar(50) NOT NULL,
-  `dhis2_name` varchar(150) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+  `dhis2_name` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `country_treatment_dhis2`
+-- Dumping data for table `country_treatment_dhis2`
 --
 
 INSERT INTO `country_treatment_dhis2` (`id`, `treatment_code`, `dhis2_code`, `dhis2_dataset`, `dhis2_name`) VALUES
@@ -4126,11 +4043,39 @@ INSERT INTO `country_treatment_dhis2` (`id`, `treatment_code`, `dhis2_code`, `dh
 -- --------------------------------------------------------
 
 --
--- Structure de la table `facilities`
+-- Table structure for table `dashboard`
 --
 
-CREATE TABLE IF NOT EXISTS `facilities` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `dashboard` (
+  `id` int(11) NOT NULL,
+  `countryId` int(11) NOT NULL,
+  `cadreCode` varchar(25) NOT NULL,
+  `facilityCode` varchar(25) NOT NULL,
+  `current` float NOT NULL,
+  `needed` float NOT NULL,
+  `is_default` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dashboard_items`
+--
+
+CREATE TABLE `dashboard_items` (
+  `id` int(11) NOT NULL,
+  `dashboard_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `facilities`
+--
+
+CREATE TABLE `facilities` (
+  `id` int(11) NOT NULL,
   `countryId` int(11) NOT NULL,
   `regionCode` varchar(25) NOT NULL,
   `regionName` varchar(200) NOT NULL,
@@ -4138,12 +4083,11 @@ CREATE TABLE IF NOT EXISTS `facilities` (
   `districtName` varchar(200) NOT NULL,
   `facilityCode` varchar(100) NOT NULL,
   `facilityName` varchar(200) NOT NULL,
-  `selected` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17627 ;
+  `selected` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `facilities`
+-- Dumping data for table `facilities`
 --
 
 INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
@@ -4562,8 +4506,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (413, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'Zmjf4uKFibU', 'eq Bontole Centre de Santé', 0),
 (414, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'Rdyeu17tVmn', 'eq Ngombe Bolanga Poste de Santé', 0),
 (415, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'G1veMfMvCjR', 'eq Boteka Centre de Santé', 0),
-(416, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'wjFaaZd1S7Z', 'eq Boteka Centre Hospitalier', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(416, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'wjFaaZd1S7Z', 'eq Boteka Centre Hospitalier', 0),
 (417, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'MpEW9VeUS6r', 'eq Botunu Centre de santé ', 0),
 (418, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'AtC8T8dhV6i', 'eq Buala Ngombe Centre de Santé', 0),
 (419, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'g4UXsWXZG10', 'eq Inkenge Centre de Santé', 0),
@@ -4571,7 +4514,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (421, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'kVTbJzQ9ovy', 'eq Ikakema Centre de Santé', 0),
 (422, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'CvhSHzFrsJz', 'eq Lifumba Centre de Santé', 0),
 (423, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'IVmEAU3MXN9', 'eq Loonga Centre de Santé', 0),
-(424, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'tFtMNaZjcAo', 'eq Boimbo Poste de Santé', 0),
+(424, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'tFtMNaZjcAo', 'eq Boimbo Poste de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (425, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'OhcjCFgNUyR', 'eq Losenge Centre de Santé', 0),
 (426, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'v9k1TAsgkDT', 'eq Makako Centre de Santé', 0),
 (427, 52, '', 'eq Equateur Province', '', 'eq Ingende Zone de Santé', 'tf54xlRNSij', 'eq Ifuto Poste de Santé', 0),
@@ -4750,7 +4694,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (600, 52, '', 'eq Equateur Province', '', 'eq Mbandaka Zone de Santé', 'Jq3MEns2rlZ', 'eq Jourdain  Centre Médical', 0),
 (601, 52, '', 'eq Equateur Province', '', 'eq Mbandaka Zone de Santé', 'C32hLpsqVWO', 'eq Libiki Centre de Santé', 0),
 (602, 52, '', 'eq Equateur Province', '', 'eq Mbandaka Zone de Santé', 'Dt6n83iuD5b', 'eq Bondo Centre de Santé', 0),
-(603, 52, '', 'eq Equateur Province', '', 'eq Mbandaka Zone de Santé', 'kYScMShRYLn', 'eq Maman W''Elikya Centre de Santé', 0),
+(603, 52, '', 'eq Equateur Province', '', 'eq Mbandaka Zone de Santé', 'kYScMShRYLn', 'eq Maman W\'Elikya Centre de Santé', 0),
 (604, 52, '', 'eq Equateur Province', '', 'eq Mbandaka Zone de Santé', 'D2MymKao4uy', 'eq Makungu Mbabu Centre de Santé', 0),
 (605, 52, '', 'eq Equateur Province', '', 'eq Mbandaka Zone de Santé', 'LInn8vUO5OO', 'eq Mambalu Centre de Santé', 0),
 (606, 52, '', 'eq Equateur Province', '', 'eq Mbandaka Zone de Santé', 't1KN4YlTE4W', 'eq Ngombe Poste de Santé', 0),
@@ -4822,7 +4766,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (672, 52, '', 'eq Equateur Province', '', 'eq Ntondo Zone de Santé', 'jaC6McvmVo7', 'eq Nzalekenga Centre de Santé', 0),
 (673, 52, '', 'eq Equateur Province', '', 'eq Wangata Zone de Santé', 'HCiWQO08ePB', 'eq Bralima Poste de Santé', 0),
 (674, 52, '', 'eq Equateur Province', '', 'eq Wangata Zone de Santé', 'eTvmQFDISDU', 'eq Frère Matthieu Centre Médical', 0),
-(675, 52, '', 'eq Equateur Province', '', 'eq Wangata Zone de Santé', 'k5mDrd7rqbE', 'eq La Main de l''Eternel Centre Médical', 0),
+(675, 52, '', 'eq Equateur Province', '', 'eq Wangata Zone de Santé', 'k5mDrd7rqbE', 'eq La Main de l\'Eternel Centre Médical', 0),
 (676, 52, '', 'eq Equateur Province', '', 'eq Wangata Zone de Santé', 'oOUD1u5HdeN', 'eq Méduse Poste de Santé', 0),
 (677, 52, '', 'eq Equateur Province', '', 'eq Wangata Zone de Santé', 'TAYin9UO0N3', 'eq Papa Kosolokele Centre de Santé', 0),
 (678, 52, '', 'eq Equateur Province', '', 'eq Wangata Zone de Santé', 'm1UKmNliTBj', 'eq Polepole Centre Médical', 0),
@@ -4901,7 +4845,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (751, 52, '', 'hk Haut Katanga Province', '', 'hk Kamalondo Zone de Santé', 'SW47bRC3rtL', 'hk Kamalondo Hôpital Général de Référence', 0),
 (752, 52, '', 'hk Haut Katanga Province', '', 'hk Kamalondo Zone de Santé', 'FoFwsz9ncfD', 'hk Fraternité Centre de Santé', 0),
 (753, 52, '', 'hk Haut Katanga Province', '', 'hk Kamalondo Zone de Santé', 'g1XVJV0M612', 'hk Guerison Centre de Santé', 0),
-(754, 52, '', 'hk Haut Katanga Province', '', 'hk Kamalondo Zone de Santé', 'PHLKW8JO2Tj', 'hk Louez l''Eternel Centre de Santé', 0),
+(754, 52, '', 'hk Haut Katanga Province', '', 'hk Kamalondo Zone de Santé', 'PHLKW8JO2Tj', 'hk Louez l\'Eternel Centre de Santé', 0),
 (755, 52, '', 'hk Haut Katanga Province', '', 'hk Kamalondo Zone de Santé', 'vlL9G6dtVT6', 'hk Sécours Centre de Santé', 0),
 (756, 52, '', 'hk Haut Katanga Province', '', 'hk Kamalondo Zone de Santé', 'otGUe6m7Ocl', 'hk Chrina Centre de Santé', 0),
 (757, 52, '', 'hk Haut Katanga Province', '', 'hk Kambove Zone de Santé', 'qFPSRr20ugS', 'hk Dikula Centre de Santé', 0),
@@ -4972,8 +4916,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (822, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'NiER8KHsTzk', 'hk Faraja Centre de Santé', 0),
 (823, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'vMmIYGLuNl4', 'hk Neema  Centre de Santé', 0),
 (824, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'yxQt8EcaZGl', 'hk Peniel Centre de Santé', 0),
-(825, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'AvfGEcwt8fo', 'hk Sans Frontiere 2 Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(825, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'AvfGEcwt8fo', 'hk Sans Frontiere 2 Centre de Santé', 0),
 (826, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'krUxbjgJfKB', 'hk St Etienne Centre de Santé', 0),
 (827, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'aRctzZpJtMx', 'hk St Famille Centre de Santé', 0),
 (828, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'Im4Uc0I39MK', 'hk Benedict Centre de Santé', 0),
@@ -4988,7 +4931,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (837, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'aZpgGJa47ab', 'hk Kitumaini Centre de Santé', 0),
 (838, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'TlBfnWlRSqG', 'hk Maisha Centre de Santé', 0),
 (839, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'yaqp2VJj6V2', 'hk Source de vie Centre de Santé', 0),
-(840, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'o9nRbKdYK5r', 'hk Cite De L''Esperence Centre de Santé', 0),
+(840, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'o9nRbKdYK5r', 'hk Cite De L\'Esperence Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (841, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'aiXbjsz1pYH', 'hk Jehovah Rapha Centre de Santé', 0),
 (842, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'hYycTC8Eptp', 'hk le Roché Centre de Santé', 0),
 (843, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'Rvod9CYi6UW', 'hk Main De L Eternel Centre de Santé', 0),
@@ -5038,7 +4982,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (887, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 's2fbWRfZvkP', 'hk Maendeleo Centre de Santé', 0),
 (888, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'vIzQ4pBxtbr', 'hk Masaidizi Centre de Santé', 0),
 (889, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'rY7PSs1lSMw', 'hk Bois De Gofer Centre de Santé', 0),
-(890, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'X4Z7HFj7HAG', 'hk Charité d''Eliote Centre de Santé', 0),
+(890, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'X4Z7HFj7HAG', 'hk Charité d\'Eliote Centre de Santé', 0),
 (891, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'jwXdEmpcfLr', 'hk Dieu Pourboira Centre de Santé', 0),
 (892, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'T3RGbPcoPSO', 'hk Jésus Sauve Centre de Santé', 0),
 (893, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'D4FN2FJumnV', 'hk La Joie Centre de Santé', 0),
@@ -5066,7 +5010,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (915, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'Hc9hu9v6xww', 'hk Racine Centre de Santé', 0),
 (916, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'cOM4TWGdYLK', 'hk Amani Centre de Santé', 0),
 (917, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'xmi45fdetCp', 'hk Lumiere Centre de Santé', 0),
-(918, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'VUNRhJymSKZ', 'hk Jardin d''Eden Centre de Santé', 0),
+(918, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'VUNRhJymSKZ', 'hk Jardin d\'Eden Centre de Santé', 0),
 (919, 52, '', 'hk Haut Katanga Province', '', 'hk Kampemba Zone de Santé', 'HKkUgX67IbU', 'hk Penny Wise Centre de Santé', 0),
 (920, 52, '', 'hk Haut Katanga Province', '', 'hk Kapolowe Zone de Santé', 'MpwCGXaDt0g', 'hk Kakila Poste De Poste de Santé', 0),
 (921, 52, '', 'hk Haut Katanga Province', '', 'hk Kapolowe Zone de Santé', 'pcBHi1kdGDA', 'hk Kapolowe Gare Centre de Santé', 0),
@@ -5224,7 +5168,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (1073, 52, '', 'hk Haut Katanga Province', '', 'hk Kenya Zone de Santé', 'G3UA8PbKqIN', 'hk Kilenge Centre de Santé', 0),
 (1074, 52, '', 'hk Haut Katanga Province', '', 'hk Kenya Zone de Santé', 'KHt7MCIFxlX', 'hk Awadi Centre de Santé', 0),
 (1075, 52, '', 'hk Haut Katanga Province', '', 'hk Kenya Zone de Santé', 'Xa6JIAkj5Ce', 'hk Compassion Centre de Santé', 0),
-(1076, 52, '', 'hk Haut Katanga Province', '', 'hk Kenya Zone de Santé', 'RJeSdeRfcNz', 'hk De l''Espérance Centre de Santé', 0),
+(1076, 52, '', 'hk Haut Katanga Province', '', 'hk Kenya Zone de Santé', 'RJeSdeRfcNz', 'hk De l\'Espérance Centre de Santé', 0),
 (1077, 52, '', 'hk Haut Katanga Province', '', 'hk Kenya Zone de Santé', 'yHczgdYUvV5', 'hk Mama na Watoto Centre de Santé', 0),
 (1078, 52, '', 'hk Haut Katanga Province', '', 'hk Kenya Zone de Santé', 'a8jtfmMQYPV', 'hk Premices 1 Centre de Santé', 0),
 (1079, 52, '', 'hk Haut Katanga Province', '', 'hk Kenya Zone de Santé', 'FPpd4OEF11y', 'hk Watanshi Centre de Santé de Référence', 0),
@@ -5258,7 +5202,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (1107, 52, '', 'hk Haut Katanga Province', '', 'hk Kikula Zone de Santé', 'lQc6sXE7quh', 'hk Quovadis Centre de Santé', 0),
 (1108, 52, '', 'hk Haut Katanga Province', '', 'hk Kikula Zone de Santé', 'Lyv2ie91FkT', 'hk Mlinzi Centre de Santé', 0),
 (1109, 52, '', 'hk Haut Katanga Province', '', 'hk Kikula Zone de Santé', 'NCBPebtwCPe', 'hk Monriha Centre de Santé', 0),
-(1110, 52, '', 'hk Haut Katanga Province', '', 'hk Kikula Zone de Santé', 'T4zq6fwSlqr', 'hk Droit De l''Homme Centre de Santé', 0),
+(1110, 52, '', 'hk Haut Katanga Province', '', 'hk Kikula Zone de Santé', 'T4zq6fwSlqr', 'hk Droit De l\'Homme Centre de Santé', 0),
 (1111, 52, '', 'hk Haut Katanga Province', '', 'hk Kikula Zone de Santé', 'v9P8UZL00P2', 'hk Daco Hôpital Général de Référence', 0),
 (1112, 52, '', 'hk Haut Katanga Province', '', 'hk Kikula Zone de Santé', 'JWPBRnd2W0k', 'hk Kikula Centre de Santé de Référence', 0),
 (1113, 52, '', 'hk Haut Katanga Province', '', 'hk Kikula Zone de Santé', 'KVQnBCi5P1B', 'hk Safi Centre de Santé', 0),
@@ -5369,8 +5313,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (1218, 52, '', 'hk Haut Katanga Province', '', 'hk Kipushi Zone de Santé', 'uMUz9eI97er', 'hk OUA Centre de Santé de Référence', 0),
 (1219, 52, '', 'hk Haut Katanga Province', '', 'hk Kipushi Zone de Santé', 'bDeGYQ2oPKS', 'hk PTME Centre de Santé', 0),
 (1220, 52, '', 'hk Haut Katanga Province', '', 'hk Kipushi Zone de Santé', 'emrkZJ93GhD', 'hk Sainte Famille Centre de Santé', 0),
-(1221, 52, '', 'hk Haut Katanga Province', '', 'hk Kipushi Zone de Santé', 'Ytiyd8ujwR8', 'hk Afia Yetu Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(1221, 52, '', 'hk Haut Katanga Province', '', 'hk Kipushi Zone de Santé', 'Ytiyd8ujwR8', 'hk Afia Yetu Centre de Santé', 0),
 (1222, 52, '', 'hk Haut Katanga Province', '', 'hk Kipushi Zone de Santé', 'VMEllZEfesi', 'hk Jourdain Centre de Santé', 0),
 (1223, 52, '', 'hk Haut Katanga Province', '', 'hk Kipushi Zone de Santé', 'zVLHwus4ddi', 'hk Pacifique Centre de Santé', 0),
 (1224, 52, '', 'hk Haut Katanga Province', '', 'hk Kipushi Zone de Santé', 'QqJimD7DhMN', 'hk Prison Poste de Santé', 0),
@@ -5392,7 +5335,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (1240, 52, '', 'hk Haut Katanga Province', '', 'hk Kisanga Zone de Santé', 'fczatjsFdlz', 'hk la Merveille Centre de Santé', 0),
 (1241, 52, '', 'hk Haut Katanga Province', '', 'hk Kisanga Zone de Santé', 'K6GqpDdUilY', 'hk Lupandilo Centre de Santé', 0),
 (1242, 52, '', 'hk Haut Katanga Province', '', 'hk Kisanga Zone de Santé', 'pVSp7b9SiIr', 'hk Polysecours Centre de Santé', 0),
-(1243, 52, '', 'hk Haut Katanga Province', '', 'hk Kisanga Zone de Santé', 'GMN5i6qfKCD', 'hk Sainte Claire Centre de Santé', 0),
+(1243, 52, '', 'hk Haut Katanga Province', '', 'hk Kisanga Zone de Santé', 'GMN5i6qfKCD', 'hk Sainte Claire Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (1244, 52, '', 'hk Haut Katanga Province', '', 'hk Kisanga Zone de Santé', 'BNy5jSa6akW', 'hk Dieu Merci Centre de Santé', 0),
 (1245, 52, '', 'hk Haut Katanga Province', '', 'hk Kisanga Zone de Santé', 'av9KoqqP6JW', 'hk Les Premices Centre de Santé', 0),
 (1246, 52, '', 'hk Haut Katanga Province', '', 'hk Kisanga Zone de Santé', 'ZA7cM3E4HPj', 'hk Serge Amie Centre de Santé', 0),
@@ -5474,7 +5418,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (1322, 52, '', 'hk Haut Katanga Province', '', 'hk Likasi Zone de Santé', 'xtwV9ljfsyO', 'hk Redemption Medical Center Centre de Santé', 0),
 (1323, 52, '', 'hk Haut Katanga Province', '', 'hk Likasi Zone de Santé', 'V2n8WfbJ0ZW', 'hk SNCC Centre de Santé', 0),
 (1324, 52, '', 'hk Haut Katanga Province', '', 'hk Likasi Zone de Santé', 'UvHhJkw2RkY', 'hk Sncc Hôpital Général de Référence', 0),
-(1325, 52, '', 'hk Haut Katanga Province', '', 'hk Lubumbashi Zone de Santé', 'xNDRArd18Oq', 'hk Centre d''Excellence Centre de Santé', 0),
+(1325, 52, '', 'hk Haut Katanga Province', '', 'hk Lubumbashi Zone de Santé', 'xNDRArd18Oq', 'hk Centre d\'Excellence Centre de Santé', 0),
 (1326, 52, '', 'hk Haut Katanga Province', '', 'hk Lubumbashi Zone de Santé', 'hLrHpusd8gJ', 'hk IPS Dispensaire', 0),
 (1327, 52, '', 'hk Haut Katanga Province', '', 'hk Lubumbashi Zone de Santé', 'ronC73RIpLI', 'hk Méthodiste Centre de Santé ', 0),
 (1328, 52, '', 'hk Haut Katanga Province', '', 'hk Lubumbashi Zone de Santé', 'KtjiAV7BXaA', 'hk SENDWE Hôpital Provincial de Référence', 0),
@@ -5658,7 +5602,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (1506, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'g8OBhFVQ738', 'hk Maternité Kabulameshi Centre de Santé', 0),
 (1507, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'Q8e5pwweCNH', 'hk Medi Clinic Centre de Santé', 0),
 (1508, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'upvT8ss1RCf', 'hk Rebecca Centre de Santé', 0),
-(1509, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'vIdzxKk9Rft', 'hk St François D''Assise Centre de Santé de Référence', 0),
+(1509, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'vIdzxKk9Rft', 'hk St François D\'Assise Centre de Santé de Référence', 0),
 (1510, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'lXHdO0TNPTe', 'hk Flora Centre de Santé de Référence', 0),
 (1511, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'ui8A5izeB2u', 'hk La Consolation Centre de Santé', 0),
 (1512, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'h9pXzFViCzA', 'hk Néema Rhéne Centre de Santé', 0),
@@ -5692,7 +5636,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (1540, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'UV6b0pYsaq9', 'hk Bien Aimée  Centre de Santé', 0),
 (1541, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'ATLAsCL5FhX', 'hk Faraja Centre de Santé', 0),
 (1542, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'XKHzbRGayJX', 'hk La Promesse Centre de Santé', 0),
-(1543, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'Q2Em3JxJkzi', 'hk Source d''Espoire Centre de Santé', 0),
+(1543, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'Q2Em3JxJkzi', 'hk Source d\'Espoire Centre de Santé', 0),
 (1544, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'SNvBtpjGYfN', 'hk Tusaidiane Centre de Santé', 0),
 (1545, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'isVpShBIPqn', 'hk Imani Centre de Santé', 0),
 (1546, 52, '', 'hk Haut Katanga Province', '', 'hk Mumbunda Zone de Santé', 'x0TsubSfrla', 'hk Louis Pasteur Centre de Santé', 0),
@@ -5760,8 +5704,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (1608, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'Rp4WtlSpY3i', 'hk Andjelani Centre de Santé', 0),
 (1609, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'DWn77DuAmGM', 'hk Hakika Hôpital Général de Référence', 0),
 (1610, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'GzXWF7Jtr3o', 'hk Misericorde Centre de Santé', 0),
-(1611, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'NQxasPcy0De', 'hk ONG Salama Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(1611, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'NQxasPcy0De', 'hk ONG Salama Centre de Santé', 0),
 (1612, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'rGVMY0yOG2b', 'hk Darcy Clinique Centre de Santé de Référence', 0),
 (1613, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'nKWxj487sG0', 'hk Eben Ezer 1 Centre de Santé', 0),
 (1614, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'YdZUOnV556j', 'hk La Faveur Centre de Santé de Référence', 0),
@@ -5790,7 +5733,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (1637, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'RUvbJfPJr18', 'hk Moderne Centre de Santé', 0),
 (1638, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'wfJuC4n9cKW', 'hk Sans Frontières Centre de Santé', 0),
 (1639, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'ktgi6LUfkDk', 'hk Baba Zive Centre de Santé', 0),
-(1640, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'fqB23eF7UDz', 'hk baraka City Centre de Santé', 0),
+(1640, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'fqB23eF7UDz', 'hk baraka City Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (1641, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'yAgaNxRKkvQ', 'hk Barmic Centre de Santé', 0),
 (1642, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'lNLAz5uttLv', 'hk La Charite Centre de Santé', 0),
 (1643, 52, '', 'hk Haut Katanga Province', '', 'hk Ruashi Zone de Santé', 'hRcHffFXSmB', 'hk Mère du Sauveur Centre de Santé', 0),
@@ -5915,7 +5859,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (1762, 52, '', 'hk Haut Katanga Province', '', 'hk Tshamilemba Zone de Santé', 'V5ibN3ZgsBG', 'hk Clemence Centre de Santé', 0),
 (1763, 52, '', 'hk Haut Katanga Province', '', 'hk Tshamilemba Zone de Santé', 'jBVOFMQNfZr', 'hk Famika Centre de Santé', 0),
 (1764, 52, '', 'hk Haut Katanga Province', '', 'hk Tshamilemba Zone de Santé', 'WusQkU9ZccW', 'hk Imani Centre de Santé', 0),
-(1765, 52, '', 'hk Haut Katanga Province', '', 'hk Tshamilemba Zone de Santé', 'eI8aXQJNZHY', 'hk Medaille d''Or Centre de Santé', 0),
+(1765, 52, '', 'hk Haut Katanga Province', '', 'hk Tshamilemba Zone de Santé', 'eI8aXQJNZHY', 'hk Medaille d\'Or Centre de Santé', 0),
 (1766, 52, '', 'hk Haut Katanga Province', '', 'hk Tshamilemba Zone de Santé', 'oXljFer59ab', 'hk Afya Nzuri Centre de Santé', 0),
 (1767, 52, '', 'hk Haut Katanga Province', '', 'hk Tshamilemba Zone de Santé', 'zkQDOXKkvdD', 'hk Amani Centre de Santé', 0),
 (1768, 52, '', 'hk Haut Katanga Province', '', 'hk Tshamilemba Zone de Santé', 'jgALDCgqvJL', 'hk Bakhita Centre de Santé', 0),
@@ -5975,7 +5919,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (1822, 52, '', 'hl Haut Lomami Province', '', 'hl Bukama Zone de Santé', 'fv0b6NOrine', 'hl Bukama Hôpital Général de Référence', 0),
 (1823, 52, '', 'hl Haut Lomami Province', '', 'hl Bukama Zone de Santé', 'wuSAORc1hZ5', 'hl Medico Social Centre de Santé', 0),
 (1824, 52, '', 'hl Haut Lomami Province', '', 'hl Bukama Zone de Santé', 'lhOdTphklwT', 'hl Rouge Gorge Dispensaire', 0),
-(1825, 52, '', 'hl Haut Lomami Province', '', 'hl Bukama Zone de Santé', 'hk1NVJjbWtY', 'hl  de l''Espérance Dispensaire', 0),
+(1825, 52, '', 'hl Haut Lomami Province', '', 'hl Bukama Zone de Santé', 'hk1NVJjbWtY', 'hl  de l\'Espérance Dispensaire', 0),
 (1826, 52, '', 'hl Haut Lomami Province', '', 'hl Bukama Zone de Santé', 'ILlpIvrVX6D', 'hl Méthodite Centre de Santé', 0),
 (1827, 52, '', 'hl Haut Lomami Province', '', 'hl Bukama Zone de Santé', 'Guc2EojeZZ1', 'hl Muchanga Centre de Santé', 0),
 (1828, 52, '', 'hl Haut Lomami Province', '', 'hl Bukama Zone de Santé', 'Snopq2kAB5V', 'hl Mukula Kulu Centre de Santé', 0),
@@ -6155,8 +6099,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (2002, 52, '', 'hl Haut Lomami Province', '', 'hl Kamina Zone de Santé', 'JjNlsY1GlA8', 'hl Lubango  Poste de Santé', 0),
 (2003, 52, '', 'hl Haut Lomami Province', '', 'hl Kamina Zone de Santé', 'G1EF9PlJKt7', 'hl Luvua Centre de Santé', 0),
 (2004, 52, '', 'hl Haut Lomami Province', '', 'hl Kamina Zone de Santé', 'WzSlvsOe7Ei', 'hl Lwembe Centre de Santé', 0),
-(2005, 52, '', 'hl Haut Lomami Province', '', 'hl Kamina Zone de Santé', 'yV1QQ6rGR7j', 'hl Mwitobwe Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(2005, 52, '', 'hl Haut Lomami Province', '', 'hl Kamina Zone de Santé', 'yV1QQ6rGR7j', 'hl Mwitobwe Centre de Santé', 0),
 (2006, 52, '', 'hl Haut Lomami Province', '', 'hl Kamina Zone de Santé', 'apByH19A65X', 'hl Kazadi Poste de Santé', 0),
 (2007, 52, '', 'hl Haut Lomami Province', '', 'hl Kamina Zone de Santé', 'kj1pSVYai0M', 'hl Nsungu Centre de Santé', 0),
 (2008, 52, '', 'hl Haut Lomami Province', '', 'hl Kamina Zone de Santé', 'BS2I3wT8Iyx', 'hl SNCC Centre de Santé', 0),
@@ -6193,7 +6136,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (2039, 52, '', 'hl Haut Lomami Province', '', 'hl Kaniama Zone de Santé', 'FTpT5lOsr9e', 'hl Munda  Poste de Santé', 0),
 (2040, 52, '', 'hl Haut Lomami Province', '', 'hl Kaniama Zone de Santé', 'Db2EhcbIcdG', 'hl Kasengayi Centre de Santé', 0),
 (2041, 52, '', 'hl Haut Lomami Province', '', 'hl Kaniama Zone de Santé', 'K86Q7HHPqlM', 'hl Mutshia  Poste de Santé ', 0),
-(2042, 52, '', 'hl Haut Lomami Province', '', 'hl Kaniama Zone de Santé', 'xnb6kJ5qsLf', 'hl Disphat Centre de Santé ', 0),
+(2042, 52, '', 'hl Haut Lomami Province', '', 'hl Kaniama Zone de Santé', 'xnb6kJ5qsLf', 'hl Disphat Centre de Santé ', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (2043, 52, '', 'hl Haut Lomami Province', '', 'hl Kaniama Zone de Santé', 'yPK2dhgBylc', 'hl Kasese Centre de Santé', 0),
 (2044, 52, '', 'hl Haut Lomami Province', '', 'hl Kaniama Zone de Santé', 'LN4nbtXBcqz', 'hl Kamalondo Poste de Santé', 0),
 (2045, 52, '', 'hl Haut Lomami Province', '', 'hl Kaniama Zone de Santé', 'YVwmXvu6xS0', 'hl Kayeye centre de Santé', 0),
@@ -6559,8 +6503,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (2405, 52, '', 'hu Haut Uele Province', '', 'hu Boma Mangbetu Zone de Santé', 'sIb44z2iVNy', 'hu Bafwabaka Centre de Santé', 0),
 (2406, 52, '', 'hu Haut Uele Province', '', 'hu Boma Mangbetu Zone de Santé', 'AFAiWDElC3O', 'hu Bafwabaka Centre de Santé de Référence', 0),
 (2407, 52, '', 'hu Haut Uele Province', '', 'hu Boma Mangbetu Zone de Santé', 'AGRp6fKm0Dg', 'hu Bakangi Centre de Santé', 0),
-(2408, 52, '', 'hu Haut Uele Province', '', 'hu Boma Mangbetu Zone de Santé', 'wmgBZ46BNOH', 'hu Budu Poste de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(2408, 52, '', 'hu Haut Uele Province', '', 'hu Boma Mangbetu Zone de Santé', 'wmgBZ46BNOH', 'hu Budu Poste de Santé', 0),
 (2409, 52, '', 'hu Haut Uele Province', '', 'hu Boma Mangbetu Zone de Santé', 'ICgmhrVKXXc', 'hu Bavamasia Centre de Santé', 0),
 (2410, 52, '', 'hu Haut Uele Province', '', 'hu Boma Mangbetu Zone de Santé', 'jKZLF8CtWj1', 'hu Bavanasane Poste de Santé', 0),
 (2411, 52, '', 'hu Haut Uele Province', '', 'hu Boma Mangbetu Zone de Santé', 'xACZwnYf5Aw', 'hu Bovoputoningwe Poste de Santé', 0),
@@ -6603,7 +6546,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (2448, 52, '', 'hu Haut Uele Province', '', 'hu Doruma Zone de Santé', 'qFI2LXwy9GC', 'hu Kapili Centre de Santé', 0),
 (2449, 52, '', 'hu Haut Uele Province', '', 'hu Doruma Zone de Santé', 'tUs9lh8WZk6', 'hu Masombo Centre de Santé', 0),
 (2450, 52, '', 'hu Haut Uele Province', '', 'hu Doruma Zone de Santé', 'px7FXezQWDQ', 'hu Naparka Centre de Santé', 0),
-(2451, 52, '', 'hu Haut Uele Province', '', 'hu Doruma Zone de Santé', 'KSGouOZpYZx', 'hu Durukpasi Centre de Santé', 0),
+(2451, 52, '', 'hu Haut Uele Province', '', 'hu Doruma Zone de Santé', 'KSGouOZpYZx', 'hu Durukpasi Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (2452, 52, '', 'hu Haut Uele Province', '', 'hu Doruma Zone de Santé', 'OJhXFYO80fa', 'hu Ngilima Centre de Santé de Référence', 0),
 (2453, 52, '', 'hu Haut Uele Province', '', 'hu Doruma Zone de Santé', 'ikLi2OM9jnR', 'hu Weneki Centre de Santé', 0),
 (2454, 52, '', 'hu Haut Uele Province', '', 'hu Dungu Zone de Santé', 'vgxgClYBphw', 'hu Afu Centre de Santé', 0),
@@ -6768,14 +6712,14 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (2613, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'At7bz0ClRHu', 'hu Saki Poste de Santé', 0),
 (2614, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'VRgGmz9EEwp', 'hu Bethesda Centre Hospitalier', 0),
 (2615, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'BffSyUaX3Ce', 'hu CFU Clinique', 0),
-(2616, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'xs0VPXADNxv', 'hu Clinique de l''Est Clinique', 0),
-(2617, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'OponzYz9Mof', 'hu N''sele Centre de Santé', 0),
+(2616, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'xs0VPXADNxv', 'hu Clinique de l\'Est Clinique', 0),
+(2617, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'OponzYz9Mof', 'hu N\'sele Centre de Santé', 0),
 (2618, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'CLVXBQFoPrF', 'hu Poste de santé BETHESAIDA Poste de santé', 0),
 (2619, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'hH4ooOyvfEY', 'hu Rose Pimpester Poste de santé', 0),
 (2620, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'MslPkKcAhBb', 'hu La Benediction Poste de Santé', 0),
 (2621, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'peoCBZeRVUu', 'hu Telalingbi Centre de Santé', 0),
 (2622, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'eWQA6HItww9', 'hu Bede Poste de Santé', 0),
-(2623, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'ThUCTcxDrGH', 'hu Clinique de l''Uele Clinique Universitaire', 0),
+(2623, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'ThUCTcxDrGH', 'hu Clinique de l\'Uele Clinique Universitaire', 0),
 (2624, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'Wrm2OQXrAej', 'hu Dispensaire Kamanga Poste de santé', 0),
 (2625, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'uvGA9CyNRPY', 'hu Isiro Hôpital Général de Référence', 0),
 (2626, 52, '', 'hu Haut Uele Province', '', 'hu Isiro Zone de Santé', 'AA19s60lm2q', 'hu Matari Poste de Santé', 0),
@@ -6972,13 +6916,12 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (2817, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'QdbVxbjlvuP', 'hu Sainte Cathérine Poste de santé', 0),
 (2818, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'knJYb30FmAn', 'hu Sokimo Poste de Santé', 0),
 (2819, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'RFRgOWWVohK', 'hu Tout est grace Poste de Santé', 0),
-(2820, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'xc2NAIMCxVg', 'hu Dubele Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(2820, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'xc2NAIMCxVg', 'hu Dubele Centre de Santé', 0),
 (2821, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'hz0fHCt2Ips', 'hu La Grace Poste de Santé', 0),
 (2822, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'FIMITBWj7Qm', 'hu La Promesse de Dieu Poste de Santé', 0),
 (2823, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'vn8TID8liVD', 'hu La Victoire Poste de Santé', 0),
 (2824, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'bxw72KaNo3G', 'hu Bethesaida Poste de Santé', 0),
-(2825, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'WAAoIjbwpW0', 'hu De l''est Poste de Santé', 0),
+(2825, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'WAAoIjbwpW0', 'hu De l\'est Poste de Santé', 0),
 (2826, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'qMcsRP8QdB2', 'hu Durba Centre de Santé de Référence', 0),
 (2827, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'ovabYfjWFDd', 'hu La providence Clinique', 0),
 (2828, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'ef5X0U2A0sL', 'hu Paradoxe Clinique', 0),
@@ -6994,7 +6937,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (2838, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'DzXgY05BSjL', 'hu Mazo Poste de Santé', 0),
 (2839, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'uEA8pM6QK8J', 'hu Bon Samaritain Poste de Santé', 0),
 (2840, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'jsWMIjM837W', 'hu Kibali Centre de Santé', 0),
-(2841, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'zQZ8vXynyfE', 'hu La Voie de l''Espérance Poste de Santé', 0),
+(2841, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'zQZ8vXynyfE', 'hu La Voie de l\'Espérance Poste de Santé', 0),
 (2842, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'Gpp0cnXgPAN', 'hu PNC Poste de Santé', 0),
 (2843, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'Y0IXhbS4NPX', 'hu Sokimo Hôpital', 0),
 (2844, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'gtSbovkRamn', 'hu St Dominique Dispensaire', 0),
@@ -7019,14 +6962,15 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (2863, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'r0018BWADJm', 'hu Ngangazo Centre de Santé', 0),
 (2864, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'zWfKLAWSB7D', 'hu Rehobot Dispensaire', 0),
 (2865, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'lQrfO8KmNyB', 'hu Tumaini Poste de Santé', 0),
-(2866, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'nV6egcRa0Ld', 'hu De l''Unite Dispensaire', 0),
+(2866, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'nV6egcRa0Ld', 'hu De l\'Unite Dispensaire', 0),
 (2867, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'ztSMr4zU623', 'hu Djengamwili Dispensaire', 0),
 (2868, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'NfgB7kDQPVR', 'hu Kibali Centre Hospitalier', 0),
 (2869, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'Y9SjwAT82DL', 'hu Kibali Centre Médical', 0),
 (2870, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'My68rpgRmGX', 'hu Toyota Centre de Santé', 0),
 (2871, 52, '', 'hu Haut Uele Province', '', 'hu Watsa Zone de Santé', 'isM99qvEtaG', 'hu Universel Plus Centre Médical', 0),
 (2872, 52, '', 'it Ituri Province', '', 'it Adi Zone de Santé', 'Zw3NyxGz0bc', 'it Adi Centre de Santé', 0),
-(2873, 52, '', 'it Ituri Province', '', 'it Adi Zone de Santé', 'nDWZDYqeYnz', 'it Adi Hôpital Général de Référence', 0),
+(2873, 52, '', 'it Ituri Province', '', 'it Adi Zone de Santé', 'nDWZDYqeYnz', 'it Adi Hôpital Général de Référence', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (2874, 52, '', 'it Ituri Province', '', 'it Adi Zone de Santé', 'ehpxUJKAjIX', 'it Agura Centre de Santé', 0),
 (2875, 52, '', 'it Ituri Province', '', 'it Adi Zone de Santé', 'mqBwtq37npN', 'it Azu Centre de Santé', 0),
 (2876, 52, '', 'it Ituri Province', '', 'it Adi Zone de Santé', 'ZkqJ16bTzKi', 'it Drobukolo Centre de Santé', 0),
@@ -7101,7 +7045,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (2945, 52, '', 'it Ituri Province', '', 'it Angumu Zone de Santé', 'ubFujR70tU3', 'it Musongwa Centre de Santé', 0),
 (2946, 52, '', 'it Ituri Province', '', 'it Angumu Zone de Santé', 'UG3BfsSo9pJ', 'it Ndaru Muswa Centre de Santé', 0),
 (2947, 52, '', 'it Ituri Province', '', 'it Angumu Zone de Santé', 'PQnUTMkBAIT', 'it Djaki Poste de Santé', 0),
-(2948, 52, '', 'it Ituri Province', '', 'it Angumu Zone de Santé', 'gOboGDuVpqF', 'it Panyadong'' Centre de Santé', 0),
+(2948, 52, '', 'it Ituri Province', '', 'it Angumu Zone de Santé', 'gOboGDuVpqF', 'it Panyadong\' Centre de Santé', 0),
 (2949, 52, '', 'it Ituri Province', '', 'it Angumu Zone de Santé', 'wBbfoxjrtnQ', 'it Pajulu Poste de Santé', 0),
 (2950, 52, '', 'it Ituri Province', '', 'it Angumu Zone de Santé', 'PYiaMD6VTkM', 'it Tilo Poste de Santé', 0),
 (2951, 52, '', 'it Ituri Province', '', 'it Angumu Zone de Santé', 'zoM7rDeeX6T', 'it Udongo Abira Centre de Santé', 0),
@@ -7401,8 +7345,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (3245, 52, '', 'it Ituri Province', '', 'it Drodro Zone de Santé', 'mPFWHJITvy1', 'it Tchatsikpa Centre de Santé', 0),
 (3246, 52, '', 'it Ituri Province', '', 'it Drodro Zone de Santé', 'y7K3aho3BYL', 'it Suni Poste de Santé', 0),
 (3247, 52, '', 'it Ituri Province', '', 'it Drodro Zone de Santé', 'qicbLYiEWJ8', 'it Tsoro Poste de Santé', 0),
-(3248, 52, '', 'it Ituri Province', '', 'it Drodro Zone de Santé', 'oNKQJxBfbpF', 'it Utcha Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(3248, 52, '', 'it Ituri Province', '', 'it Drodro Zone de Santé', 'oNKQJxBfbpF', 'it Utcha Centre de Santé', 0),
 (3249, 52, '', 'it Ituri Province', '', 'it Drodro Zone de Santé', 'bYSRrQP4cW9', 'it Utcha Siege Poste de Santé', 0),
 (3250, 52, '', 'it Ituri Province', '', 'it Fataki Zone de Santé', 'WTDSNBiVJ81', 'it Bukachele Centre de Santé', 0),
 (3251, 52, '', 'it Ituri Province', '', 'it Fataki Zone de Santé', 'poldBC7Y3Tf', 'it Gbombu Poste de Santé', 0),
@@ -7466,7 +7409,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (3309, 52, '', 'it Ituri Province', '', 'it Jiba Zone de Santé', 'MeyqWYp6uuy', 'it Djokaba Centre de Santé', 0),
 (3310, 52, '', 'it Ituri Province', '', 'it Jiba Zone de Santé', 'IhGfpCf0CWZ', 'it Gobunji Centre de Santé', 0),
 (3311, 52, '', 'it Ituri Province', '', 'it Jiba Zone de Santé', 'cDRd9RqOBq6', 'it La Géurisson Poste de Santé', 0),
-(3312, 52, '', 'it Ituri Province', '', 'it Jiba Zone de Santé', 'hwJEUawMbPk', 'it Songa 1 Poste de Santé', 0),
+(3312, 52, '', 'it Ituri Province', '', 'it Jiba Zone de Santé', 'hwJEUawMbPk', 'it Songa 1 Poste de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (3313, 52, '', 'it Ituri Province', '', 'it Jiba Zone de Santé', 'VhNXu31URaA', 'it Gokpa 2 Centre de Santé', 0),
 (3314, 52, '', 'it Ituri Province', '', 'it Jiba Zone de Santé', 'VlXxCDbx7jQ', 'it La Gloire Poste de Santé', 0),
 (3315, 52, '', 'it Ituri Province', '', 'it Jiba Zone de Santé', 'wUui7M24QPf', 'it Muvaramu Poste de Santé', 0),
@@ -7495,7 +7439,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (3338, 52, '', 'it Ituri Province', '', 'it Kambala Zone de Santé', 'lrzVWi2MzSH', 'it Kotho Centre de Santé', 0),
 (3339, 52, '', 'it Ituri Province', '', 'it Kambala Zone de Santé', 'lfhUwTYGFCn', 'it Lengbatsi Centre de Santé', 0),
 (3340, 52, '', 'it Ituri Province', '', 'it Kambala Zone de Santé', 'vvfZmMR2teL', 'it Ndefu Centre de Santé', 0),
-(3341, 52, '', 'it Ituri Province', '', 'it Kambala Zone de Santé', 'wyJ6Jtz0Hdi', 'it Ng''bur Centre de Santé', 0),
+(3341, 52, '', 'it Ituri Province', '', 'it Kambala Zone de Santé', 'wyJ6Jtz0Hdi', 'it Ng\'bur Centre de Santé', 0),
 (3342, 52, '', 'it Ituri Province', '', 'it Kambala Zone de Santé', 'gNnBG9fTJ04', 'it Nioka Blena Centre de Santé de Référence', 0),
 (3343, 52, '', 'it Ituri Province', '', 'it Kambala Zone de Santé', 'OSvEqR8SW6x', 'it Nyaleka Centre de Santé', 0),
 (3344, 52, '', 'it Ituri Province', '', 'it Kambala Zone de Santé', 'kFLFxrdvrlx', 'it Rabu Centre de Santé', 0),
@@ -7581,7 +7525,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (3424, 52, '', 'it Ituri Province', '', 'it Linga Zone de Santé', 'eCzDyCQH6vE', 'it Tchulu Centre de Santé', 0),
 (3425, 52, '', 'it Ituri Province', '', 'it Linga Zone de Santé', 'I3JuWBKvx7Z', 'it Uma Centre de Santé', 0),
 (3426, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'XiC4S7GVyg6', 'it Bahwere Centre de Santé', 0),
-(3427, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'i2XJUSxxMmU', 'it D''idjo Centre de Santé', 0),
+(3427, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'i2XJUSxxMmU', 'it D\'idjo Centre de Santé', 0),
 (3428, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'M6Z6bdxa3VU', 'it Ezekere Centre de Santé', 0),
 (3429, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'ry10jBKWm32', 'it Kasongo Poste de Santé', 0),
 (3430, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'tJI0Nbx30kN', 'it Katoto Centre de Santé', 0),
@@ -7603,7 +7547,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (3446, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'zTdPZuk6LC2', 'it Mutumbi Centre de Santé', 0),
 (3447, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'YJXvpbnc2IU', 'it Ndungbe Centre de Santé', 0),
 (3448, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'dVDrAfiChsB', 'it Dhendro Poste de Santé', 0),
-(3449, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'iF9AJiq473B', 'it Dz''lo Poste de Santé', 0),
+(3449, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'iF9AJiq473B', 'it Dz\'lo Poste de Santé', 0),
 (3450, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'UVCSBQEkRrm', 'it Penyi Centre de Santé', 0),
 (3451, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'wa6yIPDzLA4', 'it Vilo Centre de Santé', 0),
 (3452, 52, '', 'it Ituri Province', '', 'it Lita Zone de Santé', 'd126ifmE07b', 'it Kambutso Poste de Santé', 0),
@@ -7690,7 +7634,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (3533, 52, '', 'it Ituri Province', '', 'it Mahagi Zone de Santé', 'OXktCOsPxN1', 'it Nairube Zale Poste de Santé', 0),
 (3534, 52, '', 'it Ituri Province', '', 'it Mahagi Zone de Santé', 'FQfdSA1LSYy', 'it Ladju Poste de Santé', 0),
 (3535, 52, '', 'it Ituri Province', '', 'it Mahagi Zone de Santé', 'bfwMBFLLuUu', 'it Mungere Centre de Santé', 0),
-(3536, 52, '', 'it Ituri Province', '', 'it Mahagi Zone de Santé', 'q2XQGY7BJEz', 'it Paicing'' Udyek Poste de Santé', 0),
+(3536, 52, '', 'it Ituri Province', '', 'it Mahagi Zone de Santé', 'q2XQGY7BJEz', 'it Paicing\' Udyek Poste de Santé', 0),
 (3537, 52, '', 'it Ituri Province', '', 'it Mahagi Zone de Santé', 'abJufjxl51R', 'it Uriwo 2 Poste de Santé', 0),
 (3538, 52, '', 'it Ituri Province', '', 'it Mahagi Zone de Santé', 'wbVpxBBq9ym', 'it Paicing Keno Centre de Santé', 0),
 (3539, 52, '', 'it Ituri Province', '', 'it Mahagi Zone de Santé', 'zwRa8l5nXhB', 'it Jupatombu Poste de Santé', 0),
@@ -7830,8 +7774,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (3673, 52, '', 'it Ituri Province', '', 'it Nia Nia Zone de Santé', 'TtR5LK2LUio', 'it Amitie Poste de Santé', 0),
 (3674, 52, '', 'it Ituri Province', '', 'it Nia Nia Zone de Santé', 'Z6xrHiKt18A', 'it CECCA 16 Centre de Santé', 0),
 (3675, 52, '', 'it Ituri Province', '', 'it Nia Nia Zone de Santé', 'GipLzSlyNjn', 'it La Foi Sauve Poste de Santé', 0),
-(3676, 52, '', 'it Ituri Province', '', 'it Nia Nia Zone de Santé', 'b18t2ZXOGA7', 'it La Grace Clinique', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(3676, 52, '', 'it Ituri Province', '', 'it Nia Nia Zone de Santé', 'b18t2ZXOGA7', 'it La Grace Clinique', 0),
 (3677, 52, '', 'it Ituri Province', '', 'it Nia Nia Zone de Santé', 'cnILq4m5mSG', 'it Nia Nia Hôpital Général de Référence', 0),
 (3678, 52, '', 'it Ituri Province', '', 'it Nia Nia Zone de Santé', 'WQ2qRi4coyD', 'it Resiac Poste de Santé', 0),
 (3679, 52, '', 'it Ituri Province', '', 'it Nia Nia Zone de Santé', 'YzEFB0h7tMC', 'it Santé Pour Tous Poste de Santé', 0),
@@ -7882,7 +7825,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (3724, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'bQVtDTtNQrI', 'it Pabidi Poste de Santé', 0),
 (3725, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'T32KeGz8p2b', 'it Ambaki Centre de Santé', 0),
 (3726, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'MCsQOALOavl', 'it Ugalo Poste de Santé', 0),
-(3727, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'BzZ087tb4zT', 'it Ang''Aba Centre de Santé', 0),
+(3727, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'BzZ087tb4zT', 'it Ang\'Aba Centre de Santé', 0),
 (3728, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'tfqRPQCvp4S', 'it Gotha Poste de Santé', 0),
 (3729, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'gnvaerLLaRP', 'it Ugei Poste de Santé', 0),
 (3730, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'EcNuZm2Kt2b', 'it Anyiko Centre de Santé', 0),
@@ -7902,7 +7845,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (3744, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'zG4wHSODURF', 'it Tetsana Poste de Santé', 0),
 (3745, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'fSNKooXOvzy', 'it Kolokoto Poste de Santé', 0),
 (3746, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'l0Wr0OnlB5h', 'it Mahagi Port Etat Centre de Santé de Référence', 0),
-(3747, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'vbPsbnh8aXs', 'it Nvodu Poste de Santé', 0),
+(3747, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'vbPsbnh8aXs', 'it Nvodu Poste de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (3748, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'raKnYGx4yfv', 'it Shalom Poste de Santé', 0),
 (3749, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'gs7683sSZJB', 'it Maman Ashala Poste de Santé', 0),
 (3750, 52, '', 'it Ituri Province', '', 'it Nyarambe Zone de Santé', 'g3xCxX2elLL', 'it Nyalebbe Centre de Santé', 0),
@@ -7939,7 +7883,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (3781, 52, '', 'it Ituri Province', '', 'it Rethy Zone de Santé', 'rKH6zrn4W65', 'it Libi Centre de Santé de Référence', 0),
 (3782, 52, '', 'it Ituri Province', '', 'it Rethy Zone de Santé', 'XHBUSOf8CPW', 'it Londoni Poste de Santé', 0),
 (3783, 52, '', 'it Ituri Province', '', 'it Rethy Zone de Santé', 'lztmnu6bsIr', 'it Lokpa Centre de Santé', 0),
-(3784, 52, '', 'it Ituri Province', '', 'it Rethy Zone de Santé', 'XZzyMOtbPuO', 'it Mbr''bu Centre de Santé', 0),
+(3784, 52, '', 'it Ituri Province', '', 'it Rethy Zone de Santé', 'XZzyMOtbPuO', 'it Mbr\'bu Centre de Santé', 0),
 (3785, 52, '', 'it Ituri Province', '', 'it Rethy Zone de Santé', 'CVIhroewjP9', 'it Mola Centre de Santé', 0),
 (3786, 52, '', 'it Ituri Province', '', 'it Rethy Zone de Santé', 'CePOEufXHxB', 'it Ndrikpa Uzunga Poste de Santé', 0),
 (3787, 52, '', 'it Ituri Province', '', 'it Rethy Zone de Santé', 'pwOBIZrpKlZ', 'it Ngri Balo Centre de Santé', 0),
@@ -8235,8 +8179,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (4077, 52, '', 'kc Kongo Central Province', '', 'kc Kangu Zone de Santé', 'AgnajTqX16D', 'kc Kangu Hôpital Général de Référence', 0),
 (4078, 52, '', 'kc Kongo Central Province', '', 'kc Kangu Zone de Santé', 'U2aYUSzAUwd', 'kc Kayi Ku Tsanga Poste de Santé', 0),
 (4079, 52, '', 'kc Kongo Central Province', '', 'kc Kangu Zone de Santé', 'tmSc6qmDm9E', 'kc Khoze Poste de Santé', 0),
-(4080, 52, '', 'kc Kongo Central Province', '', 'kc Kangu Zone de Santé', 'hehYLKr1TiC', 'kc La Grace Centre Médical', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(4080, 52, '', 'kc Kongo Central Province', '', 'kc Kangu Zone de Santé', 'hehYLKr1TiC', 'kc La Grace Centre Médical', 0),
 (4081, 52, '', 'kc Kongo Central Province', '', 'kc Kangu Zone de Santé', 'Tk37iLrNmWk', 'kc Ntima Mosi Poste de Santé', 0),
 (4082, 52, '', 'kc Kongo Central Province', '', 'kc Kangu Zone de Santé', 'eMIfUpdHuqc', 'kc Tala Maku Poste de Santé', 0),
 (4083, 52, '', 'kc Kongo Central Province', '', 'kc Kangu Zone de Santé', 'NBnkcDKAKxD', 'kc Kayi duanga Centre de Santé', 0),
@@ -8309,7 +8252,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (4150, 52, '', 'kc Kongo Central Province', '', 'kc Kibunzi Zone de Santé', 'TkzmOe6oOFz', 'kc Kintempe Centre de Santé', 0),
 (4151, 52, '', 'kc Kongo Central Province', '', 'kc Kibunzi Zone de Santé', 'NcofS1PGtl4', 'kc Nganda Ntombe Poste de Santé', 0),
 (4152, 52, '', 'kc Kongo Central Province', '', 'kc Kibunzi Zone de Santé', 'HP5xpBV5tSz', 'kc Bumba Poste de Santé', 0),
-(4153, 52, '', 'kc Kongo Central Province', '', 'kc Kibunzi Zone de Santé', 'z6XD9LFxZaM', 'kc Kimbala-Zolele Poste de Santé', 0),
+(4153, 52, '', 'kc Kongo Central Province', '', 'kc Kibunzi Zone de Santé', 'z6XD9LFxZaM', 'kc Kimbala-Zolele Poste de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (4154, 52, '', 'kc Kongo Central Province', '', 'kc Kibunzi Zone de Santé', 'tlE3IaRhkvn', 'kc Kinkenge Centre de Santé de Réference', 0),
 (4155, 52, '', 'kc Kongo Central Province', '', 'kc Kibunzi Zone de Santé', 'DxLR7R9DHpA', 'kc Kinzolani Centre de Santé', 0),
 (4156, 52, '', 'kc Kongo Central Province', '', 'kc Kibunzi Zone de Santé', 'jrlp3pibRLk', 'kc Kinzolani Centre de Santé de Référence', 0),
@@ -8337,7 +8281,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (4178, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'DoOcUN2SpPn', 'kc Gombe Sud Centre de Santé', 0),
 (4179, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'HCFSpiY4MIz', 'kc Gombe Sud Centre de Santé de Réference', 0),
 (4180, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'P7zJz5Ng3Dr', 'kc Kimbala Poste de Santé', 0),
-(4181, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'W4xoxoAqfGd', 'kc M'' Viwa Poste de Santé', 0),
+(4181, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'W4xoxoAqfGd', 'kc M\' Viwa Poste de Santé', 0),
 (4182, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'rAOLBHsEMt3', 'kc Tandu Mbemba Poste de Santé', 0),
 (4183, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'oKAJ4BBgmhE', 'kc Kilombo 2 Centre de Santé', 0),
 (4184, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'FHAdvxWsVLU', 'kc Lembelo Poste de Santé', 0),
@@ -8373,7 +8317,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (4214, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'P9ZpbkHRY1o', 'kc Nkyende Centre de Santé', 0),
 (4215, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'xoQagRLIOE1', 'kc Nkyende Centre de Santé de Réference', 0),
 (4216, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'CtigmxkGdvD', 'kc Kinsende Poste de Santé', 0),
-(4217, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'yysToLxM2jU', 'kc N''kenka Poste de Santé', 0),
+(4217, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'yysToLxM2jU', 'kc N\'kenka Poste de Santé', 0),
 (4218, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'CID4JKOZtwR', 'kc Poste 19 Centre de Santé', 0),
 (4219, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'mVsVxoFgYSn', 'kc Sadi Poste de Santé', 0),
 (4220, 52, '', 'kc Kongo Central Province', '', 'kc Kimpangu Zone de Santé', 'bVNkP68Cego', 'kc Sava Centre de Santé', 0),
@@ -8626,8 +8570,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (4467, 52, '', 'kc Kongo Central Province', '', 'kc Kuimba Zone de Santé', 'hQUO45ZxaN6', 'kc Nganda Ndingi  CEAC Centre de Santé de Réference', 0),
 (4468, 52, '', 'kc Kongo Central Province', '', 'kc Kuimba Zone de Santé', 'w9P6X5MMoHF', 'kc Kayi Nzobe Poste de Santé', 0),
 (4469, 52, '', 'kc Kongo Central Province', '', 'kc Kuimba Zone de Santé', 'thQwTpvTKxl', 'kc Mbutu Nzobe Poste de Santé', 0),
-(4470, 52, '', 'kc Kongo Central Province', '', 'kc Kuimba Zone de Santé', 'CBwqAXiqdBj', 'kc Sebo Nzobe Centre de Santé de Réference', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(4470, 52, '', 'kc Kongo Central Province', '', 'kc Kuimba Zone de Santé', 'CBwqAXiqdBj', 'kc Sebo Nzobe Centre de Santé de Réference', 0),
 (4471, 52, '', 'kc Kongo Central Province', '', 'kc Kuimba Zone de Santé', 'tdEW2TrXTgW', 'kc Sizi Nzobe Centre de Santé', 0),
 (4472, 52, '', 'kc Kongo Central Province', '', 'kc Kuimba Zone de Santé', 'FydMJzGfjqN', 'kc St Marcel Centre Médical', 0),
 (4473, 52, '', 'kc Kongo Central Province', '', 'kc Kuimba Zone de Santé', 'Ucy6XSgMJ8B', 'kc Tsanga Nord Centre de Santé de Référence', 0),
@@ -8705,7 +8648,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (4545, 52, '', 'kc Kongo Central Province', '', 'kc Lukula Zone de Santé', 'AN4Vw1cMeSU', 'kc Tembo Centre Médical', 0),
 (4546, 52, '', 'kc Kongo Central Province', '', 'kc Lukula Zone de Santé', 'HTzZdHSY00d', 'kc Le Choix Poste de Santé', 0),
 (4547, 52, '', 'kc Kongo Central Province', '', 'kc Lukula Zone de Santé', 'Ifkkoh1htj2', 'kc Lukula Centre de Santé', 0),
-(4548, 52, '', 'kc Kongo Central Province', '', 'kc Lukula Zone de Santé', 'CQxXVMO5RRE', 'kc Lukula Centre Hospitalier', 0),
+(4548, 52, '', 'kc Kongo Central Province', '', 'kc Lukula Zone de Santé', 'CQxXVMO5RRE', 'kc Lukula Centre Hospitalier', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (4549, 52, '', 'kc Kongo Central Province', '', 'kc Lukula Zone de Santé', 'J5XF60Yy6Sc', 'kc Lukula Hôpital Général de Référence', 0),
 (4550, 52, '', 'kc Kongo Central Province', '', 'kc Lukula Zone de Santé', 'YzfQfvejXmA', 'kc Medibo Polyclinique', 0),
 (4551, 52, '', 'kc Kongo Central Province', '', 'kc Lukula Zone de Santé', 'mwF8X01XQa3', 'kc Makungu Lengi Centre de Santé', 0),
@@ -9017,8 +8961,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (4857, 52, '', 'kc Kongo Central Province', '', 'kc Mbanza Ngungu Zone de Santé', 'SgllVYOeS07', 'kc Vainqueur Poste de Santé', 0),
 (4858, 52, '', 'kc Kongo Central Province', '', 'kc Mbanza Ngungu Zone de Santé', 'eitIocn2lT5', 'kc Nsona Nkulu Centre de Santé', 0),
 (4859, 52, '', 'kc Kongo Central Province', '', 'kc Mbanza Ngungu Zone de Santé', 'Yg2lWdn0x0t', 'kc Nsona Nkulu Hôpital Général de Référence', 0),
-(4860, 52, '', 'kc Kongo Central Province', '', 'kc Mbanza Ngungu Zone de Santé', 'i2UO7c8D9M8', 'kc ONATRA Poste de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(4860, 52, '', 'kc Kongo Central Province', '', 'kc Mbanza Ngungu Zone de Santé', 'i2UO7c8D9M8', 'kc ONATRA Poste de Santé', 0),
 (4861, 52, '', 'kc Kongo Central Province', '', 'kc Mbanza Ngungu Zone de Santé', 'WHeeFqGEN3l', 'kc Lembolo Poste de Santé', 0),
 (4862, 52, '', 'kc Kongo Central Province', '', 'kc Mbanza Ngungu Zone de Santé', 'VfJOpg7KAwM', 'kc Tadila Centre de Santé', 0),
 (4863, 52, '', 'kc Kongo Central Province', '', 'kc Mbanza Ngungu Zone de Santé', 'Ln4SAsfh0DB', 'kc Bilongo Poste de Santé', 0),
@@ -9105,7 +9048,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (4944, 52, '', 'kc Kongo Central Province', '', 'kc Nselo Zone de Santé', 'cgqJeQGutEs', 'kc Mvunsu Poste de Santé', 0),
 (4945, 52, '', 'kc Kongo Central Province', '', 'kc Nselo Zone de Santé', 'o8ElutqyCmA', 'kc Yanda Poste de Santé', 0),
 (4946, 52, '', 'kc Kongo Central Province', '', 'kc Nselo Zone de Santé', 'xikEkCpQhuh', 'kc Kimbata Luidi Poste de Santé', 0),
-(4947, 52, '', 'kc Kongo Central Province', '', 'kc Nselo Zone de Santé', 'Bx9gkuKjvTZ', 'kc Kimbata Tudi Centre de Santé', 0),
+(4947, 52, '', 'kc Kongo Central Province', '', 'kc Nselo Zone de Santé', 'Bx9gkuKjvTZ', 'kc Kimbata Tudi Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (4948, 52, '', 'kc Kongo Central Province', '', 'kc Nselo Zone de Santé', 'TrXJiPDhQUU', 'kc Kimbensa Poste de Santé', 0),
 (4949, 52, '', 'kc Kongo Central Province', '', 'kc Nselo Zone de Santé', 'Q2REJTanFrI', 'kc Kimpuni Poste de Santé', 0),
 (4950, 52, '', 'kc Kongo Central Province', '', 'kc Nselo Zone de Santé', 'T9bLDXBd2A7', 'kc Kimuakasa Poste de Santé', 0),
@@ -9405,8 +9349,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (5244, 52, '', 'kc Kongo Central Province', '', 'kc Vaku Zone de Santé', 'dt9w5XhnpuS', 'kc Loango Bendo Centre de Santé', 0),
 (5245, 52, '', 'kc Kongo Central Province', '', 'kc Vaku Zone de Santé', 'plBVYRKJX4D', 'kc Loango Bendo Centre de Santé de référence', 0),
 (5246, 52, '', 'kc Kongo Central Province', '', 'kc Vaku Zone de Santé', 'f3USOnFulxf', 'kc Gradis Poste de Santé', 0),
-(5247, 52, '', 'kc Kongo Central Province', '', 'kc Vaku Zone de Santé', 'GhDQvinSZTM', 'kc Loango Centre Centre de santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(5247, 52, '', 'kc Kongo Central Province', '', 'kc Vaku Zone de Santé', 'GhDQvinSZTM', 'kc Loango Centre Centre de santé', 0),
 (5248, 52, '', 'kc Kongo Central Province', '', 'kc Vaku Zone de Santé', 'ycHXhtjQLFZ', 'kc Loango Centre Centre de Sante de référence', 0),
 (5249, 52, '', 'kc Kongo Central Province', '', 'kc Vaku Zone de Santé', 'C0ZxWnFYRZa', 'kc Nkelekete Poste de Santé', 0),
 (5250, 52, '', 'kc Kongo Central Province', '', 'kc Vaku Zone de Santé', 'cggmCx4RI3N', 'kc Phuka Poste de Santé', 0),
@@ -9487,7 +9430,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (5325, 52, '', 'ke Kasai Oriental Province', '', 'ke Bonzola Zone de Santé', 'FjuH69P6Vx3', 'ke Espérance Centre de Santé', 0),
 (5326, 52, '', 'ke Kasai Oriental Province', '', 'ke Bonzola Zone de Santé', 'OPJ7CtZHO5z', 'ke Nyongololo Miba Centre de Santé', 0),
 (5327, 52, '', 'ke Kasai Oriental Province', '', 'ke Bonzola Zone de Santé', 'AEZiOFB3nDT', 'ke Bethesda Centre de Santé', 0),
-(5328, 52, '', 'ke Kasai Oriental Province', '', 'ke Bonzola Zone de Santé', 'zsSx0kgqzSb', 'ke Grace de l''Eternel Centre de Santé', 0),
+(5328, 52, '', 'ke Kasai Oriental Province', '', 'ke Bonzola Zone de Santé', 'zsSx0kgqzSb', 'ke Grace de l\'Eternel Centre de Santé', 0),
 (5329, 52, '', 'ke Kasai Oriental Province', '', 'ke Bonzola Zone de Santé', 'kjJyksRU4GN', 'ke Dipumba Hôpital Général de Réference', 0),
 (5330, 52, '', 'ke Kasai Oriental Province', '', 'ke Bonzola Zone de Santé', 'M5Uq26O63rx', 'ke Mgr Georges K Centre de Santé', 0),
 (5331, 52, '', 'ke Kasai Oriental Province', '', 'ke Bonzola Zone de Santé', 'woCTy3SEpAe', 'ke Mamu Wa Bulenga Centre de Santé', 0),
@@ -9499,7 +9442,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (5337, 52, '', 'ke Kasai Oriental Province', '', 'ke Cilundu Zone de Santé', 'x6auWJ77Tgq', 'ke Appolo Poste de Santé', 0),
 (5338, 52, '', 'ke Kasai Oriental Province', '', 'ke Cilundu Zone de Santé', 'F6ca50DhyHn', 'ke Bkwa Mbuyi Centre de Santé', 0),
 (5339, 52, '', 'ke Kasai Oriental Province', '', 'ke Cilundu Zone de Santé', 'FNMranC2U1o', 'ke Bakwa Mpemba Centre de Santé', 0),
-(5340, 52, '', 'ke Kasai Oriental Province', '', 'ke Cilundu Zone de Santé', 'dc77k8yQwie', 'ke Bakwa Mulumba Centre de Santé', 0),
+(5340, 52, '', 'ke Kasai Oriental Province', '', 'ke Cilundu Zone de Santé', 'dc77k8yQwie', 'ke Bakwa Mulumba Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (5341, 52, '', 'ke Kasai Oriental Province', '', 'ke Cilundu Zone de Santé', 'ZMvGIglSfAD', 'ke Cialokola Poste de Santé', 0),
 (5342, 52, '', 'ke Kasai Oriental Province', '', 'ke Cilundu Zone de Santé', 'UoqmCPHN0T7', 'ke Bakwa Sambua Centre de Santé', 0),
 (5343, 52, '', 'ke Kasai Oriental Province', '', 'ke Cilundu Zone de Santé', 'po4XCzToi3v', 'ke Bakwa Sumba Centre de Santé', 0),
@@ -9558,7 +9502,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (5396, 52, '', 'ke Kasai Oriental Province', '', 'ke Citenge Zone de Santé', 'sx7y8JvZd4c', 'ke La Grace de Dieu Poste de Santé', 0),
 (5397, 52, '', 'ke Kasai Oriental Province', '', 'ke Citenge Zone de Santé', 'YaAkxGMgU3F', 'ke Ndumope Centre de Santé', 0),
 (5398, 52, '', 'ke Kasai Oriental Province', '', 'ke Citenge Zone de Santé', 'ogWt9M5Vpsc', 'ke Fokamu Poste de Santé', 0),
-(5399, 52, '', 'ke Kasai Oriental Province', '', 'ke Citenge Zone de Santé', 'qzvUsrWFXRz', 'ke Main de l''Eternel Poste de Santé', 0),
+(5399, 52, '', 'ke Kasai Oriental Province', '', 'ke Citenge Zone de Santé', 'qzvUsrWFXRz', 'ke Main de l\'Eternel Poste de Santé', 0),
 (5400, 52, '', 'ke Kasai Oriental Province', '', 'ke Citenge Zone de Santé', 'uHvrIr1h5ay', 'ke St Jean Louis Poste de Santé', 0),
 (5401, 52, '', 'ke Kasai Oriental Province', '', 'ke Citenge Zone de Santé', 'OG7MzZEqVdC', 'ke Tshiemu Centre de Santé', 0),
 (5402, 52, '', 'ke Kasai Oriental Province', '', 'ke Citenge Zone de Santé', 'eVB7M3IEpBg', 'ke Carriere Centre de Santé', 0),
@@ -9584,7 +9528,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (5422, 52, '', 'ke Kasai Oriental Province', '', 'ke Dibindi Zone de Santé', 'DcO0eXlsocx', 'ke Mission Poste de Santé', 0),
 (5423, 52, '', 'ke Kasai Oriental Province', '', 'ke Dibindi Zone de Santé', 'pSSAYYB5Av0', 'ke Mulami Muimpe Centre de Santé', 0),
 (5424, 52, '', 'ke Kasai Oriental Province', '', 'ke Dibindi Zone de Santé', 'jQJt8Ok0A6T', 'ke Source de Vie Poste de Santé', 0),
-(5425, 52, '', 'ke Kasai Oriental Province', '', 'ke Dibindi Zone de Santé', 'wHmAoMahYLw', 'ke Vision de l''Echelle Poste de Santé', 0),
+(5425, 52, '', 'ke Kasai Oriental Province', '', 'ke Dibindi Zone de Santé', 'wHmAoMahYLw', 'ke Vision de l\'Echelle Poste de Santé', 0),
 (5426, 52, '', 'ke Kasai Oriental Province', '', 'ke Dibindi Zone de Santé', 'tAYWQxIXpCR', 'ke La Grace Poste de Santé', 0),
 (5427, 52, '', 'ke Kasai Oriental Province', '', 'ke Dibindi Zone de Santé', 'hE8bab4h43z', 'ke La Vie Centre de Santé', 0),
 (5428, 52, '', 'ke Kasai Oriental Province', '', 'ke Dibindi Zone de Santé', 'sxC3Svj0uc5', 'ke Tout Est Grace Poste de Santé', 0),
@@ -9607,7 +9551,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (5445, 52, '', 'ke Kasai Oriental Province', '', 'ke Dibindi Zone de Santé', 'ikTIWWbcOMx', 'ke Tout est Grace Centre de Santé', 0),
 (5446, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'eptEKxNFtZT', 'ke CPPD Centre de Santé', 0),
 (5447, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'owrR67MJtXg', 'ke KAMED Poste de Santé', 0),
-(5448, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'bbQdKtNmJPe', 'ke De l''Etat Centre de Santé', 0),
+(5448, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'bbQdKtNmJPe', 'ke De l\'Etat Centre de Santé', 0),
 (5449, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'uBlPxS6V5Mm', 'ke Clinique du Gouvernement Centre de Santé', 0),
 (5450, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'YU82jjFNCHc', 'ke Kayembe Hôpital Général de Référence ', 0),
 (5451, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'WdgwJag5VeT', 'ke Nkuluse Centre de Santé', 0),
@@ -9618,12 +9562,12 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (5456, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'FQzJ6YiWNuV', 'ke Kasa vubu Centre de Santé', 0),
 (5457, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'mv66lw9netO', 'ke Grace Centre de Santé', 0),
 (5458, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'YShl87SWgd5', 'ke Bonne Santé Centre de Santé', 0),
-(5459, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'pehJXwDvizD', 'ke Main de l''Eternel Centre de Santé', 0),
+(5459, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'pehJXwDvizD', 'ke Main de l\'Eternel Centre de Santé', 0),
 (5460, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'SHip0CWrI5d', 'ke Centre pédiatrique de Mbujimayi Centre De Santé', 0),
 (5461, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'LvbdyNTLEW0', 'ke Bon Berger 2 Centre de Santé', 0),
 (5462, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'k91udcvP7j6', 'ke Charite Centre de Santé', 0),
 (5463, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'UhMCP3cgdIq', 'ke Soleil 2 Centre de Santé', 0),
-(5464, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'Zt9e2bNIJe9', 'ke Fruit d''Amour Centre de Santé', 0),
+(5464, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'Zt9e2bNIJe9', 'ke Fruit d\'Amour Centre de Santé', 0),
 (5465, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'M2LbFHrfv04', 'ke Grace Divin Centre de Santé', 0),
 (5466, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'LMMP3c7VAUD', 'ke Kitenge Centre de Santé', 0),
 (5467, 52, '', 'ke Kasai Oriental Province', '', 'ke Diulu Zone de Santé', 'MrOKWORv9oC', 'ke CMDC Centre de Santé', 0),
@@ -9635,7 +9579,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (5473, 52, '', 'ke Kasai Oriental Province', '', 'ke Kabeya Kamwanga Zone de Santé', 'qgguHJipP3W', 'ke Bena Mupompa Poste de Santé', 0),
 (5474, 52, '', 'ke Kasai Oriental Province', '', 'ke Kabeya Kamwanga Zone de Santé', 'VMeIgS9eWih', 'ke Mpeta Poste de Santé', 0),
 (5475, 52, '', 'ke Kasai Oriental Province', '', 'ke Kabeya Kamwanga Zone de Santé', 'ORPF46bkPYU', 'ke Ciaciacia Centre de Santé', 0),
-(5476, 52, '', 'ke Kasai Oriental Province', '', 'ke Kabeya Kamwanga Zone de Santé', 'Y0a1hGxL6DS', 'ke Notre Dame de l''Esperance Poste de Santé', 0),
+(5476, 52, '', 'ke Kasai Oriental Province', '', 'ke Kabeya Kamwanga Zone de Santé', 'Y0a1hGxL6DS', 'ke Notre Dame de l\'Esperance Poste de Santé', 0),
 (5477, 52, '', 'ke Kasai Oriental Province', '', 'ke Kabeya Kamwanga Zone de Santé', 'OxSSAzjkhAL', 'ke Cincianku Centre de Santé', 0),
 (5478, 52, '', 'ke Kasai Oriental Province', '', 'ke Kabeya Kamwanga Zone de Santé', 'XV63S5UNXa7', 'ke Ciondo Centre de Santé', 0),
 (5479, 52, '', 'ke Kasai Oriental Province', '', 'ke Kabeya Kamwanga Zone de Santé', 'XJq4CS6a9fe', 'ke St Georges Kapangila Poste de Santé', 0),
@@ -9782,7 +9726,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (5620, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'RBAWDcwz48J', 'ke Rapha Poste de Santé', 0),
 (5621, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'SxdY5yXhc4z', 'ke Bena Cimungu Centre de Santé', 0),
 (5622, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'SZBOwu0PMrG', 'ke Bena Lubashi Centre de Santé', 0),
-(5623, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'R9lPMV1Fydp', 'ke Main de l''Eternel Poste de Santé', 0),
+(5623, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'R9lPMV1Fydp', 'ke Main de l\'Eternel Poste de Santé', 0),
 (5624, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'D4XdsLuswuj', 'ke Polyvalence Centre de Santé', 0),
 (5625, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'LWesaTaHxOQ', 'ke Boya 1 Centre de Santé', 0),
 (5626, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'cB0a8rFVHJy', 'ke Elikat Poste de Santé', 0),
@@ -9791,8 +9735,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (5629, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'sN76Cmh3UDP', 'ke Confiance Poste de Santé', 0),
 (5630, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'i1Eceas5a8d', 'ke Kaba Service Poste de Santé', 0),
 (5631, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'DQZwIu9Go8g', 'ke 31 ème CPC Poste de Santé', 0),
-(5632, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'cKsYyIFsAEA', 'ke Boya 3 Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(5632, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'cKsYyIFsAEA', 'ke Boya 3 Centre de Santé', 0),
 (5633, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'dE6nw9MaxkB', 'ke Boya 4 Poste de Santé', 0),
 (5634, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'ElMHEPBqSAZ', 'ke Kapeta Poste de Santé', 0),
 (5635, 52, '', 'ke Kasai Oriental Province', '', 'ke Miabi Zone de Santé', 'AJppc0YZlZs', 'ke Central 2 Centre de Santé', 0),
@@ -9861,7 +9804,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (5698, 52, '', 'ke Kasai Oriental Province', '', 'ke Mukumbi Zone de Santé', 'r3AXFQ5xcea', 'ke Mibale Centre de Santé', 0),
 (5699, 52, '', 'ke Kasai Oriental Province', '', 'ke Mukumbi Zone de Santé', 'lI0x6C8LEXK', 'ke Malonga Centre de Santé', 0),
 (5700, 52, '', 'ke Kasai Oriental Province', '', 'ke Mukumbi Zone de Santé', 'LqotdKUXOE6', 'ke Mines 45 Centre de Santé', 0),
-(5701, 52, '', 'ke Kasai Oriental Province', '', 'ke Mukumbi Zone de Santé', 'SCHCZGrIL2h', 'ke Santé d''abord Poste de Santé', 0),
+(5701, 52, '', 'ke Kasai Oriental Province', '', 'ke Mukumbi Zone de Santé', 'SCHCZGrIL2h', 'ke Santé d\'abord Poste de Santé', 0),
 (5702, 52, '', 'ke Kasai Oriental Province', '', 'ke Mukumbi Zone de Santé', 'zgI9QHIefkp', 'ke Mukumbi Centre Hospitalier', 0),
 (5703, 52, '', 'ke Kasai Oriental Province', '', 'ke Mukumbi Zone de Santé', 'Kc99WVy1E9T', 'ke Tshikama1 Centre de Santé', 0),
 (5704, 52, '', 'ke Kasai Oriental Province', '', 'ke Mukumbi Zone de Santé', 'cTZKX9ksBo0', 'ke Tshilunde Centre de Santé', 0),
@@ -9892,7 +9835,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (5729, 52, '', 'ke Kasai Oriental Province', '', 'ke Muya Zone de Santé', 'IytQJU2hm13', 'ke Boudhas Centre de Santé', 0),
 (5730, 52, '', 'ke Kasai Oriental Province', '', 'ke Muya Zone de Santé', 'a8wKGFdH5lr', 'ke Fakaab Centre de Santé', 0),
 (5731, 52, '', 'ke Kasai Oriental Province', '', 'ke Muya Zone de Santé', 'Nwz8wtodeag', 'ke Bien Etre. Centre de Santé', 0),
-(5732, 52, '', 'ke Kasai Oriental Province', '', 'ke Muya Zone de Santé', 'VjbleySEz5k', 'ke Goshen Centre Hospitalier', 0),
+(5732, 52, '', 'ke Kasai Oriental Province', '', 'ke Muya Zone de Santé', 'VjbleySEz5k', 'ke Goshen Centre Hospitalier', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (5733, 52, '', 'ke Kasai Oriental Province', '', 'ke Muya Zone de Santé', 'F7pFSSkNPYG', 'ke Kalala Mutombo Centre de Santé', 0),
 (5734, 52, '', 'ke Kasai Oriental Province', '', 'ke Muya Zone de Santé', 'ZOiX24ytnU4', 'ke Tshishima Centre de Santé', 0),
 (5735, 52, '', 'ke Kasai Oriental Province', '', 'ke Nzaba Zone de Santé', 'xcvF8IEclug', 'ke Alliance Centre de Santé', 0),
@@ -10191,8 +10135,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (6028, 52, '', 'kg Kwango Province', '', 'kg Kasongo Lunda Zone de Santé', 'OxPB7R99bp6', 'kg Yokolo Poste de Santé', 0),
 (6029, 52, '', 'kg Kwango Province', '', 'kg Kasongo Lunda Zone de Santé', 'fCpbQwraQAy', 'kg Kikabi Poste de Santé', 0),
 (6030, 52, '', 'kg Kwango Province', '', 'kg Kasongo Lunda Zone de Santé', 'ugs8aAdEvgc', 'kg Mahuangi Centre de Santé', 0),
-(6031, 52, '', 'kg Kwango Province', '', 'kg Kasongo Lunda Zone de Santé', 'FdBiqRaZutY', 'kg Kikiala Poste de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(6031, 52, '', 'kg Kwango Province', '', 'kg Kasongo Lunda Zone de Santé', 'FdBiqRaZutY', 'kg Kikiala Poste de Santé', 0),
 (6032, 52, '', 'kg Kwango Province', '', 'kg Kasongo Lunda Zone de Santé', 'aOhVYDgXU2P', 'kg Manzengele Centre de Santé', 0),
 (6033, 52, '', 'kg Kwango Province', '', 'kg Kasongo Lunda Zone de Santé', 'j1LYPB68hDu', 'kg Matamba Solo Centre de Santé de Référence', 0),
 (6034, 52, '', 'kg Kwango Province', '', 'kg Kasongo Lunda Zone de Santé', 'YAu8lUuCiYJ', 'kg Mupangi Poste de Santé', 0),
@@ -10307,7 +10250,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (6143, 52, '', 'kg Kwango Province', '', 'kg Kimbao Zone de Santé', 'FA8Ti5jgGz3', 'kg Mosamba Centre de Santé', 0),
 (6144, 52, '', 'kg Kwango Province', '', 'kg Kimbao Zone de Santé', 'QJUAsDl9rLv', 'kg Mukana Poste de Santé', 0),
 (6145, 52, '', 'kg Kwango Province', '', 'kg Kimbao Zone de Santé', 'KGEB0pMd0DU', 'kg Mukata Centre de Santé', 0),
-(6146, 52, '', 'kg Kwango Province', '', 'kg Kimbao Zone de Santé', 'y0aGKsCVMXM', 'kg Bukama Poste de Santé', 0),
+(6146, 52, '', 'kg Kwango Province', '', 'kg Kimbao Zone de Santé', 'y0aGKsCVMXM', 'kg Bukama Poste de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (6147, 52, '', 'kg Kwango Province', '', 'kg Kimbao Zone de Santé', 'M2qIvtb6d92', 'kg Mukulutu Centre de Santé', 0),
 (6148, 52, '', 'kg Kwango Province', '', 'kg Kimbao Zone de Santé', 'PpAnv3aLvO3', 'kg Kindengo Poste de Santé', 0),
 (6149, 52, '', 'kg Kwango Province', '', 'kg Kimbao Zone de Santé', 'nae3GWNKNVH', 'kg Mukutu Centre de Santé', 0),
@@ -10606,8 +10550,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (6442, 52, '', 'kl Kwilu Province', '', 'kl Bandundu Zone de Santé', 'pRqwX1BNQvw', 'kl Police Poste de Santé', 0),
 (6443, 52, '', 'kl Kwilu Province', '', 'kl Bandundu Zone de Santé', 'EJzqbdwTm4q', 'kl Bekane Centre de Santé', 0),
 (6444, 52, '', 'kl Kwilu Province', '', 'kl Bandundu Zone de Santé', 'f8kGMTU2M98', 'kl Makumaku Poste de Santé', 0),
-(6445, 52, '', 'kl Kwilu Province', '', 'kl Bandundu Zone de Santé', 'SQRxjxNGUZA', 'kl Nsala Poste de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(6445, 52, '', 'kl Kwilu Province', '', 'kl Bandundu Zone de Santé', 'SQRxjxNGUZA', 'kl Nsala Poste de Santé', 0),
 (6446, 52, '', 'kl Kwilu Province', '', 'kl Bandundu Zone de Santé', 'SBmMMPRA7EU', 'kl Nsimukuni Poste de Santé', 0),
 (6447, 52, '', 'kl Kwilu Province', '', 'kl Bandundu Zone de Santé', 'DhVAbiRDc02', 'kl Bondeko Centre de Santé', 0),
 (6448, 52, '', 'kl Kwilu Province', '', 'kl Bandundu Zone de Santé', 'T2MyHbrmZoc', 'kl Espoir Dispensaire', 0),
@@ -10648,7 +10591,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (6483, 52, '', 'kl Kwilu Province', '', 'kl Bulungu Zone de Santé', 'QGh4uMlRGk6', 'kl Bilolo Centre de Santé', 0),
 (6484, 52, '', 'kl Kwilu Province', '', 'kl Bulungu Zone de Santé', 'XpxpI62u5L4', 'kl Bulungu Hôpital Général de Référence', 0),
 (6485, 52, '', 'kl Kwilu Province', '', 'kl Bulungu Zone de Santé', 'KCTvOwzLL6B', 'kl CBCO Centre de Santé', 0),
-(6486, 52, '', 'kl Kwilu Province', '', 'kl Bulungu Zone de Santé', 'RYgYwWIdl1T', 'kl Istm Centre d''Application Poste de Santé', 0),
+(6486, 52, '', 'kl Kwilu Province', '', 'kl Bulungu Zone de Santé', 'RYgYwWIdl1T', 'kl Istm Centre d\'Application Poste de Santé', 0),
 (6487, 52, '', 'kl Kwilu Province', '', 'kl Bulungu Zone de Santé', 'UsMpvQzrk0b', 'kl Police  Poste de Santé', 0),
 (6488, 52, '', 'kl Kwilu Province', '', 'kl Bulungu Zone de Santé', 'exU5V3d66CI', 'kl Ebay Centre de Santé', 0),
 (6489, 52, '', 'kl Kwilu Province', '', 'kl Bulungu Zone de Santé', 'OIMvoMNQzgT', 'kl Impanga Poste de Santé', 0),
@@ -10731,7 +10674,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (6566, 52, '', 'kl Kwilu Province', '', 'kl Djuma Zone de Santé', 'rGflQfYdR9a', 'kl Mukilu Makuku Poste de Santé', 0),
 (6567, 52, '', 'kl Kwilu Province', '', 'kl Djuma Zone de Santé', 'm3vNiMBzU0O', 'kl Kimbata Centre de Santé', 0),
 (6568, 52, '', 'kl Kwilu Province', '', 'kl Djuma Zone de Santé', 'vt0MAgrcWmN', 'kl Kindia Poste de Santé', 0),
-(6569, 52, '', 'kl Kwilu Province', '', 'kl Djuma Zone de Santé', 'zK7C1jihCvA', 'kl Kitaba Poste de Santé', 0),
+(6569, 52, '', 'kl Kwilu Province', '', 'kl Djuma Zone de Santé', 'zK7C1jihCvA', 'kl Kitaba Poste de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (6570, 52, '', 'kl Kwilu Province', '', 'kl Djuma Zone de Santé', 'nw2qZ6ZCO6Z', 'kl Chonat Poste de Santé', 0),
 (6571, 52, '', 'kl Kwilu Province', '', 'kl Djuma Zone de Santé', 'lKrb91EolQF', 'kl Kimpini Centre de Santé', 0),
 (6572, 52, '', 'kl Kwilu Province', '', 'kl Djuma Zone de Santé', 'sq5h63FAAcs', 'kl Lareme Centre de Santé', 0),
@@ -11029,8 +10973,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (6864, 52, '', 'kl Kwilu Province', '', 'kl Kikwit Sud Zone de Santé', 'SWGyA1ROSEo', 'kl Boji Centre de Santé', 0),
 (6865, 52, '', 'kl Kwilu Province', '', 'kl Kikwit Sud Zone de Santé', 'z4S4H2ScVHe', 'kl ETAC Centre de Santé', 0),
 (6866, 52, '', 'kl Kwilu Province', '', 'kl Kikwit Sud Zone de Santé', 'v1yQqbEaqdQ', 'kl Infra Centre de Santé', 0),
-(6867, 52, '', 'kl Kwilu Province', '', 'kl Kikwit Sud Zone de Santé', 'XXEMkxQQvUU', 'kl Inga 1 Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(6867, 52, '', 'kl Kwilu Province', '', 'kl Kikwit Sud Zone de Santé', 'XXEMkxQQvUU', 'kl Inga 1 Centre de Santé', 0),
 (6868, 52, '', 'kl Kwilu Province', '', 'kl Kikwit Sud Zone de Santé', 'GwRtIncp6Gi', 'kl Pière Vivante Centre de Santé', 0),
 (6869, 52, '', 'kl Kwilu Province', '', 'kl Kikwit Sud Zone de Santé', 'or5rel7gGNi', 'kl Inga 2 Centre de Santé', 0),
 (6870, 52, '', 'kl Kwilu Province', '', 'kl Kikwit Sud Zone de Santé', 'vv0TM4nHGIW', 'kl Mumena Centre de Santé', 0),
@@ -11085,7 +11028,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (6919, 52, '', 'kl Kwilu Province', '', 'kl Kimputu Zone de Santé', 'iMSdSzfkBLg', 'kl Makubi Centre de Santé', 0),
 (6920, 52, '', 'kl Kwilu Province', '', 'kl Kimputu Zone de Santé', 'wk6Mq9l60p3', 'kl Mayungu Centre de Santé', 0),
 (6921, 52, '', 'kl Kwilu Province', '', 'kl Kimputu Zone de Santé', 'ffqMuqAHKGF', 'kl Mikienge Poste de Santé', 0),
-(6922, 52, '', 'kl Kwilu Province', '', 'kl Kimputu Zone de Santé', 'jzT1s3Mo8uH', 'kl La Main de l''Eternel Poste de Santé', 0),
+(6922, 52, '', 'kl Kwilu Province', '', 'kl Kimputu Zone de Santé', 'jzT1s3Mo8uH', 'kl La Main de l\'Eternel Poste de Santé', 0),
 (6923, 52, '', 'kl Kwilu Province', '', 'kl Kimputu Zone de Santé', 'Zwv2ekdfNPz', 'kl Maboko Centre de Santé', 0),
 (6924, 52, '', 'kl Kwilu Province', '', 'kl Kimputu Zone de Santé', 'mTnNJYldKO9', 'kl Mosengo Monene Centre de Santé', 0),
 (6925, 52, '', 'kl Kwilu Province', '', 'kl Kimputu Zone de Santé', 'g0iA9IvwxgX', 'kl Mwefo 1 Poste de Santé', 0),
@@ -11160,7 +11103,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (6994, 52, '', 'kl Kwilu Province', '', 'kl Lusanga Zone de Santé', 'HtULefrJQAw', 'kl Bumba Puta Centre de Santé', 0),
 (6995, 52, '', 'kl Kwilu Province', '', 'kl Lusanga Zone de Santé', 'fNVtggAqyxI', 'kl Bumba Puta Centre de Santé de Référence', 0),
 (6996, 52, '', 'kl Kwilu Province', '', 'kl Lusanga Zone de Santé', 'JLq6JueKqnc', 'kl Danda Centre de Santé', 0),
-(6997, 52, '', 'kl Kwilu Province', '', 'kl Lusanga Zone de Santé', 'eo3QLl2cjQU', 'kl Imbongo Centre de Santé de Référence', 0),
+(6997, 52, '', 'kl Kwilu Province', '', 'kl Lusanga Zone de Santé', 'eo3QLl2cjQU', 'kl Imbongo Centre de Santé de Référence', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (6998, 52, '', 'kl Kwilu Province', '', 'kl Lusanga Zone de Santé', 'AsYt6OYVLVF', 'kl Imbongo Luwala  Centre de Santé', 0),
 (6999, 52, '', 'kl Kwilu Province', '', 'kl Lusanga Zone de Santé', 'RaiFsdSoUvg', 'kl Iseme Centre de Santé', 0),
 (7000, 52, '', 'kl Kwilu Province', '', 'kl Lusanga Zone de Santé', 'Me4s9eScYcq', 'kl Kakoy Centre de Santé', 0),
@@ -11449,8 +11393,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (7283, 52, '', 'kl Kwilu Province', '', 'kl Sia Zone de Santé', 'ZPydTrCXDNA', 'kl Pistis Centre de Santé', 0),
 (7284, 52, '', 'kl Kwilu Province', '', 'kl Sia Zone de Santé', 'JtTbB7VqMB4', 'kl Kiri Mwala Poste de Santé', 0),
 (7285, 52, '', 'kl Kwilu Province', '', 'kl Sia Zone de Santé', 'S1HVrUtbMok', 'kl Mbaka Kasai Centre de Santé', 0),
-(7286, 52, '', 'kl Kwilu Province', '', 'kl Sia Zone de Santé', 'yOC4jbaSiFq', 'kl Mbala 1 Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(7286, 52, '', 'kl Kwilu Province', '', 'kl Sia Zone de Santé', 'yOC4jbaSiFq', 'kl Mbala 1 Centre de Santé', 0),
 (7287, 52, '', 'kl Kwilu Province', '', 'kl Sia Zone de Santé', 'ESKspHTZn9p', 'kl Mbala Centre de Santé', 0),
 (7288, 52, '', 'kl Kwilu Province', '', 'kl Sia Zone de Santé', 'Jiy9ZmzvwBJ', 'kl Mbala Ngudi Poste de Santé', 0),
 (7289, 52, '', 'kl Kwilu Province', '', 'kl Sia Zone de Santé', 'hnnQsnyPTR6', 'kl Mbalibi Centre de Santé', 0),
@@ -11590,7 +11533,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (7423, 52, '', 'kn Kinshasa Province', '', 'kn Bandalungwa Zone de Santé', 'lOhc6XjXv7x', 'kn Le Salut Centre de Santé', 0),
 (7424, 52, '', 'kn Kinshasa Province', '', 'kn Bandalungwa Zone de Santé', 'gmBaQKthwfj', 'kn Maison Medical de Kinshasa Centre de Santé', 0),
 (7425, 52, '', 'kn Kinshasa Province', '', 'kn Bandalungwa Zone de Santé', 'NwAqtMRWbrC', 'kn Mangembo Centre Hospitalier', 0),
-(7426, 52, '', 'kn Kinshasa Province', '', 'kn Bandalungwa Zone de Santé', 'qjTLOrXC3t6', 'kn Marie Madeleine Centre de Santé', 0),
+(7426, 52, '', 'kn Kinshasa Province', '', 'kn Bandalungwa Zone de Santé', 'qjTLOrXC3t6', 'kn Marie Madeleine Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (7427, 52, '', 'kn Kinshasa Province', '', 'kn Bandalungwa Zone de Santé', 'HZsQ6CWQDbH', 'kn Patience Medical Centre de Santé', 0),
 (7428, 52, '', 'kn Kinshasa Province', '', 'kn Bandalungwa Zone de Santé', 't9gVvzDdAuS', 'kn Plus Médical Centre de Santé', 0),
 (7429, 52, '', 'kn Kinshasa Province', '', 'kn Bandalungwa Zone de Santé', 'gIM4rueGdkt', 'kn Benediction Centre de Santé', 0),
@@ -11679,7 +11623,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (7512, 52, '', 'kn Kinshasa Province', '', 'kn Binza Ozone Zone de Santé', 'uGqfkm6BvcA', 'kn Charite Medical Center Centre de Santé', 0),
 (7513, 52, '', 'kn Kinshasa Province', '', 'kn Binza Ozone Zone de Santé', 'JediNkh5VAa', 'kn Saint Joseph Centre de Santé', 0),
 (7514, 52, '', 'kn Kinshasa Province', '', 'kn Binza Ozone Zone de Santé', 'U7QtQVpXVBv', 'kn Béthesda Centre de Santé', 0),
-(7515, 52, '', 'kn Kinshasa Province', '', 'kn Binza Ozone Zone de Santé', 'O3q3DhiVDfi', 'kn D''Abord Santé Centre Médical', 0),
+(7515, 52, '', 'kn Kinshasa Province', '', 'kn Binza Ozone Zone de Santé', 'O3q3DhiVDfi', 'kn D\'Abord Santé Centre Médical', 0),
 (7516, 52, '', 'kn Kinshasa Province', '', 'kn Binza Ozone Zone de Santé', 'vaf78mDfzw1', 'kn Nouvelle Alliance Centre Médical', 0),
 (7517, 52, '', 'kn Kinshasa Province', '', 'kn Binza Ozone Zone de Santé', 'Lf0XnyZRLt7', 'kn Saint Jean Centre de Santé', 0),
 (7518, 52, '', 'kn Kinshasa Province', '', 'kn Binza Ozone Zone de Santé', 'fH5mLLzYj5t', 'kn Siloe Clinique', 0),
@@ -11767,7 +11711,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (7600, 52, '', 'kn Kinshasa Province', '', 'kn Gombe Zone de Santé', 'FLPvxThtddB', 'kn SNEL Polyclinique', 0),
 (7601, 52, '', 'kn Kinshasa Province', '', 'kn Gombe Zone de Santé', 'U0yhFIlvuxw', 'kn DGDA Centre Medical', 0),
 (7602, 52, '', 'kn Kinshasa Province', '', 'kn Gombe Zone de Santé', 'JUOdHT9Nn5l', 'kn Occ Centre de Santé', 0),
-(7603, 52, '', 'kn Kinshasa Province', '', 'kn Gombe Zone de Santé', 'WCtiq6TbZap', 'kn Service Med Social d''Igc Centre de Santé', 0),
+(7603, 52, '', 'kn Kinshasa Province', '', 'kn Gombe Zone de Santé', 'WCtiq6TbZap', 'kn Service Med Social d\'Igc Centre de Santé', 0),
 (7604, 52, '', 'kn Kinshasa Province', '', 'kn Gombe Zone de Santé', 'aUAPa9KzSCA', 'kn CMK Hôpital ', 0),
 (7605, 52, '', 'kn Kinshasa Province', '', 'kn Gombe Zone de Santé', 'lf3SWbYsN5h', 'kn Communautaire Dispensaire', 0),
 (7606, 52, '', 'kn Kinshasa Province', '', 'kn Gombe Zone de Santé', 'fwRN4sNMUjp', 'kn LBS Centre de Santé', 0),
@@ -11861,11 +11805,10 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (7694, 52, '', 'kn Kinshasa Province', '', 'kn Kasa Vubu Zone de Santé', 'Kyjua59HGuU', 'kn Victoria Hôpital', 0),
 (7695, 52, '', 'kn Kinshasa Province', '', 'kn Kasa Vubu Zone de Santé', 'xk7ZnHNlsyx', 'kn Sonal Hôpital', 0),
 (7696, 52, '', 'kn Kinshasa Province', '', 'kn Kasa Vubu Zone de Santé', 'YpvVFFPMbRf', 'kn Assossa Médical Centre de Santé', 0),
-(7697, 52, '', 'kn Kinshasa Province', '', 'kn Kasa Vubu Zone de Santé', 'bxSxlrs1vgR', 'kn Primo Santé Centre Médical', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(7697, 52, '', 'kn Kinshasa Province', '', 'kn Kasa Vubu Zone de Santé', 'bxSxlrs1vgR', 'kn Primo Santé Centre Médical', 0),
 (7698, 52, '', 'kn Kinshasa Province', '', 'kn Kasa Vubu Zone de Santé', 'BEG2GuHsvui', 'kn Chrisco Centre de Santé', 0),
 (7699, 52, '', 'kn Kinshasa Province', '', 'kn Kikimi Zone de Santé', 'SuBQXYcZzP7', 'kn Bisengo Muambe Centre de Santé', 0),
-(7700, 52, '', 'kn Kinshasa Province', '', 'kn Kikimi Zone de Santé', 'BknxAkUDf74', 'kn Cité De L''Espoir Centre de Santé', 0),
+(7700, 52, '', 'kn Kinshasa Province', '', 'kn Kikimi Zone de Santé', 'BknxAkUDf74', 'kn Cité De L\'Espoir Centre de Santé', 0),
 (7701, 52, '', 'kn Kinshasa Province', '', 'kn Kikimi Zone de Santé', 'tyvsmZuWEQo', 'kn Kikimi Centre Hospitalier', 0),
 (7702, 52, '', 'kn Kinshasa Province', '', 'kn Kikimi Zone de Santé', 'cfD3tSqzXsd', 'kn Scs Bosembo Centre de Santé', 0),
 (7703, 52, '', 'kn Kinshasa Province', '', 'kn Kikimi Zone de Santé', 'E3OH6BDxB59', 'kn Kikimi Centre de Santé', 0),
@@ -11889,7 +11832,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (7721, 52, '', 'kn Kinshasa Province', '', 'kn Kimbanseke Zone de Santé', 'f7zxI8yZ6ki', 'kn Le Shilo Centre de Santé', 0),
 (7722, 52, '', 'kn Kinshasa Province', '', 'kn Kimbanseke Zone de Santé', 'm1aFpojnnEe', 'kn St Augustin Centre de Santé', 0),
 (7723, 52, '', 'kn Kinshasa Province', '', 'kn Kimbanseke Zone de Santé', 'arl2p8dLh7y', 'kn Tosalisana Centre de Santé', 0),
-(7724, 52, '', 'kn Kinshasa Province', '', 'kn Kimbanseke Zone de Santé', 'Mt9oeiijVj2', 'kn Bel''Aire Centre de Santé', 0),
+(7724, 52, '', 'kn Kinshasa Province', '', 'kn Kimbanseke Zone de Santé', 'Mt9oeiijVj2', 'kn Bel\'Aire Centre de Santé', 0),
 (7725, 52, '', 'kn Kinshasa Province', '', 'kn Kimbanseke Zone de Santé', 'cUxxfslqpyw', 'kn Esanga Centre de Santé', 0),
 (7726, 52, '', 'kn Kinshasa Province', '', 'kn Kimbanseke Zone de Santé', 'BmMC9pPHP3Z', 'kn Idea Centre de Santé', 0),
 (7727, 52, '', 'kn Kinshasa Province', '', 'kn Kimbanseke Zone de Santé', 'VF1UwQeExnN', 'kn Motema Mpiko Centre de Santé', 0),
@@ -12002,7 +11945,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (7834, 52, '', 'kn Kinshasa Province', '', 'kn Kintambo Zone de Santé', 'rkow5j6VCBY', 'kn Obed Polyclinique', 0),
 (7835, 52, '', 'kn Kinshasa Province', '', 'kn Kintambo Zone de Santé', 'tH0HWUDUaqh', 'kn Kamz Clinic Centre de Santé', 0),
 (7836, 52, '', 'kn Kinshasa Province', '', 'kn Kintambo Zone de Santé', 'hPyxx848yg4', 'kn Kondima Centre de Santé', 0),
-(7837, 52, '', 'kn Kinshasa Province', '', 'kn Kisenso Zone de Santé', 'H2UiBaLFQDb', 'kn Bolingo Centre de Santé', 0),
+(7837, 52, '', 'kn Kinshasa Province', '', 'kn Kisenso Zone de Santé', 'H2UiBaLFQDb', 'kn Bolingo Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (7838, 52, '', 'kn Kinshasa Province', '', 'kn Kisenso Zone de Santé', 'iXUxvHvJ5eX', 'kn Amba Centre de Santé', 0),
 (7839, 52, '', 'kn Kinshasa Province', '', 'kn Kisenso Zone de Santé', 'AaAh89C5ewq', 'kn Bikanga Centre de Santé', 0),
 (7840, 52, '', 'kn Kinshasa Province', '', 'kn Kisenso Zone de Santé', 'kBYtuxtUaMY', 'kn Mayika Centre de Santé', 0),
@@ -12081,7 +12025,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (7913, 52, '', 'kn Kinshasa Province', '', 'kn Lemba Zone de Santé', 'g9WcpohIeRW', 'kn Pax Inga Mercy Hospital Centre de Santé', 0),
 (7914, 52, '', 'kn Kinshasa Province', '', 'kn Lemba Zone de Santé', 'wB5qFTt419Y', 'kn SOPROP Centre de Santé', 0),
 (7915, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'Zf80p5uxZzY', 'kn Koyangel Centre Médical', 0),
-(7916, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'mAv08yy8uRu', 'kn Mak''S Centre Médical', 0),
+(7916, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'mAv08yy8uRu', 'kn Mak\'S Centre Médical', 0),
 (7917, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'PKA8v5CHKki', 'kn 2Eme Rue Centre de Santé', 0),
 (7918, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'Ib9Ws3FzDCT', 'kn DGI/Limete Centre Médical', 0),
 (7919, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'wzEbtJfOmFs', 'kn Malkia Centre Médical', 0),
@@ -12103,7 +12047,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (7935, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'KD4kycThGwZ', 'kn Bethanie Centre de Santé', 0),
 (7936, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'JYBx6T3PpSX', 'kn Liboke Centre de Santé', 0),
 (7937, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'U9S66d1Gz1n', 'kn Naomie Centre de Santé', 0),
-(7938, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'Mp3FffR2i0C', 'kn Santé d''Abord Centre Médical', 0),
+(7938, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'Mp3FffR2i0C', 'kn Santé d\'Abord Centre Médical', 0),
 (7939, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'ZqHLMoRcs79', 'kn Sara Centre de Santé', 0),
 (7940, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'pQFSwUpUF88', 'kn Opsar Centre de Santé', 0),
 (7941, 52, '', 'kn Kinshasa Province', '', 'kn Limete Zone de Santé', 'T8MXtlUEb2s', 'kn Saint Amand Centre de Santé', 0),
@@ -12269,8 +12213,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (8101, 52, '', 'kn Kinshasa Province', '', 'kn Matete Zone de Santé', 'r1x7suwQPKb', 'kn Matete Polyclinique', 0),
 (8102, 52, '', 'kn Kinshasa Province', '', 'kn Matete Zone de Santé', 'DG9fJHc1HTM', 'kn Don Guanella Centre de Santé', 0),
 (8103, 52, '', 'kn Kinshasa Province', '', 'kn Matete Zone de Santé', 'pq92tAgaNkr', 'kn KMC Centre Hospitalier', 0),
-(8104, 52, '', 'kn Kinshasa Province', '', 'kn Matete Zone de Santé', 'ebr2tPj0PoT', 'kn Promedis Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(8104, 52, '', 'kn Kinshasa Province', '', 'kn Matete Zone de Santé', 'ebr2tPj0PoT', 'kn Promedis Centre de Santé', 0),
 (8105, 52, '', 'kn Kinshasa Province', '', 'kn Matete Zone de Santé', 'mv1tyxfOOuU', 'kn Divic Centre de Santé', 0),
 (8106, 52, '', 'kn Kinshasa Province', '', 'kn Matete Zone de Santé', 'eZgQsYZN4vJ', 'kn Maziba Centre de Santé', 0),
 (8107, 52, '', 'kn Kinshasa Province', '', 'kn Matete Zone de Santé', 'b2gFKvNwtcV', 'kn Casi Centre de Santé', 0),
@@ -12415,7 +12358,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (8246, 52, '', 'kn Kinshasa Province', '', 'kn Ngiri Ngiri Zone de Santé', 'L8aa5cDwBu5', 'kn Berger Centre de Médical', 0),
 (8247, 52, '', 'kn Kinshasa Province', '', 'kn Ngiri Ngiri Zone de Santé', 'Xt8sZsQ2waB', 'kn Bolingo Hôpital Général de Référence', 0),
 (8248, 52, '', 'kn Kinshasa Province', '', 'kn Ngiri Ngiri Zone de Santé', 'tdtBIoK50p2', 'kn Bondo Centre de Santé', 0),
-(8249, 52, '', 'kn Kinshasa Province', '', 'kn Ngiri Ngiri Zone de Santé', 'UKRWOTmqSby', 'kn Bambili 2 Centre de Santé', 0),
+(8249, 52, '', 'kn Kinshasa Province', '', 'kn Ngiri Ngiri Zone de Santé', 'UKRWOTmqSby', 'kn Bambili 2 Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (8250, 52, '', 'kn Kinshasa Province', '', 'kn Ngiri Ngiri Zone de Santé', 'DngeKGvkk7d', 'kn Charité Médicale Centre de Santé', 0),
 (8251, 52, '', 'kn Kinshasa Province', '', 'kn Ngiri Ngiri Zone de Santé', 'Z1w5KzfekkG', 'kn Elengesa Médical Centre de Santé', 0),
 (8252, 52, '', 'kn Kinshasa Province', '', 'kn Ngiri Ngiri Zone de Santé', 'Tewg9yAcj09', 'kn Urgence Bénédiction Centre de Santé', 0),
@@ -12666,8 +12610,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (8497, 52, '', 'kr Kasai Central Province', '', 'kr Demba Zone de Santé', 'CBbEsqKZrrT', 'kr Bupole Poste de Santé', 0),
 (8498, 52, '', 'kr Kasai Central Province', '', 'kr Demba Zone de Santé', 'jnMdZ2SzmSP', 'kr Demba Cité Centre de Santé', 0),
 (8499, 52, '', 'kr Kasai Central Province', '', 'kr Demba Zone de Santé', 'INOF8rekedc', 'kr Demba Hôpital Général de Référence', 0),
-(8500, 52, '', 'kr Kasai Central Province', '', 'kr Demba Zone de Santé', 'mYUoL5C452H', 'kr Pasua Nzambi Poste de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(8500, 52, '', 'kr Kasai Central Province', '', 'kr Demba Zone de Santé', 'mYUoL5C452H', 'kr Pasua Nzambi Poste de Santé', 0),
 (8501, 52, '', 'kr Kasai Central Province', '', 'kr Demba Zone de Santé', 'WnZlQdNdzfh', 'kr PNC Poste de Santé', 0),
 (8502, 52, '', 'kr Kasai Central Province', '', 'kr Demba Zone de Santé', 'CNw8ZNZgqcQ', 'kr Kalombayi Centre de Santé', 0),
 (8503, 52, '', 'kr Kasai Central Province', '', 'kr Demba Zone de Santé', 'tteBpZwGvHi', 'kr Kalume Ka Kuadi Centre de Santé', 0),
@@ -12816,7 +12759,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (8646, 52, '', 'kr Kasai Central Province', '', 'kr Katende Zone de Santé', 'pdBXaTFkBUL', 'kr Mutanga Tshiyole Poste de Santé', 0),
 (8647, 52, '', 'kr Kasai Central Province', '', 'kr Katende Zone de Santé', 'GJC8ky9bQ5e', 'kr Bakuandaya Poste de Santé', 0),
 (8648, 52, '', 'kr Kasai Central Province', '', 'kr Katende Zone de Santé', 'ggsgn6gVJiJ', 'kr Mutombo Dibue Centre de Santé', 0),
-(8649, 52, '', 'kr Kasai Central Province', '', 'kr Katende Zone de Santé', 'XcoSzLb9dzS', 'kr Ngalabalenge Centre de Santé', 0),
+(8649, 52, '', 'kr Kasai Central Province', '', 'kr Katende Zone de Santé', 'XcoSzLb9dzS', 'kr Ngalabalenge Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (8650, 52, '', 'kr Kasai Central Province', '', 'kr Katoka Zone de Santé', 'E83YJyHoDRn', 'kr Croix Rouge Poste de Santé', 0),
 (8651, 52, '', 'kr Kasai Central Province', '', 'kr Katoka Zone de Santé', 'IaLLMOxgQA1', 'kr Espérence Poste de Santé', 0),
 (8652, 52, '', 'kr Kasai Central Province', '', 'kr Katoka Zone de Santé', 'RV6cB6qqNdu', 'kr Jukayi Centre Hôspitalier', 0),
@@ -13058,8 +13002,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (8888, 52, '', 'kr Kasai Central Province', '', 'kr Mikalayi Zone de Santé', 'nu4rZUvM48y', 'kr Kambundi Centre de Santé', 0),
 (8889, 52, '', 'kr Kasai Central Province', '', 'kr Mikalayi Zone de Santé', 'LEaUL9xinva', 'kr Kapaya Centre de Santé', 0),
 (8890, 52, '', 'kr Kasai Central Province', '', 'kr Mikalayi Zone de Santé', 'XJPrdd1B75t', 'kr Katende Centre de Santé', 0),
-(8891, 52, '', 'kr Kasai Central Province', '', 'kr Mikalayi Zone de Santé', 'TMO7ffAgl4x', 'kr Hs Lulengele Polyclinique', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(8891, 52, '', 'kr Kasai Central Province', '', 'kr Mikalayi Zone de Santé', 'TMO7ffAgl4x', 'kr Hs Lulengele Polyclinique', 0),
 (8892, 52, '', 'kr Kasai Central Province', '', 'kr Mikalayi Zone de Santé', 'rIlwbzNNalx', 'kr Lulengele Centre de Santé', 0),
 (8893, 52, '', 'kr Kasai Central Province', '', 'kr Mikalayi Zone de Santé', 'A376kX5UkIy', 'kr Malandji Centre de Santé', 0),
 (8894, 52, '', 'kr Kasai Central Province', '', 'kr Mikalayi Zone de Santé', 'xudQjhkftQZ', 'kr St Elie Poste de Santé', 0),
@@ -13214,7 +13157,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (9043, 52, '', 'kr Kasai Central Province', '', 'kr Tshikaji Zone de Santé', 'Q0zvMYKm7Xe', 'kr Kabasubabu Poste de Santé', 0),
 (9044, 52, '', 'kr Kasai Central Province', '', 'kr Tshikaji Zone de Santé', 'ESQ14M1QC5p', 'kr Katumba Centre de Santé', 0),
 (9045, 52, '', 'kr Kasai Central Province', '', 'kr Tshikaji Zone de Santé', 'PwGg2LEQ9MN', 'kr La Perséverence Poste de Santé', 0),
-(9046, 52, '', 'kr Kasai Central Province', '', 'kr Tshikaji Zone de Santé', 'UklhfNb0J2b', 'kr Mamu Muilu Centre de Santé', 0),
+(9046, 52, '', 'kr Kasai Central Province', '', 'kr Tshikaji Zone de Santé', 'UklhfNb0J2b', 'kr Mamu Muilu Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (9047, 52, '', 'kr Kasai Central Province', '', 'kr Tshikaji Zone de Santé', 'G1ewnlUfdFG', 'kr Methodiste Poste de Santé', 0),
 (9048, 52, '', 'kr Kasai Central Province', '', 'kr Tshikaji Zone de Santé', 'Jbxyt4pqdLK', 'kr Kandibu Poste de Santé', 0),
 (9049, 52, '', 'kr Kasai Central Province', '', 'kr Tshikaji Zone de Santé', 'iAwhf6j5OmI', 'kr Mbumba Centre de Santé', 0),
@@ -13454,8 +13398,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (9283, 52, '', 'ks Kasai Province', '', 'ks Dekese Zone de Santé', 'CZDGJzMuzlb', 'ks Mvusengando Centre de Santé', 0),
 (9284, 52, '', 'ks Kasai Province', '', 'ks Dekese Zone de Santé', 'Ro941GasPUj', 'ks Ngoyoho Centre de Santé', 0),
 (9285, 52, '', 'ks Kasai Province', '', 'ks Dekese Zone de Santé', 'R02MvbrPIJO', 'ks Nkongo Centre de Santé', 0),
-(9286, 52, '', 'ks Kasai Province', '', 'ks Dekese Zone de Santé', 'CXNKRZKd3ln', 'ks Yassa Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(9286, 52, '', 'ks Kasai Province', '', 'ks Dekese Zone de Santé', 'CXNKRZKd3ln', 'ks Yassa Centre de Santé', 0),
 (9287, 52, '', 'ks Kasai Province', '', 'ks Dekese Zone de Santé', 'UEx8OaTujWz', 'ks Yosso Centre de Santé', 0),
 (9288, 52, '', 'ks Kasai Province', '', 'ks Ilebo Zone de Santé', 'd88TNssdjoI', 'ks Bambange Centre de santé', 0),
 (9289, 52, '', 'ks Kasai Province', '', 'ks Ilebo Zone de Santé', 'SOAy5YIVoZE', 'ks Mbemba Poste de Santé', 0),
@@ -13628,7 +13571,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (9456, 52, '', 'ks Kasai Province', '', 'ks Kamwesha Zone de Santé', 'jpOFXDOOPKz', 'ks Nkuna Ejike Poste de Santé', 0),
 (9457, 52, '', 'ks Kasai Province', '', 'ks Kamwesha Zone de Santé', 'Ge9JOeiYikZ', 'ks Nouvelle Jérusalem Poste de Santé', 0),
 (9458, 52, '', 'ks Kasai Province', '', 'ks Kamwesha Zone de Santé', 'akJ8AQfHR37', 'ks Pacifique Poste de Santé', 0),
-(9459, 52, '', 'ks Kasai Province', '', 'ks Kamwesha Zone de Santé', 'f41wMlmsQD2', 'ks Kalumbu Centre de Santé', 0),
+(9459, 52, '', 'ks Kasai Province', '', 'ks Kamwesha Zone de Santé', 'f41wMlmsQD2', 'ks Kalumbu Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (9460, 52, '', 'ks Kasai Province', '', 'ks Kamwesha Zone de Santé', 'JGuOCw8dd0W', 'ks Kamba Nkuvu Centre de Santé', 0),
 (9461, 52, '', 'ks Kasai Province', '', 'ks Kamwesha Zone de Santé', 'lYKmmkdOu36', 'ks Kamuesha 2 Centre de Santé', 0),
 (9462, 52, '', 'ks Kasai Province', '', 'ks Kamwesha Zone de Santé', 'isREjnnEWY0', 'ks Dieu Guérisseur Poste de Santé', 0),
@@ -13681,7 +13625,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (9509, 52, '', 'ks Kasai Province', '', 'ks Kanzala Zone de Santé', 'cW0oC95emNS', 'ks Dibue Dietu Centre de Santé', 0),
 (9510, 52, '', 'ks Kasai Province', '', 'ks Kanzala Zone de Santé', 'H6kDjM6rsXo', 'ks Gloire à Jesus Centre de Santé', 0),
 (9511, 52, '', 'ks Kasai Province', '', 'ks Kanzala Zone de Santé', 'kiC9bRnSTyQ', 'ks Phenix Centre de Santé', 0),
-(9512, 52, '', 'ks Kasai Province', '', 'ks Kanzala Zone de Santé', 'IpS8CRDN6L9', 'ks Voici l''Homme Centre de Santé', 0),
+(9512, 52, '', 'ks Kasai Province', '', 'ks Kanzala Zone de Santé', 'IpS8CRDN6L9', 'ks Voici l\'Homme Centre de Santé', 0),
 (9513, 52, '', 'ks Kasai Province', '', 'ks Kanzala Zone de Santé', 'hDkRw59Ao32', 'ks Bondeko Centre de Santé', 0),
 (9514, 52, '', 'ks Kasai Province', '', 'ks Kanzala Zone de Santé', 'Tylcrdg6dDr', 'ks CMC Polyclinique', 0),
 (9515, 52, '', 'ks Kasai Province', '', 'ks Kanzala Zone de Santé', 'FZlDL7zF77O', 'ks Kanzala Hôpital Général de Référence', 0),
@@ -13871,8 +13815,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (9699, 52, '', 'ks Kasai Province', '', 'ks Mikope Zone de Santé', 'c00MsWz5gFz', 'ks Masua 2 Poste de Santé', 0),
 (9700, 52, '', 'ks Kasai Province', '', 'ks Mikope Zone de Santé', 'm6z7XeBDT1e', 'ks Basongo Centre de Santé', 0),
 (9701, 52, '', 'ks Kasai Province', '', 'ks Mikope Zone de Santé', 'tUBgSapXFd4', 'ks Dilumbu Poste de Santé', 0),
-(9702, 52, '', 'ks Kasai Province', '', 'ks Mikope Zone de Santé', 'bJJ0riRKCqq', 'ks Kalembe Ditu Poste de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(9702, 52, '', 'ks Kasai Province', '', 'ks Mikope Zone de Santé', 'bJJ0riRKCqq', 'ks Kalembe Ditu Poste de Santé', 0),
 (9703, 52, '', 'ks Kasai Province', '', 'ks Mikope Zone de Santé', 'hIPK7Dx58UX', 'ks Ngamba Poste de Santé', 0),
 (9704, 52, '', 'ks Kasai Province', '', 'ks Mikope Zone de Santé', 'sTYcu5wXB47', 'ks Biyenge Makekele Centre de Santé', 0),
 (9705, 52, '', 'ks Kasai Province', '', 'ks Mikope Zone de Santé', 'ryTO6bWm3rt', 'ks Kasongo Biyenge Poste de Santé', 0),
@@ -14023,7 +13966,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (9850, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'py6tu83ACep', 'ks Christ Roi Centre de Santé', 0),
 (9851, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'xbu0EtoF5Vt', 'ks Diboko Centre de Santé', 0),
 (9852, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'PSzBbVR8jLm', 'ks Dieu Merci Centre de Santé', 0),
-(9853, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'tElrrsF5PpD', 'ks La Voix de l''Aigle Centre de Santé', 0),
+(9853, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'tElrrsF5PpD', 'ks La Voix de l\'Aigle Centre de Santé', 0),
 (9854, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'GQErhde7mDV', 'ks Muanetu Centre de Santé', 0),
 (9855, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'MBaAlx22Est', 'ks Kempa Centre de Santé', 0),
 (9856, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'BYU0cwDyjns', 'ks La Revelation Centre de Santé', 0),
@@ -14056,7 +13999,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (9883, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'wwBVoG4THZc', 'ks Muamuengo Centre de Santé', 0),
 (9884, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'IW4GpBA2YZr', 'ks Tshitanvi Centre de Santé', 0),
 (9885, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'JWlImdGFjuA', 'ks Kavumbu Centre de Santé', 0),
-(9886, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'Ulo18vaRHSD', 'ks Kazeza Centre de Santé', 0),
+(9886, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'Ulo18vaRHSD', 'ks Kazeza Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (9887, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 's3fnwo9bp0w', 'ks Mukuku Centre de Santé', 0),
 (9888, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'SDDzUlkgREm', 'ks Bulelela Centre de Santé', 0),
 (9889, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'cGKUsas8V2n', 'ks Dap Le Box Centre de Santé', 0),
@@ -14069,7 +14013,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (9896, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'Xt3RZHd8bTB', 'ks Mutshima Centre de Santé', 0),
 (9897, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'Rbi1Wp3cwTY', 'ks Omo Centre de Santé', 0),
 (9898, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'I5o4ieho3Gl', 'ks Tout Saint Centre de Santé', 0),
-(9899, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'dVeTsbOmkFx', 'ks N''Aie Pas Peur Centre de Santé', 0),
+(9899, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'dVeTsbOmkFx', 'ks N\'Aie Pas Peur Centre de Santé', 0),
 (9900, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'kN2g2lsA267', 'ks Odeur Du Centre Hospitalieramp Centre de Santé', 0),
 (9901, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'eFbm1T9kNFV', 'ks Sauveur Centre de Santé', 0),
 (9902, 52, '', 'ks Kasai Province', '', 'ks Mutena Zone de Santé', 'DXO2q1S9PHa', 'ks Kimbaguiste Centre de Santé', 0),
@@ -14200,7 +14144,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (10027, 52, '', 'ks Kasai Province', '', 'ks Ndjoko Mpunda Zone de Santé', 'KUZzL36zyKo', 'ks Jehovah Jiré Poste de Santé', 0),
 (10028, 52, '', 'ks Kasai Province', '', 'ks Ndjoko Mpunda Zone de Santé', 'aqUsMMmzgRk', 'ks Les Ames Poste de Santé', 0),
 (10029, 52, '', 'ks Kasai Province', '', 'ks Ndjoko Mpunda Zone de Santé', 'LYmUjt1paHO', 'ks Ndjoko Etat Centre Hospitalier', 0),
-(10030, 52, '', 'ks Kasai Province', '', 'ks Ndjoko Mpunda Zone de Santé', 'eeDbBP7rpfr', 'ks Rachat de l''Eternel Poste de Santé', 0),
+(10030, 52, '', 'ks Kasai Province', '', 'ks Ndjoko Mpunda Zone de Santé', 'eeDbBP7rpfr', 'ks Rachat de l\'Eternel Poste de Santé', 0),
 (10031, 52, '', 'ks Kasai Province', '', 'ks Ndjoko Mpunda Zone de Santé', 'RYA6d2ptX4w', 'ks Mbayi Tshituala Poste de Santé', 0),
 (10032, 52, '', 'ks Kasai Province', '', 'ks Ndjoko Mpunda Zone de Santé', 'NB8ABZCAa03', 'ks Tshialupemba Centre de Santé', 0),
 (10033, 52, '', 'ks Kasai Province', '', 'ks Ndjoko Mpunda Zone de Santé', 'w9gcwQ8zmA3', 'ks Kadiadia Caritas Poste de Santé', 0),
@@ -14289,8 +14233,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (10116, 52, '', 'ks Kasai Province', '', 'ks Tshikapa Zone de Santé', 'SsFVueAcAGN', 'ks Nelly Poste de Santé', 0),
 (10117, 52, '', 'ks Kasai Province', '', 'ks Tshikapa Zone de Santé', 'TpAlFH6D7rO', 'ks Rehobot Centre de Santé', 0),
 (10118, 52, '', 'ks Kasai Province', '', 'ks Tshikapa Zone de Santé', 'MV8TM9MTVcf', 'ks Embo Centre de Santé', 0),
-(10119, 52, '', 'ks Kasai Province', '', 'ks Tshikapa Zone de Santé', 'dupGO1gMZef', 'ks Kuhuma Poste de santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(10119, 52, '', 'ks Kasai Province', '', 'ks Tshikapa Zone de Santé', 'dupGO1gMZef', 'ks Kuhuma Poste de santé', 0),
 (10120, 52, '', 'ks Kasai Province', '', 'ks Tshikapa Zone de Santé', 'WJELGcmow8L', 'ks Luezi Centre de Santé', 0),
 (10121, 52, '', 'ks Kasai Province', '', 'ks Tshikapa Zone de Santé', 'JsOTj6fzVtJ', 'ks Kanzaji Centre de Santé', 0),
 (10122, 52, '', 'ks Kasai Province', '', 'ks Tshikapa Zone de Santé', 'hSoN4o53x5k', 'ks Masangu Centre de Santé', 0),
@@ -14337,7 +14280,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (10163, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'l5QCySBCiFz', 'll Polymetho Centre de Santé', 0),
 (10164, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'rNQ0Fi3SIGj', 'll Prospérité Centre de Santé', 0),
 (10165, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'uKmCxH3UKgR', 'll Safina Centre de Santé', 0),
-(10166, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'tvBLZBUbZu7', 'll De L''Amitie Centre de Santé', 0),
+(10166, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'tvBLZBUbZu7', 'll De L\'Amitie Centre de Santé', 0),
 (10167, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'c1s9WlvtZxd', 'll Uzima Centre de Santé', 0),
 (10168, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'WtzQLZ4aamn', 'II Dimercia Centre de santé', 0),
 (10169, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'eJlGRyCf48t', 'II Eden Centre de santé', 0),
@@ -14360,13 +14303,13 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (10186, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'pXK59dsqAfn', 'll Luilu Centre de Santé', 0),
 (10187, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'INY9iPFygVg', 'll Salama Centre de Santé', 0),
 (10188, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'qz2tjg0LiK0', 'll Uzima Centre de Santé', 0),
-(10189, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'D8HtQ6PcNEP', 'll De l''espoir Centre de Santé', 0),
+(10189, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'D8HtQ6PcNEP', 'll De l\'espoir Centre de Santé', 0),
 (10190, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'XY7h7DrtZNI', 'll KCC Hôpital', 0),
 (10191, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'DebSj40imw2', 'll Musonoie Centre de Santé', 0),
 (10192, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'yxR3v1fBB9h', 'll Don De Dieu Centre de Santé', 0),
 (10193, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'P86UMdzvf0v', 'll Godelieve Hôpital', 0),
 (10194, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'KwOsksY8GNa', 'll Noa Centre de Santé', 0),
-(10195, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'vj1f3MQ21Kz', 'II El''Shadai Centre de Santé', 0),
+(10195, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'vj1f3MQ21Kz', 'II El\'Shadai Centre de Santé', 0),
 (10196, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'il1RmKCs3IX', 'll Adventiste Centre de Santé', 0),
 (10197, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'heWTUhjW7GD', 'll Nazaire Centre de Santé', 0),
 (10198, 52, '', 'll Lualaba Province', '', 'll Dilala Zone de Santé', 'fY8QCOoLIN0', 'II Amani Centre de santé', 0),
@@ -14421,7 +14364,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (10247, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'P5Y9CNDoOtx', 'll Safina Centre de Santé', 0),
 (10248, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'olwfVmGeGtP', 'll Mapendo Centre de Santé', 0),
 (10249, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'B4tkTEGKRr8', 'll Bethsaida Poste de Santé', 0),
-(10250, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'qOUQMshy7oC', 'll El''Shaddai Centre de Santé', 0),
+(10250, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'qOUQMshy7oC', 'll El\'Shaddai Centre de Santé', 0),
 (10251, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'kNdKwWdPS1r', 'll MAIJ Centre de Santé', 0),
 (10252, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'u5g9mFtKTdG', 'll Panteleimon Centre de Santé', 0),
 (10253, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'gxecjs6u5Jg', 'll Paradiso Centre de Santé', 0),
@@ -14441,7 +14384,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (10267, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'VCfKT72aSGG', 'll Mulumbu Centre de Santé', 0),
 (10268, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'FiSjfe7gAod', 'll Mwenda Mukose Centre de Santé', 0),
 (10269, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'c3LTbrbQMEq', 'll Nguba Centre de Santé', 0),
-(10270, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'X80jP0e1x54', 'll La grâce à l''Ouest Centre de Santé', 0),
+(10270, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'X80jP0e1x54', 'll La grâce à l\'Ouest Centre de Santé', 0),
 (10271, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'J791SeYIPJa', 'll Lumière Centre de Santé', 0),
 (10272, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'dAeLQttTCsT', 'll Maria Mama Centre de Santé', 0),
 (10273, 52, '', 'll Lualaba Province', '', 'll Fungurume Zone de Santé', 'QkVJhRcQAqF', 'll Moise La Colombe Tenke Centre de Santé', 0),
@@ -14475,7 +14418,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (10301, 52, '', 'll Lualaba Province', '', 'll Kafakumba Zone de Santé', 'lE76e5BD8zN', 'll Salimi Centre de Santé', 0),
 (10302, 52, '', 'll Lualaba Province', '', 'll Kafakumba Zone de Santé', 'kGConCYymed', 'll Kalenda Poste de Santé', 0),
 (10303, 52, '', 'll Lualaba Province', '', 'll Kafakumba Zone de Santé', 'REfAHKU8A8t', 'll Sangatshila Centre de Santé', 0),
-(10304, 52, '', 'll Lualaba Province', '', 'll Kafakumba Zone de Santé', 'VifxE20xKyl', 'll Kalombo Poste de Santé', 0),
+(10304, 52, '', 'll Lualaba Province', '', 'll Kafakumba Zone de Santé', 'VifxE20xKyl', 'll Kalombo Poste de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (10305, 52, '', 'll Lualaba Province', '', 'll Kafakumba Zone de Santé', 'WAgURltAMnW', 'll Sapesa Centre de Santé', 0),
 (10306, 52, '', 'll Lualaba Province', '', 'll Kafakumba Zone de Santé', 'zQgd09FU2qC', 'll Kangongo Poste de Santé', 0),
 (10307, 52, '', 'll Lualaba Province', '', 'll Kafakumba Zone de Santé', 'VxCi9O87E8a', 'll Satshipanga Centre de Santé', 0),
@@ -14698,8 +14642,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (10524, 52, '', 'll Lualaba Province', '', 'll Manika Zone de Santé', 'WUIOwEXD8cM', 'll Tshisambu 2 Centre de Santé', 0),
 (10525, 52, '', 'll Lualaba Province', '', 'll Manika Zone de Santé', 'PZKWByyfabT', 'll PCI Rayon Centre de Santé', 0),
 (10526, 52, '', 'll Lualaba Province', '', 'll Manika Zone de Santé', 'v1mJ1tPPsHi', 'll IMANI Centre de Santé', 0),
-(10527, 52, '', 'll Lualaba Province', '', 'll Manika Zone de Santé', 'M1hJBFWEB4A', 'll Mutiya Ngazi Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(10527, 52, '', 'll Lualaba Province', '', 'll Manika Zone de Santé', 'M1hJBFWEB4A', 'll Mutiya Ngazi Centre de Santé', 0),
 (10528, 52, '', 'll Lualaba Province', '', 'll Manika Zone de Santé', 'zMXVt1QfEA7', 'll PCI Médical Centre de Santé', 0),
 (10529, 52, '', 'll Lualaba Province', '', 'll Manika Zone de Santé', 'aiRkXl6iPnP', 'll CMC Centre de Santé', 0),
 (10530, 52, '', 'll Lualaba Province', '', 'll Manika Zone de Santé', 'ZNJyPI8CnvY', 'll Dieu Merci Centre de Santé', 0),
@@ -14864,7 +14807,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (10689, 52, '', 'lm Lomami Province', '', 'lm Kalenda Zone de Santé', 'zqz37sk20wJ', 'lm Mulundu Centre de Santé', 0),
 (10690, 52, '', 'lm Lomami Province', '', 'lm Kalenda Zone de Santé', 'YtJqpyUnITk', 'lm Tshidiang Poste de Santé', 0),
 (10691, 52, '', 'lm Lomami Province', '', 'lm Kalenda Zone de Santé', 'Z19gJYUozY0', 'lm Hang Poste de Santé', 0),
-(10692, 52, '', 'lm Lomami Province', '', 'lm Kalenda Zone de Santé', 'uBgef6NfCsK', 'lm Museng''g Centre de Santé', 0),
+(10692, 52, '', 'lm Lomami Province', '', 'lm Kalenda Zone de Santé', 'uBgef6NfCsK', 'lm Museng\'g Centre de Santé', 0),
 (10693, 52, '', 'lm Lomami Province', '', 'lm Kalenda Zone de Santé', 'VBcpGuTY0i6', 'lm Tshibue Poste de Santé', 0),
 (10694, 52, '', 'lm Lomami Province', '', 'lm Kalenda Zone de Santé', 'DEk8uQIROXz', 'lm Ngoy Band Centre de Santé', 0),
 (10695, 52, '', 'lm Lomami Province', '', 'lm Kalenda Zone de Santé', 'c99MimpVLOT', 'lm Ngoy Gbadolite Poste de Santé', 0),
@@ -14892,7 +14835,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (10717, 52, '', 'lm Lomami Province', '', 'lm Kalonda Est Zone de Santé', 'yuKN4pTHjf0', 'lm Kalonda Est Hôpital Général de Référence', 0),
 (10718, 52, '', 'lm Lomami Province', '', 'lm Kalonda Est Zone de Santé', 'IKtfLgVUaVT', 'lm Kasamba Centre de Santé', 0),
 (10719, 52, '', 'lm Lomami Province', '', 'lm Kalonda Est Zone de Santé', 'tmkjHbIC9M6', 'lm Kasendu Centre de Santé', 0),
-(10720, 52, '', 'lm Lomami Province', '', 'lm Kalonda Est Zone de Santé', 'aUG7UhkQTIc', 'lm Kipangie Centre de Santé', 0),
+(10720, 52, '', 'lm Lomami Province', '', 'lm Kalonda Est Zone de Santé', 'aUG7UhkQTIc', 'lm Kipangie Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (10721, 52, '', 'lm Lomami Province', '', 'lm Kalonda Est Zone de Santé', 'zWtgeXV70RC', 'lm Kipoke Centre de Santé', 0),
 (10722, 52, '', 'lm Lomami Province', '', 'lm Kalonda Est Zone de Santé', 'B51DLcEucjU', 'lm Mpanda Kalengeyi Poste de Santé', 0),
 (10723, 52, '', 'lm Lomami Province', '', 'lm Kalonda Est Zone de Santé', 'z2UeEnzvDvR', 'lm Kabumbayi Poste de Santé', 0),
@@ -15108,8 +15052,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (10933, 52, '', 'lm Lomami Province', '', 'lm Ludimbi Lukula Zone de Santé', 'orRn3OQ8arZ', 'lm Kifuenkiese Centre de Santé ', 0),
 (10934, 52, '', 'lm Lomami Province', '', 'lm Ludimbi Lukula Zone de Santé', 'UnCuArTjJq1', 'lm Nkundu Poste de Santé', 0),
 (10935, 52, '', 'lm Lomami Province', '', 'lm Ludimbi Lukula Zone de Santé', 'OHtswAjEV07', 'lm Eshadika Poste de Santé', 0),
-(10936, 52, '', 'lm Lomami Province', '', 'lm Ludimbi Lukula Zone de Santé', 'DtJwVGy5HkY', 'lm Kibi Poste de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(10936, 52, '', 'lm Lomami Province', '', 'lm Ludimbi Lukula Zone de Santé', 'DtJwVGy5HkY', 'lm Kibi Poste de Santé', 0),
 (10937, 52, '', 'lm Lomami Province', '', 'lm Ludimbi Lukula Zone de Santé', 'nXHsdvSo8iw', 'lm Kitengie Muana K Centre de Santé', 0),
 (10938, 52, '', 'lm Lomami Province', '', 'lm Ludimbi Lukula Zone de Santé', 'OGSsBrbJL6Q', 'lm Ejimba Kapafu Poste de Santé', 0),
 (10939, 52, '', 'lm Lomami Province', '', 'lm Ludimbi Lukula Zone de Santé', 'n8lONHHcBm6', 'lm Luanga Etambayi Centre de Santé', 0),
@@ -15193,7 +15136,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (11017, 52, '', 'lm Lomami Province', '', 'lm Makota Zone de Santé', 'xM9lLvwKwO3', 'lm Meres Et Enfants Centre de Santé', 0),
 (11018, 52, '', 'lm Lomami Province', '', 'lm Makota Zone de Santé', 'YEKor2vtL6h', 'lm Sainte Marie Centre de Santé', 0),
 (11019, 52, '', 'lm Lomami Province', '', 'lm Makota Zone de Santé', 'ef4jR5V0H8t', 'lm Kamisangi Centre de Santé', 0),
-(11020, 52, '', 'lm Lomami Province', '', 'lm Makota Zone de Santé', 'e2ljWkv4nfm', 'lm Force de l''Eternel Poste de Santé', 0),
+(11020, 52, '', 'lm Lomami Province', '', 'lm Makota Zone de Santé', 'e2ljWkv4nfm', 'lm Force de l\'Eternel Poste de Santé', 0),
 (11021, 52, '', 'lm Lomami Province', '', 'lm Makota Zone de Santé', 'SpZSDauEB2U', 'lm Saint Martin Centre de Santé', 0),
 (11022, 52, '', 'lm Lomami Province', '', 'lm Makota Zone de Santé', 'H2qJfdmAPcq', 'lm FARDC Poste de Santé', 0),
 (11023, 52, '', 'lm Lomami Province', '', 'lm Makota Zone de Santé', 'hPTikw40Btf', 'lm Kantendele Centre de Santé', 0),
@@ -15310,7 +15253,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (11134, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'jGOuqIpHXbT', 'lm Esperance Centre Hospitalier', 0),
 (11135, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'lFPa47CDE8e', 'lm Fraternité Poste de Santé', 0),
 (11136, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'WslEmepJlsj', 'lm Morave Poste de Santé', 0),
-(11137, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'e3cs1sXaZpH', 'lm Saint Bernard Centre Hospitalier', 0),
+(11137, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'e3cs1sXaZpH', 'lm Saint Bernard Centre Hospitalier', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (11138, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'MXjrOTCVlWd', 'lm Ciamala Hôpital Général de Référence', 0),
 (11139, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'k7wvys3tKbu', 'lm Dieu Vaincra Centre de Santé', 0),
 (11140, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'SKxKiY9Ya1t', 'lm Etoile Centre de Santé', 0),
@@ -15325,7 +15269,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (11149, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'tTkbTzWwxbx', 'lm Bapite Poste de Santé', 0),
 (11150, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'vf0eatHalKT', 'lm Mwan A Mawej Centre de Santé', 0),
 (11151, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'TBylRQWd0mB', 'lm Ukarimu Poste de Santé', 0),
-(11152, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'XoQ2e2Kz1iw', 'lm La Main de L''eter  Poste de Santé', 0),
+(11152, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'XoQ2e2Kz1iw', 'lm La Main de L\'eter  Poste de Santé', 0),
 (11153, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'XpdvJjrIEp7', 'lm Musaula Centre de Santé', 0),
 (11154, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'iq6kCLnN3MH', 'lm Soin de Grace Poste de Santé', 0),
 (11155, 52, '', 'lm Lomami Province', '', 'lm Mweneditu Zone de Santé', 'kL4zKWeC8w0', 'lm De la Prison  Poste de Santé', 0),
@@ -15461,7 +15405,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (11285, 52, '', 'lm Lomami Province', '', 'lm Wikong Zone de Santé', 'kN7NZvdd8AY', 'lm Mbangom Centre de Santé', 0),
 (11286, 52, '', 'lm Lomami Province', '', 'lm Wikong Zone de Santé', 'DsJPP239q5S', 'lm Mpund Poste de Santé', 0),
 (11287, 52, '', 'lm Lomami Province', '', 'lm Wikong Zone de Santé', 'a1RmclKekyk', 'lm Katambal Poste de Santé', 0),
-(11288, 52, '', 'lm Lomami Province', '', 'lm Wikong Zone de Santé', 'jp8kdUO42Dm', 'lm Muamb''A Rangaj Centre de Santé', 0),
+(11288, 52, '', 'lm Lomami Province', '', 'lm Wikong Zone de Santé', 'jp8kdUO42Dm', 'lm Muamb\'A Rangaj Centre de Santé', 0),
 (11289, 52, '', 'lm Lomami Province', '', 'lm Wikong Zone de Santé', 'uf8nhzDTyik', 'lm Muinkand Centre de Santé', 0),
 (11290, 52, '', 'lm Lomami Province', '', 'lm Wikong Zone de Santé', 'VAid2pqmMtA', 'lm Mukand Poste de Santé', 0),
 (11291, 52, '', 'lm Lomami Province', '', 'lm Wikong Zone de Santé', 'X67rKBL5aUt', 'lm NDG Centre de Santé', 0),
@@ -15516,8 +15460,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (11340, 52, '', 'md Maindombe Province', '', 'md Bokoro Zone de Santé', 'sbjLjeiq9ZJ', 'md Bokoro Centre de Santé', 0),
 (11341, 52, '', 'md Maindombe Province', '', 'md Bokoro Zone de Santé', 'yTR6aKTdsdm', 'md Bokoro Hôpital Général de Référence', 0),
 (11342, 52, '', 'md Maindombe Province', '', 'md Bokoro Zone de Santé', 'sdXUmchMhDA', 'md Bokungu Centre de Santé', 0),
-(11343, 52, '', 'md Maindombe Province', '', 'md Bokoro Zone de Santé', 'CJCtTw61agr', 'md Duma Centre Hospitalier', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(11343, 52, '', 'md Maindombe Province', '', 'md Bokoro Zone de Santé', 'CJCtTw61agr', 'md Duma Centre Hospitalier', 0),
 (11344, 52, '', 'md Maindombe Province', '', 'md Bokoro Zone de Santé', 'b0GaVF1Koyb', 'md Duma Poste de Santé', 0),
 (11345, 52, '', 'md Maindombe Province', '', 'md Bokoro Zone de Santé', 'VPvFvDE9tZf', 'md Maman Ngoyolo Polyclinique', 0),
 (11346, 52, '', 'md Maindombe Province', '', 'md Bokoro Zone de Santé', 'kE1aWBq2QYw', 'md Bomo Centre de Santé', 0),
@@ -15725,7 +15668,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (11548, 52, '', 'md Maindombe Province', '', 'md Kiri Zone de Santé', 'KkXHNWT1EUA', 'md Ilanga Poste de Santé', 0),
 (11549, 52, '', 'md Maindombe Province', '', 'md Kiri Zone de Santé', 'yJqphgurhIx', 'md Bakatanga Poste de Santé', 0),
 (11550, 52, '', 'md Maindombe Province', '', 'md Kiri Zone de Santé', 'Flwns3d8Djf', 'md Bokala Centre  Santé', 0),
-(11551, 52, '', 'md Maindombe Province', '', 'md Kiri Zone de Santé', 'nNXvc1e4sOk', 'md Bokoli Centre de Santé', 0),
+(11551, 52, '', 'md Maindombe Province', '', 'md Kiri Zone de Santé', 'nNXvc1e4sOk', 'md Bokoli Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (11552, 52, '', 'md Maindombe Province', '', 'md Kiri Zone de Santé', 'd6WM4Rqoah8', 'md Bolongoweti Centre de Santé', 0),
 (11553, 52, '', 'md Maindombe Province', '', 'md Kiri Zone de Santé', 'QV3WLhnpraY', 'md Bompombo Centre de Santé', 0),
 (11554, 52, '', 'md Maindombe Province', '', 'md Kiri Zone de Santé', 'yZVlSeQZkLr', 'md Nkomo Poste de Santé', 0),
@@ -15927,8 +15871,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (11750, 52, '', 'md Maindombe Province', '', 'md Nioki Zone de Santé', 'bqIFi6V87Sb', 'md Ngievuo Centre de Santé', 0),
 (11751, 52, '', 'md Maindombe Province', '', 'md Nioki Zone de Santé', 'BWGy3Mk3OUW', 'md Ngolo Centre de Santé', 0),
 (11752, 52, '', 'md Maindombe Province', '', 'md Nioki Zone de Santé', 'M6W8NB2CUnP', 'md Besai Poste de Santé', 0),
-(11753, 52, '', 'md Maindombe Province', '', 'md Nioki Zone de Santé', 'jXzdYyhUB0C', 'md Kendale Poste de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(11753, 52, '', 'md Maindombe Province', '', 'md Nioki Zone de Santé', 'jXzdYyhUB0C', 'md Kendale Poste de Santé', 0),
 (11754, 52, '', 'md Maindombe Province', '', 'md Nioki Zone de Santé', 'klpllbBjWhf', 'md Ntsuni Centre de Santé', 0),
 (11755, 52, '', 'md Maindombe Province', '', 'md Nioki Zone de Santé', 'd1zIAAMQABz', 'md Nzamu Poste de Santé', 0),
 (11756, 52, '', 'md Maindombe Province', '', 'md Nioki Zone de Santé', 'mSSomhJdfe0', 'md Frère de la Charité Centre hospitalier', 0),
@@ -15937,7 +15880,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (11759, 52, '', 'md Maindombe Province', '', 'md Ntandembelo Zone de Santé', 'pXByBJ8DnBw', 'md Bobangi Centre de Santé', 0),
 (11760, 52, '', 'md Maindombe Province', '', 'md Ntandembelo Zone de Santé', 'Z3ggx9XStyg', 'md Lilenge Poste de Santé', 0),
 (11761, 52, '', 'md Maindombe Province', '', 'md Ntandembelo Zone de Santé', 'q7LvgJziYDd', 'md Bokoli Centre de Santé', 0),
-(11762, 52, '', 'md Maindombe Province', '', 'md Ntandembelo Zone de Santé', 'niovHYbfsAx', 'md Paa Parole d''age d''Anges Dispensaire', 0),
+(11762, 52, '', 'md Maindombe Province', '', 'md Ntandembelo Zone de Santé', 'niovHYbfsAx', 'md Paa Parole d\'age d\'Anges Dispensaire', 0),
 (11763, 52, '', 'md Maindombe Province', '', 'md Ntandembelo Zone de Santé', 'FiSiaIVsnAP', 'md Bosako 1 Centre de Santé de Référence', 0),
 (11764, 52, '', 'md Maindombe Province', '', 'md Ntandembelo Zone de Santé', 'cY3aSX1tt01', 'md Ibanda Poste de Santé', 0),
 (11765, 52, '', 'md Maindombe Province', '', 'md Ntandembelo Zone de Santé', 'pUbObleIyUI', 'md Mpenda Poste de Santé', 0),
@@ -16107,7 +16050,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (11929, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'vHaNfFQLQbG', 'mg Sous Sol Poste de Santé', 0),
 (11930, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'Z8S1oS21h7S', 'mg Bokonzi Centre de Santé', 0),
 (11931, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'JLpAQYB78qo', 'mg Bokutu Centre de Santé', 0),
-(11932, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'IGAzC99AKla', 'mg Boma l''Heure Poste de Santé', 0),
+(11932, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'IGAzC99AKla', 'mg Boma l\'Heure Poste de Santé', 0),
 (11933, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'dn5VmeB9q4b', 'mg Bominzo Centre de Santé', 0),
 (11934, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'wcNzr53n29m', 'mg Bongbomela Centre de Santé', 0),
 (11935, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'yxNy7ocS8lt', 'mg Boso Mohuli Poste de Santé', 0),
@@ -16143,7 +16086,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (11965, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'Mr1i3vHBo5N', 'mg Osongindola Poste de Santé', 0),
 (11966, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'EPE3NYxJtbX', 'mg Ngale Poste de Santé', 0),
 (11967, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'WgneFjexB2f', 'mg Nzongo Boso Gope Poste de Santé', 0),
-(11968, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'xoXDgHoXud2', 'mg Nzongo Centre de Santé', 0),
+(11968, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'xoXDgHoXud2', 'mg Nzongo Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (11969, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'ZsqZgrRuu8q', 'mg R4 Bolingo Centre de Santé', 0),
 (11970, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'N5VpbbLGY6w', 'mg R5 Diobo Centre de Santé', 0),
 (11971, 52, '', 'mg Mongala Province', '', 'mg Binga Zone de Santé', 'mRjAvKZCbiu', 'mg R5 Diobo Poste de Santé', 0),
@@ -16334,8 +16278,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (12156, 52, '', 'mg Mongala Province', '', 'mg Bumba Zone de Santé', 'YtMBBkso1vw', 'mg GOSEN Poste Sante', 0),
 (12157, 52, '', 'mg Mongala Province', '', 'mg Bumba Zone de Santé', 'WdK6YD1EssS', 'mg KAWELE Centre de Santé', 0),
 (12158, 52, '', 'mg Mongala Province', '', 'mg Bumba Zone de Santé', 'gkBILZrcofG', 'mg Kimbanguiste Centre de Sante', 0),
-(12159, 52, '', 'mg Mongala Province', '', 'mg Bumba Zone de Santé', 'Bfb2CEBaiTg', 'mg Lingonde1 Poste de sante', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(12159, 52, '', 'mg Mongala Province', '', 'mg Bumba Zone de Santé', 'Bfb2CEBaiTg', 'mg Lingonde1 Poste de sante', 0),
 (12160, 52, '', 'mg Mongala Province', '', 'mg Bumba Zone de Santé', 'MPtHuHjtJIF', 'mg Lisumbu Centre de Santé', 0),
 (12161, 52, '', 'mg Mongala Province', '', 'mg Bumba Zone de Santé', 'itupiqPCjhM', 'mg Meda Poste de Sante', 0),
 (12162, 52, '', 'mg Mongala Province', '', 'mg Bumba Zone de Santé', 'mpJie6Q49mS', 'mg 51ème Ceum Poste de Sante', 0),
@@ -16562,7 +16505,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (12383, 52, '', 'mg Mongala Province', '', 'mg Yambuku Zone de Santé', 'yZGgKV3clLT', 'mg Yamoha Poste de Santé', 0),
 (12384, 52, '', 'mg Mongala Province', '', 'mg Yambuku Zone de Santé', 'hWDxoK7ZUTn', 'mg Macabe Poste de Santé', 0),
 (12385, 52, '', 'mg Mongala Province', '', 'mg Yambuku Zone de Santé', 'yKmHFa45euu', 'mg Mangbokpale Centre de Santé', 0),
-(12386, 52, '', 'mg Mongala Province', '', 'mg Yambuku Zone de Santé', 'MFWZwjdDOoA', 'mg Mobunda Centre de Santé', 0),
+(12386, 52, '', 'mg Mongala Province', '', 'mg Yambuku Zone de Santé', 'MFWZwjdDOoA', 'mg Mobunda Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (12387, 52, '', 'mg Mongala Province', '', 'mg Yambuku Zone de Santé', 'HRCdg7ovoJ4', 'mg Monzamboli Centre de Santé de Référence', 0),
 (12388, 52, '', 'mg Mongala Province', '', 'mg Yambuku Zone de Santé', 'qtkkNgnLzoK', 'mg Yakombo 3Z Poste de Santé', 0),
 (12389, 52, '', 'mg Mongala Province', '', 'mg Yambuku Zone de Santé', 'pAT4xJnpTqP', 'mg Tshimbi Centre de Santé', 0),
@@ -16747,8 +16691,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (12568, 52, '', 'mn Maniema Province', '', 'mn Kalima Zone de Santé', 'Ssr6aDBg2JI', 'mn Bengo 2 Poste de Santé', 0),
 (12569, 52, '', 'mn Maniema Province', '', 'mn Kalima Zone de Santé', 'N85iHTBFctF', 'mn Kakaleka Centre de Santé', 0),
 (12570, 52, '', 'mn Maniema Province', '', 'mn Kalima Zone de Santé', 'jLbeCcXKUEd', 'mn Lutchurukuru Poste de Santé', 0),
-(12571, 52, '', 'mn Maniema Province', '', 'mn Kalima Zone de Santé', 'AoVXBfDtv7f', 'mn Yubuli Poste de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(12571, 52, '', 'mn Maniema Province', '', 'mn Kalima Zone de Santé', 'AoVXBfDtv7f', 'mn Yubuli Poste de Santé', 0),
 (12572, 52, '', 'mn Maniema Province', '', 'mn Kalima Zone de Santé', 'jDxRO26TXcq', 'mn Kakozwa Centre de Santé', 0),
 (12573, 52, '', 'mn Maniema Province', '', 'mn Kalima Zone de Santé', 'ApqWUJmmxHi', 'mn Kizigaziga Poste de Santé', 0),
 (12574, 52, '', 'mn Maniema Province', '', 'mn Kalima Zone de Santé', 'DcvAE3i2yKZ', 'mn Dieu Merci Centre Médical', 0),
@@ -16781,7 +16724,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (12601, 52, '', 'mn Maniema Province', '', 'mn Kalima Zone de Santé', 'mzAYDIoDRqI', 'mn Bunza Poste de Santé', 0),
 (12602, 52, '', 'mn Maniema Province', '', 'mn Kalima Zone de Santé', 'RM6HbM6aYpF', 'mn Muminia Poste de Santé', 0),
 (12603, 52, '', 'mn Maniema Province', '', 'mn Kalima Zone de Santé', 'fQuWLVLUY2w', 'mn Musenge Poste de Santé', 0),
-(12604, 52, '', 'mn Maniema Province', '', 'mn Kalima Zone de Santé', 'TaKaeFywLMJ', 'mn N''kenye Centre de Santé', 0),
+(12604, 52, '', 'mn Maniema Province', '', 'mn Kalima Zone de Santé', 'TaKaeFywLMJ', 'mn N\'kenye Centre de Santé', 0),
 (12605, 52, '', 'mn Maniema Province', '', 'mn Kampene Zone de Santé', 'xLRBBSbDiIH', 'mn Biunkutu Centre de Santé', 0),
 (12606, 52, '', 'mn Maniema Province', '', 'mn Kampene Zone de Santé', 'rUYIIkLBVIb', 'mn Kabundi Poste de Santé', 0),
 (12607, 52, '', 'mn Maniema Province', '', 'mn Kampene Zone de Santé', 'qAqzGCv3vq0', 'mn Bukama Centre de Santé', 0),
@@ -16980,7 +16923,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (12800, 52, '', 'mn Maniema Province', '', 'mn Lusangi Zone de Santé', 'AvN1XwECedn', 'mn Matu Poste de Santé', 0),
 (12801, 52, '', 'mn Maniema Province', '', 'mn Lusangi Zone de Santé', 'qzTjMsAbXsD', 'mn Kabungu Poste de Santé', 0),
 (12802, 52, '', 'mn Maniema Province', '', 'mn Lusangi Zone de Santé', 'CAx9vT7wbuh', 'mn Kagulu Centre de Santé', 0),
-(12803, 52, '', 'mn Maniema Province', '', 'mn Lusangi Zone de Santé', 'gjqG5Vt6KRY', 'mn Lusangi Hôpital Général de Référence', 0),
+(12803, 52, '', 'mn Maniema Province', '', 'mn Lusangi Zone de Santé', 'gjqG5Vt6KRY', 'mn Lusangi Hôpital Général de Référence', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (12804, 52, '', 'mn Maniema Province', '', 'mn Lusangi Zone de Santé', 'pSIhqE3NZlL', 'mn Kalibonda Centre de Santé', 0),
 (12805, 52, '', 'mn Maniema Province', '', 'mn Lusangi Zone de Santé', 'zV5nET0N7oP', 'mn Mumbasongo Poste de Santé', 0),
 (12806, 52, '', 'mn Maniema Province', '', 'mn Lusangi Zone de Santé', 'EG0l0xvDbhQ', 'mn Kasesa Centre de Santé', 0),
@@ -17157,8 +17101,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (12977, 52, '', 'mn Maniema Province', '', 'mn Tunda Zone de Santé', 'IJRnCeOf9PB', 'mn Mabila Tuku Poste de Santé', 0),
 (12978, 52, '', 'mn Maniema Province', '', 'mn Tunda Zone de Santé', 'c1XCsNDN6Lh', 'mn Utanga Centre de Santé de Référence', 0),
 (12979, 52, '', 'mn Maniema Province', '', 'mn Tunda Zone de Santé', 'AxpwcFejMw6', 'mn Difuma 1 Poste de Santé', 0),
-(12980, 52, '', 'mn Maniema Province', '', 'mn Tunda Zone de Santé', 'WPpPJmYEC7u', 'mn Utshu Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(12980, 52, '', 'mn Maniema Province', '', 'mn Tunda Zone de Santé', 'WPpPJmYEC7u', 'mn Utshu Centre de Santé', 0),
 (12981, 52, '', 'mn Maniema Province', '', 'mn Tunda Zone de Santé', 'swm6sCzkaxB', 'mn Tunda Hôpital Général de Référence', 0),
 (12982, 52, '', 'mn Maniema Province', '', 'mn Tunda Zone de Santé', 'JTGgeR1Oxgo', 'mn Wenga Centre de Santé', 0),
 (12983, 52, '', 'mn Maniema Province', '', 'mn Tunda Zone de Santé', 'M4VnR2E0D5g', 'mn Tunda Hôpital Général de Référence', 0),
@@ -17372,7 +17315,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (13191, 52, '', 'nk Nord Kivu Province', '', 'nk Goma Zone de Santé', 'gTELgcoCJnW', 'nk CASOP Centre de Santé', 0),
 (13192, 52, '', 'nk Nord Kivu Province', '', 'nk Goma Zone de Santé', 'NOdkGbLF5aJ', 'nk CCLK Centre de Santé', 0),
 (13193, 52, '', 'nk Nord Kivu Province', '', 'nk Goma Zone de Santé', 'Rrdtwb9I1RJ', 'nk CCLK Poste de Santé', 0),
-(13194, 52, '', 'nk Nord Kivu Province', '', 'nk Goma Zone de Santé', 'DdUei234Ubt', 'nk Dieu d''abord  Centre Médical', 0),
+(13194, 52, '', 'nk Nord Kivu Province', '', 'nk Goma Zone de Santé', 'DdUei234Ubt', 'nk Dieu d\'abord  Centre Médical', 0),
 (13195, 52, '', 'nk Nord Kivu Province', '', 'nk Goma Zone de Santé', 'iW8CsSzWSkL', 'nk Heal Africa Centre de Santé', 0),
 (13196, 52, '', 'nk Nord Kivu Province', '', 'nk Goma Zone de Santé', 'PCdUVY9Gieg', 'nk Heal Africa Hôpital', 0),
 (13197, 52, '', 'nk Nord Kivu Province', '', 'nk Goma Zone de Santé', 'r94FbQ5igwg', 'nk Nord-Kivu Hôpital Provincial de Référence', 0),
@@ -17393,7 +17336,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (13212, 52, '', 'nk Nord Kivu Province', '', 'nk Goma Zone de Santé', 'EjEwNVWoMrp', 'nk DOCS RDC Centre Hospitalier', 0),
 (13213, 52, '', 'nk Nord Kivu Province', '', 'nk Goma Zone de Santé', 'DhkPniyHeWG', 'nk Umoja Centre de Santé', 0),
 (13214, 52, '', 'nk Nord Kivu Province', '', 'nk Itebero Zone de Santé', 'D4ZrOCmbMJc', 'nk Baraka Katatwa Centre de Santé', 0),
-(13215, 52, '', 'nk Nord Kivu Province', '', 'nk Itebero Zone de Santé', 'OlC0HlOc0YI', 'nk Biriko Centre de Santé', 0),
+(13215, 52, '', 'nk Nord Kivu Province', '', 'nk Itebero Zone de Santé', 'OlC0HlOc0YI', 'nk Biriko Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (13216, 52, '', 'nk Nord Kivu Province', '', 'nk Itebero Zone de Santé', 'sUXXZ5IJKwX', 'nk Bongo Bongo Centre de Santé', 0),
 (13217, 52, '', 'nk Nord Kivu Province', '', 'nk Itebero Zone de Santé', 'q9EkkG7q4lI', 'nk Busurungi Centre de Santé', 0),
 (13218, 52, '', 'nk Nord Kivu Province', '', 'nk Itebero Zone de Santé', 'qCSwQ7wuZh6', 'nk Chambucha Centre de Santé', 0),
@@ -17485,7 +17429,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (13304, 52, '', 'nk Nord Kivu Province', '', 'nk Kamango Zone de Santé', 'H98lP6b9aTT', 'nk Nobili Poste de Santé', 0),
 (13305, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'F0MRRtXyWf1', 'nk Albert Barthel Centre de Santé', 0),
 (13306, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'V4U8ngpFalX', 'nk Albert Barthel Centre de Santé de Référence', 0),
-(13307, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'eIH9nfqU8Kc', 'nk De l''Equateur Poste de Santé', 0),
+(13307, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'eIH9nfqU8Kc', 'nk De l\'Equateur Poste de Santé', 0),
 (13308, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'FttQJNyxQi1', 'nk Pamed Centre Hospitalier ', 0),
 (13309, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'kSLS6RljQ3f', 'nk Amani Centre de Santé', 0),
 (13310, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'aMFVkPEauWW', 'nk Ararati Centre Médical', 0),
@@ -17509,7 +17453,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (13328, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'Zv4KgvUaJ4X', 'nk Katoyi Centre de Santé', 0),
 (13329, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'QxM7uSFefW5', 'nk Militaire Régional Hôpital', 0),
 (13330, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'BCv0RKbK6Cf', 'nk Mont Sinai Centre Médical', 0),
-(13331, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'IfGz1TVcDD2', 'nk Notre-Dame d''Afrique Centre Hospitalier', 0),
+(13331, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'IfGz1TVcDD2', 'nk Notre-Dame d\'Afrique Centre Hospitalier', 0),
 (13332, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'xQz7ZrEDEy4', 'nk Providentiel Dispensaire Poste de Santé', 0),
 (13333, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'eZfJyqPptdW', 'nk Gloire Divine Poste de Santé', 0),
 (13334, 52, '', 'nk Nord Kivu Province', '', 'nk Karisimbi Zone de Santé', 'jmHQ3CRjUUb', 'nk Kentunky Centre Médical', 0),
@@ -17556,8 +17500,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (13375, 52, '', 'nk Nord Kivu Province', '', 'nk Katoyi Zone de Santé', 'sogNG8KeY5q', 'nk Bukuba Centre de Santé', 0),
 (13376, 52, '', 'nk Nord Kivu Province', '', 'nk Katoyi Zone de Santé', 'mRfnSbWgrdx', 'nk Bukuba Centre de Santé de Référence', 0),
 (13377, 52, '', 'nk Nord Kivu Province', '', 'nk Katoyi Zone de Santé', 'Bwwclqp9AMW', 'nk Bukuba Poste de Santé', 0),
-(13378, 52, '', 'nk Nord Kivu Province', '', 'nk Katoyi Zone de Santé', 'GQt9M4C1YMJ', 'nk Bukumbirire Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(13378, 52, '', 'nk Nord Kivu Province', '', 'nk Katoyi Zone de Santé', 'GQt9M4C1YMJ', 'nk Bukumbirire Centre de Santé', 0),
 (13379, 52, '', 'nk Nord Kivu Province', '', 'nk Katoyi Zone de Santé', 'LxlsCl52W5K', 'nk Mutuza Poste de Santé', 0),
 (13380, 52, '', 'nk Nord Kivu Province', '', 'nk Katoyi Zone de Santé', 'TB0DDmQhQe3', 'nk Kasake Centre de Santé', 0),
 (13381, 52, '', 'nk Nord Kivu Province', '', 'nk Katoyi Zone de Santé', 'CJmYWX8ckMx', 'nk Katovu Centre de Santé', 0),
@@ -17709,7 +17652,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (13527, 52, '', 'nk Nord Kivu Province', '', 'nk Kibua Zone de Santé', 'AkK8kYVDL49', 'nk Buhimba Poste de Santé', 0),
 (13528, 52, '', 'nk Nord Kivu Province', '', 'nk Kibua Zone de Santé', 'jjwvnLESFom', 'nk Mitwa Poste de Santé', 0),
 (13529, 52, '', 'nk Nord Kivu Province', '', 'nk Kibua Zone de Santé', 'MMmaHzoR2o8', 'nk Ngenge Centre de Santé', 0),
-(13530, 52, '', 'nk Nord Kivu Province', '', 'nk Kibua Zone de Santé', 'OHCuZKhKcnD', 'nk N''Kimba Centre de Santé', 0),
+(13530, 52, '', 'nk Nord Kivu Province', '', 'nk Kibua Zone de Santé', 'OHCuZKhKcnD', 'nk N\'Kimba Centre de Santé', 0),
 (13531, 52, '', 'nk Nord Kivu Province', '', 'nk Kibua Zone de Santé', 'Id47ImXBKK1', 'nk Rwandanda Poste de Santé', 0),
 (13532, 52, '', 'nk Nord Kivu Province', '', 'nk Kibua Zone de Santé', 'OId4syYy1su', 'nk Braza Poste de Santé', 0),
 (13533, 52, '', 'nk Nord Kivu Province', '', 'nk Kibua Zone de Santé', 'kXEhOhhS6qj', 'nk Kilungu Poste de Santé', 0),
@@ -17802,7 +17745,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (13620, 52, '', 'nk Nord Kivu Province', '', 'nk Lubero Zone de Santé', 'OorPY9PRzTA', 'nk Kaviru Poste de Santé', 0),
 (13621, 52, '', 'nk Nord Kivu Province', '', 'nk Lubero Zone de Santé', 'EmtwkteBiaj', 'nk Kilaghu Poste de Santé', 0),
 (13622, 52, '', 'nk Nord Kivu Province', '', 'nk Lubero Zone de Santé', 'itYUTkXDOVa', 'nk Rughenda Poste de Santé', 0),
-(13623, 52, '', 'nk Nord Kivu Province', '', 'nk Lubero Zone de Santé', 'LdgbZHH0jpQ', 'nk Vulenze Poste de Santé', 0),
+(13623, 52, '', 'nk Nord Kivu Province', '', 'nk Lubero Zone de Santé', 'LdgbZHH0jpQ', 'nk Vulenze Poste de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (13624, 52, '', 'nk Nord Kivu Province', '', 'nk Lubero Zone de Santé', 'U5dVauxBGIk', 'nk Kasalala Centre de Santé', 0),
 (13625, 52, '', 'nk Nord Kivu Province', '', 'nk Lubero Zone de Santé', 'HaJgavaZdZe', 'nk Kasalala Centre de Santé de Référence', 0),
 (13626, 52, '', 'nk Nord Kivu Province', '', 'nk Lubero Zone de Santé', 'eF0AoPtncyL', 'nk Kavetya Poste de Santé', 0),
@@ -17959,8 +17903,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (13777, 52, '', 'nk Nord Kivu Province', '', 'nk Masisi Zone de Santé', 'TlsgHsheI2y', 'nk Kinene Poste de Santé', 0),
 (13778, 52, '', 'nk Nord Kivu Province', '', 'nk Masisi Zone de Santé', 'G702ClZyAAp', 'nk Mahya Centre de Santé', 0),
 (13779, 52, '', 'nk Nord Kivu Province', '', 'nk Masisi Zone de Santé', 'b1rkFcAqPMg', 'nk Masisi Centre de Santé', 0),
-(13780, 52, '', 'nk Nord Kivu Province', '', 'nk Masisi Zone de Santé', 'iUTEjMTS8rl', 'nk Masisi Hôpital Général de Référence', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(13780, 52, '', 'nk Nord Kivu Province', '', 'nk Masisi Zone de Santé', 'iUTEjMTS8rl', 'nk Masisi Hôpital Général de Référence', 0),
 (13781, 52, '', 'nk Nord Kivu Province', '', 'nk Masisi Zone de Santé', 'hxYK6YSo4o2', 'nk Mbitsi Centre de Santé', 0),
 (13782, 52, '', 'nk Nord Kivu Province', '', 'nk Masisi Zone de Santé', 'nMs0840f2UI', 'nk Shoa Poste de Santé', 0),
 (13783, 52, '', 'nk Nord Kivu Province', '', 'nk Masisi Zone de Santé', 'e93nOXAtx0F', 'nk Hembe Poste de Santé', 0),
@@ -18211,7 +18154,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (14028, 52, '', 'nk Nord Kivu Province', '', 'nk Rutshuru Zone de Santé', 'gn4b8FSn895', 'nk Mapendo Centre de Santé de Référence', 0),
 (14029, 52, '', 'nk Nord Kivu Province', '', 'nk Rutshuru Zone de Santé', 'eSerAkawGkv', 'nk Murambi Centre de Santé', 0),
 (14030, 52, '', 'nk Nord Kivu Province', '', 'nk Rutshuru Zone de Santé', 'jrJLesP8mwN', 'nk Salama Poste de Santé', 0),
-(14031, 52, '', 'nk Nord Kivu Province', '', 'nk Rutshuru Zone de Santé', 'McyiWQ2b37S', 'nk Kako Poste de Santé', 0),
+(14031, 52, '', 'nk Nord Kivu Province', '', 'nk Rutshuru Zone de Santé', 'McyiWQ2b37S', 'nk Kako Poste de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (14032, 52, '', 'nk Nord Kivu Province', '', 'nk Rutshuru Zone de Santé', 'o1n4DQvieHs', 'nk Rubare Centre de Santé', 0),
 (14033, 52, '', 'nk Nord Kivu Province', '', 'nk Rutshuru Zone de Santé', 'tyL0iEXs3I3', 'nk Rubare Centre de Santé de Référence', 0),
 (14034, 52, '', 'nk Nord Kivu Province', '', 'nk Rutshuru Zone de Santé', 'yDTkvvXPmD7', 'nk Rugari Centre de Santé', 0),
@@ -18362,8 +18306,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (14179, 52, '', 'nu Nord Ubangi Province', '', 'nu Bosobolo Zone de Santé', 'RGRXerQ32wf', 'nu Komenge Centre de Santé', 0),
 (14180, 52, '', 'nu Nord Ubangi Province', '', 'nu Bosobolo Zone de Santé', 'IoZjfqxhTCD', 'nu Kwala Centre de Santé', 0),
 (14181, 52, '', 'nu Nord Ubangi Province', '', 'nu Bosobolo Zone de Santé', 'V8kyU29Te68', 'nu Lombo Centre de Santé', 0),
-(14182, 52, '', 'nu Nord Ubangi Province', '', 'nu Bosobolo Zone de Santé', 'kLotagts05K', 'nu Modiri Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(14182, 52, '', 'nu Nord Ubangi Province', '', 'nu Bosobolo Zone de Santé', 'kLotagts05K', 'nu Modiri Centre de Santé', 0),
 (14183, 52, '', 'nu Nord Ubangi Province', '', 'nu Bosobolo Zone de Santé', 'PXAC41WhinK', 'nu Mongomono Centre de Santé', 0),
 (14184, 52, '', 'nu Nord Ubangi Province', '', 'nu Bosobolo Zone de Santé', 'nzGOcvwOzey', 'nu Ndubulu Centre de Santé', 0),
 (14185, 52, '', 'nu Nord Ubangi Province', '', 'nu Bosobolo Zone de Santé', 'Y1apSQu71TD', 'nu Bosobolo Hôpital Général de Référence', 0),
@@ -18534,7 +18477,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (14350, 52, '', 'nu Nord Ubangi Province', '', 'nu Yakoma Zone de Santé', 'TnpS0RU9qBE', 'nu Kanza Centre de Santé', 0),
 (14351, 52, '', 'nu Nord Ubangi Province', '', 'nu Yakoma Zone de Santé', 'E7GflbkbcQD', 'nu Ngbobe Poste de Santé', 0),
 (14352, 52, '', 'nu Nord Ubangi Province', '', 'nu Yakoma Zone de Santé', 'MOAs79OzBmz', 'nu Limasa Centre de Santé', 0),
-(14353, 52, '', 'nu Nord Ubangi Province', '', 'nu Yakoma Zone de Santé', 'ry3bcmxJC8A', 'nu Jardin d''Eden Poste de Santé', 0),
+(14353, 52, '', 'nu Nord Ubangi Province', '', 'nu Yakoma Zone de Santé', 'ry3bcmxJC8A', 'nu Jardin d\'Eden Poste de Santé', 0),
 (14354, 52, '', 'nu Nord Ubangi Province', '', 'nu Yakoma Zone de Santé', 'xQbOjCkeNkZ', 'nu Mission Centre de Santé', 0),
 (14355, 52, '', 'nu Nord Ubangi Province', '', 'nu Yakoma Zone de Santé', 'ADLMPuwKzEr', 'nu Yakoma Hôpital Général de Référence', 0),
 (14356, 52, '', 'nu Nord Ubangi Province', '', 'nu Yakoma Zone de Santé', 'JWrZlEuaH3N', 'nu Ngalo Centre de Santé', 0),
@@ -18622,7 +18565,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (14438, 52, '', 'sk Sud Kivu Province', '', 'sk Fizi Zone de Santé', 'xeLNKwbJcgT', 'sk Kilicha Centre de Santé', 0),
 (14439, 52, '', 'sk Sud Kivu Province', '', 'sk Fizi Zone de Santé', 'wSpMfCTLjhE', 'sk Lumanya Centre de Santé', 0),
 (14440, 52, '', 'sk Sud Kivu Province', '', 'sk Fizi Zone de Santé', 'DNwAZtWFQBl', 'sk Malinde Centre de Santé', 0),
-(14441, 52, '', 'sk Sud Kivu Province', '', 'sk Fizi Zone de Santé', 'hoVVUdqTrPw', 'sk Mshimbakye Centre de Santé', 0),
+(14441, 52, '', 'sk Sud Kivu Province', '', 'sk Fizi Zone de Santé', 'hoVVUdqTrPw', 'sk Mshimbakye Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (14442, 52, '', 'sk Sud Kivu Province', '', 'sk Fizi Zone de Santé', 'rMvtO3YpSYk', 'sk Mukera Centre de Santé', 0),
 (14443, 52, '', 'sk Sud Kivu Province', '', 'sk Fizi Zone de Santé', 'gd2C6XsPMGO', 'sk Mwangaza Centre de Santé', 0),
 (14444, 52, '', 'sk Sud Kivu Province', '', 'sk Fizi Zone de Santé', 'SJgdt4gT2uO', 'sk Mwayenga Centre Hôspitalier', 0),
@@ -18673,7 +18617,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (14489, 52, '', 'sk Sud Kivu Province', '', 'sk Ibanda Zone de Santé', 'hFLQCvXOIOC', 'sk Gihamba Centre de Santé', 0),
 (14490, 52, '', 'sk Sud Kivu Province', '', 'sk Ibanda Zone de Santé', 'yPfhsrF15h3', 'sk Ibanda Centre de Santé', 0),
 (14491, 52, '', 'sk Sud Kivu Province', '', 'sk Ibanda Zone de Santé', 'mVQ25s2M8Wk', 'sk La Police  Polyclinique', 0),
-(14492, 52, '', 'sk Sud Kivu Province', '', 'sk Ibanda Zone de Santé', 'j8a88znCy4K', 'sk Bya''Ene Centre Hôspitalier', 0),
+(14492, 52, '', 'sk Sud Kivu Province', '', 'sk Ibanda Zone de Santé', 'j8a88znCy4K', 'sk Bya\'Ene Centre Hôspitalier', 0),
 (14493, 52, '', 'sk Sud Kivu Province', '', 'sk Ibanda Zone de Santé', 'aDgPnz9UCUx', 'sk Irambo    Centre de Santé', 0),
 (14494, 52, '', 'sk Sud Kivu Province', '', 'sk Ibanda Zone de Santé', 'yA28kofU1Qd', 'sk Kalamo Centre Medical', 0),
 (14495, 52, '', 'sk Sud Kivu Province', '', 'sk Ibanda Zone de Santé', 'wbkdco28zIl', 'sk Kabuye Centre de Santé', 0),
@@ -18768,8 +18712,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (14584, 52, '', 'sk Sud Kivu Province', '', 'sk Kabare Zone de Santé', 'kSDr9LNj5go', 'sk Cirhendo Poste de Santé', 0),
 (14585, 52, '', 'sk Sud Kivu Province', '', 'sk Kabare Zone de Santé', 'JTlocPCke8J', 'sk Citungano Centre de Santé', 0),
 (14586, 52, '', 'sk Sud Kivu Province', '', 'sk Kabare Zone de Santé', 'Jzo01tRp7xq', 'sk Kalulu Centre de Santé', 0),
-(14587, 52, '', 'sk Sud Kivu Province', '', 'sk Kabare Zone de Santé', 'jPI56sZDYZT', 'sk Kinjuba Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(14587, 52, '', 'sk Sud Kivu Province', '', 'sk Kabare Zone de Santé', 'jPI56sZDYZT', 'sk Kinjuba Centre de Santé', 0),
 (14588, 52, '', 'sk Sud Kivu Province', '', 'sk Kabare Zone de Santé', 'wy07DvEsUI1', 'sk Ludaha Centre de Santé', 0),
 (14589, 52, '', 'sk Sud Kivu Province', '', 'sk Kabare Zone de Santé', 'LAKl2QjjkVI', 'sk Mbiza Centre de Santé', 0),
 (14590, 52, '', 'sk Sud Kivu Province', '', 'sk Kabare Zone de Santé', 'y9hRCLhf80w', 'sk Mbobero Centre de Santé', 0),
@@ -19038,7 +18981,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (14853, 52, '', 'sk Sud Kivu Province', '', 'sk Kimbi Lulenge Zone de Santé', 'cmYAw1MBJbe', 'sk Namukala Centre de Santé', 0),
 (14854, 52, '', 'sk Sud Kivu Province', '', 'sk Kimbi Lulenge Zone de Santé', 'mJOs8Slytwj', 'sk Nessani Centre de Santé', 0),
 (14855, 52, '', 'sk Sud Kivu Province', '', 'sk Kimbi Lulenge Zone de Santé', 'CtQXYURiKBM', 'sk Ngalula Centre de Santé', 0),
-(14856, 52, '', 'sk Sud Kivu Province', '', 'sk Kimbi Lulenge Zone de Santé', 'tCBoHXDNw5w', 'sk Sanga Centre de Santé', 0),
+(14856, 52, '', 'sk Sud Kivu Province', '', 'sk Kimbi Lulenge Zone de Santé', 'tCBoHXDNw5w', 'sk Sanga Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (14857, 52, '', 'sk Sud Kivu Province', '', 'sk Kimbi Lulenge Zone de Santé', 'zvjKGnGXzGN', 'sk Sungwe de Kimbi Centre de Santé', 0),
 (14858, 52, '', 'sk Sud Kivu Province', '', 'sk Kimbi Lulenge Zone de Santé', 'a8sXbYGTDG9', 'sk Tchonwe Centre de Santé', 0),
 (14859, 52, '', 'sk Sud Kivu Province', '', 'sk Kitutu Zone de Santé', 'xXr0LDx1F4s', 'sk Bakongo Centre de Santé', 0),
@@ -19177,8 +19121,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (14992, 52, '', 'sk Sud Kivu Province', '', 'sk Minova Zone de Santé', 'ZN7UecRJGZh', 'sk Kiniezire Centre de Santé', 0),
 (14993, 52, '', 'sk Sud Kivu Province', '', 'sk Minova Zone de Santé', 'VRIDwqmuITt', 'sk Kiniezire  Centre Hôspitalier', 0),
 (14994, 52, '', 'sk Sud Kivu Province', '', 'sk Minova Zone de Santé', 'GojOdjb2TF1', 'sk Kishinji Centre de Santé', 0),
-(14995, 52, '', 'sk Sud Kivu Province', '', 'sk Minova Zone de Santé', 'SaWSuDiXFwr', 'sk Kisongati Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(14995, 52, '', 'sk Sud Kivu Province', '', 'sk Minova Zone de Santé', 'SaWSuDiXFwr', 'sk Kisongati Centre de Santé', 0),
 (14996, 52, '', 'sk Sud Kivu Province', '', 'sk Minova Zone de Santé', 'fp3gRrDRMr0', 'sk Lumbishi Centre de Santé', 0),
 (14997, 52, '', 'sk Sud Kivu Province', '', 'sk Minova Zone de Santé', 'T1NrK2YlgNx', 'sk Minova Centre de Santé', 0),
 (14998, 52, '', 'sk Sud Kivu Province', '', 'sk Minova Zone de Santé', 'XG5bQA9EcvC', 'sk Muchibwe Centre de Santé', 0),
@@ -19453,7 +19396,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (15267, 52, '', 'sk Sud Kivu Province', '', 'sk Shabunda Zone de Santé', 'FOIMOG9Mjs5', 'sk Miswaki Centre de Santé', 0),
 (15268, 52, '', 'sk Sud Kivu Province', '', 'sk Shabunda Zone de Santé', 'kW4DjTu3472', 'sk 8È Cepac Poste de Santé', 0),
 (15269, 52, '', 'sk Sud Kivu Province', '', 'sk Shabunda Zone de Santé', 'uBUHYQXYCz9', 'sk Lukando Poste de Santé', 0),
-(15270, 52, '', 'sk Sud Kivu Province', '', 'sk Shabunda Zone de Santé', 'PEXFlnFrD1l', 'sk Mungembe Centre Hôspitalier', 0),
+(15270, 52, '', 'sk Sud Kivu Province', '', 'sk Shabunda Zone de Santé', 'PEXFlnFrD1l', 'sk Mungembe Centre Hôspitalier', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (15271, 52, '', 'sk Sud Kivu Province', '', 'sk Shabunda Zone de Santé', 'DXXg52MikWs', 'sk Mungembe/Kib Centre de Santé', 0),
 (15272, 52, '', 'sk Sud Kivu Province', '', 'sk Shabunda Zone de Santé', 'x0F9xlJnGeE', 'sk Ngingi Centre de Santé', 0),
 (15273, 52, '', 'sk Sud Kivu Province', '', 'sk Shabunda Zone de Santé', 'VVRuYsBX4pz', 'sk Keisha Poste de Santé', 0),
@@ -19584,8 +19528,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (15398, 52, '', 'sn Sankuru Province', '', 'sn Dikungu Zone de Santé', 'ya5STpOHFyC', 'sn Lotanga Poste de Santé', 0),
 (15399, 52, '', 'sn Sankuru Province', '', 'sn Dikungu Zone de Santé', 'CGkVu1VpqQj', 'sn Owele Centre de Santé', 0),
 (15400, 52, '', 'sn Sankuru Province', '', 'sn Dikungu Zone de Santé', 'XVMJ5QSTSRu', 'sn Tese Centre de Santé', 0),
-(15401, 52, '', 'sn Sankuru Province', '', 'sn Djalo Djeka Zone de Santé', 'LfAaMABcVtm', 'sn Djalo Catholique Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(15401, 52, '', 'sn Sankuru Province', '', 'sn Djalo Djeka Zone de Santé', 'LfAaMABcVtm', 'sn Djalo Catholique Centre de Santé', 0),
 (15402, 52, '', 'sn Sankuru Province', '', 'sn Djalo Djeka Zone de Santé', 'nxr2CBOh0Bt', 'sn Djalo Catholique Hôpital Général de Référence', 0),
 (15403, 52, '', 'sn Sankuru Province', '', 'sn Djalo Djeka Zone de Santé', 'UdWirxkhLUJ', 'sn Djalo Méthodiste Centre de Santé', 0),
 (15404, 52, '', 'sn Sankuru Province', '', 'sn Djalo Djeka Zone de Santé', 'osFpu9msxHW', 'sn Esengo Poste de Santé', 0),
@@ -19686,7 +19629,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (15499, 52, '', 'sn Sankuru Province', '', 'sn Lodja Zone de Santé', 'pIZ2piYeDb3', 'sn Lodja Hôpital Général de Référence', 0),
 (15500, 52, '', 'sn Sankuru Province', '', 'sn Lodja Zone de Santé', 'XnWtjnsBoQo', 'sn Loshakoyi Centre de Santé', 0),
 (15501, 52, '', 'sn Sankuru Province', '', 'sn Lodja Zone de Santé', 'rgzfPoxYb37', 'sn Maternité Franciscaine Centre de Santé', 0),
-(15502, 52, '', 'sn Sankuru Province', '', 'sn Lodja Zone de Santé', 'YoJ4eUmUdh1', 'sn Saint Francois d''Assise Hôpital', 0),
+(15502, 52, '', 'sn Sankuru Province', '', 'sn Lodja Zone de Santé', 'YoJ4eUmUdh1', 'sn Saint Francois d\'Assise Hôpital', 0),
 (15503, 52, '', 'sn Sankuru Province', '', 'sn Lodja Zone de Santé', 'H1DyWaVqsR9', 'sn Okitalohonga Centre de Santé', 0),
 (15504, 52, '', 'sn Sankuru Province', '', 'sn Lodja Zone de Santé', 'JPQqSPl0ZFc', 'sn Loseno Poste de Santé', 0),
 (15505, 52, '', 'sn Sankuru Province', '', 'sn Lodja Zone de Santé', 'SoBT6bvLAzJ', 'sn Okitandeke Centre de Santé', 0),
@@ -19871,7 +19814,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (15684, 52, '', 'sn Sankuru Province', '', 'sn Pania Mutombo Zone de Santé', 'ayiEZ6UlPJN', 'sn Mpandanyoyi Poste de Santé', 0),
 (15685, 52, '', 'sn Sankuru Province', '', 'sn Pania Mutombo Zone de Santé', 'Fs12CFOZ57f', 'sn Kabue Poste de Santé', 0),
 (15686, 52, '', 'sn Sankuru Province', '', 'sn Pania Mutombo Zone de Santé', 'CsplFBSnozv', 'sn Mulubule Centre de Santé', 0),
-(15687, 52, '', 'sn Sankuru Province', '', 'sn Pania Mutombo Zone de Santé', 'YkaPQLlWktx', 'sn  Namilumbu Poste de Santé', 0),
+(15687, 52, '', 'sn Sankuru Province', '', 'sn Pania Mutombo Zone de Santé', 'YkaPQLlWktx', 'sn  Namilumbu Poste de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (15688, 52, '', 'sn Sankuru Province', '', 'sn Pania Mutombo Zone de Santé', 'MXxbXrEyba8', 'sn Munkumbule Centre de Santé', 0),
 (15689, 52, '', 'sn Sankuru Province', '', 'sn Pania Mutombo Zone de Santé', 'RUyGK7CtUie', 'sn Dibaya Poste de Santé', 0),
 (15690, 52, '', 'sn Sankuru Province', '', 'sn Pania Mutombo Zone de Santé', 'kd6bkEdQkpW', 'sn Eshinebi Poste de Santé', 0),
@@ -19995,8 +19939,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (15808, 52, '', 'sn Sankuru Province', '', 'sn Wembo Nyama Zone de Santé', 'GA49mHUaOF1', 'sn Shenga Centre de Santé', 0),
 (15809, 52, '', 'sn Sankuru Province', '', 'sn Wembo Nyama Zone de Santé', 'oOntWiYoMwe', 'sn Ofuku Poste de Santé', 0),
 (15810, 52, '', 'sn Sankuru Province', '', 'sn Wembo Nyama Zone de Santé', 'ctOINuYjT8q', 'sn Tsheko Poto Centre de Santé', 0),
-(15811, 52, '', 'sn Sankuru Province', '', 'sn Wembo Nyama Zone de Santé', 'rfUb47xPUe5', 'sn Bas Lomami Poste de Santé ', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(15811, 52, '', 'sn Sankuru Province', '', 'sn Wembo Nyama Zone de Santé', 'rfUb47xPUe5', 'sn Bas Lomami Poste de Santé ', 0),
 (15812, 52, '', 'sn Sankuru Province', '', 'sn Wembo Nyama Zone de Santé', 'PMEvipaAWgo', 'sn Vanga Shilo Centre de Santé', 0),
 (15813, 52, '', 'sn Sankuru Province', '', 'sn Wembo Nyama Zone de Santé', 'euEgz08Jxtj', 'sn Vangatoko Poste de Santé', 0),
 (15814, 52, '', 'su Sud Ubangi Province', '', 'su Bangabola Zone de Santé', 'Mg8sLWGoptC', 'su Bangabola Centre de Santé', 0),
@@ -20049,7 +19992,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (15861, 52, '', 'su Sud Ubangi Province', '', 'su Bokonzi Zone de Santé', 'kxgKUMptQ2A', 'su Comuele Centre de Santé', 0),
 (15862, 52, '', 'su Sud Ubangi Province', '', 'su Bokonzi Zone de Santé', 'dmplUoe1gZl', 'su Mboma 1 Poste de Santé', 0),
 (15863, 52, '', 'su Sud Ubangi Province', '', 'su Bokonzi Zone de Santé', 'A1j775LQOlT', 'su Ngbolo Poste de Santé', 0),
-(15864, 52, '', 'su Sud Ubangi Province', '', 'su Bokonzi Zone de Santé', 'EE6LVpycFps', 'su Camp N''sele Poste de Santé', 0),
+(15864, 52, '', 'su Sud Ubangi Province', '', 'su Bokonzi Zone de Santé', 'EE6LVpycFps', 'su Camp N\'sele Poste de Santé', 0),
 (15865, 52, '', 'su Sud Ubangi Province', '', 'su Bokonzi Zone de Santé', 'ynDrqhcTHLS', 'su Dongo Centre de Santé ', 0),
 (15866, 52, '', 'su Sud Ubangi Province', '', 'su Bokonzi Zone de Santé', 'aZe3v8NJVNk', 'su Dongo Centre Hospitalier', 0),
 (15867, 52, '', 'su Sud Ubangi Province', '', 'su Bokonzi Zone de Santé', 'KoSOwZdjwlt', 'su Engalango Centre de Santé', 0),
@@ -20283,7 +20226,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (16095, 52, '', 'su Sud Ubangi Province', '', 'su Mawuya Zone de Santé', 'oItGIpvLbpi', 'su Ilawa Poste de Santé', 0),
 (16096, 52, '', 'su Sud Ubangi Province', '', 'su Mawuya Zone de Santé', 'he3HvkoFYpL', 'su Mbongo Centre de Santé', 0),
 (16097, 52, '', 'su Sud Ubangi Province', '', 'su Mawuya Zone de Santé', 'O16CMgvhtqS', 'su Mogombo Centre de Santé', 0),
-(16098, 52, '', 'su Sud Ubangi Province', '', 'su Mawuya Zone de Santé', 'XzKzm3ahYoo', 'su Mabukogba Kota Poste de Santé', 0),
+(16098, 52, '', 'su Sud Ubangi Province', '', 'su Mawuya Zone de Santé', 'XzKzm3ahYoo', 'su Mabukogba Kota Poste de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (16099, 52, '', 'su Sud Ubangi Province', '', 'su Mawuya Zone de Santé', 'CZR9GHUxsrT', 'su Sani Centre de Santé', 0),
 (16100, 52, '', 'su Sud Ubangi Province', '', 'su Mawuya Zone de Santé', 'SD1umfLlMvE', 'su Maluba Poste de Santé', 0),
 (16101, 52, '', 'su Sud Ubangi Province', '', 'su Mawuya Zone de Santé', 'h39ULoWMyVP', 'su Siforco Centre de Santé', 0),
@@ -20401,8 +20345,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (16213, 52, '', 'tn Tanganyika Province', '', 'tn Ankoro Zone de Santé', 'MvZV4WrjmVW', 'tn Kayombo Centre de sante', 0),
 (16214, 52, '', 'tn Tanganyika Province', '', 'tn Ankoro Zone de Santé', 'aK25imsFhZ4', 'tn Kibao Centre de Santé', 0),
 (16215, 52, '', 'tn Tanganyika Province', '', 'tn Ankoro Zone de Santé', 'w7eHszKuahv', 'tn Kibondwe Centre de Santé', 0),
-(16216, 52, '', 'tn Tanganyika Province', '', 'tn Ankoro Zone de Santé', 'txw5yMUaFZJ', 'tn Kilembwe Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(16216, 52, '', 'tn Tanganyika Province', '', 'tn Ankoro Zone de Santé', 'txw5yMUaFZJ', 'tn Kilembwe Centre de Santé', 0),
 (16217, 52, '', 'tn Tanganyika Province', '', 'tn Ankoro Zone de Santé', 'eFhHU7JjP67', 'tn Kilengalele Centre de Santé', 0),
 (16218, 52, '', 'tn Tanganyika Province', '', 'tn Ankoro Zone de Santé', 'yUpHNdXdYU5', 'tn Kiluba Centre de Santé', 0),
 (16219, 52, '', 'tn Tanganyika Province', '', 'tn Ankoro Zone de Santé', 'Y4HffeFF02A', 'tn Kilulwe Centre de Santé', 0),
@@ -20696,7 +20639,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (16507, 52, '', 'tn Tanganyika Province', '', 'tn Nyunzu Zone de Santé', 'WCZPIqHQCXz', 'tn Ngombe Mwana Centre de Santé', 0),
 (16508, 52, '', 'tn Tanganyika Province', '', 'tn Nyunzu Zone de Santé', 'TViqbt6axhu', 'tn Ngoy Centre de Santé', 0),
 (16509, 52, '', 'tn Tanganyika Province', '', 'tn Nyunzu Zone de Santé', 'ahDdHB4W4Rp', 'tn Sulumba Centre de Santé', 0),
-(16510, 52, '', 'tn Tanganyika Province', '', 'tn Nyunzu Zone de Santé', 'iKhM3POAERK', 'tn Nyunzu Hôpital Général de Référence', 0),
+(16510, 52, '', 'tn Tanganyika Province', '', 'tn Nyunzu Zone de Santé', 'iKhM3POAERK', 'tn Nyunzu Hôpital Général de Référence', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (16511, 52, '', 'tn Tanganyika Province', '', 'tn Nyunzu Zone de Santé', 'yrMymqSoxtE', 'tn Tchangatchanga Centre de Santé', 0),
 (16512, 52, '', 'tn Tanganyika Province', '', 'tn Nyunzu Zone de Santé', 'OKTsdCCbHgP', 'tn Zongia Poste de Santé', 0),
 (16513, 52, '', 'tn Tanganyika Province', '', 'tn Nyunzu Zone de Santé', 'fWjDr4lYJO6', 'tn Musebe Poste de Santé', 0),
@@ -20806,8 +20750,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (16617, 52, '', 'tp Tshopo Province', '', 'tp Basali Zone de Santé', 'KDiArRs2Cni', 'tp Bogbogbo Centre de Santé', 0),
 (16618, 52, '', 'tp Tshopo Province', '', 'tp Basali Zone de Santé', 'fhfXMsnFNqn', 'tp Bolika Centre de Santé', 0),
 (16619, 52, '', 'tp Tshopo Province', '', 'tp Basali Zone de Santé', 'TE3BAZA6WZe', 'tp Bombongo Centre de Santé', 0),
-(16620, 52, '', 'tp Tshopo Province', '', 'tp Basali Zone de Santé', 'cTmiemaC6A2', 'tp Bongbola Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(16620, 52, '', 'tp Tshopo Province', '', 'tp Basali Zone de Santé', 'cTmiemaC6A2', 'tp Bongbola Centre de Santé', 0),
 (16621, 52, '', 'tp Tshopo Province', '', 'tp Basali Zone de Santé', 'nP0BUOYw6Bi', 'tp Bunga Centre de Santé', 0),
 (16622, 52, '', 'tp Tshopo Province', '', 'tp Basali Zone de Santé', 'UMlgdkYuDo4', 'tp Lileko Centre de Santé', 0),
 (16623, 52, '', 'tp Tshopo Province', '', 'tp Basali Zone de Santé', 'HthKAfTTlRo', 'tp Mongandjo Centre de Santé', 0),
@@ -21002,7 +20945,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (16812, 52, '', 'tp Tshopo Province', '', 'tp Lubunga Zone de Santé', 'aG3BUIUAP63', 'tp Osio 16 Centre de Santé', 0),
 (16813, 52, '', 'tp Tshopo Province', '', 'tp Lubunga Zone de Santé', 'g3JuE7es0qG', 'tp Osio 21 Centre de Santé', 0),
 (16814, 52, '', 'tp Tshopo Province', '', 'tp Lubunga Zone de Santé', 'aY43MEflHY3', 'tp Osio 28 Poste de Santé', 0),
-(16815, 52, '', 'tp Tshopo Province', '', 'tp Lubunga Zone de Santé', 'tz1Av5DRHiZ', 'tp Pecheur d''Hommes Centre de Santé', 0),
+(16815, 52, '', 'tp Tshopo Province', '', 'tp Lubunga Zone de Santé', 'tz1Av5DRHiZ', 'tp Pecheur d\'Hommes Centre de Santé', 0),
 (16816, 52, '', 'tp Tshopo Province', '', 'tp Lubunga Zone de Santé', 'BUx5WohHnyj', 'tp Saint Andre Centre de Santé', 0),
 (16817, 52, '', 'tp Tshopo Province', '', 'tp Lubunga Zone de Santé', 'xYhR2smiufP', 'tp Sncc Centre de Santé', 0),
 (16818, 52, '', 'tp Tshopo Province', '', 'tp Lubunga Zone de Santé', 'AlwWxTHKkY7', 'tp Lubunga Hôpital Général de Référence', 0),
@@ -21115,7 +21058,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (16925, 52, '', 'tp Tshopo Province', '', 'tp Tshopo Zone de Santé', 'GAW27grwi0w', 'tp Merdi Centre Médical', 0),
 (16926, 52, '', 'tp Tshopo Province', '', 'tp Tshopo Zone de Santé', 'Y2wGwPpfnpz', 'tp Massina Centre de Santé', 0),
 (16927, 52, '', 'tp Tshopo Province', '', 'tp Tshopo Zone de Santé', 'OpGAXNzRrdo', 'tp Mbilinga Centre de Santé', 0),
-(16928, 52, '', 'tp Tshopo Province', '', 'tp Tshopo Zone de Santé', 'n40lUuA99Rp', 'tp Pumuzika Centre de Santé', 0),
+(16928, 52, '', 'tp Tshopo Province', '', 'tp Tshopo Zone de Santé', 'n40lUuA99Rp', 'tp Pumuzika Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (16929, 52, '', 'tp Tshopo Province', '', 'tp Tshopo Zone de Santé', 't2uo6ZcQbCr', 'tp Saint Joseph Centre de Santé de Référence', 0),
 (16930, 52, '', 'tp Tshopo Province', '', 'tp Tshopo Zone de Santé', 'TXayMYrsZ8H', 'tp Saint Pierre Centre de Santé', 0),
 (16931, 52, '', 'tp Tshopo Province', '', 'tp Tshopo Zone de Santé', 'Vy8dKL9RieE', 'tp Tshopo 1 Centre de Santé', 0),
@@ -21219,8 +21163,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (17029, 52, '', 'tp Tshopo Province', '', 'tp Yabaondo Zone de Santé', 'fHt0ITvSWvJ', 'tp Yanguba Centre de Santé', 0),
 (17030, 52, '', 'tp Tshopo Province', '', 'tp Yabaondo Zone de Santé', 'nXcCOoDGAUR', 'tp Yatumbo Centre de Santé', 0),
 (17031, 52, '', 'tp Tshopo Province', '', 'tp Yahisuli Zone de Santé', 'vXYOM1jkQjF', 'tp Bolongo Bas Centre de Santé', 0),
-(17032, 52, '', 'tp Tshopo Province', '', 'tp Yahisuli Zone de Santé', 'HbUbXSOX5Ck', 'tp Ekondi Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(17032, 52, '', 'tp Tshopo Province', '', 'tp Yahisuli Zone de Santé', 'HbUbXSOX5Ck', 'tp Ekondi Centre de Santé', 0),
 (17033, 52, '', 'tp Tshopo Province', '', 'tp Yahisuli Zone de Santé', 's7vct0HS7pI', 'tp Lingundja Poste de Santé', 0),
 (17034, 52, '', 'tp Tshopo Province', '', 'tp Yahisuli Zone de Santé', 'C1hxSQRIPqs', 'tp Likolo Centre de Santé', 0),
 (17035, 52, '', 'tp Tshopo Province', '', 'tp Yahisuli Zone de Santé', 'M6SiB8Wspup', 'tp Weti Poste de Santé', 0),
@@ -21452,7 +21395,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (17261, 52, '', 'tu Tshuapa Province', '', 'tu Boende Zone de Santé', 'sYAyyWJuQbO', 'tu Motema Mosantu Centre de Santé', 0),
 (17262, 52, '', 'tu Tshuapa Province', '', 'tu Boende Zone de Santé', 'TAz0Y4dHPOY', 'tu Ndjafa Centre de Santé', 0),
 (17263, 52, '', 'tu Tshuapa Province', '', 'tu Boende Zone de Santé', 'KD4FGqFLWAV', 'tu Nsonge Centre de Santé', 0),
-(17264, 52, '', 'tu Tshuapa Province', '', 'tu Boende Zone de Santé', 'U8wNv4768Zr', 'tu Wats''Ikengo Centre de Santé', 0),
+(17264, 52, '', 'tu Tshuapa Province', '', 'tu Boende Zone de Santé', 'U8wNv4768Zr', 'tu Wats\'Ikengo Centre de Santé', 0),
 (17265, 52, '', 'tu Tshuapa Province', '', 'tu Boende Zone de Santé', 'o7oQe8FWl85', 'tu Wats?i Centre de Santé', 0),
 (17266, 52, '', 'tu Tshuapa Province', '', 'tu Boende Zone de Santé', 'GbmuvaX7DAH', 'tu Yaa Centre de Santé de Référence', 0),
 (17267, 52, '', 'tu Tshuapa Province', '', 'tu Boende Zone de Santé', 'etbI8uYd5sQ', 'tu Iyenge Centre de Santé', 0),
@@ -21536,7 +21479,8 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (17345, 52, '', 'tu Tshuapa Province', '', 'tu Djolu Zone de Santé', 'oAdZ8FUJrFR', 'tu Nkole Centre de Santé', 0),
 (17346, 52, '', 'tu Tshuapa Province', '', 'tu Djolu Zone de Santé', 'rEdDb2k0VPD', 'tu Nsema Biamba Centre de Santé', 0),
 (17347, 52, '', 'tu Tshuapa Province', '', 'tu Djolu Zone de Santé', 'Oe58pxjqqBL', 'tu Wamba Centre de Santé', 0),
-(17348, 52, '', 'tu Tshuapa Province', '', 'tu Djolu Zone de Santé', 'YzvLfaKCtUu', 'tu Wamba Centre de Santé', 0),
+(17348, 52, '', 'tu Tshuapa Province', '', 'tu Djolu Zone de Santé', 'YzvLfaKCtUu', 'tu Wamba Centre de Santé', 0);
+INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
 (17349, 52, '', 'tu Tshuapa Province', '', 'tu Djolu Zone de Santé', 'vvO1GBftL1m', 'tu Yakate Centre de Santé', 0),
 (17350, 52, '', 'tu Tshuapa Province', '', 'tu Djolu Zone de Santé', 'vuZarBjlSfB', 'tu Yakili Centre de Santé', 0),
 (17351, 52, '', 'tu Tshuapa Province', '', 'tu Djolu Zone de Santé', 'EzFeFr4V17z', 'tu Yalikala Centre de Santé', 0),
@@ -21635,8 +21579,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (17444, 52, '', 'tu Tshuapa Province', '', 'tu Mompono Zone de Santé', 'gYWMsIKNuhy', 'tu Ekembela Centre de Santé', 0),
 (17445, 52, '', 'tu Tshuapa Province', '', 'tu Mompono Zone de Santé', 'EfT22gP9pEG', 'tu Ekoka Poste de Santé', 0),
 (17446, 52, '', 'tu Tshuapa Province', '', 'tu Mompono Zone de Santé', 'UlQy4IlvUd7', 'tu Ekukola Centre de Santé', 0),
-(17447, 52, '', 'tu Tshuapa Province', '', 'tu Mompono Zone de Santé', 'pfn5wDDuo6M', 'tu Esangani Centre de Santé', 0);
-INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `districtCode`, `districtName`, `facilityCode`, `facilityName`, `selected`) VALUES
+(17447, 52, '', 'tu Tshuapa Province', '', 'tu Mompono Zone de Santé', 'pfn5wDDuo6M', 'tu Esangani Centre de Santé', 0),
 (17448, 52, '', 'tu Tshuapa Province', '', 'tu Mompono Zone de Santé', 'aLOjyzbJaWF', 'tu Esangani Centre de Santé', 0),
 (17449, 52, '', 'tu Tshuapa Province', '', 'tu Mompono Zone de Santé', 'R4ElyRKYMqq', 'tu Esoyafongo Poste de Santé', 0),
 (17450, 52, '', 'tu Tshuapa Province', '', 'tu Mompono Zone de Santé', 'kImh4bnAHm5', 'tu Liyolongo Poste de Santé', 0),
@@ -21778,7 +21721,7 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 (17586, 52, '', 'tu Tshuapa Province', '', 'tu Wema Zone de Santé', 'WZ6Wd7Wkh4f', 'tu Belika Poste de Santé', 0),
 (17587, 52, '', 'tu Tshuapa Province', '', 'tu Wema Zone de Santé', 'NBnWxCLPMxq', 'tu Lolungu Centre de Santé', 0),
 (17588, 52, '', 'tu Tshuapa Province', '', 'tu Wema Zone de Santé', 'V9D2kKznvY3', 'tu Malela Centre de Santé', 0),
-(17589, 52, '', 'tu Tshuapa Province', '', 'tu Wema Zone de Santé', 'zB7nthKxWnX', 'tu Ngomb''Isongu Centre de Santé', 0),
+(17589, 52, '', 'tu Tshuapa Province', '', 'tu Wema Zone de Santé', 'zB7nthKxWnX', 'tu Ngomb\'Isongu Centre de Santé', 0),
 (17590, 52, '', 'tu Tshuapa Province', '', 'tu Wema Zone de Santé', 'E0kv7D3Vewb', 'tu Nkoma Poste de Santé', 0),
 (17591, 52, '', 'tu Tshuapa Province', '', 'tu Wema Zone de Santé', 'C4IdEwhvqgo', 'tu Pilote Wema Centre de Santé', 0),
 (17592, 52, '', 'tu Tshuapa Province', '', 'tu Wema Zone de Santé', 'g96Uf3WPACO', 'tu Wema Hôpital Général de Référence', 0),
@@ -21820,71 +21763,81 @@ INSERT INTO `facilities` (`id`, `countryId`, `regionCode`, `regionName`, `distri
 -- --------------------------------------------------------
 
 --
--- Structure de la table `facility`
+-- Table structure for table `facility`
 --
 
-CREATE TABLE IF NOT EXISTS `facility` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `facility` (
+  `id` int(11) NOT NULL,
   `countryCode` int(11) NOT NULL,
+  `facilityType` int(255) NOT NULL,
+  `region` varchar(100) NOT NULL,
+  `district` varchar(100) NOT NULL,
   `code` varchar(25) NOT NULL,
-  `ihrisCode` varchar(50) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `parentCode` varchar(50) NOT NULL,
-  `parentName` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14250 ;
+  `name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `facility`
+-- Dumping data for table `facility`
 --
 
-INSERT INTO `facility` (`id`, `countryCode`, `code`, `ihrisCode`, `name`, `parentCode`, `parentName`) VALUES
-(14246, 52, 'djEJoDxWda6', 'facility|15', 'Abbé Delbeke Centre de Santé', '', 'Lubumbashi'),
-(14247, 52, 'TsbCLPX5EAd', 'facility|3', 'Accueil Centre de Santé', '', 'Kenya'),
-(14248, 52, 'ot1gXRKpxiX', 'facility|13', 'Adventiste Centre Hôspitalier', '', 'Lubumbashi');
+INSERT INTO `facility` (`id`, `countryCode`, `facilityType`, `region`, `district`, `code`, `name`) VALUES
+(14246, 52, 8738778, 'Nord-Ubangi', 'Karawa', 'djEJoDxWda6', 'HGR Karawa'),
+(14247, 52, 8738778, 'Nord-Ubangi', 'Karawa', 'TsbCLPX5EAd', 'CS Karawa Cité'),
+(14248, 52, 8738778, 'Nord-Ubangi', 'Karawa', 'ot1gXRKpxiX', 'CS Loko');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `keywords`
+-- Table structure for table `keywords`
 --
 
-CREATE TABLE IF NOT EXISTS `keywords` (
-  `tagword` varchar(25) NOT NULL,
-  PRIMARY KEY (`tagword`)
+CREATE TABLE `keywords` (
+  `tagword` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `results`
+-- Table structure for table `results`
 --
 
-CREATE TABLE IF NOT EXISTS `results` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `results` (
+  `id` int(11) NOT NULL,
   `facilityId` int(11) NOT NULL,
   `cadreId` int(11) NOT NULL,
   `required` int(11) NOT NULL,
-  `available` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `available` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `staff`
+-- Table structure for table `results_record`
 --
 
-CREATE TABLE IF NOT EXISTS `staff` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `results_record` (
+  `id` int(11) NOT NULL,
+  `cadreCode` varchar(50) NOT NULL,
+  `facilityCode` varchar(100) NOT NULL,
+  `current` double NOT NULL,
+  `needed` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `staff`
+--
+
+CREATE TABLE `staff` (
+  `id` int(11) NOT NULL,
   `facilityCode` varchar(25) NOT NULL,
   `cadreCode` varchar(25) NOT NULL,
-  `staffCount` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+  `staffCount` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `staff`
+-- Dumping data for table `staff`
 --
 
 INSERT INTO `staff` (`id`, `facilityCode`, `cadreCode`, `staffCount`) VALUES
@@ -21894,107 +21847,105 @@ INSERT INTO `staff` (`id`, `facilityCode`, `cadreCode`, `staffCount`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `std_cadre`
+-- Table structure for table `std_cadre`
 --
 
-CREATE TABLE IF NOT EXISTS `std_cadre` (
+CREATE TABLE `std_cadre` (
   `code` varchar(50) NOT NULL,
-  `name_fr` varchar(100) NOT NULL,
-  `name_en` varchar(100) NOT NULL,
+  `countryId` int(11) NOT NULL,
+  `facility_type_id` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
   `work_days` float NOT NULL,
   `work_hours` float NOT NULL,
   `annual_leave` float NOT NULL,
   `sick_leave` float NOT NULL,
   `other_leave` float NOT NULL,
-  `admin_task` float NOT NULL,
-  PRIMARY KEY (`code`)
+  `admin_task` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `std_cadre`
+-- Dumping data for table `std_cadre`
 --
 
-INSERT INTO `std_cadre` (`code`, `name_fr`, `name_en`, `work_days`, `work_hours`, `annual_leave`, `sick_leave`, `other_leave`, `admin_task`) VALUES
-('1012hurh', 'Tech-labo', 'Lab tech', 5, 8, 0, 0, 0, 10),
-('2908Jjkdh', 'Médecin', 'Medical Doctor', 5, 8, 0, 0, 0, 10),
-('osnk9032i', 'Sage-femme', 'Wise wife', 5, 8, 0, 0, 0, 10),
-('wmiff88', 'Infirmier', 'Nurse', 5, 8, 0, 0, 0, 10);
+INSERT INTO `std_cadre` (`code`, `countryId`, `facility_type_id`, `name`, `work_days`, `work_hours`, `annual_leave`, `sick_leave`, `other_leave`, `admin_task`) VALUES
+('1012hurh', 52, '8738778', 'Lab tech', 5, 8, 0, 0, 0, 10),
+('2908Jjkdh', 52, '8738778', 'Medical Doctor', 5, 8, 0, 0, 0, 10),
+('osnk9032i', 52, '8738778', 'Wise wife', 5, 8, 0, 0, 0, 10),
+('wmiff88', 52, '8738778', 'Nurse', 5.5, 8, 30, 2, 6.2, 10);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `std_facility_type`
+-- Table structure for table `std_facility_type`
 --
 
-CREATE TABLE IF NOT EXISTS `std_facility_type` (
+CREATE TABLE `std_facility_type` (
+  `id` int(11) NOT NULL,
   `code` varchar(100) NOT NULL,
-  `name_fr` varchar(25) NOT NULL,
-  `name_en` varchar(25) NOT NULL
+  `countryId` int(11) NOT NULL,
+  `name` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `std_facility_type`
+-- Dumping data for table `std_facility_type`
 --
 
-INSERT INTO `std_facility_type` (`code`, `name_fr`, `name_en`) VALUES
-('8738778a-9aea-431e-bbfa-bb99e87da320', 'Hôpital général', 'Central hospital'),
-('b2a5c8e0-5c2e-4691-a945-d031325d6b55', 'Centre de santé', 'Health center');
+INSERT INTO `std_facility_type` (`id`, `code`, `countryId`, `name`) VALUES
+(1, '8738778', 52, 'Hôpital général'),
+(2, '8738779', 52, 'Centre de santé');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `std_treatment`
+-- Table structure for table `std_treatment`
 --
 
-CREATE TABLE IF NOT EXISTS `std_treatment` (
+CREATE TABLE `std_treatment` (
+  `id` int(11) NOT NULL,
   `code` varchar(50) NOT NULL,
   `cadre_code` varchar(50) NOT NULL,
-  `name_fr` varchar(100) NOT NULL,
-  `name_en` varchar(100) NOT NULL,
-  `treatment_type` enum('SERVICE','ADDITIONAL','INDIVIDUAL') NOT NULL,
-  `facility_type` varchar(100) NOT NULL,
-  `duration` int(11) NOT NULL,
-  PRIMARY KEY (`code`)
+  `countryId` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `treatment_type` enum('SERVICE','ADDITIONAL','INDIVIDUAL') NOT NULL DEFAULT 'SERVICE',
+  `duration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `std_treatment`
+-- Dumping data for table `std_treatment`
 --
 
-INSERT INTO `std_treatment` (`code`, `cadre_code`, `name_fr`, `name_en`, `treatment_type`, `facility_type`, `duration`) VALUES
-('157a54fc-a76a-475b-8684-a8bf376654d4', 'wmiff88', 'Accompagnement des patients référés', 'Transfert', 'SERVICE', '8738778a-9aea-431e-bbfa-bb99e87da320', 360),
-('19453745-8586-481f-aca2-04896dc7317e', 'wmiff88', 'Section césarienne', 'Caesarean section', 'SERVICE', '8738778a-9aea-431e-bbfa-bb99e87da320', 165),
-('296af4b9-cc56-46ac-a8ab-be2f583ea57a', 'wmiff88', 'Consultations ambulatoires ', 'consultation', 'SERVICE', '8738778a-9aea-431e-bbfa-bb99e87da320', 30),
-('29c9494c-3743-49a0-a5ad-3f6cf4d245fc', 'wmiff88', 'Chirurgie mineur et Circoncision', 'Minor operation and male circumcisions', 'SERVICE', '8738778a-9aea-431e-bbfa-bb99e87da320', 25),
-('471ac1e9-608a-4b96-9ac9-a5906a2c70e5', 'wmiff88', 'Patients hautement dépendant', 'Routine nursing care (high dependent patients)', 'SERVICE', '8738778a-9aea-431e-bbfa-bb99e87da320', 351),
-('5956a3fe-a109-472a-91e5-d910f2ab6632', 'wmiff88', 'Patients autonomes', 'Routine nursing care (self care patients)', 'SERVICE', '8738778a-9aea-431e-bbfa-bb99e87da320', 95),
-('5d789a41-a11b-4f0c-b4e0-0c19351c2a06', 'wmiff88', 'Consultations aux urgences', 'Emergency', 'SERVICE', '8738778a-9aea-431e-bbfa-bb99e87da320', 60),
-('ae1700ff-67c1-47cd-a3db-13dfe27c9a55', 'wmiff88', 'Sortants autorises/guéris', 'Discharge a patient', 'SERVICE', '8738778a-9aea-431e-bbfa-bb99e87da320', 24),
-('c832ef65-ae15-48d6-8a13-6d4816493a9c', 'wmiff88', 'Audit de décès', 'Death: Last office', 'SERVICE', '8738778a-9aea-431e-bbfa-bb99e87da320', 42),
-('e32ebd3d-8158-4379-b2c1-096e7d6f9991', 'wmiff88', 'Admission de patient', 'Admit a patient', 'SERVICE', '8738778a-9aea-431e-bbfa-bb99e87da320', 52),
-('f68b386d-a559-46c9-8796-d5edc2d8a610', 'wmiff88', 'Opération majeure', 'Major operation', 'SERVICE', '8738778a-9aea-431e-bbfa-bb99e87da320', 165);
+INSERT INTO `std_treatment` (`id`, `code`, `cadre_code`, `countryId`, `name`, `treatment_type`, `duration`) VALUES
+(1, '157a54fc-a76a-475b-8684-a8bf376654d4', 'wmiff88', 52, 'Transfert', 'SERVICE', 360),
+(2, '19453745-8586-481f-aca2-04896dc7317e', 'wmiff88', 52, 'Caesarean section', 'SERVICE', 330),
+(3, '296af4b9-cc56-46ac-a8ab-be2f583ea57a', 'wmiff88', 52, 'consultation', 'SERVICE', 30),
+(4, '29c9494c-3743-49a0-a5ad-3f6cf4d245fc', 'wmiff88', 52, 'Minor operation and male circumcisions', 'SERVICE', 50),
+(5, '471ac1e9-608a-4b96-9ac9-a5906a2c70e5', 'wmiff88', 52, 'Routine nursing care (high dependent patients)', 'SERVICE', 351),
+(6, '5956a3fe-a109-472a-91e5-d910f2ab6632', 'wmiff88', 52, 'Routine nursing care (self care patients)', 'SERVICE', 95),
+(7, '5d789a41-a11b-4f0c-b4e0-0c19351c2a06', 'wmiff88', 52, 'Emergency', 'SERVICE', 60),
+(8, 'ae1700ff-67c1-47cd-a3db-13dfe27c9a55', 'wmiff88', 52, 'Discharge a patient', 'SERVICE', 24),
+(9, 'c832ef65-ae15-48d6-8a13-6d4816493a9c', 'wmiff88', 52, 'Death: Last office', 'SERVICE', 42),
+(10, 'e32ebd3d-8158-4379-b2c1-096e7d6f9991', 'wmiff88', 52, 'Admit a patient', 'SERVICE', 52),
+(11, 'f68b386d-a559-46c9-8796-d5edc2d8a610', 'wmiff88', 52, 'Major operation', 'SERVICE', 165);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `users`
+-- Table structure for table `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
   `login` varchar(25) NOT NULL,
   `name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `countryId` int(11) NOT NULL,
   `roleId` int(11) NOT NULL,
-  `last_login` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `last_login` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `login`, `name`, `email`, `password`, `countryId`, `roleId`, `last_login`) VALUES
@@ -22003,17 +21954,16 @@ INSERT INTO `users` (`id`, `login`, `name`, `email`, `password`, `countryId`, `r
 -- --------------------------------------------------------
 
 --
--- Structure de la table `user_roles`
+-- Table structure for table `user_roles`
 --
 
-CREATE TABLE IF NOT EXISTS `user_roles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(25) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+CREATE TABLE `user_roles` (
+  `id` int(11) NOT NULL,
+  `name` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `user_roles`
+-- Dumping data for table `user_roles`
 --
 
 INSERT INTO `user_roles` (`id`, `name`) VALUES
@@ -22023,10 +21973,10 @@ INSERT INTO `user_roles` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `wdidata`
+-- Table structure for table `wdidata`
 --
 
-CREATE TABLE IF NOT EXISTS `wdidata` (
+CREATE TABLE `wdidata` (
   `Country_Name` varchar(25) NOT NULL,
   `2016` int(11) NOT NULL,
   `2015` int(11) NOT NULL,
@@ -22051,7 +22001,7 @@ CREATE TABLE IF NOT EXISTS `wdidata` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `wdidata`
+-- Dumping data for table `wdidata`
 --
 
 INSERT INTO `wdidata` (`Country_Name`, `2016`, `2015`, `2014`, `2013`, `2012`, `2011`, `2010`, `2009`, `2008`, `2007`, `2006`, `2005`, `2004`, `2003`, `2002`, `2001`, `2000`, `Country_Code`, `Indicator_Name`, `Indicator_Code`) VALUES
@@ -22060,23 +22010,284 @@ INSERT INTO `wdidata` (`Country_Name`, `2016`, `2015`, `2014`, `2013`, `2012`, `
 -- --------------------------------------------------------
 
 --
--- Structure de la table `years`
+-- Table structure for table `years`
 --
 
-CREATE TABLE IF NOT EXISTS `years` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `year` varchar(5) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+CREATE TABLE `years` (
+  `id` int(11) NOT NULL,
+  `year` varchar(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `years`
+-- Dumping data for table `years`
 --
 
 INSERT INTO `years` (`id`, `year`) VALUES
 (1, '2017'),
 (2, '2018'),
 (3, '2019');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `activities`
+--
+ALTER TABLE `activities`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `activity_stats`
+--
+ALTER TABLE `activity_stats`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `activity_time`
+--
+ALTER TABLE `activity_time`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `archive`
+--
+ALTER TABLE `archive`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `config`
+--
+ALTER TABLE `config`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `country`
+--
+ALTER TABLE `country`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `country_treatment`
+--
+ALTER TABLE `country_treatment`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `country_treatment_dhis2`
+--
+ALTER TABLE `country_treatment_dhis2`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dashboard`
+--
+ALTER TABLE `dashboard`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `dashboard_items`
+--
+ALTER TABLE `dashboard_items`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `facilities`
+--
+ALTER TABLE `facilities`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `facility`
+--
+ALTER TABLE `facility`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `keywords`
+--
+ALTER TABLE `keywords`
+  ADD PRIMARY KEY (`tagword`);
+
+--
+-- Indexes for table `results`
+--
+ALTER TABLE `results`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `results_record`
+--
+ALTER TABLE `results_record`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `staff`
+--
+ALTER TABLE `staff`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `std_cadre`
+--
+ALTER TABLE `std_cadre`
+  ADD PRIMARY KEY (`code`);
+
+--
+-- Indexes for table `std_facility_type`
+--
+ALTER TABLE `std_facility_type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `std_treatment`
+--
+ALTER TABLE `std_treatment`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `login` (`login`);
+
+--
+-- Indexes for table `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `years`
+--
+ALTER TABLE `years`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `activities`
+--
+ALTER TABLE `activities`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24980;
+
+--
+-- AUTO_INCREMENT for table `activity_stats`
+--
+ALTER TABLE `activity_stats`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `activity_time`
+--
+ALTER TABLE `activity_time`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `archive`
+--
+ALTER TABLE `archive`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `config`
+--
+ALTER TABLE `config`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `country`
+--
+ALTER TABLE `country`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=250;
+
+--
+-- AUTO_INCREMENT for table `country_treatment`
+--
+ALTER TABLE `country_treatment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `country_treatment_dhis2`
+--
+ALTER TABLE `country_treatment_dhis2`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `dashboard`
+--
+ALTER TABLE `dashboard`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `dashboard_items`
+--
+ALTER TABLE `dashboard_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `facilities`
+--
+ALTER TABLE `facilities`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17627;
+
+--
+-- AUTO_INCREMENT for table `facility`
+--
+ALTER TABLE `facility`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14250;
+
+--
+-- AUTO_INCREMENT for table `results`
+--
+ALTER TABLE `results`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `results_record`
+--
+ALTER TABLE `results_record`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `staff`
+--
+ALTER TABLE `staff`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `std_facility_type`
+--
+ALTER TABLE `std_facility_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `std_treatment`
+--
+ALTER TABLE `std_treatment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `user_roles`
+--
+ALTER TABLE `user_roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `years`
+--
+ALTER TABLE `years`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
