@@ -9,7 +9,7 @@ import Steps, { Step } from 'rc-steps';
 
 import TemplatePage from '../template/TemplatePage';
 import StatisticsPage from '../admin/StatisticsPage';
-import CaluclationPage from '../user/CalculationPage';
+import CaluclationPage from '../calculation/CalculationPage';
 
 const generate_template_desc ='Generate service and HR data template.';
 

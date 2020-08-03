@@ -12,6 +12,7 @@ export default class NewFacilityTypeComponent extends React.Component {
         this.state = {
             code:'',
             name:'',
+            countryId: localStorage.getItem('countryId')
         }
     }
     componentDidMount(){

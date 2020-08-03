@@ -52,20 +52,25 @@ export default class DashboardManagerComponent extends React.Component {
 
             res.data.forEach(fv => {
 
-                favoritesCombo.push({ label: fv.label, value: fv.id });
+                var lbl = `${fv.label}-${fv.cadre}`
+
+                favoritesCombo.push({ label: lbl, value: fv.id });
             });
             this.setState({favoritesCombo: favoritesCombo});       
         }).catch(err => console.log(err));
     }
 
-    launchToastr(msg) {
+    launchToastr(msg,type="ERROR") {
         toastr.options = {
             positionClass: 'toast-top-full-width',
             hideDuration: 15,
             timeOut: 6000
         }
         toastr.clear()
-        setTimeout(() => toastr.error(msg), 300)
+        if(type == 'ERROR')
+            setTimeout(() => toastr.error(msg), 300)
+        else
+            setTimeout(() => toastr.success(msg),300)
     }
 
     deleteItem(id) {
@@ -272,7 +277,7 @@ export default class DashboardManagerComponent extends React.Component {
         return (
             <div>
                 <div className="div-title">
-                    <h3 className="manage-dashboard-head-title">
+                    <h2 className="manage-dashboard-head-title">
                         <a href="#">
                             <InlineEdit
                                 validate={this.validateTextValue}
@@ -291,7 +296,7 @@ export default class DashboardManagerComponent extends React.Component {
                                 }}
                             />
                         </a>
-                    </h3>
+                    </h2>
                     <p className="manage-dashboard-head-subtitle">               
                         <a href="#">
                             <InlineEdit

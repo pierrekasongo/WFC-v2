@@ -8,16 +8,15 @@ const fs = require('fs');
 const csv = require('csv');
 const mime=require('mime');
 
-const withAuth=require('./middleware');
+const withAuth = require('../middleware/is-auth')
 
 let router = express.Router();
 
-let countryId = 52;
 
 router.use(fileUpload(/*limits: { fileSize: 50 * 1024 * 1024 },*/));
 
 /************API***********/
-router.post('/push',function(req,res){
+router.post('/push',withAuth,function(req,res){
 
     /*var data =[
         {
@@ -44,31 +43,37 @@ router.post('/push',function(req,res){
                  VALUES("${code}","${cadre_code}",${countryId},"${name}",${duration});`;
     })
     db.query(sql, function (error, results) {
-        if (error) throw error;
-        // res.status(200).send('File uploaded successfully');
+        if (error){
+            res.status(500).send(error)
+        }else{
+            res.status(200).json(results)
+        }
     });
 })
 /**********************END API ****************/
 
-router.get('/count_treatments', (req, res) => {
+router.get('/count_treatments/:countryId',withAuth, (req, res) => {
+    var countryId = req.params.countryId;
+
     db.query(`SELECT COUNT(id) AS nb FROM std_treatment WHERE countryId = ${countryId}`, function (error, results, fields) {
         if (error) throw error;
         res.json(results);
     });
 });
 
+router.get('/treatments/:countryId',withAuth, function(req, res){
 
-router.get('/treatments'/*,withAuth,*/, function(req, res){
+    var countryId = req.params.countryId;
     
     db.query(`SELECT t.code AS code,t.cadre_code AS cadre_code,c.name AS cadre,t.name AS name, ft.name as facility_type,
             t.duration AS duration FROM  std_treatment t, std_cadre c, std_facility_type ft
-            WHERE t.cadre_code=c.code AND c.facility_type_id=ft.code;`,function(error,results,fields){
+            WHERE t.cadre_code=c.code AND c.facility_type_id=ft.code AND t.countryId =${countryId};`,function(error,results,fields){
         if(error) throw error;
         res.json(results);
     });
 });
 
-router.get('/getTreatment/:code'/*,withAuth*/, function(req,res){
+router.get('/getTreatment/:code',withAuth, function(req,res){
 
     let code=req.params.code;
 
@@ -114,8 +119,10 @@ router.post('/insertTreatment',withAuth, (req, res) => {
 
     let duration = req.body.duration;
 
-    db.query(`INSERT INTO std_treatment(code,cadre_code,name,duration) 
-                VALUES("${code}","${cadre_code}","${name}",${duration})`, 
+    let countryId = req.body.countryId;
+
+    db.query(`INSERT INTO std_treatment(code,cadre_code,name,duration,countryId) 
+                VALUES("${code}","${cadre_code}","${name}",${duration},${countryId})`, 
         function (error, results) {
         if (error) throw error;
         res.json(results);
@@ -123,7 +130,7 @@ router.post('/insertTreatment',withAuth, (req, res) => {
 
 });
 
-router.patch('/editTreatment', (req, res) => {
+router.patch('/editTreatment',withAuth, (req, res) => {
 
     let code = req.body.code;
 

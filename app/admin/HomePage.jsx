@@ -44,71 +44,71 @@ class HomePage extends React.Component {
         this.selectMultipleFacilities = this.selectMultipleFacilities.bind(this);
 
         //this.fillLists();
-        axios.get(`/facility/facilities`/*${localStorage.getItem('countryId')}`,{
+        axios.get(`/facility/facilities/${localStorage.getItem('countryId')}`,{
             headers :{
                 Authorization : 'Bearer '+localStorage.getItem('token')
             }
-        }*/).then(res => {
+        }).then(res => {
             this.setState({
                 facilities : res.data,
                 filteredFacilities : res.data
             })
         }).catch(err => console.log(err));
 
-        axios.get(`/dashboard/get_dashboard`/*/${localStorage.getItem('countryId')}/${localStorage.getItem('defaultDashboard')}`,{
+        axios.get(`/dashboard/get_dashboard/${localStorage.getItem('countryId')}/0`,{
             headers :{
                 Authorization : 'Bearer '+localStorage.getItem('token')
             }
-        }*/).then(res => {
+        }).then(res => {
             this.setState({
                 dashboards : res.data,
                 filteredDashboards:res.data
             });
         }).catch(err => console.log(err));
 
-        axios.get(`/dashboard/dashboards`/*/${localStorage.getItem('countryId')}`,{
+        axios.get(`/dashboard/dashboards/${localStorage.getItem('countryId')}`,{
             headers :{
                 Authorization : 'Bearer '+localStorage.getItem('token')
             }
-        }*/).then(res => {
+        }).then(res => {
             this.setState({dashboardsList : res.data});
         }).catch(err => console.log(err));
 
 
-        axios.get('/facility/facilityTypes'/*,{
+        axios.get(`/facility/facilityTypes/${localStorage.getItem('countryId')}`,{
             headers :{
                 Authorization : 'Bearer '+localStorage.getItem('token')
             }
-        }*/).then(res => {
+        }).then(res => {
             this.setState({facilityTypes : res.data})
         }).catch(err => console.log(err));
 
-        axios.get(`/treatment/count_treatments`/*/${localStorage.getItem('countryId')}`,{
+        axios.get(`/treatment/count_treatments/${localStorage.getItem('countryId')}`,{
             headers :{
                 Authorization : 'Bearer '+localStorage.getItem('token')
             }
-        }*/).then(res => {
+        }).then(res => {
                 this.setState({
                     activitiesCount: res.data[0].nb
                 });
                 
         }).catch(err => console.log(err));
 
-        axios.get(`/facility/count_facilities`/*/${localStorage.getItem('countryId')}`,{
+        axios.get(`/facility/count_facilities/${localStorage.getItem('countryId')}`,{
             headers :{
                 Authorization : 'Bearer '+localStorage.getItem('token')
             }
-        }*/).then(res => {
+        }).then(res => {
             this.setState({
                 facilitiesCount: res.data[0].nb
             });           
         }).catch(err => console.log(err));
 
-        axios.get(`/cadre/count_cadres`/*/${localStorage.getItem('countryId')}`,{
+        axios.get(`/cadre/count_cadres/${localStorage.getItem('countryId')}`,{
             headers :{
                 Authorization : 'Bearer '+localStorage.getItem('token')
             }
-        }*/).then(res => {
+        }).then(res => {
             this.setState({
                 cadreCount: res.data[0].nb
             });           
@@ -167,11 +167,11 @@ class HomePage extends React.Component {
 
         this.setState({selectedDashboard:dash});
 
-        axios.get(`/dashboard/get_dashboard`/*/${localStorage.getItem('countryId')}/${id}`,{
+        axios.get(`/dashboard/get_dashboard/${localStorage.getItem('countryId')}/${id}`,{
             headers :{
                 Authorization : 'Bearer '+localStorage.getItem('token')
             }
-        }*/).then(res => {
+        }).then(res => {
             this.setState({
                 dashboards : res.data,
                 filteredDashboards : res.data
@@ -191,15 +191,17 @@ class HomePage extends React.Component {
             this.launchToastr("No dashboard selected. Please select the dashboard you want to manage.");
         }
     }
-
-    launchToastr(msg) {
+    launchToastr(msg,type="ERROR") {
         toastr.options = {
             positionClass: 'toast-top-full-width',
             hideDuration: 15,
             timeOut: 6000
         }
         toastr.clear()
-        setTimeout(() => toastr.error(msg), 300)
+        if(type == 'ERROR')
+            setTimeout(() => toastr.error(msg), 300)
+        else
+            setTimeout(() => toastr.success(msg),300)
     }
 
     dashboardByFacilityType(type){
@@ -229,17 +231,17 @@ class HomePage extends React.Component {
                 name: info.name,
                 description : info.description
             }
-            axios.post(`/dashboard/add_dashboard`/*/${localStorage.getItem('countryId')}`,data,{
+            axios.post(`/dashboard/add_dashboard/${localStorage.getItem('countryId')}`,data,{
                 headers :{
                     Authorization : 'Bearer '+localStorage.getItem('token')
                 }
-            }*/).then(res => {
+            }).then(res => {
 
-                axios.get(`/dashboard/dashboards`/*/${localStorage.getItem('countryId')}`,{
+                axios.get(`/dashboard/dashboards/${localStorage.getItem('countryId')}`,{
                     headers :{
                         Authorization : 'Bearer '+localStorage.getItem('token')
                     }
-                }*/).then(res => {
+                }).then(res => {
 
                     this.setState({
                         dashboardsList : res.data,
@@ -280,27 +282,27 @@ class HomePage extends React.Component {
                         <button
                             onClick={() => {
 
-                                axios.delete(`/dashboard/delete_dashboard`/*/${this.state.dashboardToDelete}`,{
+                                axios.delete(`/dashboard/delete_dashboard/${this.state.dashboardToDelete}`,{
                                     headers :{
                                         Authorization : 'Bearer '+localStorage.getItem('token')
                                     }
-                                }*/).then((res) => {
+                                }).then((res) => {
 
-                                        axios.get(`/dashboard/dashboards`/*/${localStorage.getItem('countryId')}`,{
+                                        axios.get(`/dashboard/dashboards/${localStorage.getItem('countryId')}`,{
                                             headers :{
                                                 Authorization : 'Bearer '+localStorage.getItem('token')
                                             }
-                                        }*/).then(res => {
+                                        }).then(res => {
                                             this.setState({
                                                 dashboardsList : res.data                                                
                                             });
                                         }).catch(err => console.log(err));
 
-                                        axios.get(`/dashboard/get_dashboard`/*/${localStorage.getItem('countryId')}/${localStorage.getItem('defaultDashboard')}`,{
+                                        axios.get(`/dashboard/get_dashboard/${localStorage.getItem('countryId')}/${localStorage.getItem('defaultDashboard')}`,{
                                             headers :{
                                                 Authorization : 'Bearer '+localStorage.getItem('token')
                                             }
-                                        }*/).then(res => {
+                                        }).then(res => {
                                             this.setState({
                                                 dashboards : res.data,
                                                 filteredDashboards:res.data,
@@ -332,18 +334,20 @@ class HomePage extends React.Component {
                 {(!this.state.showNewDashboard && !this.state.showManageDashboard) &&
                     <div className="panel-dashboard-command">
                         <div className="panel-dashboard-command-items">
-                            <div className="dashboard-button">
+                            <div>
                                 <a href="#" className="add-new-link" onClick={() => this.setState({showNewDashboard:true})}>
                                     <FaPlusSquare /> Add new dashboard
                                 </a>
                             </div>
-                            <div className="dashboard-button">
+                            <div>
                                 <a href="#" className="add-new-link" onClick={() => this.showManageDashboard()}>
                                     <FaCog /> Manage selected
                                 </a>
                             </div>                       
                         </div>
+                        <hr/>
                         <DashboardList 
+                            selected={this.state.selectedDashboard}
                             dashboards={this.state.dashboardsList}
                             showDashboard={(id,name,detail) => this.showDashboard(id,name,detail)}                   
                         />
@@ -376,7 +380,7 @@ class HomePage extends React.Component {
                         <div class="col-md-4 col-xl-3">
                                 <div class="card bg-c-pink order-card">
                                     <div class="card-block">
-                                    <h6 class="m-b-20"><b>Cadre</b></h6>
+                                        <h6 class="m-b-20"><b>Cadres</b></h6>
                                         <h2 class="text-right">
                                             <FaUserMd />
                                             <span>
@@ -411,7 +415,7 @@ class HomePage extends React.Component {
                             <div class="col-md-4 col-xl-3">
                                 <div class="card bg-c-blue order-card">
                                     <div class="card-block">
-                                    <h6 class="m-b-20"><b>Activity</b></h6>
+                                        <h6 class="m-b-20"><b>Activities</b></h6>
                                         <h2 class="text-right"><FaCapsules /><span>{this.state.activitiesCount}</span></h2>
                                         {/*<p class="m-b-0">Completed Orders<span class="f-right">351</span></p>*/}
                                     </div>
@@ -421,7 +425,7 @@ class HomePage extends React.Component {
                             <div class="col-md-4 col-xl-3">
                                 <div class="card bg-c-green order-card">
                                     <div class="card-block">
-                                    <h6 class="m-b-20"><b>Facility</b></h6>
+                                        <h6 class="m-b-20"><b>Facilities</b></h6>
                                         <h2 class="text-right"><FaClinicMedical /><span>{this.state.facilitiesCount}</span></h2>
                                         {/*<p class="m-b-0">Completed Orders<span class="f-right">351</span></p>*/}
                                     </div>
@@ -444,7 +448,7 @@ class HomePage extends React.Component {
                                                     <option
                                                         key={ft.id}
                                                         value={ft.code}>
-                                                        {ft.name_fr+'/'+ft.name_en}
+                                                        {ft.name}
                                                     </option>
                                             )}
                                         </FormControl>
@@ -467,7 +471,7 @@ class HomePage extends React.Component {
                         </table>
                             {this.state.showChart && 
                                 <div className="chart-container">
-                                    {this.state.dashboards.map(dashData =>
+                                    {this.state.filteredDashboards.map(dashData =>
                                         <div className="chart-div">
                                             <div className="graph-title">{dashData.facility}</div>
                                             <div>
@@ -498,7 +502,7 @@ class HomePage extends React.Component {
                             }
                             {this.state.showTable && 
                                 <div className="chart-container">
-                                    {this.state.dashboards.map(dashData =>
+                                    {this.state.filteredDashboards.map(dashData =>
                                         <div className="chart-div">
                                             <div className="graph-title">{dashData.facility}</div>
                                             <div>

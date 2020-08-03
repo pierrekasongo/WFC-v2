@@ -9,6 +9,8 @@ const XLSX = require('xlsx');
 const uniqueFilename = require('unique-filename');
 const os = require('os');
 
+const withAuth = require('../middleware/is-auth')
+
 
 const countryId = 52;
 
@@ -16,7 +18,7 @@ router.use(fileUpload(/*limits: { fileSize: 50 * 1024 * 1024 },*/));
 
 //API
 
-router.post('/push',function(req,res){
+router.post('/push',withAuth,function(req,res){
     
     /*var data = [
         {
@@ -52,7 +54,7 @@ router.post('/push',function(req,res){
 
 /**************END API************* */
 
-router.post('/uploadService', function (req, res) {
+router.post('/uploadService', withAuth,function (req, res) {
 
     if (!req.files) {
         return res.status(400).send('No file uploaded');
@@ -100,7 +102,7 @@ router.post('/uploadService', function (req, res) {
     });
 });
 
-router.get('/treatments', function (req, res) {
+router.get('/treatments',withAuth, function (req, res) {
 
     db.query(`SELECT t.code AS code, dhis2_code AS dhis2_code,c.name,
             t.name AS name_cust,t.name AS name_std,  t.duration AS duration 
@@ -111,7 +113,7 @@ router.get('/treatments', function (req, res) {
         });
 });
 
-router.post('/generateStatTemplate', function (req, res) {
+router.post('/generateStatTemplate',withAuth, function (req, res) {
 
     let cadre = req.body.selectedCadre;
 
@@ -143,7 +145,7 @@ router.post('/generateStatTemplate', function (req, res) {
     });
 })
 
-router.delete('/delete/:id', function (req, res) {
+router.delete('/delete/:id',withAuth, function (req, res) {
 
     let id = req.params.id;
 
@@ -153,12 +155,14 @@ router.delete('/delete/:id', function (req, res) {
     });
 });
 
-router.get('/statistics', (req, res) => {
+router.get('/statistics/:countryId',withAuth, (req, res) => {
+
+    var countryId = req.params.countryId;
 
     let sql = `SELECT act_st.id as id, fa.name as facility,act_st.cadreCode AS cadre_code, cd.name as cadre,
                  ct.name as treatment, act_st.caseCount as patients FROM facility fa, activity_stats act_st,
                  country_treatment ct, std_cadre cd WHERE act_st.facilityCode=fa.code AND 
-                 act_st.activityCode=ct.code AND cd.code=act_st.cadreCode`;
+                 act_st.activityCode=ct.code AND cd.code=act_st.cadreCode AND cd.countryId=${countryId}`;
 
     db.query(sql, function (error, results, fields) {
         if (error) throw error;
@@ -166,7 +170,7 @@ router.get('/statistics', (req, res) => {
     });
 });
 
-router.patch('/editPatientsCount', (req, res) => {
+router.patch('/editPatientsCount',withAuth, (req, res) => {
 
     let id = req.body.id;
 

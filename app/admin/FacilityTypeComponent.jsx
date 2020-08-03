@@ -28,7 +28,11 @@ export default class FacilityTypeComponent extends React.Component {
             showingNew: false,
             typeToDelete: ''
         };
-        axios.get('/facility/facilityTypes').then(res => {
+        axios.get(`/facility/facilityTypes/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }).then(res => {
             this.setState({ facilityTypes: res.data });
         }).catch(err => console.log(err));
     }
@@ -62,15 +66,17 @@ export default class FacilityTypeComponent extends React.Component {
         const data = new Blob([excelBuffer], {type: fileType});
         FileSaver.saveAs(data, fileName + fileExtension);
     }
-
-    launchToastr(msg) {
+    launchToastr(msg,type="ERROR") {
         toastr.options = {
             positionClass: 'toast-top-full-width',
             hideDuration: 15,
             timeOut: 6000
         }
         toastr.clear()
-        setTimeout(() => toastr.error(msg), 300)
+        if(type == 'ERROR')
+            setTimeout(() => toastr.error(msg), 300)
+        else
+            setTimeout(() => toastr.success(msg),300)
     }
 
     validateTextValue(text) {
@@ -96,7 +102,11 @@ export default class FacilityTypeComponent extends React.Component {
                                 axios.delete(`/facility/deleteType/${this.state.typeToDelete}`)
                                     .then((res) => {
                                         //Update cadres
-                                        axios.get('/facility/facilityTypes').then(res => {
+                                        axios.get(`/facility/facilityTypes/${localStorage.getItem('countryId')}`,{
+                                            headers :{
+                                                Authorization : 'Bearer '+localStorage.getItem('token')
+                                            }
+                                        }).then(res => {
                                             this.setState({ facilityTypes: res.data });
                                         }).catch(err => console.log(err));
                                     }).catch(err => {
@@ -143,15 +153,21 @@ export default class FacilityTypeComponent extends React.Component {
 
         let code = info.code;
         let name= info.name;
+        let countryId=info.countryId;
         let data = {
             code: code,
-            name: name
+            name: name,
+            countryId:countryId
         };
 
         //Insert cadre in the database
         axios.post('/facility/insertType', data).then(res => {
             //Update the cadres list
-            axios.get('/facility/facilityTypes').then(res => {
+            axios.get(`/facility/facilityTypes/${localStorage.getItem('countryId')}`,{
+                headers :{
+                    Authorization : 'Bearer '+localStorage.getItem('token')
+                }
+            }).then(res => {
                 this.setState({
                     facilityTypes: res.data,
                     showingNew: false

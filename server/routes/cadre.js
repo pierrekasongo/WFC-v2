@@ -9,14 +9,17 @@ let config = require('./configuration.js');
 
 let router = require('express').Router();
 
-const withAuth = require('./auth')
+const withAuth = require('../middleware/is-auth')
 
 router.use(fileUpload(/*limits: { fileSize: 50 * 1024 * 1024 },*/));
 
 let countryId = 52;
 
 /************API***********/
-router.post('/push',function(req,res){
+router.post('/push',withAuth,function(req,res){
+
+    var success = 0;
+    var failure = 0;
 
     var data =[
         {
@@ -53,10 +56,16 @@ router.post('/push',function(req,res){
                  VALUES("${code}",${countryId},"${facility_type}","${name}",${work_days},${work_hours},${annual_leave},${sick_leave},${other_leave},${admin_task});`;
     })
     db.query(sql, function (error, results) {
-        if (error) throw error;
-        res.status(200).send('File uploaded successfully');
+        if (error){
+            //throw error;
+            res.status(500).send(error)
+        } 
+        
+        res.status(200).json(results);
     });
 })
+
+
 /**********************END API ****************/
 
 router.get('/getCadre/:cadreCode',withAuth, function(req,res){
@@ -70,7 +79,7 @@ router.get('/getCadre/:cadreCode',withAuth, function(req,res){
 })
 
 //Update hours per week for a cadre
-router.patch('/cadre/hours/:id', (req, res) => {
+router.patch('/cadre/hours/:id',withAuth, (req, res) => {
 
     var id = parseInt(req.params.id.toString());
 
@@ -82,7 +91,7 @@ router.patch('/cadre/hours/:id', (req, res) => {
     });
 });
 
-router.patch('/editCadre', (req, res) => {
+router.patch('/editCadre', withAuth,(req, res) => {
 
     let code = req.body.code;
 
@@ -102,7 +111,7 @@ router.patch('/editCadre', (req, res) => {
 });
 
 //Update hours per week for a cadre
-router.patch('/cadre/admin_work/:id', (req, res) => {
+router.patch('/cadre/admin_work/:id',withAuth, (req, res) => {
 
     var id = parseInt(req.params.id.toString());
 
@@ -115,14 +124,19 @@ router.patch('/cadre/admin_work/:id', (req, res) => {
 });
 
 // get list of cadres
-router.get('/cadres', (req, res) => {
+router.get('/cadres/:countryId',withAuth, (req, res) => {
+
+    var countryId = req.params.countryId;
+
     db.query(`SELECT * FROM std_cadre  WHERE countryId = ${countryId} `, function (error, results, fields) {
             if (error) throw error;
             res.json(results);
         });
 });
 
-router.get('/count_cadres', (req, res) => {
+router.get('/count_cadres/:countryId',withAuth, (req, res) => {
+
+    var countryId = req.params.countryId;
     db.query(`SELECT COUNT(code) AS nb FROM std_cadre WHERE countryId = ${countryId}`, function (error, results, fields) {
         if (error) throw error;
         res.json(results);
@@ -150,8 +164,10 @@ router.post('/insertCadre',withAuth, (req, res) => {
 
     let admin_task=req.body.admin_task;
 
-    db.query(`INSERT INTO std_cadre(code,name,worktime,admin_task) 
-            VALUES("${code}","${name}",${worktime},${admin_task})`, 
+    let countryId = req.body.countryId;
+
+    db.query(`INSERT INTO std_cadre(code,name,worktime,admin_task,countryId) 
+            VALUES("${code}","${name}",${worktime},${admin_task},${countryId})`, 
         function (error, results) {
         if (error) throw error;
         res.json(results);

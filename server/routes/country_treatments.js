@@ -6,19 +6,21 @@ const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const csv = require('csv');
 
+const withAuth = require('../middleware/is-auth')
+
 const countryId = 52;
 
 router.use(fileUpload(/*limits: { fileSize: 50 * 1024 * 1024 },*/));
 
 //get list of treatments
-router.get('/activities', (req, res) => {
+router.get('/activities', withAuth,(req, res) => {
     db.query(`SELECT id AS id, activityName AS activityName FROM activities`, function (error, results, fields) {
         if (error) throw error;
         res.json(results);
     });
 });
 
-router.post('/insertTreatment', (req, res) => {
+router.post('/insertTreatment', withAuth,(req, res) => {
 
     var code = req.body.code;
 
@@ -35,7 +37,7 @@ router.post('/insertTreatment', (req, res) => {
         });
 });
 
-router.patch('/editTreatment', (req, res) => {
+router.patch('/editTreatment',withAuth, (req, res) => {
 
     let code = req.body.code;
 
@@ -58,30 +60,7 @@ router.patch('/editTreatment', (req, res) => {
 
 });
 
-router.patch('/match_dhis2', (req, res) => {
-
-    let code = req.body.code;
-
-    let selectedTreatments = req.body.selectedTreatments;
-
-    let sql = ``;
-
-    let dhis2_cd = "";
-
-    selectedTreatments.forEach(tr => {
-        dhis2_cd += tr.code + `,`;
-    });
-
-    let dhis2_code = dhis2_cd.substring(0, dhis2_cd.length - 1);
-
-    db.query(`UPDATE country_treatment SET dhis2_code="${dhis2_code}" WHERE code="${code}"`, function (error, results) {
-        if (error) throw error;
-        res.json(results);
-    });
-
-});
-
-router.get('/treatments', function (req, res) {
+router.get('/treatments', withAuth,function (req, res) {
 
     db.query(`SELECT t.code AS code,c.name cadre_name, t.name AS name, t.duration AS duration 
             FROM  country_treatment t, std_treatment st, std_cadre c 
@@ -117,48 +96,8 @@ router.get('/treatments', function (req, res) {
         });
 });
 
-router.get('/dhis2_codes/:treatmentCode', function (req, res) {
 
-    let treatmentCode = req.params.treatmentCode;
-
-    db.query(`SELECT * FROM country_treatment_dhis2 WHERE treatment_code="${treatmentCode}"`,
-        function (error, results, fields) {
-            if (error) throw error;
-            res.json(results);
-        });
-});
-
-router.get('/dhis2_codes/:treatmentCode', function (req, res) {
-
-    let treatmentCode = req.params.treatmentCode;
-
-    db.query(`SELECT * FROM country_treatment_dhis2 WHERE treatment_code="${treatmentCode}"`,
-        function (error, results, fields) {
-            if (error) throw error;
-            res.json(results);
-        });
-});
-
-router.post('/match_dhis2_codes', function (req, res) {
-
-    let treatmentCode = req.body.treatmentCode;
-
-    let selectedDhis2Treatments = req.body.selectedDhis2Treatments;
-
-    let sql = ``;
-
-    selectedDhis2Treatments.map(dhis2 => {
-        sql += `INSERT INTO country_treatment_dhis2(treatment_code,dhis2_code,dhis2_dataset,dhis2_name) 
-                VALUES("${treatmentCode}","${dhis2.code}","${dhis2.dataset}","${dhis2.name}");`;
-    });
- 
-    db.query(sql, function (error, results, fields) {
-        if (error) throw error;
-        res.json(results);
-    });
-});
-
-router.get('/treatments/:cadreCode', function (req, res) {
+router.get('/treatments/:cadreCode', withAuth,function (req, res) {
 
     let cadreCode = req.params.cadreCode;
 
@@ -182,7 +121,7 @@ router.get('/treatments/:cadreCode', function (req, res) {
     });
 });
 
-router.get('/getTreatment/:cadreCode', function (req, res) {
+router.get('/getTreatment/:cadreCode', withAuth,function (req, res) {
 
     let cadreCode = req.params.cadreCode;
 
@@ -195,7 +134,7 @@ router.get('/getTreatment/:cadreCode', function (req, res) {
         });
 })
 
-router.delete('/deleteTreatment/:code', function (req, res) {
+router.delete('/deleteTreatment/:code',withAuth, function (req, res) {
 
     let code = req.params.code;
 
@@ -205,7 +144,7 @@ router.delete('/deleteTreatment/:code', function (req, res) {
     });
 });
 
-router.post('/uploadTreatments', function (req, res) {
+router.post('/uploadTreatments', withAuth,function (req, res) {
 
     if (!req.files) {
         return res.status(400).send('No files were uploaded');

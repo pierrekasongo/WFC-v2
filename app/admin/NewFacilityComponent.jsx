@@ -14,7 +14,8 @@ export default class NewFacilityComponent extends React.Component {
            region:'',
            district:'',
            regions:[],
-           districts:[]
+           districts:[],
+           countryId: localStorage.getItem('countryId')
         }
     }
     componentDidMount(){

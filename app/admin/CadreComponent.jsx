@@ -34,8 +34,13 @@ export default class CadreComponent extends React.Component {
         };
         this.handleUploadCadre = this.handleUploadCadre.bind(this);
         this.deleteCadre = this.deleteCadre.bind(this);
-        
-        axios.get('/cadre/cadres').then(res => {
+
+    
+        axios.get(`/cadre/cadres/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }).then(res => {
             this.setState({ cadres: res.data });
         }).catch(err => {
             console.log(err);
@@ -98,11 +103,19 @@ export default class CadreComponent extends React.Component {
                                 axios.delete(`/cadre/deleteCadre/${this.state.cadreToDelete}`)
                                     .then((res) => {
                                         //Update cadres
-                                        axios.get('/cadre/cadres').then(res => {
+                                        axios.get(`/cadre/cadres/${localStorage.getItem('countryId')}`,{
+                                            headers :{
+                                                Authorization : 'Bearer '+localStorage.getItem('token')
+                                            }
+                                        }).then(res => {
                                             this.setState({ cadres: res.data });
                                         }).catch(err => console.log(err));
                                         //Update treatments 
-                                        axios.get('/treatment/treatments').then(res => {
+                                        axios.get(`/treatment/treatments/${localStorage.getItem('countryId')}`,{
+                                            headers :{
+                                                Authorization : 'Bearer '+localStorage.getItem('token')
+                                            }
+                                        }).then(res => {
                                             this.setState({ treatments: res.data });
                                         }).catch(err => console.log(err));
 
@@ -123,14 +136,17 @@ export default class CadreComponent extends React.Component {
         });
     }
 
-    launchToastr(msg) {
+    launchToastr(msg,type="ERROR") {
         toastr.options = {
             positionClass: 'toast-top-full-width',
             hideDuration: 15,
             timeOut: 6000
         }
         toastr.clear()
-        setTimeout(() => toastr.error(msg), 300)
+        if(type == 'ERROR')
+            setTimeout(() => toastr.error(msg), 300)
+        else
+            setTimeout(() => toastr.success(msg),300)
     }
 
     handleUploadCadre(ev) {
@@ -146,7 +162,11 @@ export default class CadreComponent extends React.Component {
 
         data.append('file', this.uploadCadreInput.files[0]);
 
-        axios.post('/cadre/uploadCadres', data,
+        axios.post(`/cadre/uploadCadres/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }, data,
             {
                 onUploadProgress: progressEvent => {
                     var prog = (progressEvent.loaded / progressEvent.total) * 100;
@@ -157,7 +177,11 @@ export default class CadreComponent extends React.Component {
             })
             .then((result) => {
                 this.setState({ progress: result.data });
-                axios.get('/cadre/cadres').then(res => {
+                axios.get(`/cadre/cadres/${localStorage.getItem('countryId')}`,{
+                    headers :{
+                        Authorization : 'Bearer '+localStorage.getItem('token')
+                    }
+                }).then(res => {
                     this.setState({ cadres: res.data });
                 }).catch(err => console.log(err));
 
@@ -216,12 +240,21 @@ export default class CadreComponent extends React.Component {
             code: code,
             name: name,
             worktime: worktime,
-            admin_task: admin_task
+            admin_task: admin_task,
+            countryId:localStorage.getItem('countryId')
         };
         //Insert cadre in the database
-        axios.post('/cadre/insertCadre', data).then(res => {
+        axios.post(`/cadre/insertCadre`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }, data).then(res => {
             //Update the cadres list
-            axios.get('/cadre/cadres').then(res => {
+            axios.get(`/cadre/cadres/${localStorage.getItem('countryId')}`,{
+                headers :{
+                    Authorization : 'Bearer '+localStorage.getItem('token')
+                }
+            }).then(res => {
                 this.setState({
                     cadres: res.data,
                     showingNewCadre: false

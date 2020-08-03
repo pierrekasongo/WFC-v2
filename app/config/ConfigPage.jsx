@@ -3,7 +3,7 @@ import { Panel, Form, FormGroup, ControlLabel, Button, FormControl, Col, Checkbo
 import * as axios from 'axios';
 
 import InlineEdit from 'react-edit-inline2';
-import UserPage from './UserPage';
+import UserPage from '../auth/UserPage';
 
 export default class ConfigPage extends React.Component {
 
@@ -11,11 +11,15 @@ export default class ConfigPage extends React.Component {
         super(props);
 
         this.state = {
-            configs: {},
+            configs: [],
             filter: "",
         }
 
-        axios.get('/configuration/configs')
+        axios.get(`/configuration/configs/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        })
             .then(res => this.setState({ configs: res.data }))
             .catch(err => console.log(err));
 
@@ -70,16 +74,16 @@ export default class ConfigPage extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.getFilteredConfigs().map(paramId =>
-                                <tr key={paramId}>
-                                    <td>{this.state.configs[paramId].parameter}</td>
+                            {this.state.configs.map(conf =>
+                                <tr key={conf.id}>
+                                    <td>{conf.parameter}</td>
                                     <td>
                                         <div>
                                             <InlineEdit
                                                 validate={this.validateValue}
                                                 activeClassName="editing"
-                                                text={this.state.configs[paramId].value}
-                                                paramName={this.state.configs[paramId].id}
+                                                text={conf.value}
+                                                paramName={conf.id}
                                                 change={this.handleChange}
                                                 style={{
                                                     /*backgroundColor: 'yellow',*/

@@ -8,12 +8,12 @@ const csv = require('csv');
 
 const api_caller = require('./config');
 
-const withAuth = require('./auth');
+const withAuth = require('../middleware/is-auth');
 
 let router = require('express').Router();
 
 
-let countryId = 52;
+//let countryId = 52;
 
 router.use(fileUpload(/*limits: { fileSize: 50 * 1024 * 1024 },*/));
 
@@ -30,7 +30,7 @@ router.use(function (req, res, next) {
 });
 
 /************API***********/
-router.post('/push',function(req,res){
+router.post('/push',withAuth,function(req,res){
 
     /*var data =[
         {
@@ -59,50 +59,57 @@ router.post('/push',function(req,res){
                  VALUES(${countryId},${facility_type},"${region}","${district}","${code}","${facility_name}");`;
     })
     db.query(sql, function (error, results) {
-        if (error) throw error;
-        res.status(200).send('File uploaded successfully');
+        if (error){
+            res.status(500).send(error)
+        }
+        res.status(200).json(results);
     });
 })
 /**********************END API ****************/
 
 
-router.get('/count_facilities', (req, res) => {
-    db.query('SELECT COUNT(id) AS nb FROM facility', function (error, results, fields) {
+router.get('/count_facilities/:countryId',withAuth, (req, res) => {
+    var countryId = req.params.countryId
+    db.query(`SELECT COUNT(id) AS nb FROM facility WHERE countryCode=${countryId}`, function (error, results, fields) {
         if (error) throw error;
         res.json(results);
     });
 });
 
 //Update facility selected state
-router.patch('/facilities/:id', (req, res) => {
+router.patch('/facilities/:id',withAuth, (req, res) => {
 
     var id = parseInt(req.params.id.toString());
 
     var selected = parseInt(req.body.selected.toString());
 
-    db.query(`UPDATE facilities SET selected =` + selected + ` WHERE id =` + id, function (error, results) {
+    db.query(`UPDATE facilities SET selected =${selected} WHERE id =${id}`, function (error, results) {
         if (error) throw error;
         res.json(results);
     });
 
 });
 //Facility type
-router.get('/facilityTypes'/*,withAuth,*/, function(req, res){
+router.get('/facilityTypes/:countryId',withAuth, function(req, res){
     
-    db.query(`SELECT * FROM  std_facility_type;`,function(error,results,fields){
+    var countryId = req.params.countryId;
+
+    db.query(`SELECT * FROM  std_facility_type WHERE countryId=${countryId};`,function(error,results,fields){
         if(error) throw error;
         res.json(results);
     });
 });
 
-router.post('/insertType'/*,withAuth*/, (req, res) => {
+router.post('/insertType',withAuth, (req, res) => {
 
     let code = req.body.code;
 
     let name=req.body.name;
 
-    db.query(`INSERT INTO std_facility_type(code,name) 
-            VALUES("${code}","${name}")`, 
+    let countryId = req.body.countryId;
+
+    db.query(`INSERT INTO std_facility_type(code,name,countryId) 
+            VALUES("${code}","${name}",${countryId})`, 
         function (error, results) {
         if (error) throw error;
         res.json(results);
@@ -136,7 +143,9 @@ router.patch('/editType', (req, res) => {
 
 });
 // get list of facilities
-router.get('/facilities', (req, res) => {
+router.get(`/facilities/:countryId`,withAuth, (req, res) => {
+
+    var countryId = req.params.countryId
 
     let sql = `SELECT fa.id as id, fa.code as code, fa.name as name, fa.region,fa.district,
     ft.code as facilityTypeCode, ft.name as facilityType FROM facility fa, std_facility_type ft 
@@ -149,78 +158,154 @@ router.get('/facilities', (req, res) => {
     });
 });
 
-router.get('/get_tree', (req, res) => {
+const get_regions = async (countryId)=> {
+
+    var regions = [];
 
     var sql = `SELECT DISTINCT fa.region as region FROM facility fa WHERE fa.countryCode = ${countryId}`;
 
-    var tree = [];
+    return new Promise( async function(resolve,reject){
 
-    db.query(sql, function (error, regions, fields) {
+        db.query(sql, async function (error, reg, fields) {
+            reg.forEach(rg =>{
+                regions.push({"name":rg.region});
+            })
+            resolve(regions);
+        });
+        
+    })
+}
 
-        var obj = {}
+const get_districts = async (countryId)=>{
 
-        if (error) throw error;
+    var districts = [];
+
+    var sql = `SELECT DISTINCT fa.region as region, fa.district as district FROM facility fa WHERE fa.countryCode = ${countryId}`;
+
+    return new Promise( async function(resolve,reject){
+
+        db.query(sql, async function (error, dist, fields) {
+            dist.forEach(dis =>{
+                districts.push({"region":dis.region, "name":dis.district});
+            })
+            resolve(districts);
+        });
+        
+    })
+}
+
+const get_facilities = async (countryId)=>{
+
+    var facilities = [];
+
+    var sql = `SELECT DISTINCT fa.region as region, fa.district as district, fa.code as code, fa.id as id, fa.name as name FROM facility fa WHERE fa.countryCode = ${countryId}`;
+
+    return new Promise( async function(resolve,reject){
+
+        db.query(sql, async function (error, fac, fields) {
+            fac.forEach(fa =>{
+                facilities.push({
+                    "region":fa.region,
+                    "district":fa.district,
+                    "code":fa.code,
+                    "id":fa.id,
+                    "name":fa.name
+                });
+            })
+            resolve(facilities);
+        });
+        
+    })
+}
+
+const process_tree =  async (regions,districts,facilities) =>{
+
+    var obj = []
+
+    var sql=``;
+
+    var count = 0;
+
+    return new Promise(function(resolve,reject){
 
         regions.forEach(rg =>{
 
-            var region = rg.region;
+            var obj_item = {}
 
-            obj["label"] = region;
-            obj["value"]=region;
-            obj["code"]=0;
+            obj_item["label"] = rg.name;
+            obj_item["value"] = rg.name;
+            obj_item["code"]=0;
 
-            sql = `SELECT DISTINCT fa.district as district FROM facility fa WHERE fa.region LIKE "${region}"`;
+            var filteredDistricts = districts.filter(dis => dis.region == rg.name);
 
-            db.query(sql, function (error, districts, fields) {
-
-                if (error) throw error;
-        
-                districts.forEach(dis =>{
-
-                    var district = dis.district;
-
+            filteredDistricts.forEach(dis =>{
+    
                     var child =[];
-
+    
                     var obj_dist={};
+    
+                    obj_dist["label"] = dis.name;
+                    obj_dist["value"] = dis.name;
+                    obj_dist["code"] = 0;
+      
+                    var leaf = [];
 
-                    obj_dist["label"]=district;
-                    obj_dist["value"]=district;
-                    obj_dist["code"]=0;
-
-                    //child.push({"label":district,"value":district});
-
-                    sql = `SELECT  fa.id as id, fa.code as code, fa.name as name FROM facility fa WHERE fa.district LIKE "${district}"`;
-
-                    db.query(sql, function (error, facilities, fields) {
-
-                        if (error) throw error;
-                        
-                        var leaf = [];
+                    var filteredFacilities = facilities.filter(fa => fa.district == dis.name)
                 
-                        facilities.forEach(fa =>{
+                    filteredFacilities.forEach(fa =>{
+    
+                        leaf.push({"label":fa.name,"value":fa.id,"code":fa.code});
 
-                            leaf.push({"label":fa.name,"value":fa.id,"code":fa.code});
-
-                            //leaf.push();
-                        })
-                        obj_dist["children"]=leaf;
-                        child.push(obj_dist);
-                        obj["children"]=child;
-
-                        res.json(obj);
-                    });
-
-                })
-                
+                        count++;
+                    })
+                    
+                    obj_dist["children"] = leaf;
+                    child.push(obj_dist);
+                    obj_item["children"] = child;
+            
             })
             
-            //console.log(obj)
-        //res.json(results);
-        });
-        //res.json(obj);
+            obj.push(obj_item)
+        })
+        resolve(obj); 
+             
     });
-})
+}
 
+router.get('/get_tree/:countryId', async (req, res) => {
+
+    var countryId = req.params.countryId;
+    
+    var regions=[];
+    var districts =[];
+    var facilities=[];
+
+    get_regions(countryId).then(async function(reg){
+        
+        regions = reg;
+
+        get_districts(countryId).then(async function(dist){
+            
+            districts = dist;
+
+            get_facilities(countryId).then(async function(fac){
+            
+                facilities = fac;
+
+                process_tree(regions,districts,facilities).then(async function(tree){
+            
+                    res.json(tree)
+            
+                }).catch((err)=> setImmediate(() => {throw err;}))
+
+        
+            }).catch((err)=> setImmediate(() => {throw err;}))
+    
+        }).catch((err)=> setImmediate(() => {throw err;}))
+
+    }).catch((err)=> setImmediate(() => {throw err;}))
+
+})
 
 router.post('/insert_facilities', (req,res) => {
 

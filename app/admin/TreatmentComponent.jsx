@@ -35,11 +35,19 @@ export default class TreatmentComponent extends React.Component {
        
         this.deleteTreatment = this.deleteTreatment.bind(this);
 
-        axios.get('/facility/facilityTypes').then(res => {
+        axios.get(`/facility/facilityTypes/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }).then(res => {
             this.setState({ facilityTypes: res.data });
         }).catch(err => console.log(err));
         
-        axios.get('/cadre/cadres').then(res => {
+        axios.get(`/cadre/cadres/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }).then(res => {
             this.setState({ cadres: res.data });
         }).catch(err => {
             console.log(err);
@@ -50,7 +58,11 @@ export default class TreatmentComponent extends React.Component {
             }
         });
 
-        axios.get('/treatment/treatments').then(res => {
+        axios.get(`/treatment/treatments/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }).then(res => {
             this.setState({ treatments: res.data });
         }).catch(err => {
             if (err.response.status === 401) {
@@ -121,7 +133,11 @@ export default class TreatmentComponent extends React.Component {
                                 axios.delete(`/treatment/deleteTreatment/${this.state.treatmentToDelete}`)
                                     .then((res) => {
                                         //Update cadres
-                                        axios.get('/treatment/treatments').then(res => {
+                                        axios.get(`/treatment/treatments/${localStorage.getItem('countryId')}`,{
+                                            headers :{
+                                                Authorization : 'Bearer '+localStorage.getItem('token')
+                                            }
+                                        }).then(res => {
                                             this.setState({ treatments: res.data });
                                         }).catch(err => console.log(err));
                                     }).catch(err => {
@@ -141,14 +157,17 @@ export default class TreatmentComponent extends React.Component {
         });
     }
 
-    launchToastr(msg) {
+    launchToastr(msg,type="ERROR") {
         toastr.options = {
             positionClass: 'toast-top-full-width',
             hideDuration: 15,
             timeOut: 6000
         }
         toastr.clear()
-        setTimeout(() => toastr.error(msg), 300)
+        if(type == 'ERROR')
+            setTimeout(() => toastr.error(msg), 300)
+        else
+            setTimeout(() => toastr.success(msg),300)
     }
 
     handleUploadTreatment(ev) {
@@ -174,7 +193,11 @@ export default class TreatmentComponent extends React.Component {
             })
             .then((result) => {
                 this.setState({ progress: result.data });
-                axios.get('/treatment/treatments').then(res => {
+                axios.get(`/treatment/treatments${localStorage.getItem('countryId')}`,{
+                    headers :{
+                        Authorization : 'Bearer '+localStorage.getItem('token')
+                    }
+                }).then(res => {
                     this.setState({ treatments: res.data });
                 }).catch(err => console.log(err));
 
@@ -247,13 +270,18 @@ export default class TreatmentComponent extends React.Component {
             facility_type: facility_type,
             cadre_code: cadre_code,
             name: name,
-            duration: duration
+            duration: duration,
+            countryId:localStorage.getItem('countryId')
         };
 
         //Insert cadre in the database
         axios.post('/treatment/insertTreatment', data).then(res => {
             //Update the cadres list
-            axios.get('/treatment/treatments').then(res => {
+            axios.get(`/treatment/treatments/${localStorage.getItem('countryId')}`,{
+                headers :{
+                    Authorization : 'Bearer '+localStorage.getItem('token')
+                }
+            }).then(res => {
                 this.setState({
                     treatments: res.data,
                     showingNewTreatment: false

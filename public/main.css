@@ -671,7 +671,7 @@ input[type=select]{
   box-shadow:0px 0px 10px rgba(0,0,0,0.4);
 }
 
-.button {
+.button,.button-login{
   display: inline-block;
   padding: 10px 10px;
   font-size: 12px;
@@ -686,10 +686,14 @@ input[type=select]{
   box-shadow: 0 5px #999;
 }
 
-.button:hover {
+.button-login{
+  width: 20rem;
+}
+
+.button,.button-login:hover {
   background-color: #68dbf0;
 }
-.button:active {
+.button,.button-login:active {
   background-color: #008CBA;
   box-shadow: 0 5px #666;
   transform: translateY(4px);
@@ -919,4 +923,29 @@ input[type=select]{
 }
 .dashboard-button{
   margin-left: 10px;
+}
+
+.welcome-box{
+  background-color: rgb(243, 170, 67);
+  position:absolute;
+  right: 20px;
+  margin-top:20px;
+  margin-left:10px;
+  margin-bottom: 10px;
+  padding:10px;
+  border-radius: 0px 0px 8px 8px;
+  height: 30px;
+}
+.welcome-box p{
+  padding-bottom:15px;
+  color:#fff;
+  font-size: 12px;
+}
+.panel-dashboard-command{
+  margin:10px;
+}
+
+.dashboard-itm{
+  display: inline-block;
+  padding:1px;
 }

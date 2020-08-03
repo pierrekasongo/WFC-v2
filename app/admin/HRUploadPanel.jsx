@@ -26,11 +26,19 @@ export default class HRUploadPanel extends React.Component {
 
         this.handleUploadHR = this.handleUploadHR.bind(this);
 
-        axios.get('/staff/workforce').then(res => {
+        axios.get(`/staff/workforce/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }).then(res => {
             this.setState({ staffs: res.data });
         }).catch(err => console.log(err));
 
-        axios.get('/cadre/cadres').then(res => {
+        axios.get(`/cadre/cadres/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }).then(res => {
 
             this.setState({ cadres: res.data });
 
@@ -40,7 +48,11 @@ export default class HRUploadPanel extends React.Component {
     filterWorkforce(cadreCode) {
 
         if (cadreCode == "0") {
-            axios.get('/staff/workforce').then(res => {
+            axios.get(`/staff/workforce/${localStorage.getItem('countryId')}`,{
+                headers :{
+                    Authorization : 'Bearer '+localStorage.getItem('token')
+                }
+            }).then(res => {
                 this.setState({ staffs: res.data });
             }).catch(err => console.log(err));
         } else {
@@ -57,14 +69,17 @@ export default class HRUploadPanel extends React.Component {
         }
 
     }
-    launchToastr(msg) {
+    launchToastr(msg,type="ERROR") {
         toastr.options = {
             positionClass: 'toast-top-full-width',
             hideDuration: 15,
             timeOut: 6000
         }
         toastr.clear()
-        setTimeout(() => toastr.error(msg), 300)
+        if(type == 'ERROR')
+            setTimeout(() => toastr.error(msg), 300)
+        else
+            setTimeout(() => toastr.success(msg),300)
     }
 
     handleUploadHR(ev) {
@@ -166,7 +181,11 @@ export default class HRUploadPanel extends React.Component {
             value: value,
         };
         axios.patch('/staff/editHR', data).then(res => {
-            axios.get('/staff/workforce').then(res => {
+            axios.get(`/staff/workforce/${localStorage.getItem('countryId')}`,{
+                headers :{
+                    Authorization : 'Bearer '+localStorage.getItem('token')
+                }
+            }).then(res => {
                 this.setState({ staffs: res.data });
             }).catch(err => console.log(err));
         }).catch(err => {
@@ -194,7 +213,11 @@ export default class HRUploadPanel extends React.Component {
                             onClick={() => {
                                 axios.delete(`/hris/deleteWorkforce/${this.state.staffToDelete}`)
                                     .then((res) => {
-                                        axios.get('/hris/workforce').then(res => {
+                                        axios.get(`/staff/workforce/${localStorage.getItem('userId')}`,{
+                                            headers :{
+                                                Authorization : 'Bearer '+localStorage.getItem('token')
+                                            }
+                                        }).then(res => {
                                             this.setState({ staffs: res.data });
                                         }).catch(err => console.log(err));
 

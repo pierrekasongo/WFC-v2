@@ -8,7 +8,7 @@ const fs = require('fs');
 const csv = require('csv');
 const mime=require('mime');
 
-const withAuth=require('./middleware');
+const withAuth = require('../middleware/is-auth')
 
 let router = express.Router();
 
@@ -16,7 +16,7 @@ let countryId = 52;
 
 router.use(fileUpload(/*limits: { fileSize: 50 * 1024 * 1024 },*/));
 
-router.get('/cadres'/*,withAuth,*/, function(req, res){
+router.get('/cadres',withAuth, function(req, res){
     
     db.query(`SELECT * FROM  std_cadre;`,function(error,results,fields){
         if(error) throw error;
@@ -34,7 +34,7 @@ router.get('/getCadre/:cadreCode',withAuth, function(req,res){
     });
 })
 
-router.get('/countries'/*,withAuth,*/, function(req, res){
+router.get('/countries',withAuth, function(req, res){
     
     db.query(`SELECT * FROM  country;`,function(error,results,fields){
         if(error) throw error;
@@ -42,7 +42,7 @@ router.get('/countries'/*,withAuth,*/, function(req, res){
     });
 });
 
-router.get('/treatments'/*,withAuth,*/, function(req, res){
+router.get('/treatments',withAuth, function(req, res){
     
     db.query(`SELECT t.code AS code,t.cadre_code AS cadre_code,c.name AS cadre,
             t.name AS name,t.name AS name, ft.name AS facility_type,  
@@ -53,7 +53,7 @@ router.get('/treatments'/*,withAuth,*/, function(req, res){
     });
 });
 
-router.get('/getTreatment/:code'/*,withAuth*/, function(req,res){
+router.get('/getTreatment/:code',withAuth, function(req,res){
 
     let code=req.params.code;
 
@@ -204,31 +204,8 @@ router.post('/insertTreatment',withAuth, (req, res) => {
 
 });
 
-router.patch('/editCadre', (req, res) => {
 
-    let code = req.body.code;
-
-    let value = req.body.value;
-
-    let param=req.body.param;
-
-    let sql="";
-
-    if(param.includes("name")){
-
-        sql=`UPDATE std_cadre SET ${param} ="${value}" WHERE code ="${code}"`;
-    }else{
-        sql=`UPDATE std_cadre SET ${param} =${value} WHERE code ="${code}"`;
-    }
-
-    db.query(sql, function (error, results) {
-        if (error) throw error;
-        res.json(results);
-    });
-
-});
-
-router.patch('/editCountry', (req, res) => {
+router.patch('/editCountry',withAuth, (req, res) => {
 
     let id=req.body.id;
 
@@ -254,7 +231,7 @@ router.patch('/editCountry', (req, res) => {
 
 });
 
-router.patch('/editTreatment', (req, res) => {
+router.patch('/editTreatment',withAuth, (req, res) => {
 
     let code = req.body.code;
 
@@ -278,101 +255,5 @@ router.patch('/editTreatment', (req, res) => {
 
 });
 
-
-router.post('/uploadCadres',withAuth, function (req, res) {
-
-    if (!req.files)
-        return res.status(400).send('No files were uploaded');
-    //The name of the input field
-    let file = req.files.file;
-
-    let filename = 'std_cadre.csv';
-
-    file.mv(`${__dirname}` + path.sep + 'uploads' + path.sep + 'metadata' + path.sep + `${filename}`, function (err) {
-        if (err)
-            return res.status(500).send(err);
-        //res.status(200).send('File uploaded successfully');
-        let sql = "";
-
-        var obj = csv();
-
-        obj.from.path(`${__dirname}` + path.sep + 'uploads' + path.sep + 'metadata' + path.sep + `${filename}`).to.array(function (data) {
-                
-                for (var index = 1; index < data.length; index++) {
-
-                    let code = data[index][0];
-
-                    let name = data[index][1];
-
-                    let days=data[index][2];
-
-                    let hours=data[index][3];
-
-                    let annual_leave=data[index][4];
-
-                    let sick_leave=data[index][5];
-
-                    let other_leave=data[index][6];
-
-                    let admin_task=data[index][7];
-
-                    sql += `INSERT INTO std_cadre(code,name,work_days,work_hours,
-                            annual_leave, sick_leave, other_leave, admin_task,countryId) VALUES("${code}",
-                            "${name}",${days},${hours},${annual_leave},${sick_leave},
-                             ${other_leave},${adminTask},${countryId}) 
-                            ON DUPLICATE KEY UPDATE name="${name}",work_days=${days},
-                            work_hours=${hours},annual_leave=${annual_leave},
-                            sick_leave=${sick_leave},other_leave=${other_leave},admin_task=${admin_task};`;
-                }
-
-                db.query(sql, function (error, results) {
-                    if (error) throw error;
-                    res.status(200).send('File uploaded successfully');;
-                });
-        });
-    });
-})
-
-
-router.post('/uploadTreatments',withAuth, function (req, res) {
-
-    if (!req.files)
-        return res.status(400).send('No files were uploaded');
-    //The name of the input field
-    let file = req.files.file;
-
-    let filename = 'std_treatment.csv';
-
-    file.mv(`${__dirname}` + path.sep + 'uploads' + path.sep + 'metadata' + path.sep + `${filename}`, function (err) {
-        if (err)
-            return res.status(500).send(err);
-        //res.status(200).send('File uploaded successfully');
-        let sql = "";
-
-        var obj = csv();
-
-        obj.from.path(`${__dirname}` + path.sep + 'uploads' + path.sep + 'metadata' + path.sep + `${filename}`).to.array(function (data) {
-                
-                for (var index = 1; index < data.length; index++) {
-
-                    let code = data[index][0];
-
-                    let cadre_code = data[index][1];
-
-                    let name = data[index][2];
-
-                    let duration = data[index][3];
-
-                    sql += `INSERT INTO std_treatment(code,cadre_code,name,duration) VALUES("${code}","${cadre_code}","${name}",${duration}) 
-                            ON DUPLICATE KEY UPDATE name="${name}",duration=${duration};`;
-                }
-
-                db.query(sql, function (error, results) {
-                    if (error) throw error;
-                    res.status(200).send('File uploaded successfully');;
-                });
-        });
-    });
-})
 
 module.exports = router;

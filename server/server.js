@@ -2,13 +2,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const cookieParser=require('cookie-parser')
+const cors = require('cors');
 
+const dotenv = require("dotenv");
+dotenv.config();
+require('custom-env').env('dev');
 // start db
 const db=require('./dbconn');
 
 // import our routes
 //const user=require('./routes/user');
-const admin = require('./routes/admin');
+//const admin = require('./routes/admin');
 const facility=require('./routes/facility');
 const cadre=require('./routes/cadre');
 const staff=require('./routes/staff');
@@ -17,9 +21,10 @@ const auth=require('./routes/auth');
 const metadata=require('./routes/metadata');
 const treatment=require('./routes/treatment');
 const countrycadre=require('./routes/country_cadres');
-const countrytreatment=require('./routes/country_treatments');
+//const countrytreatment=require('./routes/country_treatments');
 const countrystatistics=require('./routes/country_statistics');
 const dashboard = require('./routes/dashboard');
+
 
 //External API
 const API_doc=require('./routes/docs/api_doc');
@@ -32,6 +37,20 @@ const API_cadre=require('./routes/cadre');
 // create app server
 let app = express();
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+        'Access-Control-Allow-Methods',
+        'OPTIONS, GET, POST, PUT, PATCH, DELETE'
+    );
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+})
+app.use(cors({
+    origin: `http://${process.env.ORIGIN_ADDRESS}:${process.env.SERVER_LISTEN_PORT}`,
+    credentials: true
+  }));
+
 // middleware to parse request info into JSON
 app.use(bodyParser.urlencoded({ extended: false })); // application/x-www-form-urlencoded
 app.use(bodyParser.json()); // application/json
@@ -41,7 +60,7 @@ app.use(express.static(path.join(__dirname, "../", "public")));
 
 // use our routes http://localhost:3000/api/user
 //app.use('/api/user', user);
-app.use('/api/admin', admin);
+//app.use('/api/admin', admin);
 app.use('/api/facility',facility);
 app.use('/api/cadre',cadre);
 app.use('/api/staff', staff);
@@ -50,7 +69,7 @@ app.use('/api/auth',auth);
 app.use('/api/metadata',metadata);
 app.use('/api/treatment',treatment);
 app.use('/api/countrycadre',countrycadre);
-app.use('/api/countrytreatment',countrytreatment);
+//app.use('/api/countrytreatment',countrytreatment);
 app.use('/api/countrystatistics',countrystatistics);
 app.use('/api/dashboard',dashboard);
 
@@ -67,6 +86,8 @@ app.use('*', (req, res) => {
 })
 
 // start listening for requests
-app.listen(3000,"0.0.0.0", () => {
-    console.log("Listening on port 3000");
+let PORT = process.env.SERVER_LISTEN_PORT || 3000;
+
+app.listen(PORT,process.env.SERVER_LISTEN_ADDRESS, () => {
+    console.log(`Listening on ${process.env.SERVER_LISTEN_ADDRESS}:${PORT}`);
 });

@@ -8,6 +8,9 @@ import toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
 
 import DropdownTreeSelect from 'react-dropdown-tree-select'
+
+import DropdownContainer from './DropdownContainer';
+
 import 'react-dropdown-tree-select/dist/styles.css'
 
 //https://dowjones.github.io/react-dropdown-tree-select/?spm=a2c6h.14275010.0.0.709972a4NHNfbz#/story/options
@@ -53,14 +56,23 @@ export default class CalculationPanel extends React.Component {
         };
         this.selectMultipleFacilities = this.selectMultipleFacilities.bind(this);
         this.selectMultipleCadres = this.selectMultipleCadres.bind(this);
+        this.onChange = this.onChange.bind(this);
 
-        axios.get('/facility/get_tree').then(res => {
+        axios.get(`/facility/get_tree/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }).then(res => {
             this.setState({
                 treeData:res.data
             })
         }).catch(err => console.log(err));
 
-        axios.get('/configuration/getCountryHolidays').then(res => {
+        axios.get(`/configuration/getCountryHolidays/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }).then(res => {
 
             let config = {};
 
@@ -75,14 +87,22 @@ export default class CalculationPanel extends React.Component {
             this.setState({ config: config });
         }).catch(err => console.log(err));
 
-        axios.get('/configuration/getYears').then(res => {
+        axios.get(`/configuration/getYears`,{
+            headers:{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }).then(res => {
             let years = res.data;
             this.setState({
                 years: years
             })
         }).catch(err => console.log(err));
 
-        axios.get('/cadre/cadres').then(res => {
+        axios.get(`/cadre/cadres/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }).then(res => {
             let cadres = res.data;
             let cadreInputs = {};
             let cadreDict = {};
@@ -121,7 +141,11 @@ export default class CalculationPanel extends React.Component {
 
         }).catch(err => console.log(err));
 
-        axios.get('/facility/facilities')
+        axios.get(`/facility/facilities/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        })
             .then(res => {
 
                 let facilities = res.data;
@@ -284,13 +308,19 @@ export default class CalculationPanel extends React.Component {
                 datas.selectedCadres = this.state.selectedCadres;
                 datas.selectedFacilities = this.state.selectedFacilities;
 
-                axios.post(`/staff/workforce`, datas).then(res => {
+                axios.post(`/staff/workload`, datas,{
+                    headers :{
+                        Authorization : 'Bearer '+localStorage.getItem('token')
+                    }
+                }).then(res => {
 
                     let values = res.data;
 
                     Object.keys(values).forEach(id => {
 
                         this.state.results.push({
+
+                            facilityId: values[id].facilityId,
 
                             facility: values[id].facility,
 
@@ -351,25 +381,70 @@ export default class CalculationPanel extends React.Component {
 
     }
 
-    launchToastr(msg) {
+    launchToastr(msg,type="ERROR") {
         toastr.options = {
             positionClass: 'toast-top-full-width',
             hideDuration: 15,
             timeOut: 6000
         }
         toastr.clear()
-        setTimeout(() => toastr.error(msg), 300)
+        if(type == 'ERROR')
+            setTimeout(() => toastr.error(msg), 300)
+        else
+            setTimeout(() => toastr.success(msg),300)
     }
 
-    /*onChange(currentNode, selectedNodes) {
+    saveAsFavorite(map){
+
+        let data = {};
+
+        let count=0;
+
+        if(map.size > 0){
+
+            for (var [key, value] of map) {
+
+                let fa_cadre = key.split('-');
+
+                //Format: ${currentWorkers}|${neededWorkers}|${currentSalary}|${neededSalary}`;
+
+                let values = value.split('|');
+
+                data[count] = {
+
+                    facilityId: fa_cadre[0],
+                    cadreId: fa_cadre[1],
+                    currentWorkers: values[0],
+                    neededWorkers: values[1],
+                    currentSalary: values[2],
+                    neededSalary: values[3]
+                }
+                count++;
+            }
+            
+            let datas = {
+                selectedData:data
+            }
+            axios.post(`/dashboard/save_as_favorite`,datas,{
+                headers :{
+                    Authorization : 'Bearer '+localStorage.getItem('token')
+                }
+            }).then(res => {
+                this.launchToastr('Results successfully added to dashboard.',"SUCCESS");
+            }).catch(err => console.log(err));
+        }else{
+            this.launchToastr('No data selected. Please check the boxes for the record you want to save.');
+        }
+    }
+
+    onChange(currentNode, selectedNodes) {
         
         var name = currentNode.label;
         var id = currentNode.value;
         var depth = currentNode._depth;
         var code = currentNode.code;
-        console.log(id,code,name,depth);
 
-        let selectedFacilities = {};
+        var selectedFacilities = {};
 
         selectedFacilities[id] = {
             id: id,
@@ -377,36 +452,19 @@ export default class CalculationPanel extends React.Component {
             name: name,
             depth:depth
         };
-        this.setState({ selectedFacilities: selectedFacilities });
-    }*/
 
-    
-    /*onAction(node, action){
-        console.log('onAction::', action, node)
-      }
-    onNodeToggle(currentNode){
-        console.log('onNodeToggle::', currentNode)
-    }*/
+        /*Object.filter = (obj, predicate) => 
+                  Object.fromEntries(Object.entries(obj).filter(predicate));
+
+
+        var filtered = Object.filter(selectedFacilities, ([name, depth]) => depth == 2); 
+
+        console.log(filtered);*/
+
+        this.setState({ selectedFacilities: selectedFacilities});
+    }
 
     render() {
-       const onChange= (currentNode, selectedNodes) => {
-        
-            var name = currentNode.label;
-            var id = currentNode.value;
-            var depth = currentNode._depth;
-            var code = currentNode.code;
-            console.log(id,code,name,depth);
-    
-            let selectedFacilities = {};
-    
-            selectedFacilities[id] = {
-                id: id,
-                code: code,
-                name: name,
-                depth:depth
-            };
-            this.setState({ selectedFacilities: selectedFacilities });
-        }
         return(
             <div>
             <Panel bsStyle="primary" header="Pressure Calculation">
@@ -444,9 +502,10 @@ export default class CalculationPanel extends React.Component {
                                         onChange={this.selectMultipleFacilities} />*/}
                                          {/*<DropdownTreeSelect data={this.state.treeData} onChange={(curr,selected) => this.onChange(curr,selected)}  texts={{ placeholder: 'Search or choose' }} /> */}
 
-                                        <DropdownTreeSelect data={this.state.treeData} onChange={onChange} /*showDropdownAlways={true}*/ texts={{ placeholder: 'Search or choose' }} />
+                                        <DropdownContainer 
+                                            data={this.state.treeData}
+                                            onChange={this.onChange} />
                                     </div>
-
                                 </Col>
                             </FormGroup>
                             <br/>
@@ -468,7 +527,6 @@ export default class CalculationPanel extends React.Component {
                             </div>
                             <br />
                         </Form>
-
                     </div>
                     <div className="calc-container-right">
                         <FormGroup>
@@ -486,7 +544,7 @@ export default class CalculationPanel extends React.Component {
                         }
                         {this.state.state == 'results' &&
                             <ResultComponent
-                                //saveAsFavorite={map=>this.saveAsFavorite(map)}
+                                saveAsFavorite={(data) => this.saveAsFavorite(data)}
                                 results={this.state.results}
                                 cadreDict={this.state.cadreDict}
                             />

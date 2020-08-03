@@ -3,11 +3,12 @@ const db=require('../dbconn');
 
 let router = require('express').Router();
 
+const withAuth = require('../middleware/is-auth')
+
 const countryId=52;
 
-
 //Update hours per week for a cadre
-router.patch('/cadre/hours/:id', (req, res) => {
+router.patch('/cadre/hours/:id',withAuth, (req, res) => {
 
     var id=parseInt(req.params.id.toString());
 
@@ -20,7 +21,7 @@ router.patch('/cadre/hours/:id', (req, res) => {
 });
 
 //Update hours per week for a cadre
-router.patch('/cadre/admin_work/:id', (req, res) => {
+router.patch('/cadre/admin_work/:id',withAuth, (req, res) => {
 
     var id=parseInt(req.params.id.toString());
 
@@ -32,7 +33,7 @@ router.patch('/cadre/admin_work/:id', (req, res) => {
     });
 });
 
-router.post('/insertCadre', (req, res) => {
+router.post('/insertCadre',withAuth, (req, res) => {
 
     var stdCode=req.body.stdCode;
 
@@ -57,7 +58,7 @@ router.post('/insertCadre', (req, res) => {
     });
 });
 
-router.patch('/editCadre', (req, res) => {
+router.patch('/editCadre',withAuth, (req, res) => {
 
     let code = req.body.std_code;
 
@@ -79,14 +80,14 @@ router.patch('/editCadre', (req, res) => {
 
 });
 // get list of cadres
-router.get('/cadres', (req, res) => {
+router.get('/cadres',withAuth, (req, res) => {
         db.query(`SELECT * FROM  std_cadre WHERE countryId=${countryId}`,function(error,results,fields){
             if(error) throw error;
             res.json(results);
         });
 });
 
-router.get('/getCadre/:cadreCode',function(req,res){
+router.get('/getCadre/:cadreCode',withAuth,function(req,res){
 
     let cadreCode=req.params.cadreCode;
 
@@ -101,7 +102,7 @@ router.get('/getCadre/:cadreCode',function(req,res){
     });
 })
 
-router.delete('/deleteCadre/:code', function(req, res){
+router.delete('/deleteCadre/:code',withAuth, function(req, res){
 
     let code=req.params.code; 
 
@@ -111,12 +112,5 @@ router.delete('/deleteCadre/:code', function(req, res){
     });
 });
 
-router.get('/workforce', (req, res) => {
-    db.query('SELECT s.id AS id,s.staffCount AS staff,'+
-    'fa.facilityName AS facility,ca.cadreName AS cadre  FROM staff s,cadre ca,facilities fa WHERE s.facilityCode=fa.FacilityCode AND s.cadreId=ca.id',function(error,results,fields){
-        if(error) throw error;
-        res.json(results);
-    });
-});
 
 module.exports = router;

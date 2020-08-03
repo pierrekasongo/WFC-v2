@@ -30,7 +30,11 @@ export default class FacilityComponent extends React.Component {
         this.deleteFacility = this.deleteFacility.bind(this);
         this.insertFacilities = this.insertFacilities.bind(this);
 
-        axios.get('/facility/facilities').then(res => {
+        axios.get(`/facility/facilities/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }).then(res => {
 
             let facilitiesMap = new Map();
 
@@ -63,7 +67,11 @@ export default class FacilityComponent extends React.Component {
                                 axios.delete(`/facility/deleteFacility/${id}`)
                                     .then((res) => {
 
-                                        axios.get('/facility/facilities').then(res => {
+                                        axios.get(`/facility/facilities/${localStorage.getItem('countryId')}`,{
+                                            headers :{
+                                                Authorization : 'Bearer '+localStorage.getItem('token')
+                                            }
+                                        }).then(res => {
 
                                             let facilitiesMap = new Map();
 
@@ -130,7 +138,7 @@ export default class FacilityComponent extends React.Component {
             let id = val.value;
             
             if (this.state.facilitiesMap.has(id)) {
-                this.launchToastr("This facility has been added already");
+                this.launchToastr("This facility has been added already","SUCCESS");
                 return;
             } else {
                 selectedFacilities.push({
@@ -144,14 +152,17 @@ export default class FacilityComponent extends React.Component {
         this.setState({ selectedFacilities: selectedFacilities });
     }
 
-    launchToastr(msg) {
+    launchToastr(msg,type="ERROR") {
         toastr.options = {
             positionClass: 'toast-top-full-width',
             hideDuration: 15,
             timeOut: 6000
         }
         toastr.clear()
-        setTimeout(() => toastr.error(msg), 300)
+        if(type == 'ERROR')
+            setTimeout(() => toastr.error(msg), 300)
+        else
+            setTimeout(() => toastr.success(msg),300)
     }
 
     handleUploadFacility(ev) {
@@ -178,7 +189,11 @@ export default class FacilityComponent extends React.Component {
             })
             .then((result) => {
                 this.setState({ progress: result.data });
-                axios.get('/facility/facilities').then(res => {
+                axios.get(`/facility/facilities/${localStorage.getItem('countryId')}`,{
+                    headers :{
+                        Authorization : 'Bearer '+localStorage.getItem('token')
+                    }
+                }).then(res => {
 
                     let facilitiesMap = new Map();
         

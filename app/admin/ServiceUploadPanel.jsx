@@ -35,7 +35,11 @@ export default class ServiceUploadPanel extends React.Component {
 
         this.handleUploadService = this.handleUploadService.bind(this);
 
-        axios.get('/countrystatistics/statistics').then(res => {
+        axios.get(`/countrystatistics/statistics/${localStorage.getItem('countryId')}`,{
+            headers :{
+                Authorization : 'Bearer '+localStorage.getItem('token')
+            }
+        }).then(res => {
             this.setState({
                 statistics: res.data,
                 filteredStats: res.data
@@ -82,14 +86,17 @@ export default class ServiceUploadPanel extends React.Component {
             });
     }
 
-    launchToastr(msg) {
+    launchToastr(msg,type="ERROR") {
         toastr.options = {
             positionClass: 'toast-top-full-width',
             hideDuration: 15,
             timeOut: 6000
         }
         toastr.clear()
-        setTimeout(() => toastr.error(msg), 300)
+        if(type == 'ERROR')
+            setTimeout(() => toastr.error(msg), 300)
+        else
+            setTimeout(() => toastr.success(msg),300)
     }
 
     handleServiceChange(obj) {

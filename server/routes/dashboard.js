@@ -6,7 +6,7 @@ const csv = require('csv');
 
 let router = require('express').Router();
 
-const withAuth = require('./auth')
+const withAuth = require('../middleware/is-auth')
 
 let countryId=52;
 
@@ -65,24 +65,25 @@ let processRequest = function(facilityCode,dashId, callback){
 
 }
 
-router.get('/get_dashboard'/*:countryId/:id',withAuth*/, (req, res) => {
+router.get('/get_dashboard/:countryId/:dashId',withAuth, (req, res) => {
 
-   // let countryId = req.params.countryId;
+    var countryId = req.params.countryId;
 
-    /*let dashId = req.params.id;
+    var dashId = req.params.dashId
 
-    let extra_param = `db.id=${dashId}`;
+    var extra_param="";
 
     if(dashId == 0){
         extra_param = `db.is_default=1`;
-    }*/
+    }else{
+        extra_param = `db.id=${dashId}`;
+    }
 
     let sql = `SELECT DISTINCT rr.facilityCode as faCode,fa.name as facility,ft.code as type_code, 
-                ft.name type_name,
-                db.id as dashId FROM dashboard db, dashboard_items di,results_record rr,
+                ft.name type_name,db.id as dashId FROM dashboard db, dashboard_items di,results_record rr,
                 facility fa, std_cadre cd, std_facility_type ft WHERE db.id = di.dashboard_id 
-                AND rr.facilityCode=fa.code AND rr.cadreCode=cd.code AND fa.facilityType=ft.code 
-                AND di.item_id = rr.id AND db.countryId = ${countryId}`;// AND ${extra_param}`;
+                AND rr.facilityCode=fa.id AND rr.cadreCode=cd.code AND fa.facilityType=ft.code 
+                AND di.item_id = rr.id AND db.countryId = ${countryId} AND ${extra_param}`;
 
     db.query(sql, function (error, results) {
 
@@ -116,9 +117,9 @@ router.get('/get_dashboard'/*:countryId/:id',withAuth*/, (req, res) => {
 
 });
 
-router.get('/dashboards'/*/:countryId',withAuth*/, (req, res) => {
+router.get('/dashboards/:countryId',withAuth, (req, res) => {
 
-    //let countryId = req.params.countryId;
+    var countryId = req.params.countryId;
 
     let sql = `SELECT * from dashboard WHERE countryId = ${countryId}`;
 
@@ -129,17 +130,17 @@ router.get('/dashboards'/*/:countryId',withAuth*/, (req, res) => {
 
 });
 
-router.get('/get_favorites'/*/:countryId/:dashId',withAuth*/, (req, res) => {
+router.get('/get_favorites/:countryId/:dashId',withAuth, (req, res) => {
 
-   // let countryId = req.params.countryId;
+    let countryId = req.params.countryId;
 
     let dashId = req.params.dashId;
 
-    let sql = `SELECT da.id as id,CONCAT(fa.name,'-',cd.name_en) as label, cd.name as cadre, 
+    let sql = `SELECT da.id as id,fa.name as label, cd.name as cadre, 
               da.current, da.needed  FROM results_record da, facility fa, std_cadre cd WHERE 
               da.id NOT IN (SELECT item_id FROM dashboard_items WHERE dashboard_id=${dashId}) AND 
-              da.facilityCode=fa.code AND da.cadreCode=cd.code AND 
-              fa.countryId = ${countryId}`;
+              da.facilityCode=fa.id AND da.cadreCode=cd.code AND 
+              fa.countryCode = ${countryId}`;
 
 
     db.query(sql, function (error, results) {
@@ -149,17 +150,18 @@ router.get('/get_favorites'/*/:countryId/:dashId',withAuth*/, (req, res) => {
 
 });
 
-router.get('/get_dashboard_items'/*/:countryId/:dashId',withAuth*/, (req, res) => {
+router.get('/get_dashboard_items/:countryId/:dashId',withAuth, (req, res) => {
 
-    //let countryId = req.params.countryId;
+    let countryId = req.params.countryId;
 
     let dashId = req.params.dashId;
 
-    let sql = `SELECT di.id as item_id, da.id as id,CONCAT(fa.name,'-',cd.name_en) as facility, 
-              CONCAT(cd.name_en,'/',cd.name_fr) as cadre, da.current, da.needed  FROM dashboard_items di, results_record da, facility fa, std_cadre cd WHERE 
+    let sql = `SELECT di.id as item_id, da.id as id,fa.name as facility, 
+               cd.name as cadre, da.current, da.needed  FROM dashboard_items di, results_record da, 
+               facility fa, std_cadre cd WHERE 
               di.dashboard_id = ${dashId} AND di.item_id = da.id AND 
-              da.facilityCode=fa.code AND da.cadreCode=cd.code AND 
-              fa.countryId = ${countryId}`;
+              da.facilityCode=fa.id AND da.cadreCode=cd.code AND 
+              fa.countryCode = ${countryId}`;
 
 
     db.query(sql, function (error, results) {
@@ -169,7 +171,7 @@ router.get('/get_dashboard_items'/*/:countryId/:dashId',withAuth*/, (req, res) =
 
 });
 
-router.delete('/delete_dashboard/:id', /*withAuth,*/function(req, res){
+router.delete('/delete_dashboard/:id', withAuth,function(req, res){
 
     let id = req.params.id; 
 
@@ -181,7 +183,7 @@ router.delete('/delete_dashboard/:id', /*withAuth,*/function(req, res){
     });
 });
 
-router.delete('/delete_dashboard_item/:id',/* withAuth,*/function(req, res){
+router.delete('/delete_dashboard_item/:id', withAuth,function(req, res){
 
     let id = req.params.id; 
 
@@ -193,13 +195,13 @@ router.delete('/delete_dashboard_item/:id',/* withAuth,*/function(req, res){
 
 
 
-router.post('/add_dashboard/:countryId',/* withAuth,*/function(req, res){
+router.post('/add_dashboard/:countryId', withAuth,function(req, res){
 
     let name = req.body.name; 
 
     let description = req.body.description;
 
-    //let countryId = req.params.countryId;
+    let countryId = req.params.countryId;
 
     db.query(`INSERT INTO dashboard(name,detail,countryId) VALUES ("${name}","${description}",${countryId})`,
         function(error,results,fields){
@@ -208,7 +210,7 @@ router.post('/add_dashboard/:countryId',/* withAuth,*/function(req, res){
     });
 });
 
-router.post('/save_as_favorite',/*withAuth,*/ (req, res) => {
+router.post('/save_as_favorite',withAuth, (req, res) => {
 
     let datas = req.body.selectedData;
 
@@ -226,7 +228,7 @@ router.post('/save_as_favorite',/*withAuth,*/ (req, res) => {
 
         sql+=`DELETE FROM results_record WHERE cadreCode="${cadreId}" AND facilityCode="${facilityId}";
                 INSERT INTO results_record(cadreCode, facilityCode, current, needed) 
-                VALUES("${cadreId}","${facilityId}",${currentWorkers},${neededWorkers})`;
+                VALUES("${cadreId}","${facilityId}",${currentWorkers},${neededWorkers});`;
     });
 
     db.query(sql, function (error, results) {
@@ -236,7 +238,7 @@ router.post('/save_as_favorite',/*withAuth,*/ (req, res) => {
 
 });
 
-router.patch('/edit',/*withAuth,*/ (req, res) => {
+router.patch('/edit',withAuth,(req, res) => {
 
     let id = req.body.id;
 
@@ -254,7 +256,7 @@ router.patch('/edit',/*withAuth,*/ (req, res) => {
 });
 
 
-router.post('/addItems',/*withAuth,*/(req,res) =>{
+router.post('/addItems',withAuth,(req,res) =>{
 
     let selectedItems = req.body.selectedItems;
 
