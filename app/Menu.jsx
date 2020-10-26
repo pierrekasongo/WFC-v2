@@ -33,14 +33,12 @@ const Menu = (props) => {
                     </NavLink>
                 </NavItem>
 
-                {isSuper &&
-                    <NavItem className="link-wrapper" componentClass='span'>
-                        <NavLink activeClassName="active" to="/metadata">
+                <NavItem className="link-wrapper" componentClass='span'>
+                    <NavLink activeClassName="active" to="/metadata">
                              
-                            <FaDatabase /> Metadata
-                        </NavLink>
-                    </NavItem>
-                }
+                        <FaDatabase /> Metadata
+                    </NavLink>
+                </NavItem>
                  {(isSuper) &&
                     <NavItem className="link-wrapper" componentClass='span'>
                         <NavLink activeClassName="active" to="/users">

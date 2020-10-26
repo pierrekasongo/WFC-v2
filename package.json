@@ -4,7 +4,6 @@
   "description": "Intrahealth - DRC",
   "main": "server/server.js",
   "scripts": {
-    "start-dev": "node server/server.js",
     "start": "node server/server.js",
     "build-app": "node_modules/.bin/webpack",
     "dev-app": "node_modules/.bin/webpack -w"
@@ -36,9 +35,10 @@
     "csv-react-table": "^1.0.14",
     "csv-stringify": "^3.1.1",
     "csv-write-stream": "^2.0.0",
-    "custom-env": "^2.0.1",
     "d2": "^30.0.0",
+    "dotenv": "^8.2.0",
     "download-csv": "^1.1.1",
+    "event-stream": "^4.0.0",
     "express": "^4.16.2",
     "express-fileupload": "^0.4.0",
     "file-saver": "^2.0.2",
@@ -47,7 +47,6 @@
     "js-file-download": "^0.4.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
-    "mssql": "^4.1.0",
     "mysql": "^2.15.0",
     "node-sass": "^4.12.0",
     "nodemon": "^1.17.5",

@@ -7,7 +7,8 @@ Intrahealth - DRC
 * Clone the repository or Download the zip project and unzip the contents.
 
 ### Instructions (these should work)
-* Create the database and run the sql script in workforce_pressure.sql file under db folder
+* Create the database and run the sql script under db/workforce_pressure.sql file under db folder
+* Copy the .env_exemple and rename to .env and set values according to your configuration
 * Set the database credentials in /Server/dbconn.js
 * Navigate to the project directory on a shell of choice - i.e. Git Bash
 * If you have node installed, we can use the node package manager (npm) to install dependencies. Type `npm install` to install dependencies

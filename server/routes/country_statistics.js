@@ -59,7 +59,6 @@ router.post('/uploadService', withAuth,function (req, res) {
     if (!req.files) {
         return res.status(400).send('No file uploaded');
     }
-
     //var filePath = `${__dirname}${path.sep}uploads${path.sep}`;
 
     //The name of the input field

@@ -1,5 +1,4 @@
 /node_modules/
 /public/app.js
 npm-debug.log
-.env.production
-.env.dev
+.env

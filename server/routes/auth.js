@@ -3,9 +3,6 @@ const db=require('../dbconn');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const dotenv = require("dotenv");
-dotenv.config();
-require('custom-env').env('dev');
 
 const withAuth = require('../middleware/is-auth');
 

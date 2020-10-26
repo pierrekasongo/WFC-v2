@@ -4,9 +4,8 @@ const path = require('path');
 const cookieParser=require('cookie-parser')
 const cors = require('cors');
 
-const dotenv = require("dotenv");
-dotenv.config();
-require('custom-env').env('dev');
+require("dotenv").config();
+
 // start db
 const db=require('./dbconn');
 
@@ -46,14 +45,12 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
 })
-app.use(cors({
-    origin: `http://${process.env.ORIGIN_ADDRESS}:${process.env.SERVER_LISTEN_PORT}`,
-    credentials: true
-  }));
+app.use(cors());
 
 // middleware to parse request info into JSON
-app.use(bodyParser.urlencoded({ extended: false })); // application/x-www-form-urlencoded
-app.use(bodyParser.json()); // application/json
+//app.use(bodyParser.urlencoded({ extended: false })); // application/x-www-form-urlencoded
+//app.use(bodyParser.json()); // application/json
+app.use(express.json());
 app.use(cookieParser());
 // serve static files in public folder
 app.use(express.static(path.join(__dirname, "../", "public")));
@@ -85,9 +82,9 @@ app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, "../", "public", "index.html"));
 })
 
-// start listening for requests
-let PORT = process.env.SERVER_LISTEN_PORT || 3000;
 
+let PORT = process.env.SERVER_LISTEN_PORT || 3000;
+// start listening for requests
 app.listen(PORT,process.env.SERVER_LISTEN_ADDRESS, () => {
     console.log(`Listening on ${process.env.SERVER_LISTEN_ADDRESS}:${PORT}`);
 });
