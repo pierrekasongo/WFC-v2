@@ -74,7 +74,7 @@
     "sylvester": "0.0.21",
     "toastr": "^2.1.4",
     "tryparse": "0.0.2",
-    "underscore": "1.7.0",
+    "underscore": "1.12.1",
     "unique-filename": "^1.1.1",
     "uuid": "^3.3.2",
     "xlsx": "^0.16.3"
