@@ -77,7 +77,7 @@
     "underscore": "1.7.0",
     "unique-filename": "^1.1.1",
     "uuid": "^3.3.2",
-    "xlsx": "^0.16.3"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "axios": "^0.17.0",
